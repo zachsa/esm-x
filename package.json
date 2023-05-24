@@ -1,0 +1,14 @@
+{
+  "name": "es-module-shims-jsx-plugin",
+  "version": "0.0.1",
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^25.0.0",
+    "@rollup/plugin-node-resolve": "^15.0.2",
+    "@rollup/plugin-replace": "^5.0.2",
+    "rollup": "^2.79.1"
+  },
+  "dependencies": {
+    "acorn": "^8.8.2",
+    "acorn-jsx": "^5.3.2"
+  }
+}

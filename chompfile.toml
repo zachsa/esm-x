@@ -1,0 +1,23 @@
+version = 0.1
+
+
+extensions = ['chomp@0.1:rollup']
+
+[[task]]
+name='rollup'
+template = 'rollup'
+[task.template-options]
+input = ['src/index.js']
+clear-dir = true
+[task.template-options.output]
+dir = 'dist'
+banner = '''/*!
+ * App #PJSON_VERSION
+ */'''
+format = 'iife'
+[[task.template-options.plugin]]
+package = '@rollup/plugin-node-resolve'
+browser = true
+preferBuiltins = false
+[[task.template-options.plugin]]
+package = '@rollup/plugin-commonjs'

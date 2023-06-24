@@ -1,10 +1,11 @@
-import * as acorn from 'acorn'
-import jsx from 'acorn-jsx'
-
-// TODO
-function jsxCompile(source) {
-  const result = acorn.Parser.extend(jsx()).parse(source)
-  return result
+async function compileJsx(source) {
+  const transform = await import('@babel/core').then(lib => lib.transform)
+  const presetReact = await import('@babel/preset-react').then(lib => lib.default)
+  const transformed = transform(source, {
+    presets: [presetReact],
+  })
+  console.log(transformed)
+  return transformed.code
 }
 
 globalThis.esmsInitOptions = globalThis.esmsInitOptions || {}
@@ -16,7 +17,7 @@ globalThis.esmsInitOptions.fetch = async function (url, options) {
   const res = await fetch(url, options)
   if (!res.ok) return res
   const source = await res.text()
-  const transformed = jsxCompile(source)
+  const transformed = await compileJsx(source)
 
   return new Response(new Blob([transformed], { type: 'application/javascript' }))
 }

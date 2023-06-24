@@ -1,11 +1,12 @@
 version = 0.1
-
+default-task = 'rollup'
 
 extensions = ['chomp@0.1:rollup']
 
 [[task]]
 name='rollup'
 template = 'rollup'
+deps = ['src/*.js']
 [task.template-options]
 input = ['src/index.js']
 clear-dir = true
@@ -14,10 +15,14 @@ dir = 'dist'
 banner = '''/*!
  * App #PJSON_VERSION
  */'''
-format = 'iife'
+format = 'esm'
 [[task.template-options.plugin]]
 package = '@rollup/plugin-node-resolve'
 browser = true
 preferBuiltins = false
 [[task.template-options.plugin]]
+package = '@rollup/plugin-json'
+[[task.template-options.plugin]]
 package = '@rollup/plugin-commonjs'
+[[task.template-options.plugin]]
+package = 'rollup-plugin-polyfill-node'

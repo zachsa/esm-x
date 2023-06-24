@@ -1,6 +1,12 @@
 {
   "name": "es-module-shims-jsx-plugin",
   "version": "0.0.1",
+  "files": [
+    "package.json",
+    "LICENSE",
+    "README.md",
+    "dist/"
+  ],
   "devDependencies": {
     "@rollup/plugin-commonjs": "^25.0.2",
     "@rollup/plugin-json": "^6.0.0",

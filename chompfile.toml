@@ -16,6 +16,7 @@ banner = '''/*!
  * App #PJSON_VERSION
  */'''
 format = 'esm'
+compact = true
 [[task.template-options.plugin]]
 package = '@rollup/plugin-node-resolve'
 browser = true

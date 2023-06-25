@@ -13,7 +13,7 @@ Load modules containing (React.js) JSX syntax directly in the browser
 
 
 # Local development
-Start a local web server and navigate to [localhost:3000](http://localhost:3000):
+Start a local web server and navigate to [localhost:3000/test](http://localhost:3000/test):
 
 ```sh
 npx http-server -c-1 -p 3000

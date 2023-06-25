@@ -15,7 +15,7 @@ dir = 'dist'
 banner = '''/*!
  * App #PJSON_VERSION
  */'''
-format = 'esm'
+format = 'iife'
 compact = true
 [[task.template-options.plugin]]
 package = '@rollup/plugin-node-resolve'

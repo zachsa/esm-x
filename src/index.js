@@ -1,9 +1,7 @@
-async function compileJsx(source) {
-  const [transform, presetReact] = await Promise.all([
-    await import('@babel/core').then(lib => lib.transform),
-    await import('@babel/preset-react').then(lib => lib.default),
-  ])
+const { transform } = require('@babel/core')
+const presetReact = require('@babel/preset-react')
 
+async function compileJsx(source) {
   const transformed = transform(source, {
     presets: [presetReact],
   })

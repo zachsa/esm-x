@@ -1,6 +1,6 @@
 {
   "name": "es-module-shims-jsx-plugin",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "type": "script",
   "files": [
     "package.json",

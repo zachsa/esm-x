@@ -1,10 +1,10 @@
 /*!
- * App 0.0.1
+ * App 0.0.2
  */
 async function compileJsx(source) {
   const [transform, presetReact] = await Promise.all([
-    await import('./index-62442409.js').then(function(n){return n.i}).then(lib => lib.transform),
-    await import('./index-6a946565.js').then(function(n){return n.i}).then(lib => lib.default),
+    await import('./index-93b1d92e.js').then(function(n){return n.i}).then(lib => lib.transform),
+    await import('./index-0d1aeffb.js').then(function(n){return n.i}).then(lib => lib.default),
   ]);
 
   const transformed = transform(source, {

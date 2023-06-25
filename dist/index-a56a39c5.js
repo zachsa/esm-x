@@ -1,5 +1,5 @@
 /*!
- * App 0.0.1
+ * App 0.0.2
  */
 var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 

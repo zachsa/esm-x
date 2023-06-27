@@ -1,9 +1,16 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { CssVarsProvider } from '@mui/joy/styles'
 import { Container, Sheet, Typography } from '@mui/joy'
 import { createRoot } from 'react-dom/client'
 
 function App() {
+  useEffect(() => {
+    const el = document.getElementById('loading-placeholder')
+    if (el) {
+      el.remove()
+    }
+  }, [])
+
   return (
     <CssVarsProvider defaultMode="dark">
       <Sheet

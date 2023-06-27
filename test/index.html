@@ -28,7 +28,7 @@
   <script src="../dist/index.js"></script>
 
   <!-- Example usage -->
-  <!-- <script src="https://www.unpkg.com/es-module-shims-jsx-plugin@0.0.1/dist/index.js"></script> -->
+  <!-- <script src="https://www.unpkg.com/es-module-shims-jsx-plugin@0.0.3/dist/index.js"></script> -->
 
   <!--
   JSPM Generator Import Map
@@ -198,8 +198,8 @@
   </script>
 
   <!-- ES Module Shims: Import maps polyfill for olrder browsers without import maps support (eg Safari 16.3) -->
-  <script async src="https://ga.jspm.io/npm:es-module-shims@1.7.3/dist/es-module-shims.js"
-    crossorigin="anonymous"></script>
+  <script async src="https://ga.jspm.io/npm:es-module-shims@1.7.3/dist/es-module-shims.js" crossorigin="anonymous"></script>
+  <!-- <script async src="external/es-module-shims/dist/es-module-shims.debug.js" crossorigin="anonymous"></script> -->
 
   <script type="module-shim">
     import './jsx-app.js'
@@ -209,6 +209,7 @@
 </head>
 
 <body>
+  <p style="position:absolute; margin: 8px" id="loading-placeholder">Loading ...</p>
   <div id="root"></div>
 </body>
 

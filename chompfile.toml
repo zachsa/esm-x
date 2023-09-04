@@ -12,6 +12,7 @@ input = ['src/index.js']
 clear-dir = true
 [task.template-options.output]
 dir = 'dist'
+name = 'index.js'
 banner = '''/*!
  * App #PJSON_VERSION
  */'''

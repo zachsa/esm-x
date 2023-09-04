@@ -25,7 +25,7 @@ function App() {
           mt: 2,
         }}
       >
-        <Typography variant="body1">Content</Typography>
+        <Typography variant="body1">I am content</Typography>
       </Container>
     </CssVarsProvider>
   )

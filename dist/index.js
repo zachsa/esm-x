@@ -1,7 +1,7 @@
 /*!
  * App 0.0.4
  */
-(function(){'use strict';var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
+this.index=this.index||{};this.index.js=(function(){'use strict';var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
 function getAugmentedNamespace(n) {
   if (n.__esModule) return n;
@@ -9,10 +9,7 @@ function getAugmentedNamespace(n) {
 	if (typeof f == "function") {
 		var a = function a () {
 			if (this instanceof a) {
-				var args = [null];
-				args.push.apply(args, arguments);
-				var Ctor = Function.bind.apply(f, args);
-				return new Ctor();
+        return Reflect.construct(f, arguments, this.constructor);
 			}
 			return f.apply(this, arguments);
 		};
@@ -29,7 +26,7 @@ function getAugmentedNamespace(n) {
 		});
 	});
 	return a;
-}var src = {};var lib$r = {};var file$1 = {};var lib$q = {};var lib$p = {};var visitors = {};var virtualTypes = {};var hasRequiredVirtualTypes;
+}var src = {};var lib$r = {};var file = {};var lib$q = {};var lib$p = {};var visitors = {};var virtualTypes = {};var hasRequiredVirtualTypes;
 
 function requireVirtualTypes () {
 	if (hasRequiredVirtualTypes) return virtualTypes;
@@ -3258,6 +3255,7 @@ function requireIsType () {
 	var _definitions = requireDefinitions();
 	function isType$1(nodeType, targetType) {
 	  if (nodeType === targetType) return true;
+	  if (nodeType == null) return false;
 	  if (_definitions.ALIAS_KEYS[targetType]) return false;
 	  const aliases = _definitions.FLIPPED_ALIAS_KEYS[targetType];
 	  if (aliases) {
@@ -3327,18 +3325,18 @@ function requireIs () {
 
 	
 	return is;
-}var isValidIdentifier = {};var lib$n = {};var identifier$2 = {};var hasRequiredIdentifier;
+}var isValidIdentifier = {};var lib$n = {};var identifier$1 = {};var hasRequiredIdentifier;
 
 function requireIdentifier () {
-	if (hasRequiredIdentifier) return identifier$2;
+	if (hasRequiredIdentifier) return identifier$1;
 	hasRequiredIdentifier = 1;
 
-	Object.defineProperty(identifier$2, "__esModule", {
+	Object.defineProperty(identifier$1, "__esModule", {
 	  value: true
 	});
-	identifier$2.isIdentifierChar = isIdentifierChar;
-	identifier$2.isIdentifierName = isIdentifierName;
-	identifier$2.isIdentifierStart = isIdentifierStart;
+	identifier$1.isIdentifierChar = isIdentifierChar;
+	identifier$1.isIdentifierName = isIdentifierName;
+	identifier$1.isIdentifierStart = isIdentifierStart;
 	let nonASCIIidentifierStartChars = "\xaa\xb5\xba\xc0-\xd6\xd8-\xf6\xf8-\u02c1\u02c6-\u02d1\u02e0-\u02e4\u02ec\u02ee\u0370-\u0374\u0376\u0377\u037a-\u037d\u037f\u0386\u0388-\u038a\u038c\u038e-\u03a1\u03a3-\u03f5\u03f7-\u0481\u048a-\u052f\u0531-\u0556\u0559\u0560-\u0588\u05d0-\u05ea\u05ef-\u05f2\u0620-\u064a\u066e\u066f\u0671-\u06d3\u06d5\u06e5\u06e6\u06ee\u06ef\u06fa-\u06fc\u06ff\u0710\u0712-\u072f\u074d-\u07a5\u07b1\u07ca-\u07ea\u07f4\u07f5\u07fa\u0800-\u0815\u081a\u0824\u0828\u0840-\u0858\u0860-\u086a\u0870-\u0887\u0889-\u088e\u08a0-\u08c9\u0904-\u0939\u093d\u0950\u0958-\u0961\u0971-\u0980\u0985-\u098c\u098f\u0990\u0993-\u09a8\u09aa-\u09b0\u09b2\u09b6-\u09b9\u09bd\u09ce\u09dc\u09dd\u09df-\u09e1\u09f0\u09f1\u09fc\u0a05-\u0a0a\u0a0f\u0a10\u0a13-\u0a28\u0a2a-\u0a30\u0a32\u0a33\u0a35\u0a36\u0a38\u0a39\u0a59-\u0a5c\u0a5e\u0a72-\u0a74\u0a85-\u0a8d\u0a8f-\u0a91\u0a93-\u0aa8\u0aaa-\u0ab0\u0ab2\u0ab3\u0ab5-\u0ab9\u0abd\u0ad0\u0ae0\u0ae1\u0af9\u0b05-\u0b0c\u0b0f\u0b10\u0b13-\u0b28\u0b2a-\u0b30\u0b32\u0b33\u0b35-\u0b39\u0b3d\u0b5c\u0b5d\u0b5f-\u0b61\u0b71\u0b83\u0b85-\u0b8a\u0b8e-\u0b90\u0b92-\u0b95\u0b99\u0b9a\u0b9c\u0b9e\u0b9f\u0ba3\u0ba4\u0ba8-\u0baa\u0bae-\u0bb9\u0bd0\u0c05-\u0c0c\u0c0e-\u0c10\u0c12-\u0c28\u0c2a-\u0c39\u0c3d\u0c58-\u0c5a\u0c5d\u0c60\u0c61\u0c80\u0c85-\u0c8c\u0c8e-\u0c90\u0c92-\u0ca8\u0caa-\u0cb3\u0cb5-\u0cb9\u0cbd\u0cdd\u0cde\u0ce0\u0ce1\u0cf1\u0cf2\u0d04-\u0d0c\u0d0e-\u0d10\u0d12-\u0d3a\u0d3d\u0d4e\u0d54-\u0d56\u0d5f-\u0d61\u0d7a-\u0d7f\u0d85-\u0d96\u0d9a-\u0db1\u0db3-\u0dbb\u0dbd\u0dc0-\u0dc6\u0e01-\u0e30\u0e32\u0e33\u0e40-\u0e46\u0e81\u0e82\u0e84\u0e86-\u0e8a\u0e8c-\u0ea3\u0ea5\u0ea7-\u0eb0\u0eb2\u0eb3\u0ebd\u0ec0-\u0ec4\u0ec6\u0edc-\u0edf\u0f00\u0f40-\u0f47\u0f49-\u0f6c\u0f88-\u0f8c\u1000-\u102a\u103f\u1050-\u1055\u105a-\u105d\u1061\u1065\u1066\u106e-\u1070\u1075-\u1081\u108e\u10a0-\u10c5\u10c7\u10cd\u10d0-\u10fa\u10fc-\u1248\u124a-\u124d\u1250-\u1256\u1258\u125a-\u125d\u1260-\u1288\u128a-\u128d\u1290-\u12b0\u12b2-\u12b5\u12b8-\u12be\u12c0\u12c2-\u12c5\u12c8-\u12d6\u12d8-\u1310\u1312-\u1315\u1318-\u135a\u1380-\u138f\u13a0-\u13f5\u13f8-\u13fd\u1401-\u166c\u166f-\u167f\u1681-\u169a\u16a0-\u16ea\u16ee-\u16f8\u1700-\u1711\u171f-\u1731\u1740-\u1751\u1760-\u176c\u176e-\u1770\u1780-\u17b3\u17d7\u17dc\u1820-\u1878\u1880-\u18a8\u18aa\u18b0-\u18f5\u1900-\u191e\u1950-\u196d\u1970-\u1974\u1980-\u19ab\u19b0-\u19c9\u1a00-\u1a16\u1a20-\u1a54\u1aa7\u1b05-\u1b33\u1b45-\u1b4c\u1b83-\u1ba0\u1bae\u1baf\u1bba-\u1be5\u1c00-\u1c23\u1c4d-\u1c4f\u1c5a-\u1c7d\u1c80-\u1c88\u1c90-\u1cba\u1cbd-\u1cbf\u1ce9-\u1cec\u1cee-\u1cf3\u1cf5\u1cf6\u1cfa\u1d00-\u1dbf\u1e00-\u1f15\u1f18-\u1f1d\u1f20-\u1f45\u1f48-\u1f4d\u1f50-\u1f57\u1f59\u1f5b\u1f5d\u1f5f-\u1f7d\u1f80-\u1fb4\u1fb6-\u1fbc\u1fbe\u1fc2-\u1fc4\u1fc6-\u1fcc\u1fd0-\u1fd3\u1fd6-\u1fdb\u1fe0-\u1fec\u1ff2-\u1ff4\u1ff6-\u1ffc\u2071\u207f\u2090-\u209c\u2102\u2107\u210a-\u2113\u2115\u2118-\u211d\u2124\u2126\u2128\u212a-\u2139\u213c-\u213f\u2145-\u2149\u214e\u2160-\u2188\u2c00-\u2ce4\u2ceb-\u2cee\u2cf2\u2cf3\u2d00-\u2d25\u2d27\u2d2d\u2d30-\u2d67\u2d6f\u2d80-\u2d96\u2da0-\u2da6\u2da8-\u2dae\u2db0-\u2db6\u2db8-\u2dbe\u2dc0-\u2dc6\u2dc8-\u2dce\u2dd0-\u2dd6\u2dd8-\u2dde\u3005-\u3007\u3021-\u3029\u3031-\u3035\u3038-\u303c\u3041-\u3096\u309b-\u309f\u30a1-\u30fa\u30fc-\u30ff\u3105-\u312f\u3131-\u318e\u31a0-\u31bf\u31f0-\u31ff\u3400-\u4dbf\u4e00-\ua48c\ua4d0-\ua4fd\ua500-\ua60c\ua610-\ua61f\ua62a\ua62b\ua640-\ua66e\ua67f-\ua69d\ua6a0-\ua6ef\ua717-\ua71f\ua722-\ua788\ua78b-\ua7ca\ua7d0\ua7d1\ua7d3\ua7d5-\ua7d9\ua7f2-\ua801\ua803-\ua805\ua807-\ua80a\ua80c-\ua822\ua840-\ua873\ua882-\ua8b3\ua8f2-\ua8f7\ua8fb\ua8fd\ua8fe\ua90a-\ua925\ua930-\ua946\ua960-\ua97c\ua984-\ua9b2\ua9cf\ua9e0-\ua9e4\ua9e6-\ua9ef\ua9fa-\ua9fe\uaa00-\uaa28\uaa40-\uaa42\uaa44-\uaa4b\uaa60-\uaa76\uaa7a\uaa7e-\uaaaf\uaab1\uaab5\uaab6\uaab9-\uaabd\uaac0\uaac2\uaadb-\uaadd\uaae0-\uaaea\uaaf2-\uaaf4\uab01-\uab06\uab09-\uab0e\uab11-\uab16\uab20-\uab26\uab28-\uab2e\uab30-\uab5a\uab5c-\uab69\uab70-\uabe2\uac00-\ud7a3\ud7b0-\ud7c6\ud7cb-\ud7fb\uf900-\ufa6d\ufa70-\ufad9\ufb00-\ufb06\ufb13-\ufb17\ufb1d\ufb1f-\ufb28\ufb2a-\ufb36\ufb38-\ufb3c\ufb3e\ufb40\ufb41\ufb43\ufb44\ufb46-\ufbb1\ufbd3-\ufd3d\ufd50-\ufd8f\ufd92-\ufdc7\ufdf0-\ufdfb\ufe70-\ufe74\ufe76-\ufefc\uff21-\uff3a\uff41-\uff5a\uff66-\uffbe\uffc2-\uffc7\uffca-\uffcf\uffd2-\uffd7\uffda-\uffdc";
 	let nonASCIIidentifierChars = "\u200c\u200d\xb7\u0300-\u036f\u0387\u0483-\u0487\u0591-\u05bd\u05bf\u05c1\u05c2\u05c4\u05c5\u05c7\u0610-\u061a\u064b-\u0669\u0670\u06d6-\u06dc\u06df-\u06e4\u06e7\u06e8\u06ea-\u06ed\u06f0-\u06f9\u0711\u0730-\u074a\u07a6-\u07b0\u07c0-\u07c9\u07eb-\u07f3\u07fd\u0816-\u0819\u081b-\u0823\u0825-\u0827\u0829-\u082d\u0859-\u085b\u0898-\u089f\u08ca-\u08e1\u08e3-\u0903\u093a-\u093c\u093e-\u094f\u0951-\u0957\u0962\u0963\u0966-\u096f\u0981-\u0983\u09bc\u09be-\u09c4\u09c7\u09c8\u09cb-\u09cd\u09d7\u09e2\u09e3\u09e6-\u09ef\u09fe\u0a01-\u0a03\u0a3c\u0a3e-\u0a42\u0a47\u0a48\u0a4b-\u0a4d\u0a51\u0a66-\u0a71\u0a75\u0a81-\u0a83\u0abc\u0abe-\u0ac5\u0ac7-\u0ac9\u0acb-\u0acd\u0ae2\u0ae3\u0ae6-\u0aef\u0afa-\u0aff\u0b01-\u0b03\u0b3c\u0b3e-\u0b44\u0b47\u0b48\u0b4b-\u0b4d\u0b55-\u0b57\u0b62\u0b63\u0b66-\u0b6f\u0b82\u0bbe-\u0bc2\u0bc6-\u0bc8\u0bca-\u0bcd\u0bd7\u0be6-\u0bef\u0c00-\u0c04\u0c3c\u0c3e-\u0c44\u0c46-\u0c48\u0c4a-\u0c4d\u0c55\u0c56\u0c62\u0c63\u0c66-\u0c6f\u0c81-\u0c83\u0cbc\u0cbe-\u0cc4\u0cc6-\u0cc8\u0cca-\u0ccd\u0cd5\u0cd6\u0ce2\u0ce3\u0ce6-\u0cef\u0cf3\u0d00-\u0d03\u0d3b\u0d3c\u0d3e-\u0d44\u0d46-\u0d48\u0d4a-\u0d4d\u0d57\u0d62\u0d63\u0d66-\u0d6f\u0d81-\u0d83\u0dca\u0dcf-\u0dd4\u0dd6\u0dd8-\u0ddf\u0de6-\u0def\u0df2\u0df3\u0e31\u0e34-\u0e3a\u0e47-\u0e4e\u0e50-\u0e59\u0eb1\u0eb4-\u0ebc\u0ec8-\u0ece\u0ed0-\u0ed9\u0f18\u0f19\u0f20-\u0f29\u0f35\u0f37\u0f39\u0f3e\u0f3f\u0f71-\u0f84\u0f86\u0f87\u0f8d-\u0f97\u0f99-\u0fbc\u0fc6\u102b-\u103e\u1040-\u1049\u1056-\u1059\u105e-\u1060\u1062-\u1064\u1067-\u106d\u1071-\u1074\u1082-\u108d\u108f-\u109d\u135d-\u135f\u1369-\u1371\u1712-\u1715\u1732-\u1734\u1752\u1753\u1772\u1773\u17b4-\u17d3\u17dd\u17e0-\u17e9\u180b-\u180d\u180f-\u1819\u18a9\u1920-\u192b\u1930-\u193b\u1946-\u194f\u19d0-\u19da\u1a17-\u1a1b\u1a55-\u1a5e\u1a60-\u1a7c\u1a7f-\u1a89\u1a90-\u1a99\u1ab0-\u1abd\u1abf-\u1ace\u1b00-\u1b04\u1b34-\u1b44\u1b50-\u1b59\u1b6b-\u1b73\u1b80-\u1b82\u1ba1-\u1bad\u1bb0-\u1bb9\u1be6-\u1bf3\u1c24-\u1c37\u1c40-\u1c49\u1c50-\u1c59\u1cd0-\u1cd2\u1cd4-\u1ce8\u1ced\u1cf4\u1cf7-\u1cf9\u1dc0-\u1dff\u203f\u2040\u2054\u20d0-\u20dc\u20e1\u20e5-\u20f0\u2cef-\u2cf1\u2d7f\u2de0-\u2dff\u302a-\u302f\u3099\u309a\ua620-\ua629\ua66f\ua674-\ua67d\ua69e\ua69f\ua6f0\ua6f1\ua802\ua806\ua80b\ua823-\ua827\ua82c\ua880\ua881\ua8b4-\ua8c5\ua8d0-\ua8d9\ua8e0-\ua8f1\ua8ff-\ua909\ua926-\ua92d\ua947-\ua953\ua980-\ua983\ua9b3-\ua9c0\ua9d0-\ua9d9\ua9e5\ua9f0-\ua9f9\uaa29-\uaa36\uaa43\uaa4c\uaa4d\uaa50-\uaa59\uaa7b-\uaa7d\uaab0\uaab2-\uaab4\uaab7\uaab8\uaabe\uaabf\uaac1\uaaeb-\uaaef\uaaf5\uaaf6\uabe3-\uabea\uabec\uabed\uabf0-\uabf9\ufb1e\ufe00-\ufe0f\ufe20-\ufe2f\ufe33\ufe34\ufe4d-\ufe4f\uff10-\uff19\uff3f";
 	const nonASCIIidentifierStart = new RegExp("[" + nonASCIIidentifierStartChars + "]");
@@ -3401,7 +3399,7 @@ function requireIdentifier () {
 	}
 
 	
-	return identifier$2;
+	return identifier$1;
 }var keyword = {};var hasRequiredKeyword;
 
 function requireKeyword () {
@@ -4625,7 +4623,10 @@ function requireCore () {
 	  deprecatedAlias: "NumberLiteral",
 	  fields: {
 	    value: {
-	      validate: (0, _utils.assertValueType)("number")
+	      validate: (0, _utils.chain)((0, _utils.assertValueType)("number"), Object.assign(function (node, key, val) {
+	      }, {
+	        type: "number"
+	      }))
 	    }
 	  },
 	  aliases: ["Expression", "Pureish", "Literal", "Immutable"]
@@ -6770,7 +6771,7 @@ function requireTypescript$1 () {
 	});
 	const signatureDeclarationCommon = () => ({
 	  typeParameters: (0, _utils.validateOptionalType)("TSTypeParameterDeclaration"),
-	  ["parameters"]: (0, _utils.validateArrayOfType)(["Identifier", "RestElement"]),
+	  ["parameters"]: (0, _utils.validateArrayOfType)(["ArrayPattern", "Identifier", "ObjectPattern", "RestElement"]),
 	  ["typeAnnotation"]: (0, _utils.validateOptionalType)("TSTypeAnnotation")
 	});
 	const callConstructSignatureDeclaration = {
@@ -12476,16 +12477,16 @@ function requireUppercase () {
 		
 	} (uppercase));
 	return uppercase;
-}var cloneNode$3 = {};var hasRequiredCloneNode;
+}var cloneNode$1 = {};var hasRequiredCloneNode;
 
 function requireCloneNode () {
-	if (hasRequiredCloneNode) return cloneNode$3;
+	if (hasRequiredCloneNode) return cloneNode$1;
 	hasRequiredCloneNode = 1;
 
-	Object.defineProperty(cloneNode$3, "__esModule", {
+	Object.defineProperty(cloneNode$1, "__esModule", {
 	  value: true
 	});
-	cloneNode$3.default = cloneNode;
+	cloneNode$1.default = cloneNode;
 	var _definitions = requireDefinitions();
 	var _generated = requireGenerated$3();
 	const has = Function.call.bind(Object.prototype.hasOwnProperty);
@@ -12580,7 +12581,7 @@ function requireCloneNode () {
 	}
 
 	
-	return cloneNode$3;
+	return cloneNode$1;
 }var clone = {};var hasRequiredClone;
 
 function requireClone () {
@@ -13075,18 +13076,18 @@ function requireToExpression () {
 
 	
 	return toExpression;
-}var toKeyAlias = {};var removePropertiesDeep = {};var traverseFast$1 = {};var hasRequiredTraverseFast;
+}var toKeyAlias = {};var removePropertiesDeep = {};var traverseFast = {};var hasRequiredTraverseFast;
 
 function requireTraverseFast () {
-	if (hasRequiredTraverseFast) return traverseFast$1;
+	if (hasRequiredTraverseFast) return traverseFast;
 	hasRequiredTraverseFast = 1;
 
-	Object.defineProperty(traverseFast$1, "__esModule", {
+	Object.defineProperty(traverseFast, "__esModule", {
 	  value: true
 	});
-	traverseFast$1.default = traverseFast;
+	traverseFast.default = traverseFast$1;
 	var _definitions = requireDefinitions();
-	function traverseFast(node, enter, opts) {
+	function traverseFast$1(node, enter, opts) {
 	  if (!node) return;
 	  const keys = _definitions.VISITOR_KEYS[node.type];
 	  if (!keys) return;
@@ -13096,16 +13097,16 @@ function requireTraverseFast () {
 	    const subNode = node[key];
 	    if (Array.isArray(subNode)) {
 	      for (const node of subNode) {
-	        traverseFast(node, enter, opts);
+	        traverseFast$1(node, enter, opts);
 	      }
 	    } else {
-	      traverseFast(subNode, enter, opts);
+	      traverseFast$1(subNode, enter, opts);
 	    }
 	  }
 	}
 
 	
-	return traverseFast$1;
+	return traverseFast;
 }var removeProperties = {};var hasRequiredRemoveProperties;
 
 function requireRemoveProperties () {
@@ -14709,26 +14710,31 @@ function requireVisitors () {
 	  }
 	}
 	function merge(visitors, states = [], wrapper) {
-	  const rootVisitor = {};
+	  const mergedVisitor = {};
 	  for (let i = 0; i < visitors.length; i++) {
-	    const visitor = visitors[i];
+	    const visitor = explode(visitors[i]);
 	    const state = states[i];
-	    explode(visitor);
-	    for (const type of Object.keys(visitor)) {
-	      let visitorType = visitor[type];
+	    let topVisitor = visitor;
+	    if (state || wrapper) {
+	      topVisitor = wrapWithStateOrWrapper(topVisitor, state, wrapper);
+	    }
+	    mergePair(mergedVisitor, topVisitor);
+	    for (const key of Object.keys(visitor)) {
+	      if (shouldIgnoreKey(key)) continue;
+	      let typeVisitor = visitor[key];
 	      if (state || wrapper) {
-	        visitorType = wrapWithStateOrWrapper(visitorType, state, wrapper);
+	        typeVisitor = wrapWithStateOrWrapper(typeVisitor, state, wrapper);
 	      }
-	      const nodeVisitor = rootVisitor[type] || (rootVisitor[type] = {});
-	      mergePair(nodeVisitor, visitorType);
+	      const nodeVisitor = mergedVisitor[key] || (mergedVisitor[key] = {});
+	      mergePair(nodeVisitor, typeVisitor);
 	    }
 	  }
-	  return rootVisitor;
+	  return mergedVisitor;
 	}
 	function wrapWithStateOrWrapper(oldVisitor, state, wrapper) {
 	  const newVisitor = {};
-	  for (const key of Object.keys(oldVisitor)) {
-	    let fns = oldVisitor[key];
+	  for (const phase of ["enter", "exit"]) {
+	    let fns = oldVisitor[phase];
 	    if (!Array.isArray(fns)) continue;
 	    fns = fns.map(function (fn) {
 	      let newFn = fn;
@@ -14738,14 +14744,14 @@ function requireVisitors () {
 	        };
 	      }
 	      if (wrapper) {
-	        newFn = wrapper(state.key, key, newFn);
+	        newFn = wrapper(state == null ? void 0 : state.key, phase, newFn);
 	      }
 	      if (newFn !== fn) {
 	        newFn.toString = () => fn.toString();
 	      }
 	      return newFn;
 	    });
-	    newVisitor[key] = fns;
+	    newVisitor[phase] = fns;
 	  }
 	  return newVisitor;
 	}
@@ -14787,8 +14793,9 @@ function requireVisitors () {
 	  return false;
 	}
 	function mergePair(dest, src) {
-	  for (const key of Object.keys(src)) {
-	    dest[key] = [].concat(dest[key] || [], src[key]);
+	  for (const phase of ["enter", "exit"]) {
+	    if (!src[phase]) continue;
+	    dest[phase] = [].concat(dest[phase] || [], src[phase]);
 	  }
 	}
 
@@ -14806,9 +14813,11 @@ function requireCache () {
 	cache.clear = clear;
 	cache.clearPath = clearPath;
 	cache.clearScope = clearScope;
+	cache.getCachedPaths = getCachedPaths;
+	cache.getOrCreateCachedPaths = getOrCreateCachedPaths;
 	cache.scope = cache.path = void 0;
-	let path = new WeakMap();
-	cache.path = path;
+	let pathsCache = new WeakMap();
+	cache.path = pathsCache;
 	let scope = new WeakMap();
 	cache.scope = scope;
 	function clear() {
@@ -14816,10 +14825,29 @@ function requireCache () {
 	  clearScope();
 	}
 	function clearPath() {
-	  cache.path = path = new WeakMap();
+	  cache.path = pathsCache = new WeakMap();
 	}
 	function clearScope() {
 	  cache.scope = scope = new WeakMap();
+	}
+	const nullHub = Object.freeze({});
+	function getCachedPaths(hub, parent) {
+	  var _pathsCache$get, _hub;
+	  {
+	    hub = null;
+	  }
+	  return (_pathsCache$get = pathsCache.get((_hub = hub) != null ? _hub : nullHub)) == null ? void 0 : _pathsCache$get.get(parent);
+	}
+	function getOrCreateCachedPaths(hub, parent) {
+	  var _hub2, _hub3;
+	  {
+	    hub = null;
+	  }
+	  let parents = pathsCache.get((_hub2 = hub) != null ? _hub2 : nullHub);
+	  if (!parents) pathsCache.set((_hub3 = hub) != null ? _hub3 : nullHub, parents = new WeakMap());
+	  let paths = parents.get(parent);
+	  if (!paths) parents.set(parent, paths = new Map());
+	  return paths;
 	}
 
 	
@@ -15273,9 +15301,7 @@ function requireCommon () {
 
 	common = setup;
 	return common;
-}browser$3.exports;
-
-var hasRequiredBrowser$2;
+}var hasRequiredBrowser$2;
 
 function requireBrowser$2 () {
 	if (hasRequiredBrowser$2) return browser$3.exports;
@@ -15576,15 +15602,19 @@ function requireLib$e () {
 	  if (exportDeclaration.isExportDefaultDeclaration()) {
 	    const declaration = exportDeclaration.get("declaration");
 	    const standaloneDeclaration = declaration.isFunctionDeclaration() || declaration.isClassDeclaration();
+	    const exportExpr = declaration.isFunctionExpression() || declaration.isClassExpression();
 	    const scope = declaration.isScope() ? declaration.scope.parent : declaration.scope;
 	    let id = declaration.node.id;
 	    let needBindingRegistration = false;
 	    if (!id) {
 	      needBindingRegistration = true;
 	      id = scope.generateUidIdentifier("default");
-	      if (standaloneDeclaration || declaration.isFunctionExpression() || declaration.isClassExpression()) {
+	      if (standaloneDeclaration || exportExpr) {
 	        declaration.node.id = cloneNode(id);
 	      }
+	    } else if (exportExpr && scope.hasBinding(id.name)) {
+	      needBindingRegistration = true;
+	      id = scope.generateUidIdentifier(id.name);
 	    }
 	    const updatedDeclaration = standaloneDeclaration ? declaration.node : variableDeclaration("var", [variableDeclarator(cloneNode(id), declaration.node)]);
 	    const updatedExportDeclaration = exportNamedDeclaration(null, [exportSpecifier(cloneNode(id), identifier("default"))]);
@@ -15819,9 +15849,7 @@ function requireBinding () {
 	    this.scope = scope;
 	    this.path = path;
 	    this.kind = kind;
-	    if ((kind === "var" || kind === "hoisted") && isDeclaredInLoop(path || (() => {
-	      throw new Error("Internal Babel error: unreachable ");
-	    })())) {
+	    if ((kind === "var" || kind === "hoisted") && isDeclaredInLoop(path)) {
 	      this.reassign(path);
 	    }
 	    this.clearValue();
@@ -17496,6 +17524,7 @@ function requireScope () {
 	var _binding = requireBinding();
 	var _globals = requireGlobals();
 	var _t = requireLib$f();
+	var t = _t;
 	var _cache = requireCache();
 	var _visitors = requireVisitors();
 	const {
@@ -17548,9 +17577,10 @@ function requireScope () {
 	  switch (node == null ? void 0 : node.type) {
 	    default:
 	      if (isImportDeclaration(node) || isExportDeclaration(node)) {
+	        var _node$specifiers;
 	        if ((isExportAllDeclaration(node) || isExportNamedDeclaration(node) || isImportDeclaration(node)) && node.source) {
 	          gatherNodeParts(node.source, parts);
-	        } else if ((isExportNamedDeclaration(node) || isImportDeclaration(node)) && node.specifiers && node.specifiers.length) {
+	        } else if ((isExportNamedDeclaration(node) || isImportDeclaration(node)) && (_node$specifiers = node.specifiers) != null && _node$specifiers.length) {
 	          for (const e of node.specifiers) gatherNodeParts(e, parts);
 	        } else if ((isExportDefaultDeclaration(node) || isExportNamedDeclaration(node)) && node.declaration) {
 	          gatherNodeParts(node.declaration, parts);
@@ -17996,8 +18026,8 @@ function requireScope () {
 	  registerConstantViolation(path) {
 	    const ids = path.getBindingIdentifiers();
 	    for (const name of Object.keys(ids)) {
-	      const binding = this.getBinding(name);
-	      if (binding) binding.reassign(path);
+	      var _this$getBinding;
+	      (_this$getBinding = this.getBinding(name)) == null ? void 0 : _this$getBinding.reassign(path);
 	    }
 	  }
 	  registerBinding(kind, path, bindingPath = path) {
@@ -18199,12 +18229,23 @@ function requireScope () {
 	    if (path.isSwitchStatement()) {
 	      path = (this.getFunctionParent() || this.getProgramParent()).path;
 	    }
+	    const {
+	      init,
+	      unique,
+	      kind = "var",
+	      id
+	    } = opts;
+	    if (!init && !unique && (kind === "var" || kind === "let") && path.isFunction() && !path.node.name && t.isCallExpression(path.parent, {
+	      callee: path.node
+	    }) && path.parent.arguments.length <= path.node.params.length && t.isIdentifier(id)) {
+	      path.pushContainer("params", id);
+	      path.scope.registerBinding("param", path.get("params")[path.node.params.length - 1]);
+	      return;
+	    }
 	    if (path.isLoop() || path.isCatchClause() || path.isFunction()) {
 	      path.ensureBlock();
 	      path = path.get("body");
 	    }
-	    const unique = opts.unique;
-	    const kind = opts.kind || "var";
 	    const blockHoist = opts._blockHoist == null ? 2 : opts._blockHoist;
 	    const dataKey = `declaration:${kind}:${blockHoist}`;
 	    let declarPath = !unique && path.getData(dataKey);
@@ -18214,7 +18255,7 @@ function requireScope () {
 	      [declarPath] = path.unshiftContainer("body", [declar]);
 	      if (!unique) path.setData(dataKey, declarPath);
 	    }
-	    const declarator = variableDeclarator(opts.id, opts.init);
+	    const declarator = variableDeclarator(id, init);
 	    const len = declarPath.node.declarations.push(declarator);
 	    path.scope.registerBinding(kind, declarPath.get("declarations")[len - 1]);
 	  }
@@ -18304,8 +18345,8 @@ function requireScope () {
 	    return this.bindings[name];
 	  }
 	  getBindingIdentifier(name) {
-	    var _this$getBinding;
-	    return (_this$getBinding = this.getBinding(name)) == null ? void 0 : _this$getBinding.identifier;
+	    var _this$getBinding2;
+	    return (_this$getBinding2 = this.getBinding(name)) == null ? void 0 : _this$getBinding2.identifier;
 	  }
 	  getOwnBindingIdentifier(name) {
 	    const binding = this.bindings[name];
@@ -18345,8 +18386,8 @@ function requireScope () {
 	    delete this.bindings[name];
 	  }
 	  removeBinding(name) {
-	    var _this$getBinding2;
-	    (_this$getBinding2 = this.getBinding(name)) == null ? void 0 : _this$getBinding2.scope.removeOwnBinding(name);
+	    var _this$getBinding3;
+	    (_this$getBinding3 = this.getBinding(name)) == null ? void 0 : _this$getBinding3.scope.removeOwnBinding(name);
 	    let scope = this;
 	    do {
 	      if (scope.uids[name]) {
@@ -18361,9 +18402,7 @@ function requireScope () {
 
 	
 	return scope;
-}var lib$j = {};var sourceMap = {};var genMapping_umd = {exports: {}};var setArray_umd = {exports: {}};setArray_umd.exports;
-
-var hasRequiredSetArray_umd;
+}var lib$j = {};var sourceMap = {};var genMapping_umd = {exports: {}};var setArray_umd = {exports: {}};var hasRequiredSetArray_umd;
 
 function requireSetArray_umd () {
 	if (hasRequiredSetArray_umd) return setArray_umd.exports;
@@ -20399,9 +20438,7 @@ function isFastBuffer (obj) {
 // For Node v0.10 support. Remove this eventually.
 function isSlowBuffer (obj) {
   return typeof obj.readFloatLE === 'function' && typeof obj.slice === 'function' && isFastBuffer(obj.slice(0, 0))
-}var sourcemapCodec_umd$1 = {exports: {}};sourcemapCodec_umd$1.exports;
-
-var hasRequiredSourcemapCodec_umd$1;
+}var sourcemapCodec_umd$1 = {exports: {}};var hasRequiredSourcemapCodec_umd$1;
 
 function requireSourcemapCodec_umd$1 () {
 	if (hasRequiredSourcemapCodec_umd$1) return sourcemapCodec_umd$1.exports;
@@ -20581,9 +20618,7 @@ function requireSourcemapCodec_umd$1 () {
 		
 	} (sourcemapCodec_umd$1, sourcemapCodec_umd$1.exports));
 	return sourcemapCodec_umd$1.exports;
-}var traceMapping_umd = {exports: {}};var sourcemapCodec_umd = {exports: {}};sourcemapCodec_umd.exports;
-
-var hasRequiredSourcemapCodec_umd;
+}var traceMapping_umd = {exports: {}};var sourcemapCodec_umd = {exports: {}};var hasRequiredSourcemapCodec_umd;
 
 function requireSourcemapCodec_umd () {
 	if (hasRequiredSourcemapCodec_umd) return sourcemapCodec_umd.exports;
@@ -20763,9 +20798,7 @@ function requireSourcemapCodec_umd () {
 		
 	} (sourcemapCodec_umd, sourcemapCodec_umd.exports));
 	return sourcemapCodec_umd.exports;
-}var resolveUri_umd = {exports: {}};resolveUri_umd.exports;
-
-var hasRequiredResolveUri_umd;
+}var resolveUri_umd = {exports: {}};var hasRequiredResolveUri_umd;
 
 function requireResolveUri_umd () {
 	if (hasRequiredResolveUri_umd) return resolveUri_umd.exports;
@@ -21018,11 +21051,9 @@ function requireResolveUri_umd () {
 
 		}));
 		
-	} (resolveUri_umd, resolveUri_umd.exports));
+	} (resolveUri_umd));
 	return resolveUri_umd.exports;
-}traceMapping_umd.exports;
-
-var hasRequiredTraceMapping_umd;
+}var hasRequiredTraceMapping_umd;
 
 function requireTraceMapping_umd () {
 	if (hasRequiredTraceMapping_umd) return traceMapping_umd.exports;
@@ -21593,9 +21624,7 @@ function requireTraceMapping_umd () {
 		
 	} (traceMapping_umd, traceMapping_umd.exports));
 	return traceMapping_umd.exports;
-}genMapping_umd.exports;
-
-var hasRequiredGenMapping_umd;
+}var hasRequiredGenMapping_umd;
 
 function requireGenMapping_umd () {
 	if (hasRequiredGenMapping_umd) return genMapping_umd.exports;
@@ -22188,11 +22217,11 @@ function requireBuffer () {
 	  }
 	  source(prop, loc) {
 	    if (!this._map) return;
-	    this._normalizePosition(prop, loc, 0, 0);
+	    this._normalizePosition(prop, loc, 0);
 	  }
-	  sourceWithOffset(prop, loc, lineOffset, columnOffset) {
+	  sourceWithOffset(prop, loc, columnOffset) {
 	    if (!this._map) return;
-	    this._normalizePosition(prop, loc, lineOffset, columnOffset);
+	    this._normalizePosition(prop, loc, columnOffset);
 	  }
 	  withSource(prop, loc, cb) {
 	    if (this._map) {
@@ -22200,12 +22229,12 @@ function requireBuffer () {
 	    }
 	    cb();
 	  }
-	  _normalizePosition(prop, loc, lineOffset, columnOffset) {
+	  _normalizePosition(prop, loc, columnOffset) {
 	    const pos = loc[prop];
 	    const target = this._sourcePosition;
 	    if (pos) {
-	      target.line = pos.line + lineOffset;
-	      target.column = pos.column + columnOffset;
+	      target.line = pos.line;
+	      target.column = Math.max(pos.column + columnOffset, 0);
 	      target.filename = loc.filename;
 	    }
 	  }
@@ -23485,9 +23514,9 @@ function requireClasses () {
 	  }
 	}
 	function ClassProperty(node) {
-	  var _node$key$loc, _node$key$loc$end;
+	  var _node$key$loc;
 	  this.printJoin(node.decorators, node);
-	  const endLine = (_node$key$loc = node.key.loc) == null ? void 0 : (_node$key$loc$end = _node$key$loc.end) == null ? void 0 : _node$key$loc$end.line;
+	  const endLine = (_node$key$loc = node.key.loc) == null || (_node$key$loc = _node$key$loc.end) == null ? void 0 : _node$key$loc.line;
 	  if (endLine) this.catchUp(endLine);
 	  this.tsPrintClassMemberModifiers(node);
 	  if (node.computed) {
@@ -23514,9 +23543,9 @@ function requireClasses () {
 	  this.semicolon();
 	}
 	function ClassAccessorProperty(node) {
-	  var _node$key$loc2, _node$key$loc2$end;
+	  var _node$key$loc2;
 	  this.printJoin(node.decorators, node);
-	  const endLine = (_node$key$loc2 = node.key.loc) == null ? void 0 : (_node$key$loc2$end = _node$key$loc2.end) == null ? void 0 : _node$key$loc2$end.line;
+	  const endLine = (_node$key$loc2 = node.key.loc) == null || (_node$key$loc2 = _node$key$loc2.end) == null ? void 0 : _node$key$loc2.line;
 	  if (endLine) this.catchUp(endLine);
 	  this.tsPrintClassMemberModifiers(node);
 	  this.word("accessor", true);
@@ -23571,9 +23600,9 @@ function requireClasses () {
 	  this.print(node.body, node);
 	}
 	function _classMethodHead(node) {
-	  var _node$key$loc3, _node$key$loc3$end;
+	  var _node$key$loc3;
 	  this.printJoin(node.decorators, node);
-	  const endLine = (_node$key$loc3 = node.key.loc) == null ? void 0 : (_node$key$loc3$end = _node$key$loc3.end) == null ? void 0 : _node$key$loc3$end.line;
+	  const endLine = (_node$key$loc3 = node.key.loc) == null || (_node$key$loc3 = _node$key$loc3.end) == null ? void 0 : _node$key$loc3.line;
 	  if (endLine) this.catchUp(endLine);
 	  this.tsPrintClassMemberModifiers(node);
 	  this._methodHead(node);
@@ -24425,7 +24454,7 @@ function requireTypes () {
 	    });
 	    this.space();
 	  }
-	  this.sourceWithOffset("end", node.loc, 0, -1);
+	  this.sourceWithOffset("end", node.loc, -1);
 	  this.tokenChar(125);
 	}
 	function ObjectMethod(node) {
@@ -26405,11 +26434,11 @@ function requirePrinter () {
 	    if (this.format.minified) {
 	      this._buf.removeLastSemicolon();
 	    }
-	    this.sourceWithOffset("end", node.loc, 0, -1);
+	    this.sourceWithOffset("end", node.loc, -1);
 	    this.tokenChar(125);
 	  }
 	  rightParens(node) {
-	    this.sourceWithOffset("end", node.loc, 0, -1);
+	    this.sourceWithOffset("end", node.loc, -1);
 	    this.tokenChar(41);
 	  }
 	  space(force = false) {
@@ -26499,10 +26528,10 @@ function requirePrinter () {
 	    this._catchUp(prop, loc);
 	    this._buf.source(prop, loc);
 	  }
-	  sourceWithOffset(prop, loc, lineOffset, columnOffset) {
+	  sourceWithOffset(prop, loc, columnOffset) {
 	    if (!loc) return;
 	    this._catchUp(prop, loc);
-	    this._buf.sourceWithOffset(prop, loc, lineOffset, columnOffset);
+	    this._buf.sourceWithOffset(prop, loc, columnOffset);
 	  }
 	  withSource(prop, loc, cb) {
 	    if (!loc) {
@@ -26608,7 +26637,7 @@ function requirePrinter () {
 	  _catchUp(prop, loc) {
 	    var _loc$prop;
 	    if (!this.format.retainLines) return;
-	    const line = loc == null ? void 0 : (_loc$prop = loc[prop]) == null ? void 0 : _loc$prop.line;
+	    const line = loc == null || (_loc$prop = loc[prop]) == null ? void 0 : _loc$prop.line;
 	    if (line != null) {
 	      const count = line - this._buf.getCurrentLine();
 	      for (let i = 0; i < count; i++) {
@@ -26706,7 +26735,7 @@ function requirePrinter () {
 	  }
 	  getPossibleRaw(node) {
 	    const extra = node.extra;
-	    if (extra && extra.raw != null && extra.rawValue != null && node.value === extra.rawValue) {
+	    if ((extra == null ? void 0 : extra.raw) != null && extra.rawValue != null && node.value === extra.rawValue) {
 	      return extra.raw;
 	    }
 	  }
@@ -27008,6 +27037,7 @@ function requireLib$c () {
 	  }
 	}
 	function normalizeOptions(code, opts) {
+	  var _opts$recordAndTupleS;
 	  const format = {
 	    auxiliaryCommentBefore: opts.auxiliaryCommentBefore,
 	    auxiliaryCommentAfter: opts.auxiliaryCommentAfter,
@@ -27027,7 +27057,7 @@ function requireLib$c () {
 	      wrap: true,
 	      minimal: false
 	    }, opts.jsescOption),
-	    recordAndTupleSyntaxType: opts.recordAndTupleSyntaxType,
+	    recordAndTupleSyntaxType: (_opts$recordAndTupleS = opts.recordAndTupleSyntaxType) != null ? _opts$recordAndTupleS : "hash",
 	    topicToken: opts.topicToken,
 	    importAttributesKeyword: opts.importAttributesKeyword
 	  };
@@ -29371,9 +29401,7 @@ function requireTemplates () {
 		return chunks.join('');
 	};
 	return templates;
-}chalk.exports;
-
-var hasRequiredChalk;
+}var hasRequiredChalk;
 
 function requireChalk () {
 	if (hasRequiredChalk) return chalk.exports;
@@ -29618,11 +29646,12 @@ function requireLib$b () {
 	  value: true
 	});
 	lib$h.default = highlight;
-	lib$h.getChalk = getChalk;
 	lib$h.shouldHighlight = shouldHighlight;
 	var _jsTokens = requireJsTokens();
 	var _helperValidatorIdentifier = requireLib$h();
-	var _chalk = requireChalk();
+	var _chalk = _interopRequireWildcard(requireChalk(), true);
+	function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function (nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
+	function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 	const sometimesKeywords = new Set(["as", "async", "from", "get", "of", "set"]);
 	function getDefs(chalk) {
 	  return {
@@ -29689,18 +29718,28 @@ function requireLib$b () {
 	  return highlighted;
 	}
 	function shouldHighlight(options) {
-	  return !!_chalk.supportsColor || options.forceColor;
+	  return _chalk.default.level > 0 || options.forceColor;
 	}
-	function getChalk(options) {
-	  return options.forceColor ? new _chalk.constructor({
-	    enabled: true,
-	    level: 1
-	  }) : _chalk;
+	let chalkWithForcedColor = undefined;
+	function getChalk(forceColor) {
+	  if (forceColor) {
+	    var _chalkWithForcedColor;
+	    (_chalkWithForcedColor = chalkWithForcedColor) != null ? _chalkWithForcedColor : chalkWithForcedColor = new _chalk.default.constructor({
+	      enabled: true,
+	      level: 1
+	    });
+	    return chalkWithForcedColor;
+	  }
+	  return _chalk.default;
+	}
+	{
+	  {
+	    lib$h.getChalk = options => getChalk(options.forceColor);
+	  }
 	}
 	function highlight(code, options = {}) {
 	  if (code !== "" && shouldHighlight(options)) {
-	    const chalk = getChalk(options);
-	    const defs = getDefs(chalk);
+	    const defs = getDefs(getChalk(options.forceColor));
 	    return highlightTokens(defs, code);
 	  } else {
 	    return code;
@@ -29721,6 +29760,21 @@ function requireLib$a () {
 	lib$i.codeFrameColumns = codeFrameColumns;
 	lib$i.default = _default;
 	var _highlight = requireLib$b();
+	var _chalk = _interopRequireWildcard(requireChalk(), true);
+	function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function (nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
+	function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+	let chalkWithForcedColor = undefined;
+	function getChalk(forceColor) {
+	  if (forceColor) {
+	    var _chalkWithForcedColor;
+	    (_chalkWithForcedColor = chalkWithForcedColor) != null ? _chalkWithForcedColor : chalkWithForcedColor = new _chalk.default.constructor({
+	      enabled: true,
+	      level: 1
+	    });
+	    return chalkWithForcedColor;
+	  }
+	  return _chalk.default;
+	}
 	let deprecationWarningShown = false;
 	function getDefs(chalk) {
 	  return {
@@ -29788,7 +29842,7 @@ function requireLib$a () {
 	}
 	function codeFrameColumns(rawLines, loc, opts = {}) {
 	  const highlighted = (opts.highlightCode || opts.forceColor) && (0, _highlight.shouldHighlight)(opts);
-	  const chalk = (0, _highlight.getChalk)(opts);
+	  const chalk = getChalk(opts.forceColor);
 	  const defs = getDefs(chalk);
 	  const maybeHighlight = (chalkFn, string) => {
 	    return highlighted ? chalkFn(string) : string;
@@ -29862,9 +29916,6 @@ function requireLib$9 () {
 	if (hasRequiredLib$9) return lib$g;
 	hasRequiredLib$9 = 1;
 
-	Object.defineProperty(lib$g, '__esModule', {
-	  value: true
-	});
 	function _objectWithoutPropertiesLoose(source, excluded) {
 	  if (source == null) return {};
 	  var target = {};
@@ -29905,32 +29956,15 @@ function requireLib$9 () {
 	  } = position;
 	  return new Position(line, column + columnOffset, index + columnOffset);
 	}
-	var ParseErrorCode = {
-	  SyntaxError: "BABEL_PARSER_SYNTAX_ERROR",
-	  SourceTypeModuleError: "BABEL_PARSER_SOURCETYPE_MODULE_REQUIRED"
-	};
-	const reflect = (keys, last = keys.length - 1) => ({
-	  get() {
-	    return keys.reduce((object, key) => object[key], this);
-	  },
-	  set(value) {
-	    keys.reduce((item, key, i) => i === last ? item[key] = value : item[key], this);
-	  }
-	});
-	const instantiate = (constructor, properties, descriptors) => Object.keys(descriptors).map(key => [key, descriptors[key]]).filter(([, descriptor]) => !!descriptor).map(([key, descriptor]) => [key, typeof descriptor === "function" ? {
-	  value: descriptor,
-	  enumerable: false
-	} : typeof descriptor.reflect === "string" ? Object.assign({}, descriptor, reflect(descriptor.reflect.split("."))) : descriptor]).reduce((instance, [key, descriptor]) => Object.defineProperty(instance, key, Object.assign({
-	  configurable: true
-	}, descriptor)), Object.assign(new constructor(), properties));
+	const code = "BABEL_PARSER_SOURCETYPE_MODULE_REQUIRED";
 	var ModuleErrors = {
 	  ImportMetaOutsideModule: {
 	    message: `import.meta may appear only with 'sourceType: "module"'`,
-	    code: ParseErrorCode.SourceTypeModuleError
+	    code
 	  },
 	  ImportOutsideModule: {
 	    message: `'import' and 'export' may appear only with 'sourceType: "module"'`,
-	    code: ParseErrorCode.SourceTypeModuleError
+	    code
 	  }
 	};
 	const NodeDescriptions = {
@@ -30208,6 +30242,13 @@ function requireLib$9 () {
 	};
 	const _excluded$1 = ["toMessage"],
 	  _excluded2$1 = ["message"];
+	function defineHidden(obj, key, value) {
+	  Object.defineProperty(obj, key, {
+	    enumerable: false,
+	    configurable: true,
+	    value
+	  });
+	}
 	function toParseErrorConstructor(_ref) {
 	  let {
 	      toMessage
@@ -30217,39 +30258,44 @@ function requireLib$9 () {
 	    loc,
 	    details
 	  }) {
-	    return instantiate(SyntaxError, Object.assign({}, properties, {
-	      loc
-	    }), {
-	      clone(overrides = {}) {
-	        const loc = overrides.loc || {};
-	        return constructor({
-	          loc: new Position("line" in loc ? loc.line : this.loc.line, "column" in loc ? loc.column : this.loc.column, "index" in loc ? loc.index : this.loc.index),
-	          details: Object.assign({}, this.details, overrides.details)
+	    const error = new SyntaxError();
+	    Object.assign(error, properties, {
+	      loc,
+	      pos: loc.index
+	    });
+	    if ("missingPlugin" in details) {
+	      Object.assign(error, {
+	        missingPlugin: details.missingPlugin
+	      });
+	    }
+	    defineHidden(error, "clone", function clone(overrides = {}) {
+	      var _overrides$loc;
+	      const {
+	        line,
+	        column,
+	        index
+	      } = (_overrides$loc = overrides.loc) != null ? _overrides$loc : loc;
+	      return constructor({
+	        loc: new Position(line, column, index),
+	        details: Object.assign({}, details, overrides.details)
+	      });
+	    });
+	    defineHidden(error, "details", details);
+	    Object.defineProperty(error, "message", {
+	      configurable: true,
+	      get() {
+	        const message = `${toMessage(details)} (${loc.line}:${loc.column})`;
+	        this.message = message;
+	        return message;
+	      },
+	      set(value) {
+	        Object.defineProperty(this, "message", {
+	          value,
+	          writable: true
 	        });
-	      },
-	      details: {
-	        value: details,
-	        enumerable: false
-	      },
-	      message: {
-	        get() {
-	          return `${toMessage(this.details)} (${this.loc.line}:${this.loc.column})`;
-	        },
-	        set(value) {
-	          Object.defineProperty(this, "message", {
-	            value
-	          });
-	        }
-	      },
-	      pos: {
-	        reflect: "loc.index",
-	        enumerable: true
-	      },
-	      missingPlugin: "missingPlugin" in details && {
-	        reflect: "details.missingPlugin",
-	        enumerable: true
 	      }
 	    });
+	    return error;
 	  };
 	}
 	function ParseErrorEnum(argument, syntaxPlugin) {
@@ -30270,7 +30316,7 @@ function requireLib$9 () {
 	      rest = _objectWithoutPropertiesLoose(_ref2, _excluded2$1);
 	    const toMessage = typeof message === "string" ? () => message : message;
 	    ParseErrorConstructors[reasonCode] = toParseErrorConstructor(Object.assign({
-	      code: ParseErrorCode.SyntaxError,
+	      code: "BABEL_PARSER_SYNTAX_ERROR",
 	      reasonCode,
 	      toMessage
 	    }, syntaxPlugin ? {
@@ -31239,54 +31285,6 @@ function requireLib$9 () {
 	function canBeReservedWord(word) {
 	  return reservedWordLikeSet.has(word);
 	}
-	const SCOPE_OTHER = 0b000000000,
-	  SCOPE_PROGRAM = 0b000000001,
-	  SCOPE_FUNCTION = 0b000000010,
-	  SCOPE_ARROW = 0b000000100,
-	  SCOPE_SIMPLE_CATCH = 0b000001000,
-	  SCOPE_SUPER = 0b000010000,
-	  SCOPE_DIRECT_SUPER = 0b000100000,
-	  SCOPE_CLASS = 0b001000000,
-	  SCOPE_STATIC_BLOCK = 0b010000000,
-	  SCOPE_TS_MODULE = 0b100000000,
-	  SCOPE_VAR = SCOPE_PROGRAM | SCOPE_FUNCTION | SCOPE_STATIC_BLOCK | SCOPE_TS_MODULE;
-	const BIND_KIND_VALUE = 0b0000000000001,
-	  BIND_KIND_TYPE = 0b0000000000010,
-	  BIND_SCOPE_VAR = 0b0000000000100,
-	  BIND_SCOPE_LEXICAL = 0b0000000001000,
-	  BIND_SCOPE_FUNCTION = 0b0000000010000,
-	  BIND_FLAGS_NONE = 0b00000001000000,
-	  BIND_FLAGS_CLASS = 0b00000010000000,
-	  BIND_FLAGS_TS_ENUM = 0b00000100000000,
-	  BIND_FLAGS_TS_CONST_ENUM = 0b00001000000000,
-	  BIND_FLAGS_TS_EXPORT_ONLY = 0b00010000000000,
-	  BIND_FLAGS_FLOW_DECLARE_FN = 0b00100000000000,
-	  BIND_FLAGS_TS_IMPORT = 0b01000000000000,
-	  BIND_FLAGS_NO_LET_IN_LEXICAL = 0b10000000000000;
-	const BIND_CLASS = BIND_KIND_VALUE | BIND_KIND_TYPE | BIND_SCOPE_LEXICAL | BIND_FLAGS_CLASS | BIND_FLAGS_NO_LET_IN_LEXICAL,
-	  BIND_LEXICAL = BIND_KIND_VALUE | 0 | BIND_SCOPE_LEXICAL | BIND_FLAGS_NO_LET_IN_LEXICAL,
-	  BIND_CATCH_PARAM = BIND_KIND_VALUE | 0 | BIND_SCOPE_LEXICAL | 0,
-	  BIND_VAR = BIND_KIND_VALUE | 0 | BIND_SCOPE_VAR | 0,
-	  BIND_FUNCTION = BIND_KIND_VALUE | 0 | BIND_SCOPE_FUNCTION | 0,
-	  BIND_TS_INTERFACE = 0 | BIND_KIND_TYPE | 0 | BIND_FLAGS_CLASS,
-	  BIND_TS_TYPE = 0 | BIND_KIND_TYPE | 0 | 0,
-	  BIND_TS_ENUM = BIND_KIND_VALUE | BIND_KIND_TYPE | BIND_SCOPE_LEXICAL | BIND_FLAGS_TS_ENUM | BIND_FLAGS_NO_LET_IN_LEXICAL,
-	  BIND_TS_AMBIENT = 0 | 0 | 0 | BIND_FLAGS_TS_EXPORT_ONLY,
-	  BIND_NONE = 0 | 0 | 0 | BIND_FLAGS_NONE,
-	  BIND_OUTSIDE = BIND_KIND_VALUE | 0 | 0 | BIND_FLAGS_NONE,
-	  BIND_TS_CONST_ENUM = BIND_TS_ENUM | BIND_FLAGS_TS_CONST_ENUM,
-	  BIND_TS_NAMESPACE = 0 | 0 | 0 | BIND_FLAGS_TS_EXPORT_ONLY,
-	  BIND_TS_TYPE_IMPORT = 0 | BIND_KIND_TYPE | 0 | BIND_FLAGS_TS_IMPORT,
-	  BIND_FLOW_DECLARE_FN = BIND_FLAGS_FLOW_DECLARE_FN;
-	const CLASS_ELEMENT_FLAG_STATIC = 0b100,
-	  CLASS_ELEMENT_KIND_GETTER = 0b010,
-	  CLASS_ELEMENT_KIND_SETTER = 0b001,
-	  CLASS_ELEMENT_KIND_ACCESSOR = CLASS_ELEMENT_KIND_GETTER | CLASS_ELEMENT_KIND_SETTER;
-	const CLASS_ELEMENT_STATIC_GETTER = CLASS_ELEMENT_KIND_GETTER | CLASS_ELEMENT_FLAG_STATIC,
-	  CLASS_ELEMENT_STATIC_SETTER = CLASS_ELEMENT_KIND_SETTER | CLASS_ELEMENT_FLAG_STATIC,
-	  CLASS_ELEMENT_INSTANCE_GETTER = CLASS_ELEMENT_KIND_GETTER,
-	  CLASS_ELEMENT_INSTANCE_SETTER = CLASS_ELEMENT_KIND_SETTER,
-	  CLASS_ELEMENT_OTHER = 0;
 	class Scope {
 	  constructor(flags) {
 	    this.var = new Set();
@@ -31305,39 +31303,39 @@ function requireLib$9 () {
 	    this.inModule = inModule;
 	  }
 	  get inTopLevel() {
-	    return (this.currentScope().flags & SCOPE_PROGRAM) > 0;
+	    return (this.currentScope().flags & 1) > 0;
 	  }
 	  get inFunction() {
-	    return (this.currentVarScopeFlags() & SCOPE_FUNCTION) > 0;
+	    return (this.currentVarScopeFlags() & 2) > 0;
 	  }
 	  get allowSuper() {
-	    return (this.currentThisScopeFlags() & SCOPE_SUPER) > 0;
+	    return (this.currentThisScopeFlags() & 16) > 0;
 	  }
 	  get allowDirectSuper() {
-	    return (this.currentThisScopeFlags() & SCOPE_DIRECT_SUPER) > 0;
+	    return (this.currentThisScopeFlags() & 32) > 0;
 	  }
 	  get inClass() {
-	    return (this.currentThisScopeFlags() & SCOPE_CLASS) > 0;
+	    return (this.currentThisScopeFlags() & 64) > 0;
 	  }
 	  get inClassAndNotInNonArrowFunction() {
 	    const flags = this.currentThisScopeFlags();
-	    return (flags & SCOPE_CLASS) > 0 && (flags & SCOPE_FUNCTION) === 0;
+	    return (flags & 64) > 0 && (flags & 2) === 0;
 	  }
 	  get inStaticBlock() {
 	    for (let i = this.scopeStack.length - 1;; i--) {
 	      const {
 	        flags
 	      } = this.scopeStack[i];
-	      if (flags & SCOPE_STATIC_BLOCK) {
+	      if (flags & 128) {
 	        return true;
 	      }
-	      if (flags & (SCOPE_VAR | SCOPE_CLASS)) {
+	      if (flags & (387 | 64)) {
 	        return false;
 	      }
 	    }
 	  }
 	  get inNonArrowFunction() {
-	    return (this.currentThisScopeFlags() & SCOPE_FUNCTION) > 0;
+	    return (this.currentThisScopeFlags() & 2) > 0;
 	  }
 	  get treatFunctionsAsVar() {
 	    return this.treatFunctionsAsVarInScope(this.currentScope());
@@ -31353,35 +31351,35 @@ function requireLib$9 () {
 	    return scope.flags;
 	  }
 	  treatFunctionsAsVarInScope(scope) {
-	    return !!(scope.flags & (SCOPE_FUNCTION | SCOPE_STATIC_BLOCK) || !this.parser.inModule && scope.flags & SCOPE_PROGRAM);
+	    return !!(scope.flags & (2 | 128) || !this.parser.inModule && scope.flags & 1);
 	  }
 	  declareName(name, bindingType, loc) {
 	    let scope = this.currentScope();
-	    if (bindingType & BIND_SCOPE_LEXICAL || bindingType & BIND_SCOPE_FUNCTION) {
+	    if (bindingType & 8 || bindingType & 16) {
 	      this.checkRedeclarationInScope(scope, name, bindingType, loc);
-	      if (bindingType & BIND_SCOPE_FUNCTION) {
+	      if (bindingType & 16) {
 	        scope.functions.add(name);
 	      } else {
 	        scope.lexical.add(name);
 	      }
-	      if (bindingType & BIND_SCOPE_LEXICAL) {
+	      if (bindingType & 8) {
 	        this.maybeExportDefined(scope, name);
 	      }
-	    } else if (bindingType & BIND_SCOPE_VAR) {
+	    } else if (bindingType & 4) {
 	      for (let i = this.scopeStack.length - 1; i >= 0; --i) {
 	        scope = this.scopeStack[i];
 	        this.checkRedeclarationInScope(scope, name, bindingType, loc);
 	        scope.var.add(name);
 	        this.maybeExportDefined(scope, name);
-	        if (scope.flags & SCOPE_VAR) break;
+	        if (scope.flags & 387) break;
 	      }
 	    }
-	    if (this.parser.inModule && scope.flags & SCOPE_PROGRAM) {
+	    if (this.parser.inModule && scope.flags & 1) {
 	      this.undefinedExports.delete(name);
 	    }
 	  }
 	  maybeExportDefined(scope, name) {
-	    if (this.parser.inModule && scope.flags & SCOPE_PROGRAM) {
+	    if (this.parser.inModule && scope.flags & 1) {
 	      this.undefinedExports.delete(name);
 	    }
 	  }
@@ -31394,14 +31392,14 @@ function requireLib$9 () {
 	    }
 	  }
 	  isRedeclaredInScope(scope, name, bindingType) {
-	    if (!(bindingType & BIND_KIND_VALUE)) return false;
-	    if (bindingType & BIND_SCOPE_LEXICAL) {
+	    if (!(bindingType & 1)) return false;
+	    if (bindingType & 8) {
 	      return scope.lexical.has(name) || scope.functions.has(name) || scope.var.has(name);
 	    }
-	    if (bindingType & BIND_SCOPE_FUNCTION) {
+	    if (bindingType & 16) {
 	      return scope.lexical.has(name) || !this.treatFunctionsAsVarInScope(scope) && scope.var.has(name);
 	    }
-	    return scope.lexical.has(name) && !(scope.flags & SCOPE_SIMPLE_CATCH && scope.lexical.values().next().value === name) || !this.treatFunctionsAsVarInScope(scope) && scope.functions.has(name);
+	    return scope.lexical.has(name) && !(scope.flags & 8 && scope.lexical.values().next().value === name) || !this.treatFunctionsAsVarInScope(scope) && scope.functions.has(name);
 	  }
 	  checkLocalExport(id) {
 	    const {
@@ -31420,7 +31418,7 @@ function requireLib$9 () {
 	      const {
 	        flags
 	      } = this.scopeStack[i];
-	      if (flags & SCOPE_VAR) {
+	      if (flags & 387) {
 	        return flags;
 	      }
 	    }
@@ -31430,7 +31428,7 @@ function requireLib$9 () {
 	      const {
 	        flags
 	      } = this.scopeStack[i];
-	      if (flags & (SCOPE_VAR | SCOPE_CLASS) && !(flags & SCOPE_ARROW)) {
+	      if (flags & (387 | 64) && !(flags & 4)) {
 	        return flags;
 	      }
 	    }
@@ -31448,7 +31446,7 @@ function requireLib$9 () {
 	  }
 	  declareName(name, bindingType, loc) {
 	    const scope = this.currentScope();
-	    if (bindingType & BIND_FLAGS_FLOW_DECLARE_FN) {
+	    if (bindingType & 2048) {
 	      this.checkRedeclarationInScope(scope, name, bindingType, loc);
 	      this.maybeExportDefined(scope, name);
 	      scope.declareFunctions.add(name);
@@ -31458,7 +31456,7 @@ function requireLib$9 () {
 	  }
 	  isRedeclaredInScope(scope, name, bindingType) {
 	    if (super.isRedeclaredInScope(scope, name, bindingType)) return true;
-	    if (bindingType & BIND_FLAGS_FLOW_DECLARE_FN) {
+	    if (bindingType & 2048) {
 	      return !scope.declareFunctions.has(name) && (scope.lexical.has(name) || scope.functions.has(name));
 	    }
 	    return false;
@@ -33217,13 +33215,13 @@ function requireLib$9 () {
 	      undefinedPrivateNames
 	    } = this.current();
 	    let redefined = privateNames.has(name);
-	    if (elementType & CLASS_ELEMENT_KIND_ACCESSOR) {
+	    if (elementType & 3) {
 	      const accessor = redefined && loneAccessors.get(name);
 	      if (accessor) {
-	        const oldStatic = accessor & CLASS_ELEMENT_FLAG_STATIC;
-	        const newStatic = elementType & CLASS_ELEMENT_FLAG_STATIC;
-	        const oldKind = accessor & CLASS_ELEMENT_KIND_ACCESSOR;
-	        const newKind = elementType & CLASS_ELEMENT_KIND_ACCESSOR;
+	        const oldStatic = accessor & 4;
+	        const newStatic = elementType & 4;
+	        const oldKind = accessor & 3;
+	        const newKind = elementType & 3;
 	        redefined = oldKind === newKind || oldStatic !== newStatic;
 	        if (!redefined) loneAccessors.delete(name);
 	      } else if (!redefined) {
@@ -33254,20 +33252,15 @@ function requireLib$9 () {
 	    }
 	  }
 	}
-	const kExpression = 0,
-	  kMaybeArrowParameterDeclaration = 1,
-	  kMaybeAsyncArrowParameterDeclaration = 2,
-	  kParameterDeclaration = 3;
 	class ExpressionScope {
-	  constructor(type = kExpression) {
-	    this.type = void 0;
+	  constructor(type = 0) {
 	    this.type = type;
 	  }
 	  canBeArrowParameterDeclaration() {
-	    return this.type === kMaybeAsyncArrowParameterDeclaration || this.type === kMaybeArrowParameterDeclaration;
+	    return this.type === 2 || this.type === 1;
 	  }
 	  isCertainlyParameterDeclaration() {
-	    return this.type === kParameterDeclaration;
+	    return this.type === 3;
 	  }
 	}
 	class ArrowHeadParsingScope extends ExpressionScope {
@@ -33348,7 +33341,7 @@ function requireLib$9 () {
 	    let i = stack.length - 1;
 	    let scope = stack[i];
 	    while (scope.canBeArrowParameterDeclaration()) {
-	      if (scope.type === kMaybeAsyncArrowParameterDeclaration) {
+	      if (scope.type === 2) {
 	        scope.recordDeclarationError(Errors.AwaitBindingIdentifier, {
 	          at
 	        });
@@ -33376,13 +33369,13 @@ function requireLib$9 () {
 	  }
 	}
 	function newParameterDeclarationScope() {
-	  return new ExpressionScope(kParameterDeclaration);
+	  return new ExpressionScope(3);
 	}
 	function newArrowHeadScope() {
-	  return new ArrowHeadParsingScope(kMaybeArrowParameterDeclaration);
+	  return new ArrowHeadParsingScope(1);
 	}
 	function newAsyncArrowScope() {
-	  return new ArrowHeadParsingScope(kMaybeAsyncArrowParameterDeclaration);
+	  return new ArrowHeadParsingScope(2);
 	}
 	function newExpressionScope() {
 	  return new ExpressionScope();
@@ -33620,7 +33613,7 @@ function requireLib$9 () {
 	    if (this.inModule) {
 	      paramFlags |= PARAM_AWAIT;
 	    }
-	    this.scope.enter(SCOPE_PROGRAM);
+	    this.scope.enter(1);
 	    this.prodParam.enter(paramFlags);
 	  }
 	  checkDestructuringPrivate(refExpressionErrors) {
@@ -33801,7 +33794,7 @@ function requireLib$9 () {
 	    enumName,
 	    memberName
 	  }) => `Number enum members need to be initialized, e.g. \`${memberName} = 1\` in enum \`${enumName}\`.`,
-	  EnumStringMemberInconsistentlyInitailized: ({
+	  EnumStringMemberInconsistentlyInitialized: ({
 	    enumName
 	  }) => `String enum members need to consistently either all use initializers, or use no initializers, in enum \`${enumName}\`.`,
 	  GetterMayNotHaveThisParam: "A getter cannot have a `this` parameter.",
@@ -33971,7 +33964,7 @@ function requireLib$9 () {
 	    id.typeAnnotation = this.finishNode(typeContainer, "TypeAnnotation");
 	    this.resetEndLocation(id);
 	    this.semicolon();
-	    this.scope.declareName(node.id.name, BIND_FLOW_DECLARE_FN, node.id.loc.start);
+	    this.scope.declareName(node.id.name, 2048, node.id.loc.start);
 	    return this.finishNode(node, "DeclareFunction");
 	  }
 	  flowParseDeclare(node, insideModule) {
@@ -34007,12 +34000,12 @@ function requireLib$9 () {
 	  flowParseDeclareVariable(node) {
 	    this.next();
 	    node.id = this.flowParseTypeAnnotatableIdentifier(true);
-	    this.scope.declareName(node.id.name, BIND_VAR, node.id.loc.start);
+	    this.scope.declareName(node.id.name, 5, node.id.loc.start);
 	    this.semicolon();
 	    return this.finishNode(node, "DeclareVariable");
 	  }
 	  flowParseDeclareModule(node) {
-	    this.scope.enter(SCOPE_OTHER);
+	    this.scope.enter(0);
 	    if (this.match(131)) {
 	      node.id = super.parseExprAtom();
 	    } else {
@@ -34131,7 +34124,7 @@ function requireLib$9 () {
 	  }
 	  flowParseInterfaceish(node, isClass) {
 	    node.id = this.flowParseRestrictedIdentifier(!isClass, true);
-	    this.scope.declareName(node.id.name, isClass ? BIND_FUNCTION : BIND_LEXICAL, node.id.loc.start);
+	    this.scope.declareName(node.id.name, isClass ? 17 : 8201, node.id.loc.start);
 	    if (this.match(47)) {
 	      node.typeParameters = this.flowParseTypeParameterDeclaration();
 	    } else {
@@ -34199,7 +34192,7 @@ function requireLib$9 () {
 	  }
 	  flowParseTypeAlias(node) {
 	    node.id = this.flowParseRestrictedIdentifier(false, true);
-	    this.scope.declareName(node.id.name, BIND_LEXICAL, node.id.loc.start);
+	    this.scope.declareName(node.id.name, 8201, node.id.loc.start);
 	    if (this.match(47)) {
 	      node.typeParameters = this.flowParseTypeParameterDeclaration();
 	    } else {
@@ -34212,7 +34205,7 @@ function requireLib$9 () {
 	  flowParseOpaqueType(node, declare) {
 	    this.expectContextual(128);
 	    node.id = this.flowParseRestrictedIdentifier(true, true);
-	    this.scope.declareName(node.id.name, BIND_LEXICAL, node.id.loc.start);
+	    this.scope.declareName(node.id.name, 8201, node.id.loc.start);
 	    if (this.match(47)) {
 	      node.typeParameters = this.flowParseTypeParameterDeclaration();
 	    } else {
@@ -35130,7 +35123,7 @@ function requireLib$9 () {
 	  finishArrowValidation(node) {
 	    var _node$extra;
 	    this.toAssignableList(node.params, (_node$extra = node.extra) == null ? void 0 : _node$extra.trailingCommaLoc, false);
-	    this.scope.enter(SCOPE_FUNCTION | SCOPE_ARROW);
+	    this.scope.enter(2 | 4);
 	    super.checkParams(node, false, true);
 	    this.scope.exit();
 	  }
@@ -35873,10 +35866,10 @@ function requireLib$9 () {
 	      memberName
 	    });
 	  }
-	  flowEnumErrorStringMemberInconsistentlyInitailized(node, {
+	  flowEnumErrorStringMemberInconsistentlyInitialized(node, {
 	    enumName
 	  }) {
-	    this.raise(FlowErrors.EnumStringMemberInconsistentlyInitailized, {
+	    this.raise(FlowErrors.EnumStringMemberInconsistentlyInitialized, {
 	      at: node,
 	      enumName
 	    });
@@ -36067,14 +36060,14 @@ function requireLib$9 () {
 	      return initializedMembers;
 	    } else if (defaultedMembers.length > initializedMembers.length) {
 	      for (const member of initializedMembers) {
-	        this.flowEnumErrorStringMemberInconsistentlyInitailized(member, {
+	        this.flowEnumErrorStringMemberInconsistentlyInitialized(member, {
 	          enumName
 	        });
 	      }
 	      return defaultedMembers;
 	    } else {
 	      for (const member of defaultedMembers) {
-	        this.flowEnumErrorStringMemberInconsistentlyInitailized(member, {
+	        this.flowEnumErrorStringMemberInconsistentlyInitialized(member, {
 	          enumName
 	        });
 	      }
@@ -36912,14 +36905,14 @@ function requireLib$9 () {
 	    return new TypeScriptScope(flags);
 	  }
 	  enter(flags) {
-	    if (flags == SCOPE_TS_MODULE) {
+	    if (flags == 256) {
 	      this.importsStack.push(new Set());
 	    }
 	    super.enter(flags);
 	  }
 	  exit() {
 	    const flags = super.exit();
-	    if (flags == SCOPE_TS_MODULE) {
+	    if (flags == 256) {
 	      this.importsStack.pop();
 	    }
 	    return flags;
@@ -36937,7 +36930,7 @@ function requireLib$9 () {
 	    return false;
 	  }
 	  declareName(name, bindingType, loc) {
-	    if (bindingType & BIND_FLAGS_TS_IMPORT) {
+	    if (bindingType & 4096) {
 	      if (this.hasImport(name, true)) {
 	        this.parser.raise(Errors.VarRedeclaration, {
 	          at: loc,
@@ -36948,40 +36941,42 @@ function requireLib$9 () {
 	      return;
 	    }
 	    const scope = this.currentScope();
-	    if (bindingType & BIND_FLAGS_TS_EXPORT_ONLY) {
+	    if (bindingType & 1024) {
 	      this.maybeExportDefined(scope, name);
 	      scope.exportOnlyBindings.add(name);
 	      return;
 	    }
 	    super.declareName(name, bindingType, loc);
-	    if (bindingType & BIND_KIND_TYPE) {
-	      if (!(bindingType & BIND_KIND_VALUE)) {
+	    if (bindingType & 2) {
+	      if (!(bindingType & 1)) {
 	        this.checkRedeclarationInScope(scope, name, bindingType, loc);
 	        this.maybeExportDefined(scope, name);
 	      }
 	      scope.types.add(name);
 	    }
-	    if (bindingType & BIND_FLAGS_TS_ENUM) scope.enums.add(name);
-	    if (bindingType & BIND_FLAGS_TS_CONST_ENUM) scope.constEnums.add(name);
-	    if (bindingType & BIND_FLAGS_CLASS) scope.classes.add(name);
+	    if (bindingType & 256) scope.enums.add(name);
+	    if (bindingType & 512) {
+	      scope.constEnums.add(name);
+	    }
+	    if (bindingType & 128) scope.classes.add(name);
 	  }
 	  isRedeclaredInScope(scope, name, bindingType) {
 	    if (scope.enums.has(name)) {
-	      if (bindingType & BIND_FLAGS_TS_ENUM) {
-	        const isConst = !!(bindingType & BIND_FLAGS_TS_CONST_ENUM);
+	      if (bindingType & 256) {
+	        const isConst = !!(bindingType & 512);
 	        const wasConst = scope.constEnums.has(name);
 	        return isConst !== wasConst;
 	      }
 	      return true;
 	    }
-	    if (bindingType & BIND_FLAGS_CLASS && scope.classes.has(name)) {
+	    if (bindingType & 128 && scope.classes.has(name)) {
 	      if (scope.lexical.has(name)) {
-	        return !!(bindingType & BIND_KIND_VALUE);
+	        return !!(bindingType & 1);
 	      } else {
 	        return false;
 	      }
 	    }
-	    if (bindingType & BIND_KIND_TYPE && scope.types.has(name)) {
+	    if (bindingType & 2 && scope.types.has(name)) {
 	      return true;
 	    }
 	    return super.isRedeclaredInScope(scope, name, bindingType);
@@ -37288,7 +37283,7 @@ function requireLib$9 () {
 	  }
 	  checkLVal(expression, {
 	    in: ancestor,
-	    binding = BIND_NONE,
+	    binding = 64,
 	    checkClashes = false,
 	    strictModeChanged = false,
 	    hasParenthesizedAncestor = false
@@ -37297,7 +37292,7 @@ function requireLib$9 () {
 	    const type = expression.type;
 	    if (this.isObjectMethod(expression)) return;
 	    if (type === "MemberExpression") {
-	      if (binding !== BIND_NONE) {
+	      if (binding !== 64) {
 	        this.raise(Errors.InvalidPropertyBindingPattern, {
 	          at: expression
 	        });
@@ -37323,7 +37318,7 @@ function requireLib$9 () {
 	    const validity = this.isValidLVal(type, !(hasParenthesizedAncestor || (_expression$extra = expression.extra) != null && _expression$extra.parenthesized) && ancestor.type === "AssignmentExpression", binding);
 	    if (validity === true) return;
 	    if (validity === false) {
-	      const ParseErrorClass = binding === BIND_NONE ? Errors.InvalidLhs : Errors.InvalidLhsBinding;
+	      const ParseErrorClass = binding === 64 ? Errors.InvalidLhs : Errors.InvalidLhsBinding;
 	      this.raise(ParseErrorClass, {
 	        at: expression,
 	        ancestor
@@ -37348,7 +37343,7 @@ function requireLib$9 () {
 	  }
 	  checkIdentifier(at, bindingType, strictModeChanged = false) {
 	    if (this.state.strict && (strictModeChanged ? isStrictBindReservedWord(at.name, this.inModule) : isStrictBindOnlyReservedWord(at.name))) {
-	      if (bindingType === BIND_NONE) {
+	      if (bindingType === 64) {
 	        this.raise(Errors.StrictEvalArguments, {
 	          at,
 	          referenceName: at.name
@@ -37360,12 +37355,12 @@ function requireLib$9 () {
 	        });
 	      }
 	    }
-	    if (bindingType & BIND_FLAGS_NO_LET_IN_LEXICAL && at.name === "let") {
+	    if (bindingType & 8192 && at.name === "let") {
 	      this.raise(Errors.LetInLexicalBinding, {
 	        at
 	      });
 	    }
-	    if (!(bindingType & BIND_NONE)) {
+	    if (!(bindingType & 64)) {
 	      this.declareNameFromIdentifier(at, bindingType);
 	    }
 	  }
@@ -38538,7 +38533,7 @@ function requireLib$9 () {
 	    if (properties.declare) node.declare = true;
 	    if (tokenIsIdentifier(this.state.type)) {
 	      node.id = this.parseIdentifier();
-	      this.checkIdentifier(node.id, BIND_TS_INTERFACE);
+	      this.checkIdentifier(node.id, 130);
 	    } else {
 	      node.id = null;
 	      this.raise(TSErrors.MissingInterfaceName, {
@@ -38556,7 +38551,7 @@ function requireLib$9 () {
 	  }
 	  tsParseTypeAliasDeclaration(node) {
 	    node.id = this.parseIdentifier();
-	    this.checkIdentifier(node.id, BIND_TS_TYPE);
+	    this.checkIdentifier(node.id, 2);
 	    node.typeAnnotation = this.tsInType(() => {
 	      node.typeParameters = this.tsTryParseTypeParameters(this.tsParseInOutModifiers);
 	      this.expect(29);
@@ -38636,7 +38631,7 @@ function requireLib$9 () {
 	    if (properties.declare) node.declare = true;
 	    this.expectContextual(124);
 	    node.id = this.parseIdentifier();
-	    this.checkIdentifier(node.id, node.const ? BIND_TS_CONST_ENUM : BIND_TS_ENUM);
+	    this.checkIdentifier(node.id, node.const ? 8971 : 8459);
 	    this.expect(5);
 	    node.members = this.tsParseDelimitedList("EnumMembers", this.tsParseEnumMember.bind(this));
 	    this.expect(8);
@@ -38644,7 +38639,7 @@ function requireLib$9 () {
 	  }
 	  tsParseModuleBlock() {
 	    const node = this.startNode();
-	    this.scope.enter(SCOPE_OTHER);
+	    this.scope.enter(0);
 	    this.expect(5);
 	    super.parseBlockOrModuleBlockBody(node.body = [], undefined, true, 8);
 	    this.scope.exit();
@@ -38653,14 +38648,14 @@ function requireLib$9 () {
 	  tsParseModuleOrNamespaceDeclaration(node, nested = false) {
 	    node.id = this.parseIdentifier();
 	    if (!nested) {
-	      this.checkIdentifier(node.id, BIND_TS_NAMESPACE);
+	      this.checkIdentifier(node.id, 1024);
 	    }
 	    if (this.eat(16)) {
 	      const inner = this.startNode();
 	      this.tsParseModuleOrNamespaceDeclaration(inner, true);
 	      node.body = inner;
 	    } else {
-	      this.scope.enter(SCOPE_TS_MODULE);
+	      this.scope.enter(256);
 	      this.prodParam.enter(PARAM);
 	      node.body = this.tsParseModuleBlock();
 	      this.prodParam.exit();
@@ -38678,7 +38673,7 @@ function requireLib$9 () {
 	      this.unexpected();
 	    }
 	    if (this.match(5)) {
-	      this.scope.enter(SCOPE_TS_MODULE);
+	      this.scope.enter(256);
 	      this.prodParam.enter(PARAM);
 	      node.body = this.tsParseModuleBlock();
 	      this.prodParam.exit();
@@ -38691,7 +38686,7 @@ function requireLib$9 () {
 	  tsParseImportEqualsDeclaration(node, maybeDefaultIdentifier, isExport) {
 	    node.isExport = isExport || false;
 	    node.id = maybeDefaultIdentifier || this.parseIdentifier();
-	    this.checkIdentifier(node.id, BIND_FLAGS_TS_IMPORT);
+	    this.checkIdentifier(node.id, 4096);
 	    this.expect(29);
 	    const moduleReference = this.tsParseModuleReference();
 	    if (node.importKind === "type" && moduleReference.type !== "TSExternalModuleReference") {
@@ -38805,7 +38800,7 @@ function requireLib$9 () {
 	        }
 	      case "global":
 	        if (this.match(5)) {
-	          this.scope.enter(SCOPE_TS_MODULE);
+	          this.scope.enter(256);
 	          this.prodParam.enter(PARAM);
 	          const mod = node;
 	          mod.global = true;
@@ -38974,7 +38969,7 @@ function requireLib$9 () {
 	  }
 	  registerFunctionStatementId(node) {
 	    if (!node.body && node.id) {
-	      this.checkIdentifier(node.id, BIND_TS_AMBIENT);
+	      this.checkIdentifier(node.id, 1024);
 	    } else {
 	      super.registerFunctionStatementId(node);
 	    }
@@ -39403,7 +39398,7 @@ function requireLib$9 () {
 	    if ((!isStatement || optionalId) && this.isContextual(111)) {
 	      return;
 	    }
-	    super.parseClassId(node, isStatement, optionalId, node.declare ? BIND_TS_AMBIENT : BIND_CLASS);
+	    super.parseClassId(node, isStatement, optionalId, node.declare ? 1024 : 8331);
 	    const typeParameters = this.tsTryParseTypeParameters(this.tsParseInOutConstModifiers);
 	    if (typeParameters) node.typeParameters = typeParameters;
 	  }
@@ -39692,9 +39687,9 @@ function requireLib$9 () {
 	      TSTypeCastExpression: true,
 	      TSParameterProperty: "parameter",
 	      TSNonNullExpression: "expression",
-	      TSAsExpression: (binding !== BIND_NONE || !isUnparenthesizedInAssign) && ["expression", true],
-	      TSSatisfiesExpression: (binding !== BIND_NONE || !isUnparenthesizedInAssign) && ["expression", true],
-	      TSTypeAssertion: (binding !== BIND_NONE || !isUnparenthesizedInAssign) && ["expression", true]
+	      TSAsExpression: (binding !== 64 || !isUnparenthesizedInAssign) && ["expression", true],
+	      TSSatisfiesExpression: (binding !== 64 || !isUnparenthesizedInAssign) && ["expression", true],
+	      TSTypeAssertion: (binding !== 64 || !isUnparenthesizedInAssign) && ["expression", true]
 	    }, type) || super.isValidLVal(type, isUnparenthesizedInAssign, binding);
 	  }
 	  parseBindingAtom() {
@@ -39905,7 +39900,7 @@ function requireLib$9 () {
 	      return this.finishNode(specifier, "ImportSpecifier");
 	    }
 	    specifier.importKind = "value";
-	    return super.parseImportSpecifier(specifier, importedIsString, isInTypeOnlyImport, isMaybeTypeOnly, isInTypeOnlyImport ? BIND_TS_TYPE_IMPORT : BIND_FLAGS_TS_IMPORT);
+	    return super.parseImportSpecifier(specifier, importedIsString, isInTypeOnlyImport, isMaybeTypeOnly, isInTypeOnlyImport ? 4098 : 4096);
 	  }
 	  parseTypeOnlyImportExportSpecifier(node, isImport, isInTypeOnlyImportExport) {
 	    const leftOfAsKey = isImport ? "imported" : "local";
@@ -39962,7 +39957,7 @@ function requireLib$9 () {
 	      node[rightOfAsKey] = cloneIdentifier(node[leftOfAsKey]);
 	    }
 	    if (isImport) {
-	      this.checkIdentifier(node[rightOfAsKey], hasTypeSpecifier ? BIND_TS_TYPE_IMPORT : BIND_FLAGS_TS_IMPORT);
+	      this.checkIdentifier(node[rightOfAsKey], hasTypeSpecifier ? 4098 : 4096);
 	    }
 	  }
 	};
@@ -40102,7 +40097,8 @@ function requireLib$9 () {
 	    super.verifyBreakContinue(node, isBreak);
 	  }
 	  parseExpressionStatement(node, expr) {
-	    if (expr.type !== "Placeholder" || expr.extra && expr.extra.parenthesized) {
+	    var _expr$extra;
+	    if (expr.type !== "Placeholder" || (_expr$extra = expr.extra) != null && _expr$extra.parenthesized) {
 	      return super.parseExpressionStatement(node, expr);
 	    }
 	    if (this.match(14)) {
@@ -40380,12 +40376,16 @@ function requireLib$9 () {
 	  annexB: true
 	};
 	function getOptions(opts) {
-	  if (opts && opts.annexB != null && opts.annexB !== false) {
+	  if (opts == null) {
+	    return Object.assign({}, defaultOptions);
+	  }
+	  if (opts.annexB != null && opts.annexB !== false) {
 	    throw new Error("The `annexB` option can only be set to `false`.");
 	  }
 	  const options = {};
 	  for (const key of Object.keys(defaultOptions)) {
-	    options[key] = opts && opts[key] != null ? opts[key] : defaultOptions[key];
+	    var _opts$key;
+	    options[key] = (_opts$key = opts[key]) != null ? _opts$key : defaultOptions[key];
 	  }
 	  return options;
 	}
@@ -41747,7 +41747,7 @@ function requireLib$9 () {
 	  parseMethod(node, isGenerator, isAsync, isConstructor, allowDirectSuper, type, inClassScope = false) {
 	    this.initFunction(node, isAsync);
 	    node.generator = isGenerator;
-	    this.scope.enter(SCOPE_FUNCTION | SCOPE_SUPER | (inClassScope ? SCOPE_CLASS : 0) | (allowDirectSuper ? SCOPE_DIRECT_SUPER : 0));
+	    this.scope.enter(2 | 16 | (inClassScope ? 64 : 0) | (allowDirectSuper ? 32 : 0));
 	    this.prodParam.enter(functionFlags(isAsync, node.generator));
 	    this.parseFunctionParams(node, isConstructor);
 	    const finishedNode = this.parseFunctionBodyAndFinish(node, type, true);
@@ -41768,7 +41768,7 @@ function requireLib$9 () {
 	    return this.finishNode(node, isTuple ? "TupleExpression" : "ArrayExpression");
 	  }
 	  parseArrowExpression(node, params, isAsync, trailingCommaLoc) {
-	    this.scope.enter(SCOPE_FUNCTION | SCOPE_ARROW);
+	    this.scope.enter(2 | 4);
 	    let flags = functionFlags(isAsync, false);
 	    if (!this.match(5) && this.prodParam.hasIn) {
 	      flags |= PARAM_IN;
@@ -41816,7 +41816,7 @@ function requireLib$9 () {
 	        const strictModeChanged = !oldStrict && this.state.strict;
 	        this.checkParams(node, !this.state.strict && !allowExpression && !isMethod && !nonSimple, allowExpression, strictModeChanged);
 	        if (this.state.strict && node.id) {
-	          this.checkIdentifier(node.id, BIND_OUTSIDE, strictModeChanged);
+	          this.checkIdentifier(node.id, 65, strictModeChanged);
 	        }
 	      });
 	      this.prodParam.exit();
@@ -41841,7 +41841,7 @@ function requireLib$9 () {
 	    for (const param of node.params) {
 	      this.checkLVal(param, {
 	        in: formalParameters,
-	        binding: BIND_VAR,
+	        binding: 5,
 	        checkClashes,
 	        strictModeChanged
 	      });
@@ -42758,7 +42758,7 @@ function requireLib$9 () {
 	    if (this.isAwaitAllowed() && this.eatContextual(96)) {
 	      awaitAt = this.state.lastTokStartLoc;
 	    }
-	    this.scope.enter(SCOPE_OTHER);
+	    this.scope.enter(0);
 	    this.expect(10);
 	    if (this.match(13)) {
 	      if (awaitAt !== null) {
@@ -42869,7 +42869,7 @@ function requireLib$9 () {
 	    const cases = node.cases = [];
 	    this.expect(5);
 	    this.state.labels.push(switchLabel);
-	    this.scope.enter(SCOPE_OTHER);
+	    this.scope.enter(0);
 	    let cur;
 	    for (let sawDefault; !this.match(8);) {
 	      if (this.match(61) || this.match(65)) {
@@ -42917,12 +42917,12 @@ function requireLib$9 () {
 	  }
 	  parseCatchClauseParam() {
 	    const param = this.parseBindingAtom();
-	    this.scope.enter(this.options.annexB && param.type === "Identifier" ? SCOPE_SIMPLE_CATCH : 0);
+	    this.scope.enter(this.options.annexB && param.type === "Identifier" ? 8 : 0);
 	    this.checkLVal(param, {
 	      in: {
 	        type: "CatchClause"
 	      },
-	      binding: BIND_CATCH_PARAM
+	      binding: 9
 	    });
 	    return param;
 	  }
@@ -42939,7 +42939,7 @@ function requireLib$9 () {
 	        this.expect(11);
 	      } else {
 	        clause.param = null;
-	        this.scope.enter(SCOPE_OTHER);
+	        this.scope.enter(0);
 	      }
 	      clause.body = this.withSmartMixTopicForbiddingContext(() => this.parseBlock(false, false));
 	      this.scope.exit();
@@ -43023,7 +43023,7 @@ function requireLib$9 () {
 	    }
 	    this.expect(5);
 	    if (createNewLexicalScope) {
-	      this.scope.enter(SCOPE_OTHER);
+	      this.scope.enter(0);
 	    }
 	    this.parseBlockBody(node, allowDirectives, false, 8, afterBlockParse);
 	    if (createNewLexicalScope) {
@@ -43060,9 +43060,7 @@ function requireLib$9 () {
 	      }
 	      body.push(stmt);
 	    }
-	    if (afterBlockParse) {
-	      afterBlockParse.call(this, hasStrictModeDirective);
-	    }
+	    afterBlockParse == null ? void 0 : afterBlockParse.call(this, hasStrictModeDirective);
 	    if (!oldStrict) {
 	      this.setStrict(false);
 	    }
@@ -43141,7 +43139,7 @@ function requireLib$9 () {
 	      in: {
 	        type: "VariableDeclarator"
 	      },
-	      binding: kind === "var" ? BIND_VAR : BIND_LEXICAL
+	      binding: kind === "var" ? 5 : 8201
 	    });
 	    decl.id = id;
 	  }
@@ -43168,7 +43166,7 @@ function requireLib$9 () {
 	    }
 	    const oldMaybeInArrowParameters = this.state.maybeInArrowParameters;
 	    this.state.maybeInArrowParameters = false;
-	    this.scope.enter(SCOPE_FUNCTION);
+	    this.scope.enter(2);
 	    this.prodParam.enter(functionFlags(isAsync, node.generator));
 	    if (!isDeclaration) {
 	      node.id = this.parseFunctionId();
@@ -43196,7 +43194,7 @@ function requireLib$9 () {
 	  }
 	  registerFunctionStatementId(node) {
 	    if (!node.id) return;
-	    this.scope.declareName(node.id.name, !this.options.annexB || this.state.strict || node.generator || node.async ? this.scope.treatFunctionsAsVar ? BIND_VAR : BIND_LEXICAL : BIND_FUNCTION, node.id.loc.start);
+	    this.scope.declareName(node.id.name, !this.options.annexB || this.state.strict || node.generator || node.async ? this.scope.treatFunctionsAsVar ? 5 : 8201 : 17, node.id.loc.start);
 	  }
 	  parseClass(node, isStatement, optionalId) {
 	    this.next();
@@ -43435,7 +43433,7 @@ function requireLib$9 () {
 	  }
 	  parseClassStaticBlock(classBody, member) {
 	    var _member$decorators;
-	    this.scope.enter(SCOPE_CLASS | SCOPE_STATIC_BLOCK | SCOPE_SUPER);
+	    this.scope.enter(64 | 128 | 16);
 	    const oldLabels = this.state.labels;
 	    this.state.labels = [];
 	    this.prodParam.enter(PARAM);
@@ -43462,7 +43460,7 @@ function requireLib$9 () {
 	  pushClassPrivateProperty(classBody, prop) {
 	    const node = this.parseClassPrivateProperty(prop);
 	    classBody.body.push(node);
-	    this.classScope.declarePrivateName(this.getPrivateNameSV(node.key), CLASS_ELEMENT_OTHER, node.key.loc.start);
+	    this.classScope.declarePrivateName(this.getPrivateNameSV(node.key), 0, node.key.loc.start);
 	  }
 	  pushClassAccessorProperty(classBody, prop, isPrivate) {
 	    if (!isPrivate && !prop.computed) {
@@ -43476,7 +43474,7 @@ function requireLib$9 () {
 	    const node = this.parseClassAccessorProperty(prop);
 	    classBody.body.push(node);
 	    if (isPrivate) {
-	      this.classScope.declarePrivateName(this.getPrivateNameSV(node.key), CLASS_ELEMENT_OTHER, node.key.loc.start);
+	      this.classScope.declarePrivateName(this.getPrivateNameSV(node.key), 0, node.key.loc.start);
 	    }
 	  }
 	  pushClassMethod(classBody, method, isGenerator, isAsync, isConstructor, allowsDirectSuper) {
@@ -43485,7 +43483,7 @@ function requireLib$9 () {
 	  pushClassPrivateMethod(classBody, method, isGenerator, isAsync) {
 	    const node = this.parseMethod(method, isGenerator, isAsync, false, false, "ClassPrivateMethod", true);
 	    classBody.body.push(node);
-	    const kind = node.kind === "get" ? node.static ? CLASS_ELEMENT_STATIC_GETTER : CLASS_ELEMENT_INSTANCE_GETTER : node.kind === "set" ? node.static ? CLASS_ELEMENT_STATIC_SETTER : CLASS_ELEMENT_INSTANCE_SETTER : CLASS_ELEMENT_OTHER;
+	    const kind = node.kind === "get" ? node.static ? 6 : 2 : node.kind === "set" ? node.static ? 5 : 1 : 0;
 	    this.declareClassPrivateMethodInScope(node, kind);
 	  }
 	  declareClassPrivateMethodInScope(node, kind) {
@@ -43508,7 +43506,7 @@ function requireLib$9 () {
 	    return this.finishNode(node, "ClassAccessorProperty");
 	  }
 	  parseInitializer(node) {
-	    this.scope.enter(SCOPE_CLASS | SCOPE_SUPER);
+	    this.scope.enter(64 | 16);
 	    this.expressionScope.enter(newExpressionScope());
 	    this.prodParam.enter(PARAM);
 	    node.value = this.eat(29) ? this.parseMaybeAssignAllowIn() : null;
@@ -43516,7 +43514,7 @@ function requireLib$9 () {
 	    this.prodParam.exit();
 	    this.scope.exit();
 	  }
-	  parseClassId(node, isStatement, optionalId, bindingType = BIND_CLASS) {
+	  parseClassId(node, isStatement, optionalId, bindingType = 8331) {
 	    if (tokenIsIdentifier(this.state.type)) {
 	      node.id = this.parseIdentifier();
 	      if (isStatement) {
@@ -43755,6 +43753,7 @@ function requireLib$9 () {
 	  }
 	  checkExport(node, checkNames, isDefault, isFrom) {
 	    if (checkNames) {
+	      var _node$specifiers;
 	      if (isDefault) {
 	        this.checkDuplicateExports(node, "default");
 	        if (this.hasPlugin("exportDefaultFrom")) {
@@ -43766,7 +43765,7 @@ function requireLib$9 () {
 	            });
 	          }
 	        }
-	      } else if (node.specifiers && node.specifiers.length) {
+	      } else if ((_node$specifiers = node.specifiers) != null && _node$specifiers.length) {
 	        for (const specifier of node.specifiers) {
 	          const {
 	            exported
@@ -43987,8 +43986,8 @@ function requireLib$9 () {
 	    return this.parseImportSourceAndAttributes(node);
 	  }
 	  parseImportSourceAndAttributes(node) {
-	    var _node$specifiers;
-	    (_node$specifiers = node.specifiers) != null ? _node$specifiers : node.specifiers = [];
+	    var _node$specifiers2;
+	    (_node$specifiers2 = node.specifiers) != null ? _node$specifiers2 : node.specifiers = [];
 	    node.source = this.parseImportSource();
 	    this.maybeParseImportAttributes(node);
 	    this.checkImportReflection(node);
@@ -44004,7 +44003,7 @@ function requireLib$9 () {
 	    specifier.local = this.parseIdentifier();
 	    node.specifiers.push(this.finishImportSpecifier(specifier, type));
 	  }
-	  finishImportSpecifier(specifier, type, bindingType = BIND_LEXICAL) {
+	  finishImportSpecifier(specifier, type, bindingType = 8201) {
 	    this.checkLVal(specifier.local, {
 	      in: {
 	        type
@@ -44392,12 +44391,12 @@ function requireReplacement () {
 	  yieldExpression
 	} = _t;
 	function replaceWithMultiple(nodes) {
-	  var _pathCache$get;
+	  var _getCachedPaths;
 	  this.resync();
 	  nodes = this._verifyNodeList(nodes);
 	  inheritLeadingComments(nodes[0], this.node);
 	  inheritTrailingComments(nodes[nodes.length - 1], this.node);
-	  (_pathCache$get = _cache.path.get(this.parent)) == null ? void 0 : _pathCache$get.delete(this.node);
+	  (_getCachedPaths = (0, _cache.getCachedPaths)(this.hub, this.parent)) == null ? void 0 : _getCachedPaths.delete(this.node);
 	  this.node = this.container[this.key] = null;
 	  const paths = this.insertAfter(nodes);
 	  if (this.node) {
@@ -44475,7 +44474,7 @@ function requireReplacement () {
 	  return [nodePath ? this.get(nodePath) : this];
 	}
 	function _replaceWith(node) {
-	  var _pathCache$get2;
+	  var _getCachedPaths2;
 	  if (!this.container) {
 	    throw new ReferenceError("Container is falsy");
 	  }
@@ -44485,7 +44484,7 @@ function requireReplacement () {
 	    validate(this.parent, this.key, node);
 	  }
 	  this.debug(`Replace with ${node == null ? void 0 : node.type}`);
-	  (_pathCache$get2 = _cache.path.get(this.parent)) == null ? void 0 : _pathCache$get2.set(node, this).delete(this.node);
+	  (_getCachedPaths2 = (0, _cache.getCachedPaths)(this.hub, this.parent)) == null ? void 0 : _getCachedPaths2.set(node, this).delete(this.node);
 	  this.node = this.container[this.key] = node;
 	}
 	function replaceExpressionWithStatements(nodes) {
@@ -45838,10 +45837,7 @@ function requireConversion () {
 	function arrowFunctionToExpression({
 	  allowInsertArrow = true,
 	  allowInsertArrowWithRest = allowInsertArrow,
-	  noNewArrows = !(() => {
-	    var _arguments$;
-	    return (_arguments$ = arguments[0]) == null ? void 0 : _arguments$.specCompliant;
-	  })()
+	  noNewArrows = !(_arguments$ => (_arguments$ = arguments[0]) == null ? void 0 : _arguments$.specCompliant)()
 	} = {}) {
 	  if (!this.isArrowFunctionExpression()) {
 	    throw this.buildCodeFrameError("Cannot convert non-arrow function to a function expression.");
@@ -46914,7 +46910,9 @@ function requireRemoval () {
 	}
 	function _markRemoved() {
 	  this._traverseFlags |= _index.SHOULD_SKIP | _index.REMOVED;
-	  if (this.parent) _cache.path.get(this.parent).delete(this.node);
+	  if (this.parent) {
+	    (0, _cache.getCachedPaths)(this.hub, this.parent).delete(this.node);
+	  }
 	  this.node = null;
 	}
 	function _assertUnremoved() {
@@ -47169,10 +47167,11 @@ function requireModification () {
 	  const paths = [];
 	  this.container.splice(from, 0, ...nodes);
 	  for (let i = 0; i < nodes.length; i++) {
+	    var _this$context;
 	    const to = from + i;
 	    const path = this.getSibling(to);
 	    paths.push(path);
-	    if (this.context && this.context.queue) {
+	    if ((_this$context = this.context) != null && _this$context.queue) {
 	      path.pushContext(this.context);
 	    }
 	  }
@@ -47265,7 +47264,7 @@ function requireModification () {
 	}
 	function updateSiblingKeys(fromIndex, incrementBy) {
 	  if (!this.parent) return;
-	  const paths = _cache.path.get(this.parent);
+	  const paths = (0, _cache.getCachedPaths)(this.hub, this.parent) || [];
 	  for (const [, path] of paths) {
 	    if (typeof path.key === "number" && path.key >= fromIndex) {
 	      path.key += incrementBy;
@@ -47741,12 +47740,10 @@ function requireVirtualTypesValidator () {
 	});
 	virtualTypesValidator.isBindingIdentifier = isBindingIdentifier;
 	virtualTypesValidator.isBlockScoped = isBlockScoped;
-	virtualTypesValidator.isExistentialTypeParam = isExistentialTypeParam;
 	virtualTypesValidator.isExpression = isExpression;
 	virtualTypesValidator.isFlow = isFlow;
 	virtualTypesValidator.isForAwaitStatement = isForAwaitStatement;
 	virtualTypesValidator.isGenerated = isGenerated;
-	virtualTypesValidator.isNumericLiteralTypeAnnotation = isNumericLiteralTypeAnnotation;
 	virtualTypesValidator.isPure = isPure;
 	virtualTypesValidator.isReferenced = isReferenced;
 	virtualTypesValidator.isReferencedIdentifier = isReferencedIdentifier;
@@ -47887,11 +47884,15 @@ function requireVirtualTypesValidator () {
 	    await: true
 	  });
 	}
-	function isExistentialTypeParam() {
-	  throw new Error("`path.isExistentialTypeParam` has been renamed to `path.isExistsTypeAnnotation()` in Babel 7.");
-	}
-	function isNumericLiteralTypeAnnotation() {
-	  throw new Error("`path.isNumericLiteralTypeAnnotation()` has been renamed to `path.isNumberLiteralTypeAnnotation()` in Babel 7.");
+	{
+	  {
+	    virtualTypesValidator.isExistentialTypeParam = function isExistentialTypeParam() {
+	      throw new Error("`path.isExistentialTypeParam` has been renamed to `path.isExistsTypeAnnotation()` in Babel 7.");
+	    };
+	    virtualTypesValidator.isNumericLiteralTypeAnnotation = function isNumericLiteralTypeAnnotation() {
+	      throw new Error("`path.isNumericLiteralTypeAnnotation()` has been renamed to `path.isNumberLiteralTypeAnnotation()` in Babel 7.");
+	    };
+	  }
 	}
 
 	
@@ -47912,7 +47913,7 @@ function requirePath () {
 	var _scope = requireScope();
 	var _t = requireLib$f();
 	var t = _t;
-	var _cache = requireCache();
+	var cache = requireCache();
 	var _generator = requireLib$c();
 	var NodePath_ancestry = requireAncestry();
 	var NodePath_inference = requireInference();
@@ -47970,11 +47971,7 @@ function requirePath () {
 	      throw new Error("To get a node path the parent needs to exist");
 	    }
 	    const targetNode = container[key];
-	    let paths = _cache.path.get(parent);
-	    if (!paths) {
-	      paths = new Map();
-	      _cache.path.set(parent, paths);
-	    }
+	    const paths = cache.getOrCreateCachedPaths(hub, parent);
 	    let path = paths.get(targetNode);
 	    if (!path) {
 	      path = new NodePath(hub, parent);
@@ -48233,12 +48230,16 @@ function requireTraverseNode () {
 	const {
 	  VISITOR_KEYS
 	} = _t;
-	function traverseNode$1(node, opts, scope, state, path, skipKeys) {
+	function traverseNode$1(node, opts, scope, state, path, skipKeys, visitSelf) {
 	  const keys = VISITOR_KEYS[node.type];
 	  if (!keys) return false;
 	  const context = new _context.default(scope, opts, state, path);
+	  if (visitSelf) {
+	    if (skipKeys != null && skipKeys[path.parentKey]) return false;
+	    return context.visitQueue([path]);
+	  }
 	  for (const key of keys) {
-	    if (skipKeys && skipKeys[key]) continue;
+	    if (skipKeys != null && skipKeys[key]) continue;
 	    if (context.visit(node, key)) {
 	      return true;
 	    }
@@ -48314,18 +48315,21 @@ function requireLib$5 () {
 		  removeProperties,
 		  traverseFast
 		} = _t;
-		function traverse(parent, opts = {}, scope, state, parentPath) {
+		function traverse(parent, opts = {}, scope, state, parentPath, visitSelf) {
 		  if (!parent) return;
 		  if (!opts.noScope && !scope) {
 		    if (parent.type !== "Program" && parent.type !== "File") {
 		      throw new Error("You must pass a scope and parentPath unless traversing a Program/File. " + `Instead of that you tried to traverse a ${parent.type} node without ` + "passing scope and parentPath.");
 		    }
 		  }
+		  if (!parentPath && visitSelf) {
+		    throw new Error("visitSelf can only be used when providing a NodePath.");
+		  }
 		  if (!VISITOR_KEYS[parent.type]) {
 		    return;
 		  }
 		  visitors.explode(opts);
-		  (0, _traverseNode.traverseNode)(parent, opts, scope, state, parentPath);
+		  (0, _traverseNode.traverseNode)(parent, opts, scope, state, parentPath, null, visitSelf);
 		}
 		var _default = traverse;
 		exports.default = _default;
@@ -48341,7 +48345,6 @@ function requireLib$5 () {
 		};
 		traverse.clearNode = function (node, opts) {
 		  removeProperties(node, opts);
-		  cache.path.delete(node);
 		};
 		traverse.removeProperties = function (tree, opts) {
 		  traverseFast(tree, traverse.clearNode, opts);
@@ -48372,7 +48375,7 @@ function requireLib$5 () {
 		
 	} (lib$p));
 	return lib$p;
-}var helpers$2 = {};var helpersGenerated = {};var hasRequiredHelpersGenerated;
+}var helpers = {};var helpersGenerated = {};var hasRequiredHelpersGenerated;
 
 function requireHelpersGenerated () {
 	if (hasRequiredHelpersGenerated) return helpersGenerated;
@@ -48392,27 +48395,27 @@ function requireHelpersGenerated () {
 	  });
 	}
 	var _default = Object.freeze({
-	  AsyncGenerator: helper("7.0.0-beta.0", 'import OverloadYield from"OverloadYield";export default function AsyncGenerator(gen){var front,back;function resume(key,arg){try{var result=gen[key](arg),value=result.value,overloaded=value instanceof OverloadYield;Promise.resolve(overloaded?value.v:value).then((function(arg){if(overloaded){var nextKey="return"===key?"return":"next";if(!value.k||arg.done)return resume(nextKey,arg);arg=gen[nextKey](arg).value}settle(result.done?"return":"normal",arg)}),(function(err){resume("throw",err)}))}catch(err){settle("throw",err)}}function settle(type,value){switch(type){case"return":front.resolve({value:value,done:!0});break;case"throw":front.reject(value);break;default:front.resolve({value:value,done:!1})}(front=front.next)?resume(front.key,front.arg):back=null}this._invoke=function(key,arg){return new Promise((function(resolve,reject){var request={key:key,arg:arg,resolve:resolve,reject:reject,next:null};back?back=back.next=request:(front=back=request,resume(key,arg))}))},"function"!=typeof gen.return&&(this.return=void 0)}AsyncGenerator.prototype["function"==typeof Symbol&&Symbol.asyncIterator||"@@asyncIterator"]=function(){return this},AsyncGenerator.prototype.next=function(arg){return this._invoke("next",arg)},AsyncGenerator.prototype.throw=function(arg){return this._invoke("throw",arg)},AsyncGenerator.prototype.return=function(arg){return this._invoke("return",arg)};'),
-	  OverloadYield: helper("7.18.14", "export default function _OverloadYield(value,kind){this.v=value,this.k=kind}"),
-	  applyDecs: helper("7.17.8", 'function old_createMetadataMethodsForProperty(metadataMap,kind,property,decoratorFinishedRef){return{getMetadata:function(key){old_assertNotFinished(decoratorFinishedRef,"getMetadata"),old_assertMetadataKey(key);var metadataForKey=metadataMap[key];if(void 0!==metadataForKey)if(1===kind){var pub=metadataForKey.public;if(void 0!==pub)return pub[property]}else if(2===kind){var priv=metadataForKey.private;if(void 0!==priv)return priv.get(property)}else if(Object.hasOwnProperty.call(metadataForKey,"constructor"))return metadataForKey.constructor},setMetadata:function(key,value){old_assertNotFinished(decoratorFinishedRef,"setMetadata"),old_assertMetadataKey(key);var metadataForKey=metadataMap[key];if(void 0===metadataForKey&&(metadataForKey=metadataMap[key]={}),1===kind){var pub=metadataForKey.public;void 0===pub&&(pub=metadataForKey.public={}),pub[property]=value}else if(2===kind){var priv=metadataForKey.priv;void 0===priv&&(priv=metadataForKey.private=new Map),priv.set(property,value)}else metadataForKey.constructor=value}}}function old_convertMetadataMapToFinal(obj,metadataMap){var parentMetadataMap=obj[Symbol.metadata||Symbol.for("Symbol.metadata")],metadataKeys=Object.getOwnPropertySymbols(metadataMap);if(0!==metadataKeys.length){for(var i=0;i<metadataKeys.length;i++){var key=metadataKeys[i],metaForKey=metadataMap[key],parentMetaForKey=parentMetadataMap?parentMetadataMap[key]:null,pub=metaForKey.public,parentPub=parentMetaForKey?parentMetaForKey.public:null;pub&&parentPub&&Object.setPrototypeOf(pub,parentPub);var priv=metaForKey.private;if(priv){var privArr=Array.from(priv.values()),parentPriv=parentMetaForKey?parentMetaForKey.private:null;parentPriv&&(privArr=privArr.concat(parentPriv)),metaForKey.private=privArr}parentMetaForKey&&Object.setPrototypeOf(metaForKey,parentMetaForKey)}parentMetadataMap&&Object.setPrototypeOf(metadataMap,parentMetadataMap),obj[Symbol.metadata||Symbol.for("Symbol.metadata")]=metadataMap}}function old_createAddInitializerMethod(initializers,decoratorFinishedRef){return function(initializer){old_assertNotFinished(decoratorFinishedRef,"addInitializer"),old_assertCallable(initializer,"An initializer"),initializers.push(initializer)}}function old_memberDec(dec,name,desc,metadataMap,initializers,kind,isStatic,isPrivate,value){var kindStr;switch(kind){case 1:kindStr="accessor";break;case 2:kindStr="method";break;case 3:kindStr="getter";break;case 4:kindStr="setter";break;default:kindStr="field"}var metadataKind,metadataName,ctx={kind:kindStr,name:isPrivate?"#"+name:name,isStatic:isStatic,isPrivate:isPrivate},decoratorFinishedRef={v:!1};if(0!==kind&&(ctx.addInitializer=old_createAddInitializerMethod(initializers,decoratorFinishedRef)),isPrivate){metadataKind=2,metadataName=Symbol(name);var access={};0===kind?(access.get=desc.get,access.set=desc.set):2===kind?access.get=function(){return desc.value}:(1!==kind&&3!==kind||(access.get=function(){return desc.get.call(this)}),1!==kind&&4!==kind||(access.set=function(v){desc.set.call(this,v)})),ctx.access=access}else metadataKind=1,metadataName=name;try{return dec(value,Object.assign(ctx,old_createMetadataMethodsForProperty(metadataMap,metadataKind,metadataName,decoratorFinishedRef)))}finally{decoratorFinishedRef.v=!0}}function old_assertNotFinished(decoratorFinishedRef,fnName){if(decoratorFinishedRef.v)throw new Error("attempted to call "+fnName+" after decoration was finished")}function old_assertMetadataKey(key){if("symbol"!=typeof key)throw new TypeError("Metadata keys must be symbols, received: "+key)}function old_assertCallable(fn,hint){if("function"!=typeof fn)throw new TypeError(hint+" must be a function")}function old_assertValidReturnValue(kind,value){var type=typeof value;if(1===kind){if("object"!==type||null===value)throw new TypeError("accessor decorators must return an object with get, set, or init properties or void 0");void 0!==value.get&&old_assertCallable(value.get,"accessor.get"),void 0!==value.set&&old_assertCallable(value.set,"accessor.set"),void 0!==value.init&&old_assertCallable(value.init,"accessor.init"),void 0!==value.initializer&&old_assertCallable(value.initializer,"accessor.initializer")}else if("function"!==type){var hint;throw hint=0===kind?"field":10===kind?"class":"method",new TypeError(hint+" decorators must return a function or void 0")}}function old_getInit(desc){var initializer;return null==(initializer=desc.init)&&(initializer=desc.initializer)&&"undefined"!=typeof console&&console.warn(".initializer has been renamed to .init as of March 2022"),initializer}function old_applyMemberDec(ret,base,decInfo,name,kind,isStatic,isPrivate,metadataMap,initializers){var desc,initializer,value,newValue,get,set,decs=decInfo[0];if(isPrivate?desc=0===kind||1===kind?{get:decInfo[3],set:decInfo[4]}:3===kind?{get:decInfo[3]}:4===kind?{set:decInfo[3]}:{value:decInfo[3]}:0!==kind&&(desc=Object.getOwnPropertyDescriptor(base,name)),1===kind?value={get:desc.get,set:desc.set}:2===kind?value=desc.value:3===kind?value=desc.get:4===kind&&(value=desc.set),"function"==typeof decs)void 0!==(newValue=old_memberDec(decs,name,desc,metadataMap,initializers,kind,isStatic,isPrivate,value))&&(old_assertValidReturnValue(kind,newValue),0===kind?initializer=newValue:1===kind?(initializer=old_getInit(newValue),get=newValue.get||value.get,set=newValue.set||value.set,value={get:get,set:set}):value=newValue);else for(var i=decs.length-1;i>=0;i--){var newInit;if(void 0!==(newValue=old_memberDec(decs[i],name,desc,metadataMap,initializers,kind,isStatic,isPrivate,value)))old_assertValidReturnValue(kind,newValue),0===kind?newInit=newValue:1===kind?(newInit=old_getInit(newValue),get=newValue.get||value.get,set=newValue.set||value.set,value={get:get,set:set}):value=newValue,void 0!==newInit&&(void 0===initializer?initializer=newInit:"function"==typeof initializer?initializer=[initializer,newInit]:initializer.push(newInit))}if(0===kind||1===kind){if(void 0===initializer)initializer=function(instance,init){return init};else if("function"!=typeof initializer){var ownInitializers=initializer;initializer=function(instance,init){for(var value=init,i=0;i<ownInitializers.length;i++)value=ownInitializers[i].call(instance,value);return value}}else{var originalInitializer=initializer;initializer=function(instance,init){return originalInitializer.call(instance,init)}}ret.push(initializer)}0!==kind&&(1===kind?(desc.get=value.get,desc.set=value.set):2===kind?desc.value=value:3===kind?desc.get=value:4===kind&&(desc.set=value),isPrivate?1===kind?(ret.push((function(instance,args){return value.get.call(instance,args)})),ret.push((function(instance,args){return value.set.call(instance,args)}))):2===kind?ret.push(value):ret.push((function(instance,args){return value.call(instance,args)})):Object.defineProperty(base,name,desc))}function old_applyMemberDecs(ret,Class,protoMetadataMap,staticMetadataMap,decInfos){for(var protoInitializers,staticInitializers,existingProtoNonFields=new Map,existingStaticNonFields=new Map,i=0;i<decInfos.length;i++){var decInfo=decInfos[i];if(Array.isArray(decInfo)){var base,metadataMap,initializers,kind=decInfo[1],name=decInfo[2],isPrivate=decInfo.length>3,isStatic=kind>=5;if(isStatic?(base=Class,metadataMap=staticMetadataMap,0!==(kind-=5)&&(initializers=staticInitializers=staticInitializers||[])):(base=Class.prototype,metadataMap=protoMetadataMap,0!==kind&&(initializers=protoInitializers=protoInitializers||[])),0!==kind&&!isPrivate){var existingNonFields=isStatic?existingStaticNonFields:existingProtoNonFields,existingKind=existingNonFields.get(name)||0;if(!0===existingKind||3===existingKind&&4!==kind||4===existingKind&&3!==kind)throw new Error("Attempted to decorate a public method/accessor that has the same name as a previously decorated public method/accessor. This is not currently supported by the decorators plugin. Property name was: "+name);!existingKind&&kind>2?existingNonFields.set(name,kind):existingNonFields.set(name,!0)}old_applyMemberDec(ret,base,decInfo,name,kind,isStatic,isPrivate,metadataMap,initializers)}}old_pushInitializers(ret,protoInitializers),old_pushInitializers(ret,staticInitializers)}function old_pushInitializers(ret,initializers){initializers&&ret.push((function(instance){for(var i=0;i<initializers.length;i++)initializers[i].call(instance);return instance}))}function old_applyClassDecs(ret,targetClass,metadataMap,classDecs){if(classDecs.length>0){for(var initializers=[],newClass=targetClass,name=targetClass.name,i=classDecs.length-1;i>=0;i--){var decoratorFinishedRef={v:!1};try{var ctx=Object.assign({kind:"class",name:name,addInitializer:old_createAddInitializerMethod(initializers,decoratorFinishedRef)},old_createMetadataMethodsForProperty(metadataMap,0,name,decoratorFinishedRef)),nextNewClass=classDecs[i](newClass,ctx)}finally{decoratorFinishedRef.v=!0}void 0!==nextNewClass&&(old_assertValidReturnValue(10,nextNewClass),newClass=nextNewClass)}ret.push(newClass,(function(){for(var i=0;i<initializers.length;i++)initializers[i].call(newClass)}))}}export default function applyDecs(targetClass,memberDecs,classDecs){var ret=[],staticMetadataMap={},protoMetadataMap={};return old_applyMemberDecs(ret,targetClass,protoMetadataMap,staticMetadataMap,memberDecs),old_convertMetadataMapToFinal(targetClass.prototype,protoMetadataMap),old_applyClassDecs(ret,targetClass,staticMetadataMap,classDecs),old_convertMetadataMapToFinal(targetClass,staticMetadataMap),ret}'),
-	  applyDecs2203: helper("7.19.0", 'function applyDecs2203Factory(){function createAddInitializerMethod(initializers,decoratorFinishedRef){return function(initializer){!function(decoratorFinishedRef,fnName){if(decoratorFinishedRef.v)throw new Error("attempted to call "+fnName+" after decoration was finished")}(decoratorFinishedRef,"addInitializer"),assertCallable(initializer,"An initializer"),initializers.push(initializer)}}function memberDec(dec,name,desc,initializers,kind,isStatic,isPrivate,value){var kindStr;switch(kind){case 1:kindStr="accessor";break;case 2:kindStr="method";break;case 3:kindStr="getter";break;case 4:kindStr="setter";break;default:kindStr="field"}var get,set,ctx={kind:kindStr,name:isPrivate?"#"+name:name,static:isStatic,private:isPrivate},decoratorFinishedRef={v:!1};0!==kind&&(ctx.addInitializer=createAddInitializerMethod(initializers,decoratorFinishedRef)),0===kind?isPrivate?(get=desc.get,set=desc.set):(get=function(){return this[name]},set=function(v){this[name]=v}):2===kind?get=function(){return desc.value}:(1!==kind&&3!==kind||(get=function(){return desc.get.call(this)}),1!==kind&&4!==kind||(set=function(v){desc.set.call(this,v)})),ctx.access=get&&set?{get:get,set:set}:get?{get:get}:{set:set};try{return dec(value,ctx)}finally{decoratorFinishedRef.v=!0}}function assertCallable(fn,hint){if("function"!=typeof fn)throw new TypeError(hint+" must be a function")}function assertValidReturnValue(kind,value){var type=typeof value;if(1===kind){if("object"!==type||null===value)throw new TypeError("accessor decorators must return an object with get, set, or init properties or void 0");void 0!==value.get&&assertCallable(value.get,"accessor.get"),void 0!==value.set&&assertCallable(value.set,"accessor.set"),void 0!==value.init&&assertCallable(value.init,"accessor.init")}else if("function"!==type){var hint;throw hint=0===kind?"field":10===kind?"class":"method",new TypeError(hint+" decorators must return a function or void 0")}}function applyMemberDec(ret,base,decInfo,name,kind,isStatic,isPrivate,initializers){var desc,init,value,newValue,get,set,decs=decInfo[0];if(isPrivate?desc=0===kind||1===kind?{get:decInfo[3],set:decInfo[4]}:3===kind?{get:decInfo[3]}:4===kind?{set:decInfo[3]}:{value:decInfo[3]}:0!==kind&&(desc=Object.getOwnPropertyDescriptor(base,name)),1===kind?value={get:desc.get,set:desc.set}:2===kind?value=desc.value:3===kind?value=desc.get:4===kind&&(value=desc.set),"function"==typeof decs)void 0!==(newValue=memberDec(decs,name,desc,initializers,kind,isStatic,isPrivate,value))&&(assertValidReturnValue(kind,newValue),0===kind?init=newValue:1===kind?(init=newValue.init,get=newValue.get||value.get,set=newValue.set||value.set,value={get:get,set:set}):value=newValue);else for(var i=decs.length-1;i>=0;i--){var newInit;if(void 0!==(newValue=memberDec(decs[i],name,desc,initializers,kind,isStatic,isPrivate,value)))assertValidReturnValue(kind,newValue),0===kind?newInit=newValue:1===kind?(newInit=newValue.init,get=newValue.get||value.get,set=newValue.set||value.set,value={get:get,set:set}):value=newValue,void 0!==newInit&&(void 0===init?init=newInit:"function"==typeof init?init=[init,newInit]:init.push(newInit))}if(0===kind||1===kind){if(void 0===init)init=function(instance,init){return init};else if("function"!=typeof init){var ownInitializers=init;init=function(instance,init){for(var value=init,i=0;i<ownInitializers.length;i++)value=ownInitializers[i].call(instance,value);return value}}else{var originalInitializer=init;init=function(instance,init){return originalInitializer.call(instance,init)}}ret.push(init)}0!==kind&&(1===kind?(desc.get=value.get,desc.set=value.set):2===kind?desc.value=value:3===kind?desc.get=value:4===kind&&(desc.set=value),isPrivate?1===kind?(ret.push((function(instance,args){return value.get.call(instance,args)})),ret.push((function(instance,args){return value.set.call(instance,args)}))):2===kind?ret.push(value):ret.push((function(instance,args){return value.call(instance,args)})):Object.defineProperty(base,name,desc))}function pushInitializers(ret,initializers){initializers&&ret.push((function(instance){for(var i=0;i<initializers.length;i++)initializers[i].call(instance);return instance}))}return function(targetClass,memberDecs,classDecs){var ret=[];return function(ret,Class,decInfos){for(var protoInitializers,staticInitializers,existingProtoNonFields=new Map,existingStaticNonFields=new Map,i=0;i<decInfos.length;i++){var decInfo=decInfos[i];if(Array.isArray(decInfo)){var base,initializers,kind=decInfo[1],name=decInfo[2],isPrivate=decInfo.length>3,isStatic=kind>=5;if(isStatic?(base=Class,0!=(kind-=5)&&(initializers=staticInitializers=staticInitializers||[])):(base=Class.prototype,0!==kind&&(initializers=protoInitializers=protoInitializers||[])),0!==kind&&!isPrivate){var existingNonFields=isStatic?existingStaticNonFields:existingProtoNonFields,existingKind=existingNonFields.get(name)||0;if(!0===existingKind||3===existingKind&&4!==kind||4===existingKind&&3!==kind)throw new Error("Attempted to decorate a public method/accessor that has the same name as a previously decorated public method/accessor. This is not currently supported by the decorators plugin. Property name was: "+name);!existingKind&&kind>2?existingNonFields.set(name,kind):existingNonFields.set(name,!0)}applyMemberDec(ret,base,decInfo,name,kind,isStatic,isPrivate,initializers)}}pushInitializers(ret,protoInitializers),pushInitializers(ret,staticInitializers)}(ret,targetClass,memberDecs),function(ret,targetClass,classDecs){if(classDecs.length>0){for(var initializers=[],newClass=targetClass,name=targetClass.name,i=classDecs.length-1;i>=0;i--){var decoratorFinishedRef={v:!1};try{var nextNewClass=classDecs[i](newClass,{kind:"class",name:name,addInitializer:createAddInitializerMethod(initializers,decoratorFinishedRef)})}finally{decoratorFinishedRef.v=!0}void 0!==nextNewClass&&(assertValidReturnValue(10,nextNewClass),newClass=nextNewClass)}ret.push(newClass,(function(){for(var i=0;i<initializers.length;i++)initializers[i].call(newClass)}))}}(ret,targetClass,classDecs),ret}}var applyDecs2203Impl;export default function applyDecs2203(targetClass,memberDecs,classDecs){return(applyDecs2203Impl=applyDecs2203Impl||applyDecs2203Factory())(targetClass,memberDecs,classDecs)}'),
-	  applyDecs2203R: helper("7.20.0", 'function applyDecs2203RFactory(){function createAddInitializerMethod(initializers,decoratorFinishedRef){return function(initializer){!function(decoratorFinishedRef,fnName){if(decoratorFinishedRef.v)throw new Error("attempted to call "+fnName+" after decoration was finished")}(decoratorFinishedRef,"addInitializer"),assertCallable(initializer,"An initializer"),initializers.push(initializer)}}function memberDec(dec,name,desc,initializers,kind,isStatic,isPrivate,value){var kindStr;switch(kind){case 1:kindStr="accessor";break;case 2:kindStr="method";break;case 3:kindStr="getter";break;case 4:kindStr="setter";break;default:kindStr="field"}var get,set,ctx={kind:kindStr,name:isPrivate?"#"+name:name,static:isStatic,private:isPrivate},decoratorFinishedRef={v:!1};0!==kind&&(ctx.addInitializer=createAddInitializerMethod(initializers,decoratorFinishedRef)),0===kind?isPrivate?(get=desc.get,set=desc.set):(get=function(){return this[name]},set=function(v){this[name]=v}):2===kind?get=function(){return desc.value}:(1!==kind&&3!==kind||(get=function(){return desc.get.call(this)}),1!==kind&&4!==kind||(set=function(v){desc.set.call(this,v)})),ctx.access=get&&set?{get:get,set:set}:get?{get:get}:{set:set};try{return dec(value,ctx)}finally{decoratorFinishedRef.v=!0}}function assertCallable(fn,hint){if("function"!=typeof fn)throw new TypeError(hint+" must be a function")}function assertValidReturnValue(kind,value){var type=typeof value;if(1===kind){if("object"!==type||null===value)throw new TypeError("accessor decorators must return an object with get, set, or init properties or void 0");void 0!==value.get&&assertCallable(value.get,"accessor.get"),void 0!==value.set&&assertCallable(value.set,"accessor.set"),void 0!==value.init&&assertCallable(value.init,"accessor.init")}else if("function"!==type){var hint;throw hint=0===kind?"field":10===kind?"class":"method",new TypeError(hint+" decorators must return a function or void 0")}}function applyMemberDec(ret,base,decInfo,name,kind,isStatic,isPrivate,initializers){var desc,init,value,newValue,get,set,decs=decInfo[0];if(isPrivate?desc=0===kind||1===kind?{get:decInfo[3],set:decInfo[4]}:3===kind?{get:decInfo[3]}:4===kind?{set:decInfo[3]}:{value:decInfo[3]}:0!==kind&&(desc=Object.getOwnPropertyDescriptor(base,name)),1===kind?value={get:desc.get,set:desc.set}:2===kind?value=desc.value:3===kind?value=desc.get:4===kind&&(value=desc.set),"function"==typeof decs)void 0!==(newValue=memberDec(decs,name,desc,initializers,kind,isStatic,isPrivate,value))&&(assertValidReturnValue(kind,newValue),0===kind?init=newValue:1===kind?(init=newValue.init,get=newValue.get||value.get,set=newValue.set||value.set,value={get:get,set:set}):value=newValue);else for(var i=decs.length-1;i>=0;i--){var newInit;if(void 0!==(newValue=memberDec(decs[i],name,desc,initializers,kind,isStatic,isPrivate,value)))assertValidReturnValue(kind,newValue),0===kind?newInit=newValue:1===kind?(newInit=newValue.init,get=newValue.get||value.get,set=newValue.set||value.set,value={get:get,set:set}):value=newValue,void 0!==newInit&&(void 0===init?init=newInit:"function"==typeof init?init=[init,newInit]:init.push(newInit))}if(0===kind||1===kind){if(void 0===init)init=function(instance,init){return init};else if("function"!=typeof init){var ownInitializers=init;init=function(instance,init){for(var value=init,i=0;i<ownInitializers.length;i++)value=ownInitializers[i].call(instance,value);return value}}else{var originalInitializer=init;init=function(instance,init){return originalInitializer.call(instance,init)}}ret.push(init)}0!==kind&&(1===kind?(desc.get=value.get,desc.set=value.set):2===kind?desc.value=value:3===kind?desc.get=value:4===kind&&(desc.set=value),isPrivate?1===kind?(ret.push((function(instance,args){return value.get.call(instance,args)})),ret.push((function(instance,args){return value.set.call(instance,args)}))):2===kind?ret.push(value):ret.push((function(instance,args){return value.call(instance,args)})):Object.defineProperty(base,name,desc))}function applyMemberDecs(Class,decInfos){for(var protoInitializers,staticInitializers,ret=[],existingProtoNonFields=new Map,existingStaticNonFields=new Map,i=0;i<decInfos.length;i++){var decInfo=decInfos[i];if(Array.isArray(decInfo)){var base,initializers,kind=decInfo[1],name=decInfo[2],isPrivate=decInfo.length>3,isStatic=kind>=5;if(isStatic?(base=Class,0!==(kind-=5)&&(initializers=staticInitializers=staticInitializers||[])):(base=Class.prototype,0!==kind&&(initializers=protoInitializers=protoInitializers||[])),0!==kind&&!isPrivate){var existingNonFields=isStatic?existingStaticNonFields:existingProtoNonFields,existingKind=existingNonFields.get(name)||0;if(!0===existingKind||3===existingKind&&4!==kind||4===existingKind&&3!==kind)throw new Error("Attempted to decorate a public method/accessor that has the same name as a previously decorated public method/accessor. This is not currently supported by the decorators plugin. Property name was: "+name);!existingKind&&kind>2?existingNonFields.set(name,kind):existingNonFields.set(name,!0)}applyMemberDec(ret,base,decInfo,name,kind,isStatic,isPrivate,initializers)}}return pushInitializers(ret,protoInitializers),pushInitializers(ret,staticInitializers),ret}function pushInitializers(ret,initializers){initializers&&ret.push((function(instance){for(var i=0;i<initializers.length;i++)initializers[i].call(instance);return instance}))}return function(targetClass,memberDecs,classDecs){return{e:applyMemberDecs(targetClass,memberDecs),get c(){return function(targetClass,classDecs){if(classDecs.length>0){for(var initializers=[],newClass=targetClass,name=targetClass.name,i=classDecs.length-1;i>=0;i--){var decoratorFinishedRef={v:!1};try{var nextNewClass=classDecs[i](newClass,{kind:"class",name:name,addInitializer:createAddInitializerMethod(initializers,decoratorFinishedRef)})}finally{decoratorFinishedRef.v=!0}void 0!==nextNewClass&&(assertValidReturnValue(10,nextNewClass),newClass=nextNewClass)}return[newClass,function(){for(var i=0;i<initializers.length;i++)initializers[i].call(newClass)}]}}(targetClass,classDecs)}}}}export default function applyDecs2203R(targetClass,memberDecs,classDecs){return(applyDecs2203R=applyDecs2203RFactory())(targetClass,memberDecs,classDecs)}'),
-	  applyDecs2301: helper("7.21.0", 'import checkInRHS from"checkInRHS";function applyDecs2301Factory(){function createAddInitializerMethod(initializers,decoratorFinishedRef){return function(initializer){!function(decoratorFinishedRef,fnName){if(decoratorFinishedRef.v)throw new Error("attempted to call "+fnName+" after decoration was finished")}(decoratorFinishedRef,"addInitializer"),assertCallable(initializer,"An initializer"),initializers.push(initializer)}}function assertInstanceIfPrivate(has,target){if(!has(target))throw new TypeError("Attempted to access private element on non-instance")}function memberDec(dec,name,desc,initializers,kind,isStatic,isPrivate,value,hasPrivateBrand){var kindStr;switch(kind){case 1:kindStr="accessor";break;case 2:kindStr="method";break;case 3:kindStr="getter";break;case 4:kindStr="setter";break;default:kindStr="field"}var get,set,ctx={kind:kindStr,name:isPrivate?"#"+name:name,static:isStatic,private:isPrivate},decoratorFinishedRef={v:!1};if(0!==kind&&(ctx.addInitializer=createAddInitializerMethod(initializers,decoratorFinishedRef)),isPrivate||0!==kind&&2!==kind)if(2===kind)get=function(target){return assertInstanceIfPrivate(hasPrivateBrand,target),desc.value};else{var t=0===kind||1===kind;(t||3===kind)&&(get=isPrivate?function(target){return assertInstanceIfPrivate(hasPrivateBrand,target),desc.get.call(target)}:function(target){return desc.get.call(target)}),(t||4===kind)&&(set=isPrivate?function(target,value){assertInstanceIfPrivate(hasPrivateBrand,target),desc.set.call(target,value)}:function(target,value){desc.set.call(target,value)})}else get=function(target){return target[name]},0===kind&&(set=function(target,v){target[name]=v});var has=isPrivate?hasPrivateBrand.bind():function(target){return name in target};ctx.access=get&&set?{get:get,set:set,has:has}:get?{get:get,has:has}:{set:set,has:has};try{return dec(value,ctx)}finally{decoratorFinishedRef.v=!0}}function assertCallable(fn,hint){if("function"!=typeof fn)throw new TypeError(hint+" must be a function")}function assertValidReturnValue(kind,value){var type=typeof value;if(1===kind){if("object"!==type||null===value)throw new TypeError("accessor decorators must return an object with get, set, or init properties or void 0");void 0!==value.get&&assertCallable(value.get,"accessor.get"),void 0!==value.set&&assertCallable(value.set,"accessor.set"),void 0!==value.init&&assertCallable(value.init,"accessor.init")}else if("function"!==type){var hint;throw hint=0===kind?"field":10===kind?"class":"method",new TypeError(hint+" decorators must return a function or void 0")}}function curryThis2(fn){return function(value){fn(this,value)}}function applyMemberDec(ret,base,decInfo,name,kind,isStatic,isPrivate,initializers,hasPrivateBrand){var desc,init,value,fn,newValue,get,set,decs=decInfo[0];if(isPrivate?desc=0===kind||1===kind?{get:(fn=decInfo[3],function(){return fn(this)}),set:curryThis2(decInfo[4])}:3===kind?{get:decInfo[3]}:4===kind?{set:decInfo[3]}:{value:decInfo[3]}:0!==kind&&(desc=Object.getOwnPropertyDescriptor(base,name)),1===kind?value={get:desc.get,set:desc.set}:2===kind?value=desc.value:3===kind?value=desc.get:4===kind&&(value=desc.set),"function"==typeof decs)void 0!==(newValue=memberDec(decs,name,desc,initializers,kind,isStatic,isPrivate,value,hasPrivateBrand))&&(assertValidReturnValue(kind,newValue),0===kind?init=newValue:1===kind?(init=newValue.init,get=newValue.get||value.get,set=newValue.set||value.set,value={get:get,set:set}):value=newValue);else for(var i=decs.length-1;i>=0;i--){var newInit;if(void 0!==(newValue=memberDec(decs[i],name,desc,initializers,kind,isStatic,isPrivate,value,hasPrivateBrand)))assertValidReturnValue(kind,newValue),0===kind?newInit=newValue:1===kind?(newInit=newValue.init,get=newValue.get||value.get,set=newValue.set||value.set,value={get:get,set:set}):value=newValue,void 0!==newInit&&(void 0===init?init=newInit:"function"==typeof init?init=[init,newInit]:init.push(newInit))}if(0===kind||1===kind){if(void 0===init)init=function(instance,init){return init};else if("function"!=typeof init){var ownInitializers=init;init=function(instance,init){for(var value=init,i=0;i<ownInitializers.length;i++)value=ownInitializers[i].call(instance,value);return value}}else{var originalInitializer=init;init=function(instance,init){return originalInitializer.call(instance,init)}}ret.push(init)}0!==kind&&(1===kind?(desc.get=value.get,desc.set=value.set):2===kind?desc.value=value:3===kind?desc.get=value:4===kind&&(desc.set=value),isPrivate?1===kind?(ret.push((function(instance,args){return value.get.call(instance,args)})),ret.push((function(instance,args){return value.set.call(instance,args)}))):2===kind?ret.push(value):ret.push((function(instance,args){return value.call(instance,args)})):Object.defineProperty(base,name,desc))}function applyMemberDecs(Class,decInfos,instanceBrand){for(var protoInitializers,staticInitializers,staticBrand,ret=[],existingProtoNonFields=new Map,existingStaticNonFields=new Map,i=0;i<decInfos.length;i++){var decInfo=decInfos[i];if(Array.isArray(decInfo)){var base,initializers,kind=decInfo[1],name=decInfo[2],isPrivate=decInfo.length>3,isStatic=kind>=5,hasPrivateBrand=instanceBrand;if(isStatic?(base=Class,0!==(kind-=5)&&(initializers=staticInitializers=staticInitializers||[]),isPrivate&&!staticBrand&&(staticBrand=function(_){return checkInRHS(_)===Class}),hasPrivateBrand=staticBrand):(base=Class.prototype,0!==kind&&(initializers=protoInitializers=protoInitializers||[])),0!==kind&&!isPrivate){var existingNonFields=isStatic?existingStaticNonFields:existingProtoNonFields,existingKind=existingNonFields.get(name)||0;if(!0===existingKind||3===existingKind&&4!==kind||4===existingKind&&3!==kind)throw new Error("Attempted to decorate a public method/accessor that has the same name as a previously decorated public method/accessor. This is not currently supported by the decorators plugin. Property name was: "+name);!existingKind&&kind>2?existingNonFields.set(name,kind):existingNonFields.set(name,!0)}applyMemberDec(ret,base,decInfo,name,kind,isStatic,isPrivate,initializers,hasPrivateBrand)}}return pushInitializers(ret,protoInitializers),pushInitializers(ret,staticInitializers),ret}function pushInitializers(ret,initializers){initializers&&ret.push((function(instance){for(var i=0;i<initializers.length;i++)initializers[i].call(instance);return instance}))}return function(targetClass,memberDecs,classDecs,instanceBrand){return{e:applyMemberDecs(targetClass,memberDecs,instanceBrand),get c(){return function(targetClass,classDecs){if(classDecs.length>0){for(var initializers=[],newClass=targetClass,name=targetClass.name,i=classDecs.length-1;i>=0;i--){var decoratorFinishedRef={v:!1};try{var nextNewClass=classDecs[i](newClass,{kind:"class",name:name,addInitializer:createAddInitializerMethod(initializers,decoratorFinishedRef)})}finally{decoratorFinishedRef.v=!0}void 0!==nextNewClass&&(assertValidReturnValue(10,nextNewClass),newClass=nextNewClass)}return[newClass,function(){for(var i=0;i<initializers.length;i++)initializers[i].call(newClass)}]}}(targetClass,classDecs)}}}}export default function applyDecs2301(targetClass,memberDecs,classDecs,instanceBrand){return(applyDecs2301=applyDecs2301Factory())(targetClass,memberDecs,classDecs,instanceBrand)}'),
-	  applyDecs2305: helper("7.21.0", 'import checkInRHS from"checkInRHS";function createAddInitializerMethod(initializers,decoratorFinishedRef){return function(initializer){assertNotFinished(decoratorFinishedRef,"addInitializer"),assertCallable(initializer,"An initializer"),initializers.push(initializer)}}function assertInstanceIfPrivate(has,target){if(!has(target))throw new TypeError("Attempted to access private element on non-instance")}function memberDec(dec,thisArg,name,desc,initializers,kind,isStatic,isPrivate,value,hasPrivateBrand){var kindStr;switch(kind){case 1:kindStr="accessor";break;case 2:kindStr="method";break;case 3:kindStr="getter";break;case 4:kindStr="setter";break;default:kindStr="field"}var get,set,ctx={kind:kindStr,name:isPrivate?"#"+name:name,static:isStatic,private:isPrivate},decoratorFinishedRef={v:!1};if(0!==kind&&(ctx.addInitializer=createAddInitializerMethod(initializers,decoratorFinishedRef)),isPrivate||0!==kind&&2!==kind)if(2===kind)get=function(target){return assertInstanceIfPrivate(hasPrivateBrand,target),desc.value};else{var t=0===kind||1===kind;(t||3===kind)&&(get=isPrivate?function(target){return assertInstanceIfPrivate(hasPrivateBrand,target),desc.get.call(target)}:function(target){return desc.get.call(target)}),(t||4===kind)&&(set=isPrivate?function(target,value){assertInstanceIfPrivate(hasPrivateBrand,target),desc.set.call(target,value)}:function(target,value){desc.set.call(target,value)})}else get=function(target){return target[name]},0===kind&&(set=function(target,v){target[name]=v});var has=isPrivate?hasPrivateBrand.bind():function(target){return name in target};ctx.access=get&&set?{get:get,set:set,has:has}:get?{get:get,has:has}:{set:set,has:has};try{return dec.call(thisArg,value,ctx)}finally{decoratorFinishedRef.v=!0}}function assertNotFinished(decoratorFinishedRef,fnName){if(decoratorFinishedRef.v)throw new Error("attempted to call "+fnName+" after decoration was finished")}function assertCallable(fn,hint){if("function"!=typeof fn)throw new TypeError(hint+" must be a function")}function assertValidReturnValue(kind,value){var type=typeof value;if(1===kind){if("object"!==type||null===value)throw new TypeError("accessor decorators must return an object with get, set, or init properties or void 0");void 0!==value.get&&assertCallable(value.get,"accessor.get"),void 0!==value.set&&assertCallable(value.set,"accessor.set"),void 0!==value.init&&assertCallable(value.init,"accessor.init")}else if("function"!==type){var hint;throw hint=0===kind?"field":5===kind?"class":"method",new TypeError(hint+" decorators must return a function or void 0")}}function curryThis1(fn){return function(){return fn(this)}}function curryThis2(fn){return function(value){fn(this,value)}}function applyMemberDec(ret,base,decInfo,decoratorsHaveThis,name,kind,isStatic,isPrivate,initializers,hasPrivateBrand){var desc,init,value,newValue,get,set,decs=decInfo[0];decoratorsHaveThis||Array.isArray(decs)||(decs=[decs]),isPrivate?desc=0===kind||1===kind?{get:curryThis1(decInfo[3]),set:curryThis2(decInfo[4])}:3===kind?{get:decInfo[3]}:4===kind?{set:decInfo[3]}:{value:decInfo[3]}:0!==kind&&(desc=Object.getOwnPropertyDescriptor(base,name)),1===kind?value={get:desc.get,set:desc.set}:2===kind?value=desc.value:3===kind?value=desc.get:4===kind&&(value=desc.set);for(var inc=decoratorsHaveThis?2:1,i=decs.length-1;i>=0;i-=inc){var newInit;if(void 0!==(newValue=memberDec(decs[i],decoratorsHaveThis?decs[i-1]:void 0,name,desc,initializers,kind,isStatic,isPrivate,value,hasPrivateBrand)))assertValidReturnValue(kind,newValue),0===kind?newInit=newValue:1===kind?(newInit=newValue.init,get=newValue.get||value.get,set=newValue.set||value.set,value={get:get,set:set}):value=newValue,void 0!==newInit&&(void 0===init?init=newInit:"function"==typeof init?init=[init,newInit]:init.push(newInit))}if(0===kind||1===kind){if(void 0===init)init=function(instance,init){return init};else if("function"!=typeof init){var ownInitializers=init;init=function(instance,init){for(var value=init,i=ownInitializers.length-1;i>=0;i--)value=ownInitializers[i].call(instance,value);return value}}else{var originalInitializer=init;init=function(instance,init){return originalInitializer.call(instance,init)}}ret.push(init)}0!==kind&&(1===kind?(desc.get=value.get,desc.set=value.set):2===kind?desc.value=value:3===kind?desc.get=value:4===kind&&(desc.set=value),isPrivate?1===kind?(ret.push((function(instance,args){return value.get.call(instance,args)})),ret.push((function(instance,args){return value.set.call(instance,args)}))):2===kind?ret.push(value):ret.push((function(instance,args){return value.call(instance,args)})):Object.defineProperty(base,name,desc))}function applyMemberDecs(Class,decInfos,instanceBrand){for(var protoInitializers,staticInitializers,staticBrand,ret=[],existingProtoNonFields=new Map,existingStaticNonFields=new Map,i=0;i<decInfos.length;i++){var decInfo=decInfos[i];if(Array.isArray(decInfo)){var base,initializers,kind=decInfo[1],name=decInfo[2],isPrivate=decInfo.length>3,decoratorsHaveThis=16&kind,isStatic=!!(8&kind),hasPrivateBrand=instanceBrand;if(kind&=7,isStatic?(base=Class,0!==kind&&(initializers=staticInitializers=staticInitializers||[]),isPrivate&&!staticBrand&&(staticBrand=function(_){return checkInRHS(_)===Class}),hasPrivateBrand=staticBrand):(base=Class.prototype,0!==kind&&(initializers=protoInitializers=protoInitializers||[])),0!==kind&&!isPrivate){var existingNonFields=isStatic?existingStaticNonFields:existingProtoNonFields,existingKind=existingNonFields.get(name)||0;if(!0===existingKind||3===existingKind&&4!==kind||4===existingKind&&3!==kind)throw new Error("Attempted to decorate a public method/accessor that has the same name as a previously decorated public method/accessor. This is not currently supported by the decorators plugin. Property name was: "+name);existingNonFields.set(name,!(!existingKind&&kind>2)||kind)}applyMemberDec(ret,base,decInfo,decoratorsHaveThis,name,kind,isStatic,isPrivate,initializers,hasPrivateBrand)}}return pushInitializers(ret,protoInitializers),pushInitializers(ret,staticInitializers),ret}function pushInitializers(ret,initializers){initializers&&ret.push((function(instance){for(var i=0;i<initializers.length;i++)initializers[i].call(instance);return instance}))}function applyClassDecs(targetClass,classDecs,decoratorsHaveThis){if(classDecs.length){for(var initializers=[],newClass=targetClass,name=targetClass.name,inc=decoratorsHaveThis?2:1,i=classDecs.length-1;i>=0;i-=inc){var decoratorFinishedRef={v:!1};try{var nextNewClass=classDecs[i].call(decoratorsHaveThis?classDecs[i-1]:void 0,newClass,{kind:"class",name:name,addInitializer:createAddInitializerMethod(initializers,decoratorFinishedRef)})}finally{decoratorFinishedRef.v=!0}void 0!==nextNewClass&&(assertValidReturnValue(5,nextNewClass),newClass=nextNewClass)}return[newClass,function(){for(var i=0;i<initializers.length;i++)initializers[i].call(newClass)}]}}export default function applyDecs2305(targetClass,memberDecs,classDecs,classDecsHaveThis,instanceBrand){return{e:applyMemberDecs(targetClass,memberDecs,instanceBrand),get c(){return applyClassDecs(targetClass,classDecs,classDecsHaveThis)}}}'),
-	  asyncGeneratorDelegate: helper("7.0.0-beta.0", 'import OverloadYield from"OverloadYield";export default function _asyncGeneratorDelegate(inner){var iter={},waiting=!1;function pump(key,value){return waiting=!0,value=new Promise((function(resolve){resolve(inner[key](value))})),{done:!1,value:new OverloadYield(value,1)}}return iter["undefined"!=typeof Symbol&&Symbol.iterator||"@@iterator"]=function(){return this},iter.next=function(value){return waiting?(waiting=!1,value):pump("next",value)},"function"==typeof inner.throw&&(iter.throw=function(value){if(waiting)throw waiting=!1,value;return pump("throw",value)}),"function"==typeof inner.return&&(iter.return=function(value){return waiting?(waiting=!1,value):pump("return",value)}),iter}'),
-	  asyncIterator: helper("7.15.9", 'export default function _asyncIterator(iterable){var method,async,sync,retry=2;for("undefined"!=typeof Symbol&&(async=Symbol.asyncIterator,sync=Symbol.iterator);retry--;){if(async&&null!=(method=iterable[async]))return method.call(iterable);if(sync&&null!=(method=iterable[sync]))return new AsyncFromSyncIterator(method.call(iterable));async="@@asyncIterator",sync="@@iterator"}throw new TypeError("Object is not async iterable")}function AsyncFromSyncIterator(s){function AsyncFromSyncIteratorContinuation(r){if(Object(r)!==r)return Promise.reject(new TypeError(r+" is not an object."));var done=r.done;return Promise.resolve(r.value).then((function(value){return{value:value,done:done}}))}return AsyncFromSyncIterator=function(s){this.s=s,this.n=s.next},AsyncFromSyncIterator.prototype={s:null,n:null,next:function(){return AsyncFromSyncIteratorContinuation(this.n.apply(this.s,arguments))},return:function(value){var ret=this.s.return;return void 0===ret?Promise.resolve({value:value,done:!0}):AsyncFromSyncIteratorContinuation(ret.apply(this.s,arguments))},throw:function(value){var thr=this.s.return;return void 0===thr?Promise.reject(value):AsyncFromSyncIteratorContinuation(thr.apply(this.s,arguments))}},new AsyncFromSyncIterator(s)}'),
-	  awaitAsyncGenerator: helper("7.0.0-beta.0", 'import OverloadYield from"OverloadYield";export default function _awaitAsyncGenerator(value){return new OverloadYield(value,0)}'),
-	  checkInRHS: helper("7.20.5", 'export default function _checkInRHS(value){if(Object(value)!==value)throw TypeError("right-hand side of \'in\' should be an object, got "+(null!==value?typeof value:"null"));return value}'),
-	  defineAccessor: helper("7.20.7", "export default function _defineAccessor(type,obj,key,fn){var desc={configurable:!0,enumerable:!0};return desc[type]=fn,Object.defineProperty(obj,key,desc)}"),
-	  dispose: helper("7.22.0", 'function dispose_SuppressedError(suppressed,error){return"undefined"!=typeof SuppressedError?dispose_SuppressedError=SuppressedError:(dispose_SuppressedError=function(suppressed,error){this.suppressed=suppressed,this.error=error,this.stack=(new Error).stack},dispose_SuppressedError.prototype=Object.create(Error.prototype,{constructor:{value:dispose_SuppressedError,writable:!0,configurable:!0}})),new dispose_SuppressedError(suppressed,error)}export default function _dispose(stack,error,hasError){function next(){if(0!==stack.length){var r=stack.pop();if(r.a)return Promise.resolve(r.d.call(r.v)).then(next,err);try{r.d.call(r.v)}catch(e){return err(e)}return next()}if(hasError)throw error}function err(e){return error=hasError?new dispose_SuppressedError(e,error):e,hasError=!0,next()}return next()}'),
-	  iterableToArrayLimit: helper("7.0.0-beta.0", 'export default function _iterableToArrayLimit(arr,i){var _i=null==arr?null:"undefined"!=typeof Symbol&&arr[Symbol.iterator]||arr["@@iterator"];if(null!=_i){var _s,_e,_x,_r,_arr=[],_n=!0,_d=!1;try{if(_x=(_i=_i.call(arr)).next,0===i){if(Object(_i)!==_i)return;_n=!1}else for(;!(_n=(_s=_x.call(_i)).done)&&(_arr.push(_s.value),_arr.length!==i);_n=!0);}catch(err){_d=!0,_e=err}finally{try{if(!_n&&null!=_i.return&&(_r=_i.return(),Object(_r)!==_r))return}finally{if(_d)throw _e}}return _arr}}'),
-	  iterableToArrayLimitLoose: helper("7.0.0-beta.0", 'export default function _iterableToArrayLimitLoose(arr,i){var _i=arr&&("undefined"!=typeof Symbol&&arr[Symbol.iterator]||arr["@@iterator"]);if(null!=_i){var _s,_arr=[];for(_i=_i.call(arr);arr.length<i&&!(_s=_i.next()).done;)_arr.push(_s.value);return _arr}}'),
-	  jsx: helper("7.0.0-beta.0", 'var REACT_ELEMENT_TYPE;export default function _createRawReactElement(type,props,key,children){REACT_ELEMENT_TYPE||(REACT_ELEMENT_TYPE="function"==typeof Symbol&&Symbol.for&&Symbol.for("react.element")||60103);var defaultProps=type&&type.defaultProps,childrenLength=arguments.length-3;if(props||0===childrenLength||(props={children:void 0}),1===childrenLength)props.children=children;else if(childrenLength>1){for(var childArray=new Array(childrenLength),i=0;i<childrenLength;i++)childArray[i]=arguments[i+3];props.children=childArray}if(props&&defaultProps)for(var propName in defaultProps)void 0===props[propName]&&(props[propName]=defaultProps[propName]);else props||(props=defaultProps||{});return{$$typeof:REACT_ELEMENT_TYPE,type:type,key:void 0===key?null:""+key,ref:null,props:props,_owner:null}}'),
-	  objectSpread2: helper("7.5.0", 'import defineProperty from"defineProperty";function ownKeys(object,enumerableOnly){var keys=Object.keys(object);if(Object.getOwnPropertySymbols){var symbols=Object.getOwnPropertySymbols(object);enumerableOnly&&(symbols=symbols.filter((function(sym){return Object.getOwnPropertyDescriptor(object,sym).enumerable}))),keys.push.apply(keys,symbols)}return keys}export default function _objectSpread2(target){for(var i=1;i<arguments.length;i++){var source=null!=arguments[i]?arguments[i]:{};i%2?ownKeys(Object(source),!0).forEach((function(key){defineProperty(target,key,source[key])})):Object.getOwnPropertyDescriptors?Object.defineProperties(target,Object.getOwnPropertyDescriptors(source)):ownKeys(Object(source)).forEach((function(key){Object.defineProperty(target,key,Object.getOwnPropertyDescriptor(source,key))}))}return target}'),
-	  regeneratorRuntime: helper("7.18.0", 'export default function _regeneratorRuntime(){"use strict";\n/*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */_regeneratorRuntime=function(){return exports};var exports={},Op=Object.prototype,hasOwn=Op.hasOwnProperty,defineProperty=Object.defineProperty||function(obj,key,desc){obj[key]=desc.value},$Symbol="function"==typeof Symbol?Symbol:{},iteratorSymbol=$Symbol.iterator||"@@iterator",asyncIteratorSymbol=$Symbol.asyncIterator||"@@asyncIterator",toStringTagSymbol=$Symbol.toStringTag||"@@toStringTag";function define(obj,key,value){return Object.defineProperty(obj,key,{value:value,enumerable:!0,configurable:!0,writable:!0}),obj[key]}try{define({},"")}catch(err){define=function(obj,key,value){return obj[key]=value}}function wrap(innerFn,outerFn,self,tryLocsList){var protoGenerator=outerFn&&outerFn.prototype instanceof Generator?outerFn:Generator,generator=Object.create(protoGenerator.prototype),context=new Context(tryLocsList||[]);return defineProperty(generator,"_invoke",{value:makeInvokeMethod(innerFn,self,context)}),generator}function tryCatch(fn,obj,arg){try{return{type:"normal",arg:fn.call(obj,arg)}}catch(err){return{type:"throw",arg:err}}}exports.wrap=wrap;var ContinueSentinel={};function Generator(){}function GeneratorFunction(){}function GeneratorFunctionPrototype(){}var IteratorPrototype={};define(IteratorPrototype,iteratorSymbol,(function(){return this}));var getProto=Object.getPrototypeOf,NativeIteratorPrototype=getProto&&getProto(getProto(values([])));NativeIteratorPrototype&&NativeIteratorPrototype!==Op&&hasOwn.call(NativeIteratorPrototype,iteratorSymbol)&&(IteratorPrototype=NativeIteratorPrototype);var Gp=GeneratorFunctionPrototype.prototype=Generator.prototype=Object.create(IteratorPrototype);function defineIteratorMethods(prototype){["next","throw","return"].forEach((function(method){define(prototype,method,(function(arg){return this._invoke(method,arg)}))}))}function AsyncIterator(generator,PromiseImpl){function invoke(method,arg,resolve,reject){var record=tryCatch(generator[method],generator,arg);if("throw"!==record.type){var result=record.arg,value=result.value;return value&&"object"==typeof value&&hasOwn.call(value,"__await")?PromiseImpl.resolve(value.__await).then((function(value){invoke("next",value,resolve,reject)}),(function(err){invoke("throw",err,resolve,reject)})):PromiseImpl.resolve(value).then((function(unwrapped){result.value=unwrapped,resolve(result)}),(function(error){return invoke("throw",error,resolve,reject)}))}reject(record.arg)}var previousPromise;defineProperty(this,"_invoke",{value:function(method,arg){function callInvokeWithMethodAndArg(){return new PromiseImpl((function(resolve,reject){invoke(method,arg,resolve,reject)}))}return previousPromise=previousPromise?previousPromise.then(callInvokeWithMethodAndArg,callInvokeWithMethodAndArg):callInvokeWithMethodAndArg()}})}function makeInvokeMethod(innerFn,self,context){var state="suspendedStart";return function(method,arg){if("executing"===state)throw new Error("Generator is already running");if("completed"===state){if("throw"===method)throw arg;return doneResult()}for(context.method=method,context.arg=arg;;){var delegate=context.delegate;if(delegate){var delegateResult=maybeInvokeDelegate(delegate,context);if(delegateResult){if(delegateResult===ContinueSentinel)continue;return delegateResult}}if("next"===context.method)context.sent=context._sent=context.arg;else if("throw"===context.method){if("suspendedStart"===state)throw state="completed",context.arg;context.dispatchException(context.arg)}else"return"===context.method&&context.abrupt("return",context.arg);state="executing";var record=tryCatch(innerFn,self,context);if("normal"===record.type){if(state=context.done?"completed":"suspendedYield",record.arg===ContinueSentinel)continue;return{value:record.arg,done:context.done}}"throw"===record.type&&(state="completed",context.method="throw",context.arg=record.arg)}}}function maybeInvokeDelegate(delegate,context){var methodName=context.method,method=delegate.iterator[methodName];if(undefined===method)return context.delegate=null,"throw"===methodName&&delegate.iterator.return&&(context.method="return",context.arg=undefined,maybeInvokeDelegate(delegate,context),"throw"===context.method)||"return"!==methodName&&(context.method="throw",context.arg=new TypeError("The iterator does not provide a \'"+methodName+"\' method")),ContinueSentinel;var record=tryCatch(method,delegate.iterator,context.arg);if("throw"===record.type)return context.method="throw",context.arg=record.arg,context.delegate=null,ContinueSentinel;var info=record.arg;return info?info.done?(context[delegate.resultName]=info.value,context.next=delegate.nextLoc,"return"!==context.method&&(context.method="next",context.arg=undefined),context.delegate=null,ContinueSentinel):info:(context.method="throw",context.arg=new TypeError("iterator result is not an object"),context.delegate=null,ContinueSentinel)}function pushTryEntry(locs){var entry={tryLoc:locs[0]};1 in locs&&(entry.catchLoc=locs[1]),2 in locs&&(entry.finallyLoc=locs[2],entry.afterLoc=locs[3]),this.tryEntries.push(entry)}function resetTryEntry(entry){var record=entry.completion||{};record.type="normal",delete record.arg,entry.completion=record}function Context(tryLocsList){this.tryEntries=[{tryLoc:"root"}],tryLocsList.forEach(pushTryEntry,this),this.reset(!0)}function values(iterable){if(iterable){var iteratorMethod=iterable[iteratorSymbol];if(iteratorMethod)return iteratorMethod.call(iterable);if("function"==typeof iterable.next)return iterable;if(!isNaN(iterable.length)){var i=-1,next=function next(){for(;++i<iterable.length;)if(hasOwn.call(iterable,i))return next.value=iterable[i],next.done=!1,next;return next.value=undefined,next.done=!0,next};return next.next=next}}return{next:doneResult}}function doneResult(){return{value:undefined,done:!0}}return GeneratorFunction.prototype=GeneratorFunctionPrototype,defineProperty(Gp,"constructor",{value:GeneratorFunctionPrototype,configurable:!0}),defineProperty(GeneratorFunctionPrototype,"constructor",{value:GeneratorFunction,configurable:!0}),GeneratorFunction.displayName=define(GeneratorFunctionPrototype,toStringTagSymbol,"GeneratorFunction"),exports.isGeneratorFunction=function(genFun){var ctor="function"==typeof genFun&&genFun.constructor;return!!ctor&&(ctor===GeneratorFunction||"GeneratorFunction"===(ctor.displayName||ctor.name))},exports.mark=function(genFun){return Object.setPrototypeOf?Object.setPrototypeOf(genFun,GeneratorFunctionPrototype):(genFun.__proto__=GeneratorFunctionPrototype,define(genFun,toStringTagSymbol,"GeneratorFunction")),genFun.prototype=Object.create(Gp),genFun},exports.awrap=function(arg){return{__await:arg}},defineIteratorMethods(AsyncIterator.prototype),define(AsyncIterator.prototype,asyncIteratorSymbol,(function(){return this})),exports.AsyncIterator=AsyncIterator,exports.async=function(innerFn,outerFn,self,tryLocsList,PromiseImpl){void 0===PromiseImpl&&(PromiseImpl=Promise);var iter=new AsyncIterator(wrap(innerFn,outerFn,self,tryLocsList),PromiseImpl);return exports.isGeneratorFunction(outerFn)?iter:iter.next().then((function(result){return result.done?result.value:iter.next()}))},defineIteratorMethods(Gp),define(Gp,toStringTagSymbol,"Generator"),define(Gp,iteratorSymbol,(function(){return this})),define(Gp,"toString",(function(){return"[object Generator]"})),exports.keys=function(val){var object=Object(val),keys=[];for(var key in object)keys.push(key);return keys.reverse(),function next(){for(;keys.length;){var key=keys.pop();if(key in object)return next.value=key,next.done=!1,next}return next.done=!0,next}},exports.values=values,Context.prototype={constructor:Context,reset:function(skipTempReset){if(this.prev=0,this.next=0,this.sent=this._sent=undefined,this.done=!1,this.delegate=null,this.method="next",this.arg=undefined,this.tryEntries.forEach(resetTryEntry),!skipTempReset)for(var name in this)"t"===name.charAt(0)&&hasOwn.call(this,name)&&!isNaN(+name.slice(1))&&(this[name]=undefined)},stop:function(){this.done=!0;var rootRecord=this.tryEntries[0].completion;if("throw"===rootRecord.type)throw rootRecord.arg;return this.rval},dispatchException:function(exception){if(this.done)throw exception;var context=this;function handle(loc,caught){return record.type="throw",record.arg=exception,context.next=loc,caught&&(context.method="next",context.arg=undefined),!!caught}for(var i=this.tryEntries.length-1;i>=0;--i){var entry=this.tryEntries[i],record=entry.completion;if("root"===entry.tryLoc)return handle("end");if(entry.tryLoc<=this.prev){var hasCatch=hasOwn.call(entry,"catchLoc"),hasFinally=hasOwn.call(entry,"finallyLoc");if(hasCatch&&hasFinally){if(this.prev<entry.catchLoc)return handle(entry.catchLoc,!0);if(this.prev<entry.finallyLoc)return handle(entry.finallyLoc)}else if(hasCatch){if(this.prev<entry.catchLoc)return handle(entry.catchLoc,!0)}else{if(!hasFinally)throw new Error("try statement without catch or finally");if(this.prev<entry.finallyLoc)return handle(entry.finallyLoc)}}}},abrupt:function(type,arg){for(var i=this.tryEntries.length-1;i>=0;--i){var entry=this.tryEntries[i];if(entry.tryLoc<=this.prev&&hasOwn.call(entry,"finallyLoc")&&this.prev<entry.finallyLoc){var finallyEntry=entry;break}}finallyEntry&&("break"===type||"continue"===type)&&finallyEntry.tryLoc<=arg&&arg<=finallyEntry.finallyLoc&&(finallyEntry=null);var record=finallyEntry?finallyEntry.completion:{};return record.type=type,record.arg=arg,finallyEntry?(this.method="next",this.next=finallyEntry.finallyLoc,ContinueSentinel):this.complete(record)},complete:function(record,afterLoc){if("throw"===record.type)throw record.arg;return"break"===record.type||"continue"===record.type?this.next=record.arg:"return"===record.type?(this.rval=this.arg=record.arg,this.method="return",this.next="end"):"normal"===record.type&&afterLoc&&(this.next=afterLoc),ContinueSentinel},finish:function(finallyLoc){for(var i=this.tryEntries.length-1;i>=0;--i){var entry=this.tryEntries[i];if(entry.finallyLoc===finallyLoc)return this.complete(entry.completion,entry.afterLoc),resetTryEntry(entry),ContinueSentinel}},catch:function(tryLoc){for(var i=this.tryEntries.length-1;i>=0;--i){var entry=this.tryEntries[i];if(entry.tryLoc===tryLoc){var record=entry.completion;if("throw"===record.type){var thrown=record.arg;resetTryEntry(entry)}return thrown}}throw new Error("illegal catch attempt")},delegateYield:function(iterable,resultName,nextLoc){return this.delegate={iterator:values(iterable),resultName:resultName,nextLoc:nextLoc},"next"===this.method&&(this.arg=undefined),ContinueSentinel}},exports}'),
-	  typeof: helper("7.0.0-beta.0", 'export default function _typeof(obj){"@babel/helpers - typeof";return _typeof="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(obj){return typeof obj}:function(obj){return obj&&"function"==typeof Symbol&&obj.constructor===Symbol&&obj!==Symbol.prototype?"symbol":typeof obj},_typeof(obj)}'),
-	  using: helper("7.22.0", 'export default function _using(stack,value,isAwait){if(null==value)return value;if("object"!=typeof value)throw new TypeError("using decarations can only be used with objects, null, or undefined.");if(isAwait)var dispose=value[Symbol.asyncDispose||Symbol.for("Symbol.asyncDispose")];if(null==dispose&&(dispose=value[Symbol.dispose||Symbol.for("Symbol.dispose")]),"function"!=typeof dispose)throw new TypeError("Property [Symbol.dispose] is not a function.");return stack.push({v:value,d:dispose,a:isAwait}),value}'),
-	  wrapRegExp: helper("7.19.0", 'import setPrototypeOf from"setPrototypeOf";import inherits from"inherits";export default function _wrapRegExp(){_wrapRegExp=function(re,groups){return new BabelRegExp(re,void 0,groups)};var _super=RegExp.prototype,_groups=new WeakMap;function BabelRegExp(re,flags,groups){var _this=new RegExp(re,flags);return _groups.set(_this,groups||_groups.get(re)),setPrototypeOf(_this,BabelRegExp.prototype)}function buildGroups(result,re){var g=_groups.get(re);return Object.keys(g).reduce((function(groups,name){var i=g[name];if("number"==typeof i)groups[name]=result[i];else{for(var k=0;void 0===result[i[k]]&&k+1<i.length;)k++;groups[name]=result[i[k]]}return groups}),Object.create(null))}return inherits(BabelRegExp,RegExp),BabelRegExp.prototype.exec=function(str){var result=_super.exec.call(this,str);if(result){result.groups=buildGroups(result,this);var indices=result.indices;indices&&(indices.groups=buildGroups(indices,this))}return result},BabelRegExp.prototype[Symbol.replace]=function(str,substitution){if("string"==typeof substitution){var groups=_groups.get(this);return _super[Symbol.replace].call(this,str,substitution.replace(/\\$<([^>]+)>/g,(function(_,name){var group=groups[name];return"$"+(Array.isArray(group)?group.join("$"):group)})))}if("function"==typeof substitution){var _this=this;return _super[Symbol.replace].call(this,str,(function(){var args=arguments;return"object"!=typeof args[args.length-1]&&(args=[].slice.call(args)).push(buildGroups(args,_this)),substitution.apply(this,args)}))}return _super[Symbol.replace].call(this,str,substitution)},_wrapRegExp.apply(this,arguments)}')
+	  AsyncGenerator: helper("7.0.0-beta.0", 'import OverloadYield from"OverloadYield";export default function AsyncGenerator(e){var r,t;function resume(r,t){try{var n=e[r](t),o=n.value,u=o instanceof OverloadYield;Promise.resolve(u?o.v:o).then((function(t){if(u){var i="return"===r?"return":"next";if(!o.k||t.done)return resume(i,t);t=e[i](t).value}settle(n.done?"return":"normal",t)}),(function(e){resume("throw",e)}))}catch(e){settle("throw",e)}}function settle(e,n){switch(e){case"return":r.resolve({value:n,done:!0});break;case"throw":r.reject(n);break;default:r.resolve({value:n,done:!1})}(r=r.next)?resume(r.key,r.arg):t=null}this._invoke=function(e,n){return new Promise((function(o,u){var i={key:e,arg:n,resolve:o,reject:u,next:null};t?t=t.next=i:(r=t=i,resume(e,n))}))},"function"!=typeof e.return&&(this.return=void 0)}AsyncGenerator.prototype["function"==typeof Symbol&&Symbol.asyncIterator||"@@asyncIterator"]=function(){return this},AsyncGenerator.prototype.next=function(e){return this._invoke("next",e)},AsyncGenerator.prototype.throw=function(e){return this._invoke("throw",e)},AsyncGenerator.prototype.return=function(e){return this._invoke("return",e)};'),
+	  OverloadYield: helper("7.18.14", "export default function _OverloadYield(t,e){this.v=t,this.k=e}"),
+	  applyDecs: helper("7.17.8", 'function old_createMetadataMethodsForProperty(e,t,a,r){return{getMetadata:function(o){old_assertNotFinished(r,"getMetadata"),old_assertMetadataKey(o);var i=e[o];if(void 0!==i)if(1===t){var n=i.public;if(void 0!==n)return n[a]}else if(2===t){var l=i.private;if(void 0!==l)return l.get(a)}else if(Object.hasOwnProperty.call(i,"constructor"))return i.constructor},setMetadata:function(o,i){old_assertNotFinished(r,"setMetadata"),old_assertMetadataKey(o);var n=e[o];if(void 0===n&&(n=e[o]={}),1===t){var l=n.public;void 0===l&&(l=n.public={}),l[a]=i}else if(2===t){var s=n.priv;void 0===s&&(s=n.private=new Map),s.set(a,i)}else n.constructor=i}}}function old_convertMetadataMapToFinal(e,t){var a=e[Symbol.metadata||Symbol.for("Symbol.metadata")],r=Object.getOwnPropertySymbols(t);if(0!==r.length){for(var o=0;o<r.length;o++){var i=r[o],n=t[i],l=a?a[i]:null,s=n.public,c=l?l.public:null;s&&c&&Object.setPrototypeOf(s,c);var d=n.private;if(d){var u=Array.from(d.values()),f=l?l.private:null;f&&(u=u.concat(f)),n.private=u}l&&Object.setPrototypeOf(n,l)}a&&Object.setPrototypeOf(t,a),e[Symbol.metadata||Symbol.for("Symbol.metadata")]=t}}function old_createAddInitializerMethod(e,t){return function(a){old_assertNotFinished(t,"addInitializer"),old_assertCallable(a,"An initializer"),e.push(a)}}function old_memberDec(e,t,a,r,o,i,n,l,s){var c;switch(i){case 1:c="accessor";break;case 2:c="method";break;case 3:c="getter";break;case 4:c="setter";break;default:c="field"}var d,u,f={kind:c,name:l?"#"+t:t,isStatic:n,isPrivate:l},p={v:!1};if(0!==i&&(f.addInitializer=old_createAddInitializerMethod(o,p)),l){d=2,u=Symbol(t);var v={};0===i?(v.get=a.get,v.set=a.set):2===i?v.get=function(){return a.value}:(1!==i&&3!==i||(v.get=function(){return a.get.call(this)}),1!==i&&4!==i||(v.set=function(e){a.set.call(this,e)})),f.access=v}else d=1,u=t;try{return e(s,Object.assign(f,old_createMetadataMethodsForProperty(r,d,u,p)))}finally{p.v=!0}}function old_assertNotFinished(e,t){if(e.v)throw new Error("attempted to call "+t+" after decoration was finished")}function old_assertMetadataKey(e){if("symbol"!=typeof e)throw new TypeError("Metadata keys must be symbols, received: "+e)}function old_assertCallable(e,t){if("function"!=typeof e)throw new TypeError(t+" must be a function")}function old_assertValidReturnValue(e,t){var a=typeof t;if(1===e){if("object"!==a||null===t)throw new TypeError("accessor decorators must return an object with get, set, or init properties or void 0");void 0!==t.get&&old_assertCallable(t.get,"accessor.get"),void 0!==t.set&&old_assertCallable(t.set,"accessor.set"),void 0!==t.init&&old_assertCallable(t.init,"accessor.init"),void 0!==t.initializer&&old_assertCallable(t.initializer,"accessor.initializer")}else if("function"!==a){var r;throw r=0===e?"field":10===e?"class":"method",new TypeError(r+" decorators must return a function or void 0")}}function old_getInit(e){var t;return null==(t=e.init)&&(t=e.initializer)&&"undefined"!=typeof console&&console.warn(".initializer has been renamed to .init as of March 2022"),t}function old_applyMemberDec(e,t,a,r,o,i,n,l,s){var c,d,u,f,p,v,h=a[0];if(n?c=0===o||1===o?{get:a[3],set:a[4]}:3===o?{get:a[3]}:4===o?{set:a[3]}:{value:a[3]}:0!==o&&(c=Object.getOwnPropertyDescriptor(t,r)),1===o?u={get:c.get,set:c.set}:2===o?u=c.value:3===o?u=c.get:4===o&&(u=c.set),"function"==typeof h)void 0!==(f=old_memberDec(h,r,c,l,s,o,i,n,u))&&(old_assertValidReturnValue(o,f),0===o?d=f:1===o?(d=old_getInit(f),p=f.get||u.get,v=f.set||u.set,u={get:p,set:v}):u=f);else for(var y=h.length-1;y>=0;y--){var b;if(void 0!==(f=old_memberDec(h[y],r,c,l,s,o,i,n,u)))old_assertValidReturnValue(o,f),0===o?b=f:1===o?(b=old_getInit(f),p=f.get||u.get,v=f.set||u.set,u={get:p,set:v}):u=f,void 0!==b&&(void 0===d?d=b:"function"==typeof d?d=[d,b]:d.push(b))}if(0===o||1===o){if(void 0===d)d=function(e,t){return t};else if("function"!=typeof d){var g=d;d=function(e,t){for(var a=t,r=0;r<g.length;r++)a=g[r].call(e,a);return a}}else{var m=d;d=function(e,t){return m.call(e,t)}}e.push(d)}0!==o&&(1===o?(c.get=u.get,c.set=u.set):2===o?c.value=u:3===o?c.get=u:4===o&&(c.set=u),n?1===o?(e.push((function(e,t){return u.get.call(e,t)})),e.push((function(e,t){return u.set.call(e,t)}))):2===o?e.push(u):e.push((function(e,t){return u.call(e,t)})):Object.defineProperty(t,r,c))}function old_applyMemberDecs(e,t,a,r,o){for(var i,n,l=new Map,s=new Map,c=0;c<o.length;c++){var d=o[c];if(Array.isArray(d)){var u,f,p,v=d[1],h=d[2],y=d.length>3,b=v>=5;if(b?(u=t,f=r,0!==(v-=5)&&(p=n=n||[])):(u=t.prototype,f=a,0!==v&&(p=i=i||[])),0!==v&&!y){var g=b?s:l,m=g.get(h)||0;if(!0===m||3===m&&4!==v||4===m&&3!==v)throw new Error("Attempted to decorate a public method/accessor that has the same name as a previously decorated public method/accessor. This is not currently supported by the decorators plugin. Property name was: "+h);!m&&v>2?g.set(h,v):g.set(h,!0)}old_applyMemberDec(e,u,d,h,v,b,y,f,p)}}old_pushInitializers(e,i),old_pushInitializers(e,n)}function old_pushInitializers(e,t){t&&e.push((function(e){for(var a=0;a<t.length;a++)t[a].call(e);return e}))}function old_applyClassDecs(e,t,a,r){if(r.length>0){for(var o=[],i=t,n=t.name,l=r.length-1;l>=0;l--){var s={v:!1};try{var c=Object.assign({kind:"class",name:n,addInitializer:old_createAddInitializerMethod(o,s)},old_createMetadataMethodsForProperty(a,0,n,s)),d=r[l](i,c)}finally{s.v=!0}void 0!==d&&(old_assertValidReturnValue(10,d),i=d)}e.push(i,(function(){for(var e=0;e<o.length;e++)o[e].call(i)}))}}export default function applyDecs(e,t,a){var r=[],o={},i={};return old_applyMemberDecs(r,e,i,o,t),old_convertMetadataMapToFinal(e.prototype,i),old_applyClassDecs(r,e,o,a),old_convertMetadataMapToFinal(e,o),r}'),
+	  applyDecs2203: helper("7.19.0", 'function applyDecs2203Factory(){function createAddInitializerMethod(e,t){return function(r){!function(e,t){if(e.v)throw new Error("attempted to call "+t+" after decoration was finished")}(t,"addInitializer"),assertCallable(r,"An initializer"),e.push(r)}}function memberDec(e,t,r,a,n,i,s,o){var c;switch(n){case 1:c="accessor";break;case 2:c="method";break;case 3:c="getter";break;case 4:c="setter";break;default:c="field"}var l,u,f={kind:c,name:s?"#"+t:t,static:i,private:s},p={v:!1};0!==n&&(f.addInitializer=createAddInitializerMethod(a,p)),0===n?s?(l=r.get,u=r.set):(l=function(){return this[t]},u=function(e){this[t]=e}):2===n?l=function(){return r.value}:(1!==n&&3!==n||(l=function(){return r.get.call(this)}),1!==n&&4!==n||(u=function(e){r.set.call(this,e)})),f.access=l&&u?{get:l,set:u}:l?{get:l}:{set:u};try{return e(o,f)}finally{p.v=!0}}function assertCallable(e,t){if("function"!=typeof e)throw new TypeError(t+" must be a function")}function assertValidReturnValue(e,t){var r=typeof t;if(1===e){if("object"!==r||null===t)throw new TypeError("accessor decorators must return an object with get, set, or init properties or void 0");void 0!==t.get&&assertCallable(t.get,"accessor.get"),void 0!==t.set&&assertCallable(t.set,"accessor.set"),void 0!==t.init&&assertCallable(t.init,"accessor.init")}else if("function"!==r){var a;throw a=0===e?"field":10===e?"class":"method",new TypeError(a+" decorators must return a function or void 0")}}function applyMemberDec(e,t,r,a,n,i,s,o){var c,l,u,f,p,d,h=r[0];if(s?c=0===n||1===n?{get:r[3],set:r[4]}:3===n?{get:r[3]}:4===n?{set:r[3]}:{value:r[3]}:0!==n&&(c=Object.getOwnPropertyDescriptor(t,a)),1===n?u={get:c.get,set:c.set}:2===n?u=c.value:3===n?u=c.get:4===n&&(u=c.set),"function"==typeof h)void 0!==(f=memberDec(h,a,c,o,n,i,s,u))&&(assertValidReturnValue(n,f),0===n?l=f:1===n?(l=f.init,p=f.get||u.get,d=f.set||u.set,u={get:p,set:d}):u=f);else for(var v=h.length-1;v>=0;v--){var g;if(void 0!==(f=memberDec(h[v],a,c,o,n,i,s,u)))assertValidReturnValue(n,f),0===n?g=f:1===n?(g=f.init,p=f.get||u.get,d=f.set||u.set,u={get:p,set:d}):u=f,void 0!==g&&(void 0===l?l=g:"function"==typeof l?l=[l,g]:l.push(g))}if(0===n||1===n){if(void 0===l)l=function(e,t){return t};else if("function"!=typeof l){var y=l;l=function(e,t){for(var r=t,a=0;a<y.length;a++)r=y[a].call(e,r);return r}}else{var m=l;l=function(e,t){return m.call(e,t)}}e.push(l)}0!==n&&(1===n?(c.get=u.get,c.set=u.set):2===n?c.value=u:3===n?c.get=u:4===n&&(c.set=u),s?1===n?(e.push((function(e,t){return u.get.call(e,t)})),e.push((function(e,t){return u.set.call(e,t)}))):2===n?e.push(u):e.push((function(e,t){return u.call(e,t)})):Object.defineProperty(t,a,c))}function pushInitializers(e,t){t&&e.push((function(e){for(var r=0;r<t.length;r++)t[r].call(e);return e}))}return function(e,t,r){var a=[];return function(e,t,r){for(var a,n,i=new Map,s=new Map,o=0;o<r.length;o++){var c=r[o];if(Array.isArray(c)){var l,u,f=c[1],p=c[2],d=c.length>3,h=f>=5;if(h?(l=t,0!=(f-=5)&&(u=n=n||[])):(l=t.prototype,0!==f&&(u=a=a||[])),0!==f&&!d){var v=h?s:i,g=v.get(p)||0;if(!0===g||3===g&&4!==f||4===g&&3!==f)throw new Error("Attempted to decorate a public method/accessor that has the same name as a previously decorated public method/accessor. This is not currently supported by the decorators plugin. Property name was: "+p);!g&&f>2?v.set(p,f):v.set(p,!0)}applyMemberDec(e,l,c,p,f,h,d,u)}}pushInitializers(e,a),pushInitializers(e,n)}(a,e,t),function(e,t,r){if(r.length>0){for(var a=[],n=t,i=t.name,s=r.length-1;s>=0;s--){var o={v:!1};try{var c=r[s](n,{kind:"class",name:i,addInitializer:createAddInitializerMethod(a,o)})}finally{o.v=!0}void 0!==c&&(assertValidReturnValue(10,c),n=c)}e.push(n,(function(){for(var e=0;e<a.length;e++)a[e].call(n)}))}}(a,e,r),a}}var applyDecs2203Impl;export default function applyDecs2203(e,t,r){return(applyDecs2203Impl=applyDecs2203Impl||applyDecs2203Factory())(e,t,r)}'),
+	  applyDecs2203R: helper("7.20.0", 'function applyDecs2203RFactory(){function createAddInitializerMethod(e,t){return function(r){!function(e,t){if(e.v)throw new Error("attempted to call "+t+" after decoration was finished")}(t,"addInitializer"),assertCallable(r,"An initializer"),e.push(r)}}function memberDec(e,t,r,n,a,i,s,o){var c;switch(a){case 1:c="accessor";break;case 2:c="method";break;case 3:c="getter";break;case 4:c="setter";break;default:c="field"}var l,u,f={kind:c,name:s?"#"+t:t,static:i,private:s},p={v:!1};0!==a&&(f.addInitializer=createAddInitializerMethod(n,p)),0===a?s?(l=r.get,u=r.set):(l=function(){return this[t]},u=function(e){this[t]=e}):2===a?l=function(){return r.value}:(1!==a&&3!==a||(l=function(){return r.get.call(this)}),1!==a&&4!==a||(u=function(e){r.set.call(this,e)})),f.access=l&&u?{get:l,set:u}:l?{get:l}:{set:u};try{return e(o,f)}finally{p.v=!0}}function assertCallable(e,t){if("function"!=typeof e)throw new TypeError(t+" must be a function")}function assertValidReturnValue(e,t){var r=typeof t;if(1===e){if("object"!==r||null===t)throw new TypeError("accessor decorators must return an object with get, set, or init properties or void 0");void 0!==t.get&&assertCallable(t.get,"accessor.get"),void 0!==t.set&&assertCallable(t.set,"accessor.set"),void 0!==t.init&&assertCallable(t.init,"accessor.init")}else if("function"!==r){var n;throw n=0===e?"field":10===e?"class":"method",new TypeError(n+" decorators must return a function or void 0")}}function applyMemberDec(e,t,r,n,a,i,s,o){var c,l,u,f,p,d,h=r[0];if(s?c=0===a||1===a?{get:r[3],set:r[4]}:3===a?{get:r[3]}:4===a?{set:r[3]}:{value:r[3]}:0!==a&&(c=Object.getOwnPropertyDescriptor(t,n)),1===a?u={get:c.get,set:c.set}:2===a?u=c.value:3===a?u=c.get:4===a&&(u=c.set),"function"==typeof h)void 0!==(f=memberDec(h,n,c,o,a,i,s,u))&&(assertValidReturnValue(a,f),0===a?l=f:1===a?(l=f.init,p=f.get||u.get,d=f.set||u.set,u={get:p,set:d}):u=f);else for(var v=h.length-1;v>=0;v--){var g;if(void 0!==(f=memberDec(h[v],n,c,o,a,i,s,u)))assertValidReturnValue(a,f),0===a?g=f:1===a?(g=f.init,p=f.get||u.get,d=f.set||u.set,u={get:p,set:d}):u=f,void 0!==g&&(void 0===l?l=g:"function"==typeof l?l=[l,g]:l.push(g))}if(0===a||1===a){if(void 0===l)l=function(e,t){return t};else if("function"!=typeof l){var y=l;l=function(e,t){for(var r=t,n=0;n<y.length;n++)r=y[n].call(e,r);return r}}else{var m=l;l=function(e,t){return m.call(e,t)}}e.push(l)}0!==a&&(1===a?(c.get=u.get,c.set=u.set):2===a?c.value=u:3===a?c.get=u:4===a&&(c.set=u),s?1===a?(e.push((function(e,t){return u.get.call(e,t)})),e.push((function(e,t){return u.set.call(e,t)}))):2===a?e.push(u):e.push((function(e,t){return u.call(e,t)})):Object.defineProperty(t,n,c))}function applyMemberDecs(e,t){for(var r,n,a=[],i=new Map,s=new Map,o=0;o<t.length;o++){var c=t[o];if(Array.isArray(c)){var l,u,f=c[1],p=c[2],d=c.length>3,h=f>=5;if(h?(l=e,0!==(f-=5)&&(u=n=n||[])):(l=e.prototype,0!==f&&(u=r=r||[])),0!==f&&!d){var v=h?s:i,g=v.get(p)||0;if(!0===g||3===g&&4!==f||4===g&&3!==f)throw new Error("Attempted to decorate a public method/accessor that has the same name as a previously decorated public method/accessor. This is not currently supported by the decorators plugin. Property name was: "+p);!g&&f>2?v.set(p,f):v.set(p,!0)}applyMemberDec(a,l,c,p,f,h,d,u)}}return pushInitializers(a,r),pushInitializers(a,n),a}function pushInitializers(e,t){t&&e.push((function(e){for(var r=0;r<t.length;r++)t[r].call(e);return e}))}return function(e,t,r){return{e:applyMemberDecs(e,t),get c(){return function(e,t){if(t.length>0){for(var r=[],n=e,a=e.name,i=t.length-1;i>=0;i--){var s={v:!1};try{var o=t[i](n,{kind:"class",name:a,addInitializer:createAddInitializerMethod(r,s)})}finally{s.v=!0}void 0!==o&&(assertValidReturnValue(10,o),n=o)}return[n,function(){for(var e=0;e<r.length;e++)r[e].call(n)}]}}(e,r)}}}}export default function applyDecs2203R(e,t,r){return(applyDecs2203R=applyDecs2203RFactory())(e,t,r)}'),
+	  applyDecs2301: helper("7.21.0", 'import checkInRHS from"checkInRHS";function applyDecs2301Factory(){function createAddInitializerMethod(e,t){return function(r){!function(e,t){if(e.v)throw new Error("attempted to call "+t+" after decoration was finished")}(t,"addInitializer"),assertCallable(r,"An initializer"),e.push(r)}}function assertInstanceIfPrivate(e,t){if(!e(t))throw new TypeError("Attempted to access private element on non-instance")}function memberDec(e,t,r,n,a,i,s,o,c){var u;switch(a){case 1:u="accessor";break;case 2:u="method";break;case 3:u="getter";break;case 4:u="setter";break;default:u="field"}var l,f,p={kind:u,name:s?"#"+t:t,static:i,private:s},d={v:!1};if(0!==a&&(p.addInitializer=createAddInitializerMethod(n,d)),s||0!==a&&2!==a)if(2===a)l=function(e){return assertInstanceIfPrivate(c,e),r.value};else{var h=0===a||1===a;(h||3===a)&&(l=s?function(e){return assertInstanceIfPrivate(c,e),r.get.call(e)}:function(e){return r.get.call(e)}),(h||4===a)&&(f=s?function(e,t){assertInstanceIfPrivate(c,e),r.set.call(e,t)}:function(e,t){r.set.call(e,t)})}else l=function(e){return e[t]},0===a&&(f=function(e,r){e[t]=r});var v=s?c.bind():function(e){return t in e};p.access=l&&f?{get:l,set:f,has:v}:l?{get:l,has:v}:{set:f,has:v};try{return e(o,p)}finally{d.v=!0}}function assertCallable(e,t){if("function"!=typeof e)throw new TypeError(t+" must be a function")}function assertValidReturnValue(e,t){var r=typeof t;if(1===e){if("object"!==r||null===t)throw new TypeError("accessor decorators must return an object with get, set, or init properties or void 0");void 0!==t.get&&assertCallable(t.get,"accessor.get"),void 0!==t.set&&assertCallable(t.set,"accessor.set"),void 0!==t.init&&assertCallable(t.init,"accessor.init")}else if("function"!==r){var n;throw n=0===e?"field":10===e?"class":"method",new TypeError(n+" decorators must return a function or void 0")}}function curryThis2(e){return function(t){e(this,t)}}function applyMemberDec(e,t,r,n,a,i,s,o,c){var u,l,f,p,d,h,v,g=r[0];if(s?u=0===a||1===a?{get:(p=r[3],function(){return p(this)}),set:curryThis2(r[4])}:3===a?{get:r[3]}:4===a?{set:r[3]}:{value:r[3]}:0!==a&&(u=Object.getOwnPropertyDescriptor(t,n)),1===a?f={get:u.get,set:u.set}:2===a?f=u.value:3===a?f=u.get:4===a&&(f=u.set),"function"==typeof g)void 0!==(d=memberDec(g,n,u,o,a,i,s,f,c))&&(assertValidReturnValue(a,d),0===a?l=d:1===a?(l=d.init,h=d.get||f.get,v=d.set||f.set,f={get:h,set:v}):f=d);else for(var y=g.length-1;y>=0;y--){var m;if(void 0!==(d=memberDec(g[y],n,u,o,a,i,s,f,c)))assertValidReturnValue(a,d),0===a?m=d:1===a?(m=d.init,h=d.get||f.get,v=d.set||f.set,f={get:h,set:v}):f=d,void 0!==m&&(void 0===l?l=m:"function"==typeof l?l=[l,m]:l.push(m))}if(0===a||1===a){if(void 0===l)l=function(e,t){return t};else if("function"!=typeof l){var b=l;l=function(e,t){for(var r=t,n=0;n<b.length;n++)r=b[n].call(e,r);return r}}else{var I=l;l=function(e,t){return I.call(e,t)}}e.push(l)}0!==a&&(1===a?(u.get=f.get,u.set=f.set):2===a?u.value=f:3===a?u.get=f:4===a&&(u.set=f),s?1===a?(e.push((function(e,t){return f.get.call(e,t)})),e.push((function(e,t){return f.set.call(e,t)}))):2===a?e.push(f):e.push((function(e,t){return f.call(e,t)})):Object.defineProperty(t,n,u))}function applyMemberDecs(e,t,r){for(var n,a,i,s=[],o=new Map,c=new Map,u=0;u<t.length;u++){var l=t[u];if(Array.isArray(l)){var f,p,d=l[1],h=l[2],v=l.length>3,g=d>=5,y=r;if(g?(f=e,0!==(d-=5)&&(p=a=a||[]),v&&!i&&(i=function(t){return checkInRHS(t)===e}),y=i):(f=e.prototype,0!==d&&(p=n=n||[])),0!==d&&!v){var m=g?c:o,b=m.get(h)||0;if(!0===b||3===b&&4!==d||4===b&&3!==d)throw new Error("Attempted to decorate a public method/accessor that has the same name as a previously decorated public method/accessor. This is not currently supported by the decorators plugin. Property name was: "+h);!b&&d>2?m.set(h,d):m.set(h,!0)}applyMemberDec(s,f,l,h,d,g,v,p,y)}}return pushInitializers(s,n),pushInitializers(s,a),s}function pushInitializers(e,t){t&&e.push((function(e){for(var r=0;r<t.length;r++)t[r].call(e);return e}))}return function(e,t,r,n){return{e:applyMemberDecs(e,t,n),get c(){return function(e,t){if(t.length>0){for(var r=[],n=e,a=e.name,i=t.length-1;i>=0;i--){var s={v:!1};try{var o=t[i](n,{kind:"class",name:a,addInitializer:createAddInitializerMethod(r,s)})}finally{s.v=!0}void 0!==o&&(assertValidReturnValue(10,o),n=o)}return[n,function(){for(var e=0;e<r.length;e++)r[e].call(n)}]}}(e,r)}}}}export default function applyDecs2301(e,t,r,n){return(applyDecs2301=applyDecs2301Factory())(e,t,r,n)}'),
+	  applyDecs2305: helper("7.21.0", 'import checkInRHS from"checkInRHS";function createAddInitializerMethod(e,t){return function(r){assertNotFinished(t,"addInitializer"),assertCallable(r,"An initializer"),e.push(r)}}function assertInstanceIfPrivate(e,t){if(!e(t))throw new TypeError("Attempted to access private element on non-instance")}function memberDec(e,t,r,n,a,i,s,o,c,l){var u;switch(i){case 1:u="accessor";break;case 2:u="method";break;case 3:u="getter";break;case 4:u="setter";break;default:u="field"}var f,d,p={kind:u,name:o?"#"+r:r,static:s,private:o},h={v:!1};if(0!==i&&(p.addInitializer=createAddInitializerMethod(a,h)),o||0!==i&&2!==i)if(2===i)f=function(e){return assertInstanceIfPrivate(l,e),n.value};else{var v=0===i||1===i;(v||3===i)&&(f=o?function(e){return assertInstanceIfPrivate(l,e),n.get.call(e)}:function(e){return n.get.call(e)}),(v||4===i)&&(d=o?function(e,t){assertInstanceIfPrivate(l,e),n.set.call(e,t)}:function(e,t){n.set.call(e,t)})}else f=function(e){return e[r]},0===i&&(d=function(e,t){e[r]=t});var y=o?l.bind():function(e){return r in e};p.access=f&&d?{get:f,set:d,has:y}:f?{get:f,has:y}:{set:d,has:y};try{return e.call(t,c,p)}finally{h.v=!0}}function assertNotFinished(e,t){if(e.v)throw new Error("attempted to call "+t+" after decoration was finished")}function assertCallable(e,t){if("function"!=typeof e)throw new TypeError(t+" must be a function")}function assertValidReturnValue(e,t){var r=typeof t;if(1===e){if("object"!==r||null===t)throw new TypeError("accessor decorators must return an object with get, set, or init properties or void 0");void 0!==t.get&&assertCallable(t.get,"accessor.get"),void 0!==t.set&&assertCallable(t.set,"accessor.set"),void 0!==t.init&&assertCallable(t.init,"accessor.init")}else if("function"!==r){var n;throw n=0===e?"field":5===e?"class":"method",new TypeError(n+" decorators must return a function or void 0")}}function curryThis1(e){return function(){return e(this)}}function curryThis2(e){return function(t){e(this,t)}}function applyMemberDec(e,t,r,n,a,i,s,o,c,l){var u,f,d,p,h,v,y=r[0];n||Array.isArray(y)||(y=[y]),o?u=0===i||1===i?{get:curryThis1(r[3]),set:curryThis2(r[4])}:3===i?{get:r[3]}:4===i?{set:r[3]}:{value:r[3]}:0!==i&&(u=Object.getOwnPropertyDescriptor(t,a)),1===i?d={get:u.get,set:u.set}:2===i?d=u.value:3===i?d=u.get:4===i&&(d=u.set);for(var g=n?2:1,m=y.length-1;m>=0;m-=g){var b;if(void 0!==(p=memberDec(y[m],n?y[m-1]:void 0,a,u,c,i,s,o,d,l)))assertValidReturnValue(i,p),0===i?b=p:1===i?(b=p.init,h=p.get||d.get,v=p.set||d.set,d={get:h,set:v}):d=p,void 0!==b&&(void 0===f?f=b:"function"==typeof f?f=[f,b]:f.push(b))}if(0===i||1===i){if(void 0===f)f=function(e,t){return t};else if("function"!=typeof f){var I=f;f=function(e,t){for(var r=t,n=I.length-1;n>=0;n--)r=I[n].call(e,r);return r}}else{var w=f;f=function(e,t){return w.call(e,t)}}e.push(f)}0!==i&&(1===i?(u.get=d.get,u.set=d.set):2===i?u.value=d:3===i?u.get=d:4===i&&(u.set=d),o?1===i?(e.push((function(e,t){return d.get.call(e,t)})),e.push((function(e,t){return d.set.call(e,t)}))):2===i?e.push(d):e.push((function(e,t){return d.call(e,t)})):Object.defineProperty(t,a,u))}function applyMemberDecs(e,t,r){for(var n,a,i,s=[],o=new Map,c=new Map,l=0;l<t.length;l++){var u=t[l];if(Array.isArray(u)){var f,d,p=u[1],h=u[2],v=u.length>3,y=16&p,g=!!(8&p),m=r;if(p&=7,g?(f=e,0!==p&&(d=a=a||[]),v&&!i&&(i=function(t){return checkInRHS(t)===e}),m=i):(f=e.prototype,0!==p&&(d=n=n||[])),0!==p&&!v){var b=g?c:o,I=b.get(h)||0;if(!0===I||3===I&&4!==p||4===I&&3!==p)throw new Error("Attempted to decorate a public method/accessor that has the same name as a previously decorated public method/accessor. This is not currently supported by the decorators plugin. Property name was: "+h);b.set(h,!(!I&&p>2)||p)}applyMemberDec(s,f,u,y,h,p,g,v,d,m)}}return pushInitializers(s,n),pushInitializers(s,a),s}function pushInitializers(e,t){t&&e.push((function(e){for(var r=0;r<t.length;r++)t[r].call(e);return e}))}function applyClassDecs(e,t,r){if(t.length){for(var n=[],a=e,i=e.name,s=r?2:1,o=t.length-1;o>=0;o-=s){var c={v:!1};try{var l=t[o].call(r?t[o-1]:void 0,a,{kind:"class",name:i,addInitializer:createAddInitializerMethod(n,c)})}finally{c.v=!0}void 0!==l&&(assertValidReturnValue(5,l),a=l)}return[a,function(){for(var e=0;e<n.length;e++)n[e].call(a)}]}}export default function applyDecs2305(e,t,r,n,a){return{e:applyMemberDecs(e,t,a),get c(){return applyClassDecs(e,r,n)}}}'),
+	  asyncGeneratorDelegate: helper("7.0.0-beta.0", 'import OverloadYield from"OverloadYield";export default function _asyncGeneratorDelegate(t){var e={},n=!1;function pump(e,r){return n=!0,r=new Promise((function(n){n(t[e](r))})),{done:!1,value:new OverloadYield(r,1)}}return e["undefined"!=typeof Symbol&&Symbol.iterator||"@@iterator"]=function(){return this},e.next=function(t){return n?(n=!1,t):pump("next",t)},"function"==typeof t.throw&&(e.throw=function(t){if(n)throw n=!1,t;return pump("throw",t)}),"function"==typeof t.return&&(e.return=function(t){return n?(n=!1,t):pump("return",t)}),e}'),
+	  asyncIterator: helper("7.15.9", 'export default function _asyncIterator(r){var n,t,o,e=2;for("undefined"!=typeof Symbol&&(t=Symbol.asyncIterator,o=Symbol.iterator);e--;){if(t&&null!=(n=r[t]))return n.call(r);if(o&&null!=(n=r[o]))return new AsyncFromSyncIterator(n.call(r));t="@@asyncIterator",o="@@iterator"}throw new TypeError("Object is not async iterable")}function AsyncFromSyncIterator(r){function AsyncFromSyncIteratorContinuation(r){if(Object(r)!==r)return Promise.reject(new TypeError(r+" is not an object."));var n=r.done;return Promise.resolve(r.value).then((function(r){return{value:r,done:n}}))}return AsyncFromSyncIterator=function(r){this.s=r,this.n=r.next},AsyncFromSyncIterator.prototype={s:null,n:null,next:function(){return AsyncFromSyncIteratorContinuation(this.n.apply(this.s,arguments))},return:function(r){var n=this.s.return;return void 0===n?Promise.resolve({value:r,done:!0}):AsyncFromSyncIteratorContinuation(n.apply(this.s,arguments))},throw:function(r){var n=this.s.return;return void 0===n?Promise.reject(r):AsyncFromSyncIteratorContinuation(n.apply(this.s,arguments))}},new AsyncFromSyncIterator(r)}'),
+	  awaitAsyncGenerator: helper("7.0.0-beta.0", 'import OverloadYield from"OverloadYield";export default function _awaitAsyncGenerator(e){return new OverloadYield(e,0)}'),
+	  checkInRHS: helper("7.20.5", 'export default function _checkInRHS(e){if(Object(e)!==e)throw TypeError("right-hand side of \'in\' should be an object, got "+(null!==e?typeof e:"null"));return e}'),
+	  defineAccessor: helper("7.20.7", "export default function _defineAccessor(e,r,n,t){var c={configurable:!0,enumerable:!0};return c[e]=t,Object.defineProperty(r,n,c)}"),
+	  dispose: helper("7.22.0", 'function dispose_SuppressedError(r,e){return"undefined"!=typeof SuppressedError?dispose_SuppressedError=SuppressedError:(dispose_SuppressedError=function(r,e){this.suppressed=r,this.error=e,this.stack=(new Error).stack},dispose_SuppressedError.prototype=Object.create(Error.prototype,{constructor:{value:dispose_SuppressedError,writable:!0,configurable:!0}})),new dispose_SuppressedError(r,e)}export default function _dispose(r,e,s){function next(){for(;r.length>0;)try{var o=r.pop(),p=o.d.call(o.v);if(o.a)return Promise.resolve(p).then(next,err)}catch(r){return err(r)}if(s)throw e}function err(r){return e=s?new dispose_SuppressedError(r,e):r,s=!0,next()}return next()}'),
+	  iterableToArrayLimit: helper("7.0.0-beta.0", 'export default function _iterableToArrayLimit(r,l){var t=null==r?null:"undefined"!=typeof Symbol&&r[Symbol.iterator]||r["@@iterator"];if(null!=t){var e,n,i,u,a=[],f=!0,o=!1;try{if(i=(t=t.call(r)).next,0===l){if(Object(t)!==t)return;f=!1}else for(;!(f=(e=i.call(t)).done)&&(a.push(e.value),a.length!==l);f=!0);}catch(r){o=!0,n=r}finally{try{if(!f&&null!=t.return&&(u=t.return(),Object(u)!==u))return}finally{if(o)throw n}}return a}}'),
+	  iterableToArrayLimitLoose: helper("7.0.0-beta.0", 'export default function _iterableToArrayLimitLoose(e,r){var t=e&&("undefined"!=typeof Symbol&&e[Symbol.iterator]||e["@@iterator"]);if(null!=t){var o,l=[];for(t=t.call(e);e.length<r&&!(o=t.next()).done;)l.push(o.value);return l}}'),
+	  jsx: helper("7.0.0-beta.0", 'var REACT_ELEMENT_TYPE;export default function _createRawReactElement(e,r,E,l){REACT_ELEMENT_TYPE||(REACT_ELEMENT_TYPE="function"==typeof Symbol&&Symbol.for&&Symbol.for("react.element")||60103);var o=e&&e.defaultProps,n=arguments.length-3;if(r||0===n||(r={children:void 0}),1===n)r.children=l;else if(n>1){for(var t=new Array(n),f=0;f<n;f++)t[f]=arguments[f+3];r.children=t}if(r&&o)for(var i in o)void 0===r[i]&&(r[i]=o[i]);else r||(r=o||{});return{$$typeof:REACT_ELEMENT_TYPE,type:e,key:void 0===E?null:""+E,ref:null,props:r,_owner:null}}'),
+	  objectSpread2: helper("7.5.0", 'import defineProperty from"defineProperty";function ownKeys(e,r){var t=Object.keys(e);if(Object.getOwnPropertySymbols){var o=Object.getOwnPropertySymbols(e);r&&(o=o.filter((function(r){return Object.getOwnPropertyDescriptor(e,r).enumerable}))),t.push.apply(t,o)}return t}export default function _objectSpread2(e){for(var r=1;r<arguments.length;r++){var t=null!=arguments[r]?arguments[r]:{};r%2?ownKeys(Object(t),!0).forEach((function(r){defineProperty(e,r,t[r])})):Object.getOwnPropertyDescriptors?Object.defineProperties(e,Object.getOwnPropertyDescriptors(t)):ownKeys(Object(t)).forEach((function(r){Object.defineProperty(e,r,Object.getOwnPropertyDescriptor(t,r))}))}return e}'),
+	  regeneratorRuntime: helper("7.18.0", 'export default function _regeneratorRuntime(){"use strict";\n/*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */_regeneratorRuntime=function(){return e};var t,e={},r=Object.prototype,n=r.hasOwnProperty,o=Object.defineProperty||function(t,e,r){t[e]=r.value},i="function"==typeof Symbol?Symbol:{},a=i.iterator||"@@iterator",c=i.asyncIterator||"@@asyncIterator",u=i.toStringTag||"@@toStringTag";function define(t,e,r){return Object.defineProperty(t,e,{value:r,enumerable:!0,configurable:!0,writable:!0}),t[e]}try{define({},"")}catch(t){define=function(t,e,r){return t[e]=r}}function wrap(t,e,r,n){var i=e&&e.prototype instanceof Generator?e:Generator,a=Object.create(i.prototype),c=new Context(n||[]);return o(a,"_invoke",{value:makeInvokeMethod(t,r,c)}),a}function tryCatch(t,e,r){try{return{type:"normal",arg:t.call(e,r)}}catch(t){return{type:"throw",arg:t}}}e.wrap=wrap;var h="suspendedStart",l="suspendedYield",f="executing",s="completed",y={};function Generator(){}function GeneratorFunction(){}function GeneratorFunctionPrototype(){}var p={};define(p,a,(function(){return this}));var d=Object.getPrototypeOf,v=d&&d(d(values([])));v&&v!==r&&n.call(v,a)&&(p=v);var g=GeneratorFunctionPrototype.prototype=Generator.prototype=Object.create(p);function defineIteratorMethods(t){["next","throw","return"].forEach((function(e){define(t,e,(function(t){return this._invoke(e,t)}))}))}function AsyncIterator(t,e){function invoke(r,o,i,a){var c=tryCatch(t[r],t,o);if("throw"!==c.type){var u=c.arg,h=u.value;return h&&"object"==typeof h&&n.call(h,"__await")?e.resolve(h.__await).then((function(t){invoke("next",t,i,a)}),(function(t){invoke("throw",t,i,a)})):e.resolve(h).then((function(t){u.value=t,i(u)}),(function(t){return invoke("throw",t,i,a)}))}a(c.arg)}var r;o(this,"_invoke",{value:function(t,n){function callInvokeWithMethodAndArg(){return new e((function(e,r){invoke(t,n,e,r)}))}return r=r?r.then(callInvokeWithMethodAndArg,callInvokeWithMethodAndArg):callInvokeWithMethodAndArg()}})}function makeInvokeMethod(e,r,n){var o=h;return function(i,a){if(o===f)throw new Error("Generator is already running");if(o===s){if("throw"===i)throw a;return{value:t,done:!0}}for(n.method=i,n.arg=a;;){var c=n.delegate;if(c){var u=maybeInvokeDelegate(c,n);if(u){if(u===y)continue;return u}}if("next"===n.method)n.sent=n._sent=n.arg;else if("throw"===n.method){if(o===h)throw o=s,n.arg;n.dispatchException(n.arg)}else"return"===n.method&&n.abrupt("return",n.arg);o=f;var p=tryCatch(e,r,n);if("normal"===p.type){if(o=n.done?s:l,p.arg===y)continue;return{value:p.arg,done:n.done}}"throw"===p.type&&(o=s,n.method="throw",n.arg=p.arg)}}}function maybeInvokeDelegate(e,r){var n=r.method,o=e.iterator[n];if(o===t)return r.delegate=null,"throw"===n&&e.iterator.return&&(r.method="return",r.arg=t,maybeInvokeDelegate(e,r),"throw"===r.method)||"return"!==n&&(r.method="throw",r.arg=new TypeError("The iterator does not provide a \'"+n+"\' method")),y;var i=tryCatch(o,e.iterator,r.arg);if("throw"===i.type)return r.method="throw",r.arg=i.arg,r.delegate=null,y;var a=i.arg;return a?a.done?(r[e.resultName]=a.value,r.next=e.nextLoc,"return"!==r.method&&(r.method="next",r.arg=t),r.delegate=null,y):a:(r.method="throw",r.arg=new TypeError("iterator result is not an object"),r.delegate=null,y)}function pushTryEntry(t){var e={tryLoc:t[0]};1 in t&&(e.catchLoc=t[1]),2 in t&&(e.finallyLoc=t[2],e.afterLoc=t[3]),this.tryEntries.push(e)}function resetTryEntry(t){var e=t.completion||{};e.type="normal",delete e.arg,t.completion=e}function Context(t){this.tryEntries=[{tryLoc:"root"}],t.forEach(pushTryEntry,this),this.reset(!0)}function values(e){if(e||""===e){var r=e[a];if(r)return r.call(e);if("function"==typeof e.next)return e;if(!isNaN(e.length)){var o=-1,i=function next(){for(;++o<e.length;)if(n.call(e,o))return next.value=e[o],next.done=!1,next;return next.value=t,next.done=!0,next};return i.next=i}}throw new TypeError(typeof e+" is not iterable")}return GeneratorFunction.prototype=GeneratorFunctionPrototype,o(g,"constructor",{value:GeneratorFunctionPrototype,configurable:!0}),o(GeneratorFunctionPrototype,"constructor",{value:GeneratorFunction,configurable:!0}),GeneratorFunction.displayName=define(GeneratorFunctionPrototype,u,"GeneratorFunction"),e.isGeneratorFunction=function(t){var e="function"==typeof t&&t.constructor;return!!e&&(e===GeneratorFunction||"GeneratorFunction"===(e.displayName||e.name))},e.mark=function(t){return Object.setPrototypeOf?Object.setPrototypeOf(t,GeneratorFunctionPrototype):(t.__proto__=GeneratorFunctionPrototype,define(t,u,"GeneratorFunction")),t.prototype=Object.create(g),t},e.awrap=function(t){return{__await:t}},defineIteratorMethods(AsyncIterator.prototype),define(AsyncIterator.prototype,c,(function(){return this})),e.AsyncIterator=AsyncIterator,e.async=function(t,r,n,o,i){void 0===i&&(i=Promise);var a=new AsyncIterator(wrap(t,r,n,o),i);return e.isGeneratorFunction(r)?a:a.next().then((function(t){return t.done?t.value:a.next()}))},defineIteratorMethods(g),define(g,u,"Generator"),define(g,a,(function(){return this})),define(g,"toString",(function(){return"[object Generator]"})),e.keys=function(t){var e=Object(t),r=[];for(var n in e)r.push(n);return r.reverse(),function next(){for(;r.length;){var t=r.pop();if(t in e)return next.value=t,next.done=!1,next}return next.done=!0,next}},e.values=values,Context.prototype={constructor:Context,reset:function(e){if(this.prev=0,this.next=0,this.sent=this._sent=t,this.done=!1,this.delegate=null,this.method="next",this.arg=t,this.tryEntries.forEach(resetTryEntry),!e)for(var r in this)"t"===r.charAt(0)&&n.call(this,r)&&!isNaN(+r.slice(1))&&(this[r]=t)},stop:function(){this.done=!0;var t=this.tryEntries[0].completion;if("throw"===t.type)throw t.arg;return this.rval},dispatchException:function(e){if(this.done)throw e;var r=this;function handle(n,o){return a.type="throw",a.arg=e,r.next=n,o&&(r.method="next",r.arg=t),!!o}for(var o=this.tryEntries.length-1;o>=0;--o){var i=this.tryEntries[o],a=i.completion;if("root"===i.tryLoc)return handle("end");if(i.tryLoc<=this.prev){var c=n.call(i,"catchLoc"),u=n.call(i,"finallyLoc");if(c&&u){if(this.prev<i.catchLoc)return handle(i.catchLoc,!0);if(this.prev<i.finallyLoc)return handle(i.finallyLoc)}else if(c){if(this.prev<i.catchLoc)return handle(i.catchLoc,!0)}else{if(!u)throw new Error("try statement without catch or finally");if(this.prev<i.finallyLoc)return handle(i.finallyLoc)}}}},abrupt:function(t,e){for(var r=this.tryEntries.length-1;r>=0;--r){var o=this.tryEntries[r];if(o.tryLoc<=this.prev&&n.call(o,"finallyLoc")&&this.prev<o.finallyLoc){var i=o;break}}i&&("break"===t||"continue"===t)&&i.tryLoc<=e&&e<=i.finallyLoc&&(i=null);var a=i?i.completion:{};return a.type=t,a.arg=e,i?(this.method="next",this.next=i.finallyLoc,y):this.complete(a)},complete:function(t,e){if("throw"===t.type)throw t.arg;return"break"===t.type||"continue"===t.type?this.next=t.arg:"return"===t.type?(this.rval=this.arg=t.arg,this.method="return",this.next="end"):"normal"===t.type&&e&&(this.next=e),y},finish:function(t){for(var e=this.tryEntries.length-1;e>=0;--e){var r=this.tryEntries[e];if(r.finallyLoc===t)return this.complete(r.completion,r.afterLoc),resetTryEntry(r),y}},catch:function(t){for(var e=this.tryEntries.length-1;e>=0;--e){var r=this.tryEntries[e];if(r.tryLoc===t){var n=r.completion;if("throw"===n.type){var o=n.arg;resetTryEntry(r)}return o}}throw new Error("illegal catch attempt")},delegateYield:function(e,r,n){return this.delegate={iterator:values(e),resultName:r,nextLoc:n},"next"===this.method&&(this.arg=t),y}},e}'),
+	  typeof: helper("7.0.0-beta.0", 'export default function _typeof(o){"@babel/helpers - typeof";return _typeof="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(o){return typeof o}:function(o){return o&&"function"==typeof Symbol&&o.constructor===Symbol&&o!==Symbol.prototype?"symbol":typeof o},_typeof(o)}'),
+	  using: helper("7.22.0", 'export default function _using(o,e,n){if(null==e)return e;if("object"!=typeof e)throw new TypeError("using declarations can only be used with objects, null, or undefined.");if(n)var r=e[Symbol.asyncDispose||Symbol.for("Symbol.asyncDispose")];if(null==r&&(r=e[Symbol.dispose||Symbol.for("Symbol.dispose")]),"function"!=typeof r)throw new TypeError("Property [Symbol.dispose] is not a function.");return o.push({v:e,d:r,a:n}),e}'),
+	  wrapRegExp: helper("7.19.0", 'import setPrototypeOf from"setPrototypeOf";import inherits from"inherits";export default function _wrapRegExp(){_wrapRegExp=function(e,r){return new BabelRegExp(e,void 0,r)};var e=RegExp.prototype,r=new WeakMap;function BabelRegExp(e,t,p){var o=new RegExp(e,t);return r.set(o,p||r.get(e)),setPrototypeOf(o,BabelRegExp.prototype)}function buildGroups(e,t){var p=r.get(t);return Object.keys(p).reduce((function(r,t){var o=p[t];if("number"==typeof o)r[t]=e[o];else{for(var i=0;void 0===e[o[i]]&&i+1<o.length;)i++;r[t]=e[o[i]]}return r}),Object.create(null))}return inherits(BabelRegExp,RegExp),BabelRegExp.prototype.exec=function(r){var t=e.exec.call(this,r);if(t){t.groups=buildGroups(t,this);var p=t.indices;p&&(p.groups=buildGroups(p,this))}return t},BabelRegExp.prototype[Symbol.replace]=function(t,p){if("string"==typeof p){var o=r.get(this);return e[Symbol.replace].call(this,t,p.replace(/\\$<([^>]+)>/g,(function(e,r){var t=o[r];return"$"+(Array.isArray(t)?t.join("$"):t)})))}if("function"==typeof p){var i=this;return e[Symbol.replace].call(this,t,(function(){var e=arguments;return"object"!=typeof e[e.length-1]&&(e=[].slice.call(e)).push(buildGroups(e,i)),p.apply(this,e)}))}return e[Symbol.replace].call(this,t,p)},_wrapRegExp.apply(this,arguments)}')
 	});
 	helpersGenerated.default = _default;
 
@@ -48421,32 +48424,32 @@ function requireHelpersGenerated () {
 }var hasRequiredHelpers;
 
 function requireHelpers () {
-	if (hasRequiredHelpers) return helpers$2;
+	if (hasRequiredHelpers) return helpers;
 	hasRequiredHelpers = 1;
 
-	Object.defineProperty(helpers$2, "__esModule", {
+	Object.defineProperty(helpers, "__esModule", {
 	  value: true
 	});
-	helpers$2.default = void 0;
+	helpers.default = void 0;
 	var _template = requireLib$7();
 	var _helpersGenerated = requireHelpersGenerated();
-	const helpers = Object.assign({
+	const helpers$1 = Object.assign({
 	  __proto__: null
 	}, _helpersGenerated.default);
-	var _default = helpers;
-	helpers$2.default = _default;
+	var _default = helpers$1;
+	helpers.default = _default;
 	const helper = minVersion => tpl => ({
 	  minVersion,
 	  ast: () => _template.default.program.ast(tpl)
 	});
 	{
-	  helpers.AwaitValue = helper("7.0.0-beta.0")`
+	  helpers$1.AwaitValue = helper("7.0.0-beta.0")`
     export default function _AwaitValue(value) {
       this.wrapped = value;
     }
   `;
 	}
-	helpers.wrapAsyncGenerator = helper("7.0.0-beta.0")`
+	helpers$1.wrapAsyncGenerator = helper("7.0.0-beta.0")`
   import AsyncGenerator from "AsyncGenerator";
 
   export default function _wrapAsyncGenerator(fn) {
@@ -48455,7 +48458,7 @@ function requireHelpers () {
     };
   }
 `;
-	helpers.asyncToGenerator = helper("7.0.0-beta.0")`
+	helpers$1.asyncToGenerator = helper("7.0.0-beta.0")`
   function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
     try {
       var info = gen[key](arg);
@@ -48489,14 +48492,14 @@ function requireHelpers () {
     };
   }
 `;
-	helpers.classCallCheck = helper("7.0.0-beta.0")`
+	helpers$1.classCallCheck = helper("7.0.0-beta.0")`
   export default function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
       throw new TypeError("Cannot call a class as a function");
     }
   }
 `;
-	helpers.createClass = helper("7.0.0-beta.0")`
+	helpers$1.createClass = helper("7.0.0-beta.0")`
   import toPropertyKey from "toPropertyKey";
   function _defineProperties(target, props) {
     for (var i = 0; i < props.length; i ++) {
@@ -48515,7 +48518,7 @@ function requireHelpers () {
     return Constructor;
   }
 `;
-	helpers.defineEnumerableProperties = helper("7.0.0-beta.0")`
+	helpers$1.defineEnumerableProperties = helper("7.0.0-beta.0")`
   export default function _defineEnumerableProperties(obj, descs) {
     for (var key in descs) {
       var desc = descs[key];
@@ -48540,7 +48543,7 @@ function requireHelpers () {
     return obj;
   }
 `;
-	helpers.defaults = helper("7.0.0-beta.0")`
+	helpers$1.defaults = helper("7.0.0-beta.0")`
   export default function _defaults(obj, defaults) {
     var keys = Object.getOwnPropertyNames(defaults);
     for (var i = 0; i < keys.length; i++) {
@@ -48553,7 +48556,7 @@ function requireHelpers () {
     return obj;
   }
 `;
-	helpers.defineProperty = helper("7.0.0-beta.0")`
+	helpers$1.defineProperty = helper("7.0.0-beta.0")`
   import toPropertyKey from "toPropertyKey";
   export default function _defineProperty(obj, key, value) {
     key = toPropertyKey(key);
@@ -48575,7 +48578,7 @@ function requireHelpers () {
     return obj;
   }
 `;
-	helpers.extends = helper("7.0.0-beta.0")`
+	helpers$1.extends = helper("7.0.0-beta.0")`
   export default function _extends() {
     _extends = Object.assign ? Object.assign.bind() : function (target) {
       for (var i = 1; i < arguments.length; i++) {
@@ -48593,7 +48596,7 @@ function requireHelpers () {
   }
 `;
 	{
-	  helpers.objectSpread = helper("7.0.0-beta.0")`
+	  helpers$1.objectSpread = helper("7.0.0-beta.0")`
     import defineProperty from "defineProperty";
 
     export default function _objectSpread(target) {
@@ -48613,7 +48616,7 @@ function requireHelpers () {
     }
   `;
 	}
-	helpers.inherits = helper("7.0.0-beta.0")`
+	helpers$1.inherits = helper("7.0.0-beta.0")`
   import setPrototypeOf from "setPrototypeOf";
 
   export default function _inherits(subClass, superClass) {
@@ -48634,7 +48637,7 @@ function requireHelpers () {
     if (superClass) setPrototypeOf(subClass, superClass);
   }
 `;
-	helpers.inheritsLoose = helper("7.0.0-beta.0")`
+	helpers$1.inheritsLoose = helper("7.0.0-beta.0")`
   import setPrototypeOf from "setPrototypeOf";
 
   export default function _inheritsLoose(subClass, superClass) {
@@ -48643,7 +48646,7 @@ function requireHelpers () {
     setPrototypeOf(subClass, superClass);
   }
 `;
-	helpers.getPrototypeOf = helper("7.0.0-beta.0")`
+	helpers$1.getPrototypeOf = helper("7.0.0-beta.0")`
   export default function _getPrototypeOf(o) {
     _getPrototypeOf = Object.setPrototypeOf
       ? Object.getPrototypeOf.bind()
@@ -48653,7 +48656,7 @@ function requireHelpers () {
     return _getPrototypeOf(o);
   }
 `;
-	helpers.setPrototypeOf = helper("7.0.0-beta.0")`
+	helpers$1.setPrototypeOf = helper("7.0.0-beta.0")`
   export default function _setPrototypeOf(o, p) {
     _setPrototypeOf = Object.setPrototypeOf
       ? Object.setPrototypeOf.bind()
@@ -48664,7 +48667,7 @@ function requireHelpers () {
     return _setPrototypeOf(o, p);
   }
 `;
-	helpers.isNativeReflectConstruct = helper("7.9.0")`
+	helpers$1.isNativeReflectConstruct = helper("7.9.0")`
   export default function _isNativeReflectConstruct() {
     if (typeof Reflect === "undefined" || !Reflect.construct) return false;
 
@@ -48691,7 +48694,7 @@ function requireHelpers () {
     }
   }
 `;
-	helpers.construct = helper("7.0.0-beta.0")`
+	helpers$1.construct = helper("7.0.0-beta.0")`
   import setPrototypeOf from "setPrototypeOf";
   import isNativeReflectConstruct from "isNativeReflectConstruct";
 
@@ -48715,13 +48718,13 @@ function requireHelpers () {
     return _construct.apply(null, arguments);
   }
 `;
-	helpers.isNativeFunction = helper("7.0.0-beta.0")`
+	helpers$1.isNativeFunction = helper("7.0.0-beta.0")`
   export default function _isNativeFunction(fn) {
     // Note: This function returns "true" for core-js functions.
     return Function.toString.call(fn).indexOf("[native code]") !== -1;
   }
 `;
-	helpers.wrapNativeSuper = helper("7.0.0-beta.0")`
+	helpers$1.wrapNativeSuper = helper("7.0.0-beta.0")`
   import getPrototypeOf from "getPrototypeOf";
   import setPrototypeOf from "setPrototypeOf";
   import isNativeFunction from "isNativeFunction";
@@ -48757,7 +48760,7 @@ function requireHelpers () {
     return _wrapNativeSuper(Class)
   }
 `;
-	helpers.instanceof = helper("7.0.0-beta.0")`
+	helpers$1.instanceof = helper("7.0.0-beta.0")`
   export default function _instanceof(left, right) {
     if (right != null && typeof Symbol !== "undefined" && right[Symbol.hasInstance]) {
       return !!right[Symbol.hasInstance](left);
@@ -48766,12 +48769,12 @@ function requireHelpers () {
     }
   }
 `;
-	helpers.interopRequireDefault = helper("7.0.0-beta.0")`
+	helpers$1.interopRequireDefault = helper("7.0.0-beta.0")`
   export default function _interopRequireDefault(obj) {
     return obj && obj.__esModule ? obj : { default: obj };
   }
 `;
-	helpers.interopRequireWildcard = helper("7.14.0")`
+	helpers$1.interopRequireWildcard = helper("7.14.0")`
   function _getRequireWildcardCache(nodeInterop) {
     if (typeof WeakMap !== "function") return null;
 
@@ -48817,19 +48820,19 @@ function requireHelpers () {
     return newObj;
   }
 `;
-	helpers.newArrowCheck = helper("7.0.0-beta.0")`
+	helpers$1.newArrowCheck = helper("7.0.0-beta.0")`
   export default function _newArrowCheck(innerThis, boundThis) {
     if (innerThis !== boundThis) {
       throw new TypeError("Cannot instantiate an arrow function");
     }
   }
 `;
-	helpers.objectDestructuringEmpty = helper("7.0.0-beta.0")`
+	helpers$1.objectDestructuringEmpty = helper("7.0.0-beta.0")`
   export default function _objectDestructuringEmpty(obj) {
     if (obj == null) throw new TypeError("Cannot destructure " + obj);
   }
 `;
-	helpers.objectWithoutPropertiesLoose = helper("7.0.0-beta.0")`
+	helpers$1.objectWithoutPropertiesLoose = helper("7.0.0-beta.0")`
   export default function _objectWithoutPropertiesLoose(source, excluded) {
     if (source == null) return {};
 
@@ -48846,7 +48849,7 @@ function requireHelpers () {
     return target;
   }
 `;
-	helpers.objectWithoutProperties = helper("7.0.0-beta.0")`
+	helpers$1.objectWithoutProperties = helper("7.0.0-beta.0")`
   import objectWithoutPropertiesLoose from "objectWithoutPropertiesLoose";
 
   export default function _objectWithoutProperties(source, excluded) {
@@ -48868,7 +48871,7 @@ function requireHelpers () {
     return target;
   }
 `;
-	helpers.assertThisInitialized = helper("7.0.0-beta.0")`
+	helpers$1.assertThisInitialized = helper("7.0.0-beta.0")`
   export default function _assertThisInitialized(self) {
     if (self === void 0) {
       throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
@@ -48876,7 +48879,7 @@ function requireHelpers () {
     return self;
   }
 `;
-	helpers.possibleConstructorReturn = helper("7.0.0-beta.0")`
+	helpers$1.possibleConstructorReturn = helper("7.0.0-beta.0")`
   import assertThisInitialized from "assertThisInitialized";
 
   export default function _possibleConstructorReturn(self, call) {
@@ -48889,7 +48892,7 @@ function requireHelpers () {
     return assertThisInitialized(self);
   }
 `;
-	helpers.createSuper = helper("7.9.0")`
+	helpers$1.createSuper = helper("7.9.0")`
   import getPrototypeOf from "getPrototypeOf";
   import isNativeReflectConstruct from "isNativeReflectConstruct";
   import possibleConstructorReturn from "possibleConstructorReturn";
@@ -48910,7 +48913,7 @@ function requireHelpers () {
     }
   }
  `;
-	helpers.superPropBase = helper("7.0.0-beta.0")`
+	helpers$1.superPropBase = helper("7.0.0-beta.0")`
   import getPrototypeOf from "getPrototypeOf";
 
   export default function _superPropBase(object, property) {
@@ -48922,7 +48925,7 @@ function requireHelpers () {
     return object;
   }
 `;
-	helpers.get = helper("7.0.0-beta.0")`
+	helpers$1.get = helper("7.0.0-beta.0")`
   import superPropBase from "superPropBase";
 
   export default function _get() {
@@ -48946,7 +48949,7 @@ function requireHelpers () {
     return _get.apply(this, arguments);
   }
 `;
-	helpers.set = helper("7.0.0-beta.0")`
+	helpers$1.set = helper("7.0.0-beta.0")`
   import superPropBase from "superPropBase";
   import defineProperty from "defineProperty";
 
@@ -49002,7 +49005,7 @@ function requireHelpers () {
     return value;
   }
 `;
-	helpers.taggedTemplateLiteral = helper("7.0.0-beta.0")`
+	helpers$1.taggedTemplateLiteral = helper("7.0.0-beta.0")`
   export default function _taggedTemplateLiteral(strings, raw) {
     if (!raw) { raw = strings.slice(0); }
     return Object.freeze(Object.defineProperties(strings, {
@@ -49010,39 +49013,39 @@ function requireHelpers () {
     }));
   }
 `;
-	helpers.taggedTemplateLiteralLoose = helper("7.0.0-beta.0")`
+	helpers$1.taggedTemplateLiteralLoose = helper("7.0.0-beta.0")`
   export default function _taggedTemplateLiteralLoose(strings, raw) {
     if (!raw) { raw = strings.slice(0); }
     strings.raw = raw;
     return strings;
   }
 `;
-	helpers.readOnlyError = helper("7.0.0-beta.0")`
+	helpers$1.readOnlyError = helper("7.0.0-beta.0")`
   export default function _readOnlyError(name) {
     throw new TypeError("\\"" + name + "\\" is read-only");
   }
 `;
-	helpers.writeOnlyError = helper("7.12.13")`
+	helpers$1.writeOnlyError = helper("7.12.13")`
   export default function _writeOnlyError(name) {
     throw new TypeError("\\"" + name + "\\" is write-only");
   }
 `;
-	helpers.classNameTDZError = helper("7.0.0-beta.0")`
+	helpers$1.classNameTDZError = helper("7.0.0-beta.0")`
   export default function _classNameTDZError(name) {
     throw new ReferenceError("Class \\"" + name + "\\" cannot be referenced in computed property keys.");
   }
 `;
-	helpers.temporalUndefined = helper("7.0.0-beta.0")`
+	helpers$1.temporalUndefined = helper("7.0.0-beta.0")`
   // This function isn't mean to be called, but to be used as a reference.
   // We can't use a normal object because it isn't hoisted.
   export default function _temporalUndefined() {}
 `;
-	helpers.tdz = helper("7.5.5")`
+	helpers$1.tdz = helper("7.5.5")`
   export default function _tdzError(name) {
     throw new ReferenceError(name + " is not defined - temporal dead zone");
   }
 `;
-	helpers.temporalRef = helper("7.0.0-beta.0")`
+	helpers$1.temporalRef = helper("7.0.0-beta.0")`
   import undef from "temporalUndefined";
   import err from "tdz";
 
@@ -49050,7 +49053,7 @@ function requireHelpers () {
     return val === undef ? err(name) : val;
   }
 `;
-	helpers.slicedToArray = helper("7.0.0-beta.0")`
+	helpers$1.slicedToArray = helper("7.0.0-beta.0")`
   import arrayWithHoles from "arrayWithHoles";
   import iterableToArrayLimit from "iterableToArrayLimit";
   import unsupportedIterableToArray from "unsupportedIterableToArray";
@@ -49065,7 +49068,7 @@ function requireHelpers () {
     );
   }
 `;
-	helpers.slicedToArrayLoose = helper("7.0.0-beta.0")`
+	helpers$1.slicedToArrayLoose = helper("7.0.0-beta.0")`
   import arrayWithHoles from "arrayWithHoles";
   import iterableToArrayLimitLoose from "iterableToArrayLimitLoose";
   import unsupportedIterableToArray from "unsupportedIterableToArray";
@@ -49080,7 +49083,7 @@ function requireHelpers () {
     );
   }
 `;
-	helpers.toArray = helper("7.0.0-beta.0")`
+	helpers$1.toArray = helper("7.0.0-beta.0")`
   import arrayWithHoles from "arrayWithHoles";
   import iterableToArray from "iterableToArray";
   import unsupportedIterableToArray from "unsupportedIterableToArray";
@@ -49095,7 +49098,7 @@ function requireHelpers () {
     );
   }
 `;
-	helpers.toConsumableArray = helper("7.0.0-beta.0")`
+	helpers$1.toConsumableArray = helper("7.0.0-beta.0")`
   import arrayWithoutHoles from "arrayWithoutHoles";
   import iterableToArray from "iterableToArray";
   import unsupportedIterableToArray from "unsupportedIterableToArray";
@@ -49110,19 +49113,19 @@ function requireHelpers () {
     );
   }
 `;
-	helpers.arrayWithoutHoles = helper("7.0.0-beta.0")`
+	helpers$1.arrayWithoutHoles = helper("7.0.0-beta.0")`
   import arrayLikeToArray from "arrayLikeToArray";
 
   export default function _arrayWithoutHoles(arr) {
     if (Array.isArray(arr)) return arrayLikeToArray(arr);
   }
 `;
-	helpers.arrayWithHoles = helper("7.0.0-beta.0")`
+	helpers$1.arrayWithHoles = helper("7.0.0-beta.0")`
   export default function _arrayWithHoles(arr) {
     if (Array.isArray(arr)) return arr;
   }
 `;
-	helpers.maybeArrayLike = helper("7.9.0")`
+	helpers$1.maybeArrayLike = helper("7.9.0")`
   import arrayLikeToArray from "arrayLikeToArray";
 
   export default function _maybeArrayLike(next, arr, i) {
@@ -49133,12 +49136,12 @@ function requireHelpers () {
     return next(arr, i);
   }
 `;
-	helpers.iterableToArray = helper("7.0.0-beta.0")`
+	helpers$1.iterableToArray = helper("7.0.0-beta.0")`
   export default function _iterableToArray(iter) {
     if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter);
   }
 `;
-	helpers.unsupportedIterableToArray = helper("7.9.0")`
+	helpers$1.unsupportedIterableToArray = helper("7.9.0")`
   import arrayLikeToArray from "arrayLikeToArray";
 
   export default function _unsupportedIterableToArray(o, minLen) {
@@ -49151,28 +49154,28 @@ function requireHelpers () {
       return arrayLikeToArray(o, minLen);
   }
 `;
-	helpers.arrayLikeToArray = helper("7.9.0")`
+	helpers$1.arrayLikeToArray = helper("7.9.0")`
   export default function _arrayLikeToArray(arr, len) {
     if (len == null || len > arr.length) len = arr.length;
     for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i];
     return arr2;
   }
 `;
-	helpers.nonIterableSpread = helper("7.0.0-beta.0")`
+	helpers$1.nonIterableSpread = helper("7.0.0-beta.0")`
   export default function _nonIterableSpread() {
     throw new TypeError(
       "Invalid attempt to spread non-iterable instance.\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."
     );
   }
 `;
-	helpers.nonIterableRest = helper("7.0.0-beta.0")`
+	helpers$1.nonIterableRest = helper("7.0.0-beta.0")`
   export default function _nonIterableRest() {
     throw new TypeError(
       "Invalid attempt to destructure non-iterable instance.\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."
     );
   }
 `;
-	helpers.createForOfIteratorHelper = helper("7.9.0")`
+	helpers$1.createForOfIteratorHelper = helper("7.9.0")`
   import unsupportedIterableToArray from "unsupportedIterableToArray";
 
   // s: start (create the iterator)
@@ -49232,7 +49235,7 @@ function requireHelpers () {
     };
   }
 `;
-	helpers.createForOfIteratorHelperLoose = helper("7.9.0")`
+	helpers$1.createForOfIteratorHelperLoose = helper("7.9.0")`
   import unsupportedIterableToArray from "unsupportedIterableToArray";
 
   export default function _createForOfIteratorHelperLoose(o, allowArrayLike) {
@@ -49257,7 +49260,7 @@ function requireHelpers () {
     throw new TypeError("Invalid attempt to iterate non-iterable instance.\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
   }
 `;
-	helpers.skipFirstGeneratorNext = helper("7.0.0-beta.0")`
+	helpers$1.skipFirstGeneratorNext = helper("7.0.0-beta.0")`
   export default function _skipFirstGeneratorNext(fn) {
     return function () {
       var it = fn.apply(this, arguments);
@@ -49266,7 +49269,7 @@ function requireHelpers () {
     }
   }
 `;
-	helpers.toPrimitive = helper("7.1.5")`
+	helpers$1.toPrimitive = helper("7.1.5")`
   export default function _toPrimitive(
     input,
     hint /*: "default" | "string" | "number" | void */
@@ -49281,7 +49284,7 @@ function requireHelpers () {
     return (hint === "string" ? String : Number)(input);
   }
 `;
-	helpers.toPropertyKey = helper("7.1.5")`
+	helpers$1.toPropertyKey = helper("7.1.5")`
   import toPrimitive from "toPrimitive";
 
   export default function _toPropertyKey(arg) {
@@ -49289,7 +49292,7 @@ function requireHelpers () {
     return typeof key === "symbol" ? key : String(key);
   }
 `;
-	helpers.initializerWarningHelper = helper("7.0.0-beta.0")`
+	helpers$1.initializerWarningHelper = helper("7.0.0-beta.0")`
     export default function _initializerWarningHelper(descriptor, context){
         throw new Error(
           'Decorating class property failed. Please ensure that ' +
@@ -49297,7 +49300,7 @@ function requireHelpers () {
         );
     }
 `;
-	helpers.initializerDefineProperty = helper("7.0.0-beta.0")`
+	helpers$1.initializerDefineProperty = helper("7.0.0-beta.0")`
     export default function _initializerDefineProperty(target, property, descriptor, context){
         if (!descriptor) return;
 
@@ -49309,7 +49312,7 @@ function requireHelpers () {
         });
     }
 `;
-	helpers.applyDecoratedDescriptor = helper("7.0.0-beta.0")`
+	helpers$1.applyDecoratedDescriptor = helper("7.0.0-beta.0")`
     export default function _applyDecoratedDescriptor(target, property, decorators, descriptor, context){
         var desc = {};
         Object.keys(descriptor).forEach(function(key){
@@ -49338,13 +49341,13 @@ function requireHelpers () {
         return desc;
     }
 `;
-	helpers.classPrivateFieldLooseKey = helper("7.0.0-beta.0")`
+	helpers$1.classPrivateFieldLooseKey = helper("7.0.0-beta.0")`
   var id = 0;
   export default function _classPrivateFieldKey(name) {
     return "__private_" + (id++) + "_" + name;
   }
 `;
-	helpers.classPrivateFieldLooseBase = helper("7.0.0-beta.0")`
+	helpers$1.classPrivateFieldLooseBase = helper("7.0.0-beta.0")`
   export default function _classPrivateFieldBase(receiver, privateKey) {
     if (!Object.prototype.hasOwnProperty.call(receiver, privateKey)) {
       throw new TypeError("attempted to use private field on non-instance");
@@ -49352,7 +49355,7 @@ function requireHelpers () {
     return receiver;
   }
 `;
-	helpers.classPrivateFieldGet = helper("7.0.0-beta.0")`
+	helpers$1.classPrivateFieldGet = helper("7.0.0-beta.0")`
   import classApplyDescriptorGet from "classApplyDescriptorGet";
   import classExtractFieldDescriptor from "classExtractFieldDescriptor";
   export default function _classPrivateFieldGet(receiver, privateMap) {
@@ -49360,7 +49363,7 @@ function requireHelpers () {
     return classApplyDescriptorGet(receiver, descriptor);
   }
 `;
-	helpers.classPrivateFieldSet = helper("7.0.0-beta.0")`
+	helpers$1.classPrivateFieldSet = helper("7.0.0-beta.0")`
   import classApplyDescriptorSet from "classApplyDescriptorSet";
   import classExtractFieldDescriptor from "classExtractFieldDescriptor";
   export default function _classPrivateFieldSet(receiver, privateMap, value) {
@@ -49369,7 +49372,7 @@ function requireHelpers () {
     return value;
   }
 `;
-	helpers.classPrivateFieldDestructureSet = helper("7.4.4")`
+	helpers$1.classPrivateFieldDestructureSet = helper("7.4.4")`
   import classApplyDescriptorDestructureSet from "classApplyDescriptorDestructureSet";
   import classExtractFieldDescriptor from "classExtractFieldDescriptor";
   export default function _classPrivateFieldDestructureSet(receiver, privateMap) {
@@ -49377,7 +49380,7 @@ function requireHelpers () {
     return classApplyDescriptorDestructureSet(receiver, descriptor);
   }
 `;
-	helpers.classExtractFieldDescriptor = helper("7.13.10")`
+	helpers$1.classExtractFieldDescriptor = helper("7.13.10")`
   export default function _classExtractFieldDescriptor(receiver, privateMap, action) {
     if (!privateMap.has(receiver)) {
       throw new TypeError("attempted to " + action + " private field on non-instance");
@@ -49385,7 +49388,7 @@ function requireHelpers () {
     return privateMap.get(receiver);
   }
 `;
-	helpers.classStaticPrivateFieldSpecGet = helper("7.0.2")`
+	helpers$1.classStaticPrivateFieldSpecGet = helper("7.0.2")`
   import classApplyDescriptorGet from "classApplyDescriptorGet";
   import classCheckPrivateStaticAccess from "classCheckPrivateStaticAccess";
   import classCheckPrivateStaticFieldDescriptor from "classCheckPrivateStaticFieldDescriptor";
@@ -49395,7 +49398,7 @@ function requireHelpers () {
     return classApplyDescriptorGet(receiver, descriptor);
   }
 `;
-	helpers.classStaticPrivateFieldSpecSet = helper("7.0.2")`
+	helpers$1.classStaticPrivateFieldSpecSet = helper("7.0.2")`
   import classApplyDescriptorSet from "classApplyDescriptorSet";
   import classCheckPrivateStaticAccess from "classCheckPrivateStaticAccess";
   import classCheckPrivateStaticFieldDescriptor from "classCheckPrivateStaticFieldDescriptor";
@@ -49406,19 +49409,19 @@ function requireHelpers () {
     return value;
   }
 `;
-	helpers.classStaticPrivateMethodGet = helper("7.3.2")`
+	helpers$1.classStaticPrivateMethodGet = helper("7.3.2")`
   import classCheckPrivateStaticAccess from "classCheckPrivateStaticAccess";
   export default function _classStaticPrivateMethodGet(receiver, classConstructor, method) {
     classCheckPrivateStaticAccess(receiver, classConstructor);
     return method;
   }
 `;
-	helpers.classStaticPrivateMethodSet = helper("7.3.2")`
+	helpers$1.classStaticPrivateMethodSet = helper("7.3.2")`
   export default function _classStaticPrivateMethodSet() {
     throw new TypeError("attempted to set read only static private field");
   }
 `;
-	helpers.classApplyDescriptorGet = helper("7.13.10")`
+	helpers$1.classApplyDescriptorGet = helper("7.13.10")`
   export default function _classApplyDescriptorGet(receiver, descriptor) {
     if (descriptor.get) {
       return descriptor.get.call(receiver);
@@ -49426,7 +49429,7 @@ function requireHelpers () {
     return descriptor.value;
   }
 `;
-	helpers.classApplyDescriptorSet = helper("7.13.10")`
+	helpers$1.classApplyDescriptorSet = helper("7.13.10")`
   export default function _classApplyDescriptorSet(receiver, descriptor, value) {
     if (descriptor.set) {
       descriptor.set.call(receiver, value);
@@ -49441,7 +49444,7 @@ function requireHelpers () {
     }
   }
 `;
-	helpers.classApplyDescriptorDestructureSet = helper("7.13.10")`
+	helpers$1.classApplyDescriptorDestructureSet = helper("7.13.10")`
   export default function _classApplyDescriptorDestructureSet(receiver, descriptor) {
     if (descriptor.set) {
       if (!("__destrObj" in descriptor)) {
@@ -49464,7 +49467,7 @@ function requireHelpers () {
     }
   }
 `;
-	helpers.classStaticPrivateFieldDestructureSet = helper("7.13.10")`
+	helpers$1.classStaticPrivateFieldDestructureSet = helper("7.13.10")`
   import classApplyDescriptorDestructureSet from "classApplyDescriptorDestructureSet";
   import classCheckPrivateStaticAccess from "classCheckPrivateStaticAccess";
   import classCheckPrivateStaticFieldDescriptor from "classCheckPrivateStaticFieldDescriptor";
@@ -49474,21 +49477,21 @@ function requireHelpers () {
     return classApplyDescriptorDestructureSet(receiver, descriptor);
   }
 `;
-	helpers.classCheckPrivateStaticAccess = helper("7.13.10")`
+	helpers$1.classCheckPrivateStaticAccess = helper("7.13.10")`
   export default function _classCheckPrivateStaticAccess(receiver, classConstructor) {
     if (receiver !== classConstructor) {
       throw new TypeError("Private static access of wrong provenance");
     }
   }
 `;
-	helpers.classCheckPrivateStaticFieldDescriptor = helper("7.13.10")`
+	helpers$1.classCheckPrivateStaticFieldDescriptor = helper("7.13.10")`
   export default function _classCheckPrivateStaticFieldDescriptor(descriptor, action) {
     if (descriptor === undefined) {
       throw new TypeError("attempted to " + action + " private static field before its declaration");
     }
   }
 `;
-	helpers.decorate = helper("7.1.5")`
+	helpers$1.decorate = helper("7.1.5")`
   import toArray from "toArray";
   import toPropertyKey from "toPropertyKey";
 
@@ -50161,7 +50164,7 @@ function requireHelpers () {
   }
 
 `;
-	helpers.classPrivateMethodGet = helper("7.1.6")`
+	helpers$1.classPrivateMethodGet = helper("7.1.6")`
   export default function _classPrivateMethodGet(receiver, privateSet, fn) {
     if (!privateSet.has(receiver)) {
       throw new TypeError("attempted to get private field on non-instance");
@@ -50169,14 +50172,14 @@ function requireHelpers () {
     return fn;
   }
 `;
-	helpers.checkPrivateRedeclaration = helper("7.14.1")`
+	helpers$1.checkPrivateRedeclaration = helper("7.14.1")`
   export default function _checkPrivateRedeclaration(obj, privateCollection) {
     if (privateCollection.has(obj)) {
       throw new TypeError("Cannot initialize the same private elements twice on an object");
     }
   }
 `;
-	helpers.classPrivateFieldInitSpec = helper("7.14.1")`
+	helpers$1.classPrivateFieldInitSpec = helper("7.14.1")`
   import checkPrivateRedeclaration from "checkPrivateRedeclaration";
 
   export default function _classPrivateFieldInitSpec(obj, privateMap, value) {
@@ -50184,7 +50187,7 @@ function requireHelpers () {
     privateMap.set(obj, value);
   }
 `;
-	helpers.classPrivateMethodInitSpec = helper("7.14.1")`
+	helpers$1.classPrivateMethodInitSpec = helper("7.14.1")`
   import checkPrivateRedeclaration from "checkPrivateRedeclaration";
 
   export default function _classPrivateMethodInitSpec(obj, privateSet) {
@@ -50193,20 +50196,20 @@ function requireHelpers () {
   }
 `;
 	{
-	  helpers.classPrivateMethodSet = helper("7.1.6")`
+	  helpers$1.classPrivateMethodSet = helper("7.1.6")`
     export default function _classPrivateMethodSet() {
       throw new TypeError("attempted to reassign private method");
     }
   `;
 	}
-	helpers.identity = helper("7.17.0")`
+	helpers$1.identity = helper("7.17.0")`
   export default function _identity(x) {
     return x;
   }
 `;
 
 	
-	return helpers$2;
+	return helpers;
 }var hasRequiredLib$4;
 
 function requireLib$4 () {
@@ -51334,26 +51337,26 @@ function doesNotThrow(block, /*optional*/error, /*optional*/message) {
 assert.ifError = ifError;
 function ifError(err) {
   if (err) throw err;
-}var _polyfillNode_assert=/*#__PURE__*/Object.freeze({__proto__:null,'default':assert,AssertionError:AssertionError,fail:fail,ok:ok,assert:ok,equal:equal,notEqual:notEqual,deepEqual:deepEqual,deepStrictEqual:deepStrictEqual,notDeepEqual:notDeepEqual,notDeepStrictEqual:notDeepStrictEqual,strictEqual:strictEqual,notStrictEqual:notStrictEqual,throws:throws,doesNotThrow:doesNotThrow,ifError:ifError});var require$$0$4 = /*@__PURE__*/getAugmentedNamespace(_polyfillNode_assert);var lib$b = {};var importInjector = {};var importBuilder = {};Object.defineProperty(importBuilder, "__esModule", {
+}var _polyfillNode_assert=/*#__PURE__*/Object.freeze({__proto__:null,AssertionError:AssertionError,assert:ok,deepEqual:deepEqual,deepStrictEqual:deepStrictEqual,default:assert,doesNotThrow:doesNotThrow,equal:equal,fail:fail,ifError:ifError,notDeepEqual:notDeepEqual,notDeepStrictEqual:notDeepStrictEqual,notEqual:notEqual,notStrictEqual:notStrictEqual,ok:ok,strictEqual:strictEqual,throws:throws});var require$$0$4 = /*@__PURE__*/getAugmentedNamespace(_polyfillNode_assert);var lib$b = {};var importInjector = {};var importBuilder = {};Object.defineProperty(importBuilder, "__esModule", {
   value: true
 });
 importBuilder.default = void 0;
 var _assert$1 = require$$0$4;
-var _t$5 = requireLib$f();
+var _t$2 = requireLib$f();
 const {
-  callExpression: callExpression$1,
-  cloneNode: cloneNode$2,
-  expressionStatement: expressionStatement$1,
-  identifier: identifier$1,
+  callExpression,
+  cloneNode,
+  expressionStatement,
+  identifier,
   importDeclaration,
   importDefaultSpecifier,
   importNamespaceSpecifier,
   importSpecifier,
-  memberExpression: memberExpression$1,
-  stringLiteral: stringLiteral$1,
-  variableDeclaration: variableDeclaration$1,
-  variableDeclarator: variableDeclarator$1
-} = _t$5;
+  memberExpression,
+  stringLiteral,
+  variableDeclaration,
+  variableDeclarator
+} = _t$2;
 class ImportBuilder {
   constructor(importedSource, scope, hub) {
     this._statements = [];
@@ -51370,11 +51373,11 @@ class ImportBuilder {
     };
   }
   import() {
-    this._statements.push(importDeclaration([], stringLiteral$1(this._importedSource)));
+    this._statements.push(importDeclaration([], stringLiteral(this._importedSource)));
     return this;
   }
   require() {
-    this._statements.push(expressionStatement$1(callExpression$1(identifier$1("require"), [stringLiteral$1(this._importedSource)])));
+    this._statements.push(expressionStatement(callExpression(identifier("require"), [stringLiteral(this._importedSource)])));
     return this;
   }
   namespace(name = "namespace") {
@@ -51383,7 +51386,7 @@ class ImportBuilder {
     _assert$1(statement.type === "ImportDeclaration");
     _assert$1(statement.specifiers.length === 0);
     statement.specifiers = [importNamespaceSpecifier(local)];
-    this._resultName = cloneNode$2(local);
+    this._resultName = cloneNode(local);
     return this;
   }
   default(name) {
@@ -51392,7 +51395,7 @@ class ImportBuilder {
     _assert$1(statement.type === "ImportDeclaration");
     _assert$1(statement.specifiers.length === 0);
     statement.specifiers = [importDefaultSpecifier(id)];
-    this._resultName = cloneNode$2(id);
+    this._resultName = cloneNode(id);
     return this;
   }
   named(name, importName) {
@@ -51401,8 +51404,8 @@ class ImportBuilder {
     const statement = this._statements[this._statements.length - 1];
     _assert$1(statement.type === "ImportDeclaration");
     _assert$1(statement.specifiers.length === 0);
-    statement.specifiers = [importSpecifier(id, identifier$1(importName))];
-    this._resultName = cloneNode$2(id);
+    statement.specifiers = [importSpecifier(id, identifier(importName))];
+    this._resultName = cloneNode(id);
     return this;
   }
   var(name) {
@@ -51410,11 +51413,11 @@ class ImportBuilder {
     let statement = this._statements[this._statements.length - 1];
     if (statement.type !== "ExpressionStatement") {
       _assert$1(this._resultName);
-      statement = expressionStatement$1(this._resultName);
+      statement = expressionStatement(this._resultName);
       this._statements.push(statement);
     }
-    this._statements[this._statements.length - 1] = variableDeclaration$1("var", [variableDeclarator$1(id, statement.expression)]);
-    this._resultName = cloneNode$2(id);
+    this._statements[this._statements.length - 1] = variableDeclaration("var", [variableDeclarator(id, statement.expression)]);
+    this._resultName = cloneNode(id);
     return this;
   }
   defaultInterop() {
@@ -51426,10 +51429,10 @@ class ImportBuilder {
   _interop(callee) {
     const statement = this._statements[this._statements.length - 1];
     if (statement.type === "ExpressionStatement") {
-      statement.expression = callExpression$1(callee, [statement.expression]);
+      statement.expression = callExpression(callee, [statement.expression]);
     } else if (statement.type === "VariableDeclaration") {
       _assert$1(statement.declarations.length === 1);
-      statement.declarations[0].init = callExpression$1(callee, [statement.declarations[0].init]);
+      statement.declarations[0].init = callExpression(callee, [statement.declarations[0].init]);
     } else {
       _assert$1.fail("Unexpected type.");
     }
@@ -51438,17 +51441,17 @@ class ImportBuilder {
   prop(name) {
     const statement = this._statements[this._statements.length - 1];
     if (statement.type === "ExpressionStatement") {
-      statement.expression = memberExpression$1(statement.expression, identifier$1(name));
+      statement.expression = memberExpression(statement.expression, identifier(name));
     } else if (statement.type === "VariableDeclaration") {
       _assert$1(statement.declarations.length === 1);
-      statement.declarations[0].init = memberExpression$1(statement.declarations[0].init, identifier$1(name));
+      statement.declarations[0].init = memberExpression(statement.declarations[0].init, identifier(name));
     } else {
       _assert$1.fail("Unexpected type:" + statement.type);
     }
     return this;
   }
   read(name) {
-    this._resultName = memberExpression$1(this._resultName, identifier$1(name));
+    this._resultName = memberExpression(this._resultName, identifier(name));
   }
 }
 importBuilder.default = ImportBuilder;var isModule$1 = {};Object.defineProperty(isModule$1, "__esModule", {
@@ -51462,13 +51465,13 @@ function isModule(path) {
 });
 importInjector.default = void 0;
 var _assert = require$$0$4;
-var _t$4 = requireLib$f();
+var _t$1 = requireLib$f();
 var _importBuilder = importBuilder;
 var _isModule = isModule$1;
 const {
   numericLiteral,
   sequenceExpression
-} = _t$4;
+} = _t$1;
 class ImportInjector {
   constructor(path, importedSource, opts) {
     this._defaultOpts = {
@@ -51740,19 +51743,18 @@ function requireRewriteThis () {
 	});
 	rewriteThis.default = rewriteThis$1;
 	var _helperEnvironmentVisitor = requireLib$d();
-	var _traverse = requireLib$5();
-	var _t = requireLib$f();
+	var _core = requireLib();
 	const {
 	  numericLiteral,
 	  unaryExpression
-	} = _t;
-	const rewriteThisVisitor = _traverse.default.visitors.merge([_helperEnvironmentVisitor.default, {
+	} = _core.types;
+	const rewriteThisVisitor = _core.traverse.visitors.merge([_helperEnvironmentVisitor.default, {
 	  ThisExpression(path) {
 	    path.replaceWith(unaryExpression("void", numericLiteral(0), true));
 	  }
 	}]);
 	function rewriteThis$1(programPath) {
-	  (0, _traverse.default)(programPath.node, Object.assign({}, rewriteThisVisitor, {
+	  (0, _core.traverse)(programPath.node, Object.assign({}, rewriteThisVisitor, {
 	    noScope: true
 	  }));
 	}
@@ -51866,8 +51868,7 @@ function requireRewriteLiveReferences () {
 	});
 	rewriteLiveReferences.default = rewriteLiveReferences$1;
 	var _assert = require$$0$4;
-	var _t = requireLib$f();
-	var _template = requireLib$7();
+	var _core = requireLib();
 	var _helperSimpleAccess = requireLib$3();
 	const {
 	  assignmentExpression,
@@ -51886,7 +51887,7 @@ function requireRewriteLiveReferences () {
 	  stringLiteral,
 	  variableDeclaration,
 	  variableDeclarator
-	} = _t;
+	} = _core.types;
 	function isInType(path) {
 	  do {
 	    switch (path.parent.type) {
@@ -52019,7 +52020,7 @@ function requireRewriteLiveReferences () {
 	  }, localExpr);
 	};
 	const buildImportThrow = localName => {
-	  return _template.default.expression.ast`
+	  return _core.template.expression.ast`
     (function() {
       throw new Error('"' + '${localName}' + '" is read-only.');
     })()
@@ -52441,7 +52442,7 @@ var substr = 'ab'.substr(-1) === 'b' ?
         if (start < 0) start = str.length + start;
         return str.substr(start, len);
     }
-;var _polyfillNode_path$1=/*#__PURE__*/Object.freeze({__proto__:null,resolve:resolve,normalize:normalize,isAbsolute:isAbsolute,join:join,relative:relative,sep:sep$1,delimiter:delimiter,dirname:dirname,basename:basename,extname:extname,'default':_polyfillNode_path});var require$$1 = /*@__PURE__*/getAugmentedNamespace(_polyfillNode_path$1);var hasRequiredNormalizeAndLoadMetadata;
+;var _polyfillNode_path$1=/*#__PURE__*/Object.freeze({__proto__:null,basename:basename,default:_polyfillNode_path,delimiter:delimiter,dirname:dirname,extname:extname,isAbsolute:isAbsolute,join:join,normalize:normalize,relative:relative,resolve:resolve,sep:sep$1});var require$$1 = /*@__PURE__*/getAugmentedNamespace(_polyfillNode_path$1);var hasRequiredNormalizeAndLoadMetadata;
 
 function requireNormalizeAndLoadMetadata () {
 	if (hasRequiredNormalizeAndLoadMetadata) return normalizeAndLoadMetadata;
@@ -52810,47 +52811,46 @@ function requireDynamicImport () {
 	  value: true
 	});
 	dynamicImport.buildDynamicImport = buildDynamicImport;
-	var t = requireLib$f();
-	var _template = requireLib$7();
+	var _core = requireLib();
 	{
 	  {
 	    {
 	      dynamicImport.getDynamicImportSource = function getDynamicImportSource(node) {
 	        const [source] = node.arguments;
-	        return t.isStringLiteral(source) || t.isTemplateLiteral(source) ? source : _template.default.expression.ast`\`\${${source}}\``;
+	        return _core.types.isStringLiteral(source) || _core.types.isTemplateLiteral(source) ? source : _core.template.expression.ast`\`\${${source}}\``;
 	      };
 	    }
 	  }
 	}
 	function buildDynamicImport(node, deferToThen, wrapWithPromise, builder) {
 	  const [specifier] = node.arguments;
-	  if (t.isStringLiteral(specifier) || t.isTemplateLiteral(specifier) && specifier.quasis.length === 0) {
+	  if (_core.types.isStringLiteral(specifier) || _core.types.isTemplateLiteral(specifier) && specifier.quasis.length === 0) {
 	    if (deferToThen) {
-	      return _template.default.expression.ast`
+	      return _core.template.expression.ast`
         Promise.resolve().then(() => ${builder(specifier)})
       `;
 	    } else return builder(specifier);
 	  }
-	  const specifierToString = t.isTemplateLiteral(specifier) ? t.identifier("specifier") : t.templateLiteral([t.templateElement({
+	  const specifierToString = _core.types.isTemplateLiteral(specifier) ? _core.types.identifier("specifier") : _core.types.templateLiteral([_core.types.templateElement({
 	    raw: ""
-	  }), t.templateElement({
+	  }), _core.types.templateElement({
 	    raw: ""
-	  })], [t.identifier("specifier")]);
+	  })], [_core.types.identifier("specifier")]);
 	  if (deferToThen) {
-	    return _template.default.expression.ast`
+	    return _core.template.expression.ast`
       (specifier =>
         new Promise(r => r(${specifierToString}))
-          .then(s => ${builder(t.identifier("s"))})
+          .then(s => ${builder(_core.types.identifier("s"))})
       )(${specifier})
     `;
 	  } else if (wrapWithPromise) {
-	    return _template.default.expression.ast`
+	    return _core.template.expression.ast`
       (specifier =>
         new Promise(r => r(${builder(specifierToString)}))
       )(${specifier})
     `;
 	  } else {
-	    return _template.default.expression.ast`
+	    return _core.template.expression.ast`
       (specifier => ${builder(specifierToString)})(${specifier})
     `;
 	  }
@@ -52962,8 +52962,7 @@ function requireLib$2 () {
 		});
 		exports.wrapInterop = wrapInterop;
 		var _assert = require$$0$4;
-		var _t = requireLib$f();
-		var _template = requireLib$7();
+		var _core = requireLib();
 		var _helperModuleImports = lib$b;
 		var _rewriteThis = requireRewriteThis();
 		var _rewriteLiveReferences = requireRewriteLiveReferences();
@@ -52984,7 +52983,7 @@ function requireLib$2 () {
 		  valueToNode,
 		  variableDeclaration,
 		  variableDeclarator
-		} = _t;
+		} = _core.types;
 		{
 		  {
 		    {
@@ -53073,7 +53072,7 @@ function requireLib$2 () {
 		  if (sourceMetadata.lazy) srcNamespace = callExpression(srcNamespace, []);
 		  for (const localName of sourceMetadata.importsNamespace) {
 		    if (localName === sourceMetadata.name) continue;
-		    statements.push(_template.default.statement`var NAME = SOURCE;`({
+		    statements.push(_core.template.statement`var NAME = SOURCE;`({
 		      NAME: localName,
 		      SOURCE: cloneNode(srcNamespace)
 		    }));
@@ -53082,14 +53081,14 @@ function requireLib$2 () {
 		    statements.push(...buildReexportsFromMeta(metadata, sourceMetadata, true));
 		  }
 		  for (const exportName of sourceMetadata.reexportNamespace) {
-		    statements.push((sourceMetadata.lazy ? _template.default.statement`
+		    statements.push((sourceMetadata.lazy ? _core.template.statement`
             Object.defineProperty(EXPORTS, "NAME", {
               enumerable: true,
               get: function() {
                 return NAMESPACE;
               }
             });
-          ` : _template.default.statement`EXPORTS.NAME = NAMESPACE;`)({
+          ` : _core.template.statement`EXPORTS.NAME = NAMESPACE;`)({
 		      EXPORTS: metadata.exportName,
 		      NAME: exportName,
 		      NAMESPACE: cloneNode(srcNamespace)
@@ -53103,9 +53102,9 @@ function requireLib$2 () {
 		  return statements;
 		}
 		const ReexportTemplate = {
-		  constant: _template.default.statement`EXPORTS.EXPORT_NAME = NAMESPACE_IMPORT;`,
-		  constantComputed: _template.default.statement`EXPORTS["EXPORT_NAME"] = NAMESPACE_IMPORT;`,
-		  spec: _template.default.statement`
+		  constant: _core.template.statement`EXPORTS.EXPORT_NAME = NAMESPACE_IMPORT;`,
+		  constantComputed: _core.template.statement`EXPORTS["EXPORT_NAME"] = NAMESPACE_IMPORT;`,
+		  spec: _core.template.statement`
     Object.defineProperty(EXPORTS, "EXPORT_NAME", {
       enumerable: true,
       get: function() {
@@ -53143,9 +53142,9 @@ function requireLib$2 () {
 		  });
 		}
 		function buildESModuleHeader(metadata, enumerableModuleMeta = false) {
-		  return (enumerableModuleMeta ? _template.default.statement`
+		  return (enumerableModuleMeta ? _core.template.statement`
         EXPORTS.__esModule = true;
-      ` : _template.default.statement`
+      ` : _core.template.statement`
         Object.defineProperty(EXPORTS, "__esModule", {
           value: true,
         });
@@ -53154,7 +53153,7 @@ function requireLib$2 () {
 		  });
 		}
 		function buildNamespaceReexport(metadata, namespace, constantReexports) {
-		  return (constantReexports ? _template.default.statement`
+		  return (constantReexports ? _core.template.statement`
         Object.keys(NAMESPACE).forEach(function(key) {
           if (key === "default" || key === "__esModule") return;
           VERIFY_NAME_LIST;
@@ -53162,7 +53161,7 @@ function requireLib$2 () {
 
           EXPORTS[key] = NAMESPACE[key];
         });
-      ` : _template.default.statement`
+      ` : _core.template.statement`
         Object.keys(NAMESPACE).forEach(function(key) {
           if (key === "default" || key === "__esModule") return;
           VERIFY_NAME_LIST;
@@ -53178,7 +53177,7 @@ function requireLib$2 () {
     `)({
 		    NAMESPACE: namespace,
 		    EXPORTS: metadata.exportName,
-		    VERIFY_NAME_LIST: metadata.exportNameListName ? (0, _template.default)`
+		    VERIFY_NAME_LIST: metadata.exportNameListName ? (0, _core.template)`
             if (Object.prototype.hasOwnProperty.call(EXPORTS_LIST, key)) return;
           `({
 		      EXPORTS_LIST: metadata.exportNameListName
@@ -53269,8 +53268,8 @@ function requireLib$2 () {
 		  return results;
 		}
 		const InitTemplate = {
-		  computed: _template.default.expression`EXPORTS["NAME"] = VALUE`,
-		  default: _template.default.expression`EXPORTS.NAME = VALUE`
+		  computed: _core.template.expression`EXPORTS["NAME"] = VALUE`,
+		  default: _core.template.expression`EXPORTS.NAME = VALUE`
 		};
 		function buildInitStatement(metadata, exportNames, initExpr) {
 		  const {
@@ -53294,9 +53293,7 @@ function requireLib$2 () {
 		
 	} (lib$c));
 	return lib$c;
-}var semver = {exports: {}};semver.exports;
-
-var hasRequiredSemver;
+}var semver = {exports: {}};var hasRequiredSemver;
 
 function requireSemver () {
 	if (hasRequiredSemver) return semver.exports;
@@ -53330,14 +53327,42 @@ function requireSemver () {
 		// Max safe segment length for coercion.
 		var MAX_SAFE_COMPONENT_LENGTH = 16;
 
+		var MAX_SAFE_BUILD_LENGTH = MAX_LENGTH - 6;
+
 		// The actual regexps go on exports.re
 		var re = exports.re = [];
+		var safeRe = exports.safeRe = [];
 		var src = exports.src = [];
 		var t = exports.tokens = {};
 		var R = 0;
 
 		function tok (n) {
 		  t[n] = R++;
+		}
+
+		var LETTERDASHNUMBER = '[a-zA-Z0-9-]';
+
+		// Replace some greedy regex tokens to prevent regex dos issues. These regex are
+		// used internally via the safeRe object since all inputs in this library get
+		// normalized first to trim and collapse all extra whitespace. The original
+		// regexes are exported for userland consumption and lower level usage. A
+		// future breaking change could export the safer regex only with a note that
+		// all input should have extra whitespace removed.
+		var safeRegexReplacements = [
+		  ['\\s', 1],
+		  ['\\d', MAX_LENGTH],
+		  [LETTERDASHNUMBER, MAX_SAFE_BUILD_LENGTH],
+		];
+
+		function makeSafeRe (value) {
+		  for (var i = 0; i < safeRegexReplacements.length; i++) {
+		    var token = safeRegexReplacements[i][0];
+		    var max = safeRegexReplacements[i][1];
+		    value = value
+		      .split(token + '*').join(token + '{0,' + max + '}')
+		      .split(token + '+').join(token + '{1,' + max + '}');
+		  }
+		  return value
 		}
 
 		// The following Regular Expressions can be used for tokenizing,
@@ -53349,14 +53374,14 @@ function requireSemver () {
 		tok('NUMERICIDENTIFIER');
 		src[t.NUMERICIDENTIFIER] = '0|[1-9]\\d*';
 		tok('NUMERICIDENTIFIERLOOSE');
-		src[t.NUMERICIDENTIFIERLOOSE] = '[0-9]+';
+		src[t.NUMERICIDENTIFIERLOOSE] = '\\d+';
 
 		// ## Non-numeric Identifier
 		// Zero or more digits, followed by a letter or hyphen, and then zero or
 		// more letters, digits, or hyphens.
 
 		tok('NONNUMERICIDENTIFIER');
-		src[t.NONNUMERICIDENTIFIER] = '\\d*[a-zA-Z-][a-zA-Z0-9-]*';
+		src[t.NONNUMERICIDENTIFIER] = '\\d*[a-zA-Z-]' + LETTERDASHNUMBER + '*';
 
 		// ## Main Version
 		// Three dot-separated numeric identifiers.
@@ -53398,7 +53423,7 @@ function requireSemver () {
 		// Any combination of digits, letters, or hyphens.
 
 		tok('BUILDIDENTIFIER');
-		src[t.BUILDIDENTIFIER] = '[0-9A-Za-z-]+';
+		src[t.BUILDIDENTIFIER] = LETTERDASHNUMBER + '+';
 
 		// ## Build Metadata
 		// Plus sign, followed by one or more period-separated build metadata
@@ -53478,6 +53503,7 @@ function requireSemver () {
 		              '(?:$|[^\\d])';
 		tok('COERCERTL');
 		re[t.COERCERTL] = new RegExp(src[t.COERCE], 'g');
+		safeRe[t.COERCERTL] = new RegExp(makeSafeRe(src[t.COERCE]), 'g');
 
 		// Tilde ranges.
 		// Meaning is "reasonably at or greater than"
@@ -53487,6 +53513,7 @@ function requireSemver () {
 		tok('TILDETRIM');
 		src[t.TILDETRIM] = '(\\s*)' + src[t.LONETILDE] + '\\s+';
 		re[t.TILDETRIM] = new RegExp(src[t.TILDETRIM], 'g');
+		safeRe[t.TILDETRIM] = new RegExp(makeSafeRe(src[t.TILDETRIM]), 'g');
 		var tildeTrimReplace = '$1~';
 
 		tok('TILDE');
@@ -53502,6 +53529,7 @@ function requireSemver () {
 		tok('CARETTRIM');
 		src[t.CARETTRIM] = '(\\s*)' + src[t.LONECARET] + '\\s+';
 		re[t.CARETTRIM] = new RegExp(src[t.CARETTRIM], 'g');
+		safeRe[t.CARETTRIM] = new RegExp(makeSafeRe(src[t.CARETTRIM]), 'g');
 		var caretTrimReplace = '$1^';
 
 		tok('CARET');
@@ -53523,6 +53551,7 @@ function requireSemver () {
 
 		// this one has to use the /g flag
 		re[t.COMPARATORTRIM] = new RegExp(src[t.COMPARATORTRIM], 'g');
+		safeRe[t.COMPARATORTRIM] = new RegExp(makeSafeRe(src[t.COMPARATORTRIM]), 'g');
 		var comparatorTrimReplace = '$1$2$3';
 
 		// Something like `1.2.3 - 1.2.4`
@@ -53551,6 +53580,14 @@ function requireSemver () {
 		  debug(i, src[i]);
 		  if (!re[i]) {
 		    re[i] = new RegExp(src[i]);
+
+		    // Replace all greedy whitespace to prevent regex dos issues. These regex are
+		    // used internally via the safeRe object since all inputs in this library get
+		    // normalized first to trim and collapse all extra whitespace. The original
+		    // regexes are exported for userland consumption and lower level usage. A
+		    // future breaking change could export the safer regex only with a note that
+		    // all input should have extra whitespace removed.
+		    safeRe[i] = new RegExp(makeSafeRe(src[i]));
 		  }
 		}
 
@@ -53575,7 +53612,7 @@ function requireSemver () {
 		    return null
 		  }
 
-		  var r = options.loose ? re[t.LOOSE] : re[t.FULL];
+		  var r = options.loose ? safeRe[t.LOOSE] : safeRe[t.FULL];
 		  if (!r.test(version)) {
 		    return null
 		  }
@@ -53630,7 +53667,7 @@ function requireSemver () {
 		  this.options = options;
 		  this.loose = !!options.loose;
 
-		  var m = version.trim().match(options.loose ? re[t.LOOSE] : re[t.FULL]);
+		  var m = version.trim().match(options.loose ? safeRe[t.LOOSE] : safeRe[t.FULL]);
 
 		  if (!m) {
 		    throw new TypeError('Invalid Version: ' + version)
@@ -54075,6 +54112,7 @@ function requireSemver () {
 		    return new Comparator(comp, options)
 		  }
 
+		  comp = comp.trim().split(/\s+/).join(' ');
 		  debug('comparator', comp, options);
 		  this.options = options;
 		  this.loose = !!options.loose;
@@ -54091,7 +54129,7 @@ function requireSemver () {
 
 		var ANY = {};
 		Comparator.prototype.parse = function (comp) {
-		  var r = this.options.loose ? re[t.COMPARATORLOOSE] : re[t.COMPARATOR];
+		  var r = this.options.loose ? safeRe[t.COMPARATORLOOSE] : safeRe[t.COMPARATOR];
 		  var m = comp.match(r);
 
 		  if (!m) {
@@ -54215,9 +54253,16 @@ function requireSemver () {
 		  this.loose = !!options.loose;
 		  this.includePrerelease = !!options.includePrerelease;
 
+		  // First reduce all whitespace as much as possible so we do not have to rely
+		  // on potentially slow regexes like \s*. This is then stored and used for
+		  // future error messages as well.
+		  this.raw = range
+		    .trim()
+		    .split(/\s+/)
+		    .join(' ');
+
 		  // First, split based on boolean or ||
-		  this.raw = range;
-		  this.set = range.split(/\s*\|\|\s*/).map(function (range) {
+		  this.set = this.raw.split('||').map(function (range) {
 		    return this.parseRange(range.trim())
 		  }, this).filter(function (c) {
 		    // throw out any that are not relevant for whatever reason
@@ -54225,7 +54270,7 @@ function requireSemver () {
 		  });
 
 		  if (!this.set.length) {
-		    throw new TypeError('Invalid SemVer Range: ' + range)
+		    throw new TypeError('Invalid SemVer Range: ' + this.raw)
 		  }
 
 		  this.format();
@@ -54244,20 +54289,19 @@ function requireSemver () {
 
 		Range.prototype.parseRange = function (range) {
 		  var loose = this.options.loose;
-		  range = range.trim();
 		  // `1.2.3 - 1.2.4` => `>=1.2.3 <=1.2.4`
-		  var hr = loose ? re[t.HYPHENRANGELOOSE] : re[t.HYPHENRANGE];
+		  var hr = loose ? safeRe[t.HYPHENRANGELOOSE] : safeRe[t.HYPHENRANGE];
 		  range = range.replace(hr, hyphenReplace);
 		  debug('hyphen replace', range);
 		  // `> 1.2.3 < 1.2.5` => `>1.2.3 <1.2.5`
-		  range = range.replace(re[t.COMPARATORTRIM], comparatorTrimReplace);
-		  debug('comparator trim', range, re[t.COMPARATORTRIM]);
+		  range = range.replace(safeRe[t.COMPARATORTRIM], comparatorTrimReplace);
+		  debug('comparator trim', range, safeRe[t.COMPARATORTRIM]);
 
 		  // `~ 1.2.3` => `~1.2.3`
-		  range = range.replace(re[t.TILDETRIM], tildeTrimReplace);
+		  range = range.replace(safeRe[t.TILDETRIM], tildeTrimReplace);
 
 		  // `^ 1.2.3` => `^1.2.3`
-		  range = range.replace(re[t.CARETTRIM], caretTrimReplace);
+		  range = range.replace(safeRe[t.CARETTRIM], caretTrimReplace);
 
 		  // normalize spaces
 		  range = range.split(/\s+/).join(' ');
@@ -54265,7 +54309,7 @@ function requireSemver () {
 		  // At this point, the range is completely trimmed and
 		  // ready to be split into comparators.
 
-		  var compRe = loose ? re[t.COMPARATORLOOSE] : re[t.COMPARATOR];
+		  var compRe = loose ? safeRe[t.COMPARATORLOOSE] : safeRe[t.COMPARATOR];
 		  var set = range.split(' ').map(function (comp) {
 		    return parseComparator(comp, this.options)
 		  }, this).join(' ').split(/\s+/);
@@ -54365,7 +54409,7 @@ function requireSemver () {
 		}
 
 		function replaceTilde (comp, options) {
-		  var r = options.loose ? re[t.TILDELOOSE] : re[t.TILDE];
+		  var r = options.loose ? safeRe[t.TILDELOOSE] : safeRe[t.TILDE];
 		  return comp.replace(r, function (_, M, m, p, pr) {
 		    debug('tilde', comp, _, M, m, p, pr);
 		    var ret;
@@ -54406,7 +54450,7 @@ function requireSemver () {
 
 		function replaceCaret (comp, options) {
 		  debug('caret', comp, options);
-		  var r = options.loose ? re[t.CARETLOOSE] : re[t.CARET];
+		  var r = options.loose ? safeRe[t.CARETLOOSE] : safeRe[t.CARET];
 		  return comp.replace(r, function (_, M, m, p, pr) {
 		    debug('caret', comp, _, M, m, p, pr);
 		    var ret;
@@ -54465,7 +54509,7 @@ function requireSemver () {
 
 		function replaceXRange (comp, options) {
 		  comp = comp.trim();
-		  var r = options.loose ? re[t.XRANGELOOSE] : re[t.XRANGE];
+		  var r = options.loose ? safeRe[t.XRANGELOOSE] : safeRe[t.XRANGE];
 		  return comp.replace(r, function (ret, gtlt, M, m, p, pr) {
 		    debug('xRange', comp, ret, gtlt, M, m, p, pr);
 		    var xM = isX(M);
@@ -54540,7 +54584,7 @@ function requireSemver () {
 		function replaceStars (comp, options) {
 		  debug('replaceStars', comp, options);
 		  // Looseness is ignored here.  star is always as loose as it gets!
-		  return comp.trim().replace(re[t.STAR], '')
+		  return comp.trim().replace(safeRe[t.STAR], '')
 		}
 
 		// This function is passed to string.replace(re[t.HYPHENRANGE])
@@ -54866,7 +54910,7 @@ function requireSemver () {
 
 		  var match = null;
 		  if (!options.rtl) {
-		    match = version.match(re[t.COERCE]);
+		    match = version.match(safeRe[t.COERCE]);
 		  } else {
 		    // Find the right-most coercible string that does not share
 		    // a terminus with a more left-ward coercible string.
@@ -54877,17 +54921,17 @@ function requireSemver () {
 		    // Stop when we get a match that ends at the string end, since no
 		    // coercible string can be more right-ward without the same terminus.
 		    var next;
-		    while ((next = re[t.COERCERTL].exec(version)) &&
+		    while ((next = safeRe[t.COERCERTL].exec(version)) &&
 		      (!match || match.index + match[0].length !== version.length)
 		    ) {
 		      if (!match ||
 		          next.index + next[0].length !== match.index + match[0].length) {
 		        match = next;
 		      }
-		      re[t.COERCERTL].lastIndex = next.index + next[1].length + next[2].length;
+		      safeRe[t.COERCERTL].lastIndex = next.index + next[1].length + next[2].length;
 		    }
 		    // leave it in a clean state
-		    re[t.COERCERTL].lastIndex = -1;
+		    safeRe[t.COERCERTL].lastIndex = -1;
 		  }
 
 		  if (match === null) {
@@ -54900,266 +54944,282 @@ function requireSemver () {
 		} 
 	} (semver, semver.exports));
 	return semver.exports;
-}Object.defineProperty(file$1, "__esModule", {
-  value: true
-});
-file$1.default = void 0;
-function helpers$1() {
-  const data = requireLib$4();
-  helpers$1 = function () {
-    return data;
-  };
-  return data;
-}
-function _traverse$2() {
-  const data = requireLib$5();
-  _traverse$2 = function () {
-    return data;
-  };
-  return data;
-}
-function _codeFrame$1() {
-  const data = requireLib$a();
-  _codeFrame$1 = function () {
-    return data;
-  };
-  return data;
-}
-function _t$3() {
-  const data = requireLib$f();
-  _t$3 = function () {
-    return data;
-  };
-  return data;
-}
-function _helperModuleTransforms() {
-  const data = requireLib$2();
-  _helperModuleTransforms = function () {
-    return data;
-  };
-  return data;
-}
-function _semver() {
-  const data = requireSemver();
-  _semver = function () {
-    return data;
-  };
-  return data;
-}
-const {
-  cloneNode: cloneNode$1,
-  interpreterDirective
-} = _t$3();
-const errorVisitor = {
-  enter(path, state) {
-    const loc = path.node.loc;
-    if (loc) {
-      state.loc = loc;
-      path.stop();
-    }
-  }
-};
-class File {
-  constructor(options, {
-    code,
-    ast,
-    inputMap
-  }) {
-    this._map = new Map();
-    this.opts = void 0;
-    this.declarations = {};
-    this.path = void 0;
-    this.ast = void 0;
-    this.scope = void 0;
-    this.metadata = {};
-    this.code = "";
-    this.inputMap = void 0;
-    this.hub = {
-      file: this,
-      getCode: () => this.code,
-      getScope: () => this.scope,
-      addHelper: this.addHelper.bind(this),
-      buildError: this.buildCodeFrameError.bind(this)
-    };
-    this.opts = options;
-    this.code = code;
-    this.ast = ast;
-    this.inputMap = inputMap;
-    this.path = _traverse$2().NodePath.get({
-      hub: this.hub,
-      parentPath: null,
-      parent: this.ast,
-      container: this.ast,
-      key: "program"
-    }).setContext();
-    this.scope = this.path.scope;
-  }
-  get shebang() {
-    const {
-      interpreter
-    } = this.path.node;
-    return interpreter ? interpreter.value : "";
-  }
-  set shebang(value) {
-    if (value) {
-      this.path.get("interpreter").replaceWith(interpreterDirective(value));
-    } else {
-      this.path.get("interpreter").remove();
-    }
-  }
-  set(key, val) {
-    if (key === "helpersNamespace") {
-      throw new Error("Babel 7.0.0-beta.56 has dropped support for the 'helpersNamespace' utility." + "If you are using @babel/plugin-external-helpers you will need to use a newer " + "version than the one you currently have installed. " + "If you have your own implementation, you'll want to explore using 'helperGenerator' " + "alongside 'file.availableHelper()'.");
-    }
-    this._map.set(key, val);
-  }
-  get(key) {
-    return this._map.get(key);
-  }
-  has(key) {
-    return this._map.has(key);
-  }
-  getModuleName() {
-    return (0, _helperModuleTransforms().getModuleName)(this.opts, this.opts);
-  }
-  addImport() {
-    throw new Error("This API has been removed. If you're looking for this " + "functionality in Babel 7, you should import the " + "'@babel/helper-module-imports' module and use the functions exposed " + " from that module, such as 'addNamed' or 'addDefault'.");
-  }
-  availableHelper(name, versionRange) {
-    let minVersion;
-    try {
-      minVersion = helpers$1().minVersion(name);
-    } catch (err) {
-      if (err.code !== "BABEL_HELPER_UNKNOWN") throw err;
-      return false;
-    }
-    if (typeof versionRange !== "string") return true;
-    if (_semver().valid(versionRange)) versionRange = `^${versionRange}`;
-    return !_semver().intersects(`<${minVersion}`, versionRange) && !_semver().intersects(`>=8.0.0`, versionRange);
-  }
-  addHelper(name) {
-    const declar = this.declarations[name];
-    if (declar) return cloneNode$1(declar);
-    const generator = this.get("helperGenerator");
-    if (generator) {
-      const res = generator(name);
-      if (res) return res;
-    }
-    helpers$1().ensure(name, File);
-    const uid = this.declarations[name] = this.scope.generateUidIdentifier(name);
-    const dependencies = {};
-    for (const dep of helpers$1().getDependencies(name)) {
-      dependencies[dep] = this.addHelper(dep);
-    }
-    const {
-      nodes,
-      globals
-    } = helpers$1().get(name, dep => dependencies[dep], uid, Object.keys(this.scope.getAllBindings()));
-    globals.forEach(name => {
-      if (this.path.scope.hasBinding(name, true)) {
-        this.path.scope.rename(name);
-      }
-    });
-    nodes.forEach(node => {
-      node._compact = true;
-    });
-    this.path.unshiftContainer("body", nodes);
-    this.path.get("body").forEach(path => {
-      if (nodes.indexOf(path.node) === -1) return;
-      if (path.isVariableDeclaration()) this.scope.registerDeclaration(path);
-    });
-    return uid;
-  }
-  addTemplateObject() {
-    throw new Error("This function has been moved into the template literal transform itself.");
-  }
-  buildCodeFrameError(node, msg, _Error = SyntaxError) {
-    let loc = node && (node.loc || node._loc);
-    if (!loc && node) {
-      const state = {
-        loc: null
-      };
-      (0, _traverse$2().default)(node, errorVisitor, this.scope, state);
-      loc = state.loc;
-      let txt = "This is an error on an internal node. Probably an internal error.";
-      if (loc) txt += " Location has been estimated.";
-      msg += ` (${txt})`;
-    }
-    if (loc) {
-      const {
-        highlightCode = true
-      } = this.opts;
-      msg += "\n" + (0, _codeFrame$1().codeFrameColumns)(this.code, {
-        start: {
-          line: loc.start.line,
-          column: loc.start.column + 1
-        },
-        end: loc.end && loc.start.line === loc.end.line ? {
-          line: loc.end.line,
-          column: loc.end.column + 1
-        } : undefined
-      }, {
-        highlightCode
-      });
-    }
-    return new _Error(msg);
-  }
-}
-file$1.default = File;var buildExternalHelpers = {};Object.defineProperty(buildExternalHelpers, "__esModule", {
-  value: true
-});
-buildExternalHelpers.default = _default$7;
-function helpers() {
-  const data = requireLib$4();
-  helpers = function () {
-    return data;
-  };
-  return data;
-}
-function _generator$1() {
-  const data = requireLib$c();
-  _generator$1 = function () {
-    return data;
-  };
-  return data;
-}
-function _template() {
-  const data = requireLib$7();
-  _template = function () {
-    return data;
-  };
-  return data;
-}
-function _t$2() {
-  const data = requireLib$f();
-  _t$2 = function () {
-    return data;
-  };
-  return data;
-}
-var _file$1 = file$1;
-const {
-  arrayExpression,
-  assignmentExpression,
-  binaryExpression,
-  blockStatement,
-  callExpression,
-  cloneNode,
-  conditionalExpression,
-  exportNamedDeclaration,
-  exportSpecifier,
-  expressionStatement,
-  functionExpression,
-  identifier,
-  memberExpression,
-  objectExpression,
-  program,
-  stringLiteral,
-  unaryExpression,
-  variableDeclaration,
-  variableDeclarator
-} = _t$2();
-const buildUmdWrapper = replacements => _template().default.statement`
+}var hasRequiredFile;
+
+function requireFile () {
+	if (hasRequiredFile) return file;
+	hasRequiredFile = 1;
+
+	Object.defineProperty(file, "__esModule", {
+	  value: true
+	});
+	file.default = void 0;
+	function helpers() {
+	  const data = requireLib$4();
+	  helpers = function () {
+	    return data;
+	  };
+	  return data;
+	}
+	function _traverse() {
+	  const data = requireLib$5();
+	  _traverse = function () {
+	    return data;
+	  };
+	  return data;
+	}
+	function _codeFrame() {
+	  const data = requireLib$a();
+	  _codeFrame = function () {
+	    return data;
+	  };
+	  return data;
+	}
+	function _t() {
+	  const data = requireLib$f();
+	  _t = function () {
+	    return data;
+	  };
+	  return data;
+	}
+	function _helperModuleTransforms() {
+	  const data = requireLib$2();
+	  _helperModuleTransforms = function () {
+	    return data;
+	  };
+	  return data;
+	}
+	function _semver() {
+	  const data = requireSemver();
+	  _semver = function () {
+	    return data;
+	  };
+	  return data;
+	}
+	const {
+	  cloneNode,
+	  interpreterDirective
+	} = _t();
+	const errorVisitor = {
+	  enter(path, state) {
+	    const loc = path.node.loc;
+	    if (loc) {
+	      state.loc = loc;
+	      path.stop();
+	    }
+	  }
+	};
+	class File {
+	  constructor(options, {
+	    code,
+	    ast,
+	    inputMap
+	  }) {
+	    this._map = new Map();
+	    this.opts = void 0;
+	    this.declarations = {};
+	    this.path = void 0;
+	    this.ast = void 0;
+	    this.scope = void 0;
+	    this.metadata = {};
+	    this.code = "";
+	    this.inputMap = void 0;
+	    this.hub = {
+	      file: this,
+	      getCode: () => this.code,
+	      getScope: () => this.scope,
+	      addHelper: this.addHelper.bind(this),
+	      buildError: this.buildCodeFrameError.bind(this)
+	    };
+	    this.opts = options;
+	    this.code = code;
+	    this.ast = ast;
+	    this.inputMap = inputMap;
+	    this.path = _traverse().NodePath.get({
+	      hub: this.hub,
+	      parentPath: null,
+	      parent: this.ast,
+	      container: this.ast,
+	      key: "program"
+	    }).setContext();
+	    this.scope = this.path.scope;
+	  }
+	  get shebang() {
+	    const {
+	      interpreter
+	    } = this.path.node;
+	    return interpreter ? interpreter.value : "";
+	  }
+	  set shebang(value) {
+	    if (value) {
+	      this.path.get("interpreter").replaceWith(interpreterDirective(value));
+	    } else {
+	      this.path.get("interpreter").remove();
+	    }
+	  }
+	  set(key, val) {
+	    if (key === "helpersNamespace") {
+	      throw new Error("Babel 7.0.0-beta.56 has dropped support for the 'helpersNamespace' utility." + "If you are using @babel/plugin-external-helpers you will need to use a newer " + "version than the one you currently have installed. " + "If you have your own implementation, you'll want to explore using 'helperGenerator' " + "alongside 'file.availableHelper()'.");
+	    }
+	    this._map.set(key, val);
+	  }
+	  get(key) {
+	    return this._map.get(key);
+	  }
+	  has(key) {
+	    return this._map.has(key);
+	  }
+	  getModuleName() {
+	    return (0, _helperModuleTransforms().getModuleName)(this.opts, this.opts);
+	  }
+	  addImport() {
+	    throw new Error("This API has been removed. If you're looking for this " + "functionality in Babel 7, you should import the " + "'@babel/helper-module-imports' module and use the functions exposed " + " from that module, such as 'addNamed' or 'addDefault'.");
+	  }
+	  availableHelper(name, versionRange) {
+	    let minVersion;
+	    try {
+	      minVersion = helpers().minVersion(name);
+	    } catch (err) {
+	      if (err.code !== "BABEL_HELPER_UNKNOWN") throw err;
+	      return false;
+	    }
+	    if (typeof versionRange !== "string") return true;
+	    if (_semver().valid(versionRange)) versionRange = `^${versionRange}`;
+	    return !_semver().intersects(`<${minVersion}`, versionRange) && !_semver().intersects(`>=8.0.0`, versionRange);
+	  }
+	  addHelper(name) {
+	    const declar = this.declarations[name];
+	    if (declar) return cloneNode(declar);
+	    const generator = this.get("helperGenerator");
+	    if (generator) {
+	      const res = generator(name);
+	      if (res) return res;
+	    }
+	    helpers().ensure(name, File);
+	    const uid = this.declarations[name] = this.scope.generateUidIdentifier(name);
+	    const dependencies = {};
+	    for (const dep of helpers().getDependencies(name)) {
+	      dependencies[dep] = this.addHelper(dep);
+	    }
+	    const {
+	      nodes,
+	      globals
+	    } = helpers().get(name, dep => dependencies[dep], uid, Object.keys(this.scope.getAllBindings()));
+	    globals.forEach(name => {
+	      if (this.path.scope.hasBinding(name, true)) {
+	        this.path.scope.rename(name);
+	      }
+	    });
+	    nodes.forEach(node => {
+	      node._compact = true;
+	    });
+	    this.path.unshiftContainer("body", nodes);
+	    this.path.get("body").forEach(path => {
+	      if (nodes.indexOf(path.node) === -1) return;
+	      if (path.isVariableDeclaration()) this.scope.registerDeclaration(path);
+	    });
+	    return uid;
+	  }
+	  addTemplateObject() {
+	    throw new Error("This function has been moved into the template literal transform itself.");
+	  }
+	  buildCodeFrameError(node, msg, _Error = SyntaxError) {
+	    let loc = node && (node.loc || node._loc);
+	    if (!loc && node) {
+	      const state = {
+	        loc: null
+	      };
+	      (0, _traverse().default)(node, errorVisitor, this.scope, state);
+	      loc = state.loc;
+	      let txt = "This is an error on an internal node. Probably an internal error.";
+	      if (loc) txt += " Location has been estimated.";
+	      msg += ` (${txt})`;
+	    }
+	    if (loc) {
+	      const {
+	        highlightCode = true
+	      } = this.opts;
+	      msg += "\n" + (0, _codeFrame().codeFrameColumns)(this.code, {
+	        start: {
+	          line: loc.start.line,
+	          column: loc.start.column + 1
+	        },
+	        end: loc.end && loc.start.line === loc.end.line ? {
+	          line: loc.end.line,
+	          column: loc.end.column + 1
+	        } : undefined
+	      }, {
+	        highlightCode
+	      });
+	    }
+	    return new _Error(msg);
+	  }
+	}
+	file.default = File;
+
+	
+	return file;
+}var buildExternalHelpers = {};var hasRequiredBuildExternalHelpers;
+
+function requireBuildExternalHelpers () {
+	if (hasRequiredBuildExternalHelpers) return buildExternalHelpers;
+	hasRequiredBuildExternalHelpers = 1;
+
+	Object.defineProperty(buildExternalHelpers, "__esModule", {
+	  value: true
+	});
+	buildExternalHelpers.default = _default;
+	function helpers() {
+	  const data = requireLib$4();
+	  helpers = function () {
+	    return data;
+	  };
+	  return data;
+	}
+	function _generator() {
+	  const data = requireLib$c();
+	  _generator = function () {
+	    return data;
+	  };
+	  return data;
+	}
+	function _template() {
+	  const data = requireLib$7();
+	  _template = function () {
+	    return data;
+	  };
+	  return data;
+	}
+	function _t() {
+	  const data = requireLib$f();
+	  _t = function () {
+	    return data;
+	  };
+	  return data;
+	}
+	var _file = requireFile();
+	const {
+	  arrayExpression,
+	  assignmentExpression,
+	  binaryExpression,
+	  blockStatement,
+	  callExpression,
+	  cloneNode,
+	  conditionalExpression,
+	  exportNamedDeclaration,
+	  exportSpecifier,
+	  expressionStatement,
+	  functionExpression,
+	  identifier,
+	  memberExpression,
+	  objectExpression,
+	  program,
+	  stringLiteral,
+	  unaryExpression,
+	  variableDeclaration,
+	  variableDeclarator
+	} = _t();
+	const buildUmdWrapper = replacements => _template().default.statement`
     (function (root, factory) {
       if (typeof define === "function" && define.amd) {
         define(AMD_ARGUMENTS, factory);
@@ -55172,76 +55232,80 @@ const buildUmdWrapper = replacements => _template().default.statement`
       FACTORY_BODY
     });
   `(replacements);
-function buildGlobal(allowlist) {
-  const namespace = identifier("babelHelpers");
-  const body = [];
-  const container = functionExpression(null, [identifier("global")], blockStatement(body));
-  const tree = program([expressionStatement(callExpression(container, [conditionalExpression(binaryExpression("===", unaryExpression("typeof", identifier("global")), stringLiteral("undefined")), identifier("self"), identifier("global"))]))]);
-  body.push(variableDeclaration("var", [variableDeclarator(namespace, assignmentExpression("=", memberExpression(identifier("global"), namespace), objectExpression([])))]));
-  buildHelpers(body, namespace, allowlist);
-  return tree;
-}
-function buildModule(allowlist) {
-  const body = [];
-  const refs = buildHelpers(body, null, allowlist);
-  body.unshift(exportNamedDeclaration(null, Object.keys(refs).map(name => {
-    return exportSpecifier(cloneNode(refs[name]), identifier(name));
-  })));
-  return program(body, [], "module");
-}
-function buildUmd(allowlist) {
-  const namespace = identifier("babelHelpers");
-  const body = [];
-  body.push(variableDeclaration("var", [variableDeclarator(namespace, identifier("global"))]));
-  buildHelpers(body, namespace, allowlist);
-  return program([buildUmdWrapper({
-    FACTORY_PARAMETERS: identifier("global"),
-    BROWSER_ARGUMENTS: assignmentExpression("=", memberExpression(identifier("root"), namespace), objectExpression([])),
-    COMMON_ARGUMENTS: identifier("exports"),
-    AMD_ARGUMENTS: arrayExpression([stringLiteral("exports")]),
-    FACTORY_BODY: body,
-    UMD_ROOT: identifier("this")
-  })]);
-}
-function buildVar(allowlist) {
-  const namespace = identifier("babelHelpers");
-  const body = [];
-  body.push(variableDeclaration("var", [variableDeclarator(namespace, objectExpression([]))]));
-  const tree = program(body);
-  buildHelpers(body, namespace, allowlist);
-  body.push(expressionStatement(namespace));
-  return tree;
-}
-function buildHelpers(body, namespace, allowlist) {
-  const getHelperReference = name => {
-    return namespace ? memberExpression(namespace, identifier(name)) : identifier(`_${name}`);
-  };
-  const refs = {};
-  helpers().list.forEach(function (name) {
-    if (allowlist && allowlist.indexOf(name) < 0) return;
-    const ref = refs[name] = getHelperReference(name);
-    helpers().ensure(name, _file$1.default);
-    const {
-      nodes
-    } = helpers().get(name, getHelperReference, ref);
-    body.push(...nodes);
-  });
-  return refs;
-}
-function _default$7(allowlist, outputType = "global") {
-  let tree;
-  const build = {
-    global: buildGlobal,
-    module: buildModule,
-    umd: buildUmd,
-    var: buildVar
-  }[outputType];
-  if (build) {
-    tree = build(allowlist);
-  } else {
-    throw new Error(`Unsupported output type ${outputType}`);
-  }
-  return (0, _generator$1().default)(tree).code;
+	function buildGlobal(allowlist) {
+	  const namespace = identifier("babelHelpers");
+	  const body = [];
+	  const container = functionExpression(null, [identifier("global")], blockStatement(body));
+	  const tree = program([expressionStatement(callExpression(container, [conditionalExpression(binaryExpression("===", unaryExpression("typeof", identifier("global")), stringLiteral("undefined")), identifier("self"), identifier("global"))]))]);
+	  body.push(variableDeclaration("var", [variableDeclarator(namespace, assignmentExpression("=", memberExpression(identifier("global"), namespace), objectExpression([])))]));
+	  buildHelpers(body, namespace, allowlist);
+	  return tree;
+	}
+	function buildModule(allowlist) {
+	  const body = [];
+	  const refs = buildHelpers(body, null, allowlist);
+	  body.unshift(exportNamedDeclaration(null, Object.keys(refs).map(name => {
+	    return exportSpecifier(cloneNode(refs[name]), identifier(name));
+	  })));
+	  return program(body, [], "module");
+	}
+	function buildUmd(allowlist) {
+	  const namespace = identifier("babelHelpers");
+	  const body = [];
+	  body.push(variableDeclaration("var", [variableDeclarator(namespace, identifier("global"))]));
+	  buildHelpers(body, namespace, allowlist);
+	  return program([buildUmdWrapper({
+	    FACTORY_PARAMETERS: identifier("global"),
+	    BROWSER_ARGUMENTS: assignmentExpression("=", memberExpression(identifier("root"), namespace), objectExpression([])),
+	    COMMON_ARGUMENTS: identifier("exports"),
+	    AMD_ARGUMENTS: arrayExpression([stringLiteral("exports")]),
+	    FACTORY_BODY: body,
+	    UMD_ROOT: identifier("this")
+	  })]);
+	}
+	function buildVar(allowlist) {
+	  const namespace = identifier("babelHelpers");
+	  const body = [];
+	  body.push(variableDeclaration("var", [variableDeclarator(namespace, objectExpression([]))]));
+	  const tree = program(body);
+	  buildHelpers(body, namespace, allowlist);
+	  body.push(expressionStatement(namespace));
+	  return tree;
+	}
+	function buildHelpers(body, namespace, allowlist) {
+	  const getHelperReference = name => {
+	    return namespace ? memberExpression(namespace, identifier(name)) : identifier(`_${name}`);
+	  };
+	  const refs = {};
+	  helpers().list.forEach(function (name) {
+	    if (allowlist && allowlist.indexOf(name) < 0) return;
+	    const ref = refs[name] = getHelperReference(name);
+	    helpers().ensure(name, _file.default);
+	    const {
+	      nodes
+	    } = helpers().get(name, getHelperReference, ref);
+	    body.push(...nodes);
+	  });
+	  return refs;
+	}
+	function _default(allowlist, outputType = "global") {
+	  let tree;
+	  const build = {
+	    global: buildGlobal,
+	    module: buildModule,
+	    umd: buildUmd,
+	    var: buildVar
+	  }[outputType];
+	  if (build) {
+	    tree = build(allowlist);
+	  } else {
+	    throw new Error(`Unsupported output type ${outputType}`);
+	  }
+	  return (0, _generator().default)(tree).code;
+	}
+
+	
+	return buildExternalHelpers;
 }var indexBrowser = {};Object.defineProperty(indexBrowser, "__esModule", {
   value: true
 });
@@ -55677,31 +55741,31 @@ function requireGensync () {
 });
 async.forwardAsync = forwardAsync;
 async.isAsync = void 0;
-async.isThenable = isThenable$1;
+async.isThenable = isThenable;
 async.maybeAsync = maybeAsync;
 async.waitFor = async.onFirstPause = void 0;
-function _gensync$3() {
+function _gensync$2() {
   const data = requireGensync();
-  _gensync$3 = function () {
+  _gensync$2 = function () {
     return data;
   };
   return data;
 }
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-const runGenerator = _gensync$3()(function* (item) {
+const runGenerator = _gensync$2()(function* (item) {
   return yield* item;
 });
-const isAsync = _gensync$3()({
+const isAsync = _gensync$2()({
   sync: () => false,
   errback: cb => cb(null, true)
 });
 async.isAsync = isAsync;
 function maybeAsync(fn, message) {
-  return _gensync$3()({
+  return _gensync$2()({
     sync(...args) {
       const result = fn.apply(this, args);
-      if (isThenable$1(result)) throw new Error(message);
+      if (isThenable(result)) throw new Error(message);
       return result;
     },
     async(...args) {
@@ -55709,7 +55773,7 @@ function maybeAsync(fn, message) {
     }
   });
 }
-const withKind = _gensync$3()({
+const withKind = _gensync$2()({
   sync: cb => cb("sync"),
   async: function () {
     var _ref = _asyncToGenerator(function* (cb) {
@@ -55721,13 +55785,13 @@ const withKind = _gensync$3()({
   }()
 });
 function forwardAsync(action, cb) {
-  const g = _gensync$3()(action);
+  const g = _gensync$2()(action);
   return withKind(kind => {
     const adapted = g[kind];
     return cb(adapted);
   });
 }
-const onFirstPause = _gensync$3()({
+const onFirstPause = _gensync$2()({
   name: "onFirstPause",
   arity: 2,
   sync: function (item) {
@@ -55745,7 +55809,7 @@ const onFirstPause = _gensync$3()({
   }
 });
 async.onFirstPause = onFirstPause;
-const waitFor = _gensync$3()({
+const waitFor = _gensync$2()({
   sync: x => x,
   async: function () {
     var _ref2 = _asyncToGenerator(function* (x) {
@@ -55757,7 +55821,7 @@ const waitFor = _gensync$3()({
   }()
 });
 async.waitFor = waitFor;
-function isThenable$1(val) {
+function isThenable(val) {
   return !!val && (typeof val === "object" || typeof val === "function") && !!val.then && typeof val.then === "function";
 }var util = {};Object.defineProperty(util, "__esModule", {
   value: true
@@ -55805,9 +55869,9 @@ function flattenToSet(arr) {
   value: true
 });
 plugin.default = void 0;
-var _deepArray$1 = deepArray;
+var _deepArray = deepArray;
 class Plugin {
-  constructor(plugin, options, key, externalDependencies = (0, _deepArray$1.finalize)([])) {
+  constructor(plugin, options, key, externalDependencies = (0, _deepArray.finalize)([])) {
     this.key = void 0;
     this.manipulateOptions = void 0;
     this.post = void 0;
@@ -55863,9 +55927,9 @@ caching.makeStrongCache = makeStrongCache;
 caching.makeStrongCacheSync = makeStrongCacheSync;
 caching.makeWeakCache = makeWeakCache;
 caching.makeWeakCacheSync = makeWeakCacheSync;
-function _gensync$2() {
+function _gensync$1() {
   const data = requireGensync();
-  _gensync$2 = function () {
+  _gensync$1 = function () {
     return data;
   };
   return data;
@@ -55873,7 +55937,7 @@ function _gensync$2() {
 var _async = async;
 var _util$1 = util;
 const synchronize = gen => {
-  return _gensync$2()(gen).sync;
+  return _gensync$1()(gen).sync;
 };
 function* genTrue() {
   return true;
@@ -58270,6 +58334,22 @@ class Lock {
 		lts: false,
 		security: false,
 		v8: "11.3.244.8"
+	},
+	{
+		name: "nodejs",
+		version: "20.3.0",
+		date: "2023-06-08",
+		lts: false,
+		security: false,
+		v8: "11.3.244.8"
+	},
+	{
+		name: "nodejs",
+		version: "20.4.0",
+		date: "2023-07-04",
+		lts: false,
+		security: false,
+		v8: "11.3.244.8"
 	}
 ];var agents$1 = {};var browsers$1 = {};var browsers;
 var hasRequiredBrowsers$1;
@@ -58292,7 +58372,7 @@ var hasRequiredBrowserVersions$1;
 function requireBrowserVersions$1 () {
 	if (hasRequiredBrowserVersions$1) return browserVersions;
 	hasRequiredBrowserVersions$1 = 1;
-	browserVersions={"0":"5","1":"19","2":"22","3":"23","4":"24","5":"25","6":"26","7":"27","8":"28","9":"29",A:"10",B:"11",C:"12",D:"17",E:"7",F:"8",G:"9",H:"15",I:"114",J:"4",K:"6",L:"13",M:"14",N:"16",O:"18",P:"79",Q:"80",R:"81",S:"83",T:"84",U:"85",V:"86",W:"87",X:"88",Y:"89",Z:"90",a:"91",b:"92",c:"93",d:"94",e:"95",f:"96",g:"97",h:"98",i:"99",j:"113",k:"20",l:"21",m:"73",n:"100",o:"101",p:"102",q:"103",r:"104",s:"105",t:"106",u:"107",v:"108",w:"109",x:"110",y:"111",z:"112",AB:"30",BB:"31",CB:"32",DB:"33",EB:"34",FB:"35",GB:"36",HB:"37",IB:"38",JB:"39",KB:"40",LB:"41",MB:"42",NB:"43",OB:"44",PB:"45",QB:"46",RB:"47",SB:"48",TB:"49",UB:"50",VB:"51",WB:"52",XB:"53",YB:"54",ZB:"55",aB:"56",bB:"57",cB:"58",dB:"60",eB:"62",fB:"63",gB:"64",hB:"65",iB:"66",jB:"67",kB:"68",lB:"69",mB:"70",nB:"71",oB:"72",pB:"74",qB:"75",rB:"76",sB:"77",tB:"78",uB:"11.1",vB:"12.1",wB:"16.0",xB:"3",yB:"59",zB:"61","0B":"82","1B":"115","2B":"116","3B":"3.2","4B":"10.1","5B":"13.1","6B":"15.2-15.3","7B":"15.4","8B":"15.5","9B":"15.6",AC:"16.1",BC:"16.2",CC:"16.3",DC:"16.4",EC:"16.5",FC:"16.6",GC:"11.5",HC:"4.2-4.3",IC:"5.5",JC:"2",KC:"3.5",LC:"3.6",MC:"117",NC:"3.1",OC:"5.1",PC:"6.1",QC:"7.1",RC:"9.1",SC:"14.1",TC:"15.1",UC:"TP",VC:"9.5-9.6",WC:"10.0-10.1",XC:"10.5",YC:"10.6",ZC:"11.6",aC:"4.0-4.1",bC:"5.0-5.1",cC:"6.0-6.1",dC:"7.0-7.1",eC:"8.1-8.4",fC:"9.0-9.2",gC:"9.3",hC:"10.0-10.2",iC:"10.3",jC:"11.0-11.2",kC:"11.3-11.4",lC:"12.0-12.1",mC:"12.2-12.5",nC:"13.0-13.1",oC:"13.2",pC:"13.3",qC:"13.4-13.7",rC:"14.0-14.4",sC:"14.5-14.8",tC:"15.0-15.1",uC:"all",vC:"2.1",wC:"2.2",xC:"2.3",yC:"4.1",zC:"4.4","0C":"4.4.3-4.4.4","1C":"13.4","2C":"5.0-5.4","3C":"6.2-6.4","4C":"7.2-7.4","5C":"8.2","6C":"9.2","7C":"11.1-11.2","8C":"12.0","9C":"13.0",AD:"14.0",BD:"15.0",CD:"17.0",DD:"18.0",ED:"19.0",FD:"13.18",GD:"2.5",HD:"3.0-3.1"};
+	browserVersions={"0":"114","1":"115","2":"5","3":"19","4":"22","5":"23","6":"24","7":"25","8":"26","9":"27",A:"10",B:"11",C:"12",D:"17",E:"116",F:"7",G:"8",H:"9",I:"15",J:"4",K:"6",L:"13",M:"14",N:"16",O:"18",P:"79",Q:"80",R:"81",S:"83",T:"84",U:"85",V:"86",W:"87",X:"88",Y:"89",Z:"90",a:"91",b:"92",c:"93",d:"94",e:"95",f:"96",g:"97",h:"98",i:"99",j:"100",k:"101",l:"102",m:"20",n:"21",o:"73",p:"103",q:"104",r:"105",s:"106",t:"107",u:"108",v:"109",w:"110",x:"111",y:"112",z:"113",AB:"28",BB:"29",CB:"30",DB:"31",EB:"32",FB:"33",GB:"34",HB:"35",IB:"36",JB:"37",KB:"38",LB:"39",MB:"40",NB:"41",OB:"42",PB:"43",QB:"44",RB:"45",SB:"46",TB:"47",UB:"48",VB:"49",WB:"50",XB:"51",YB:"52",ZB:"53",aB:"54",bB:"55",cB:"56",dB:"57",eB:"58",fB:"60",gB:"62",hB:"63",iB:"64",jB:"65",kB:"66",lB:"67",mB:"68",nB:"69",oB:"70",pB:"71",qB:"72",rB:"74",sB:"75",tB:"76",uB:"77",vB:"78",wB:"11.1",xB:"12.1",yB:"15.5",zB:"16.0","0B":"3","1B":"59","2B":"61","3B":"82","4B":"117","5B":"118","6B":"119","7B":"3.2","8B":"10.1","9B":"13.1",AC:"15.2-15.3",BC:"15.4",CC:"16.1",DC:"16.2",EC:"16.3",FC:"16.4",GC:"16.5",HC:"16.6",IC:"11.5",JC:"4.2-4.3",KC:"5.5",LC:"2",MC:"120",NC:"3.5",OC:"3.6",PC:"3.1",QC:"5.1",RC:"6.1",SC:"7.1",TC:"9.1",UC:"14.1",VC:"15.1",WC:"15.6",XC:"TP",YC:"9.5-9.6",ZC:"10.0-10.1",aC:"10.5",bC:"10.6",cC:"11.6",dC:"4.0-4.1",eC:"5.0-5.1",fC:"6.0-6.1",gC:"7.0-7.1",hC:"8.1-8.4",iC:"9.0-9.2",jC:"9.3",kC:"10.0-10.2",lC:"10.3",mC:"11.0-11.2",nC:"11.3-11.4",oC:"12.0-12.1",pC:"12.2-12.5",qC:"13.0-13.1",rC:"13.2",sC:"13.3",tC:"13.4-13.7",uC:"14.0-14.4",vC:"14.5-14.8",wC:"15.0-15.1",xC:"15.6-15.7",yC:"all",zC:"2.1","0C":"2.2","1C":"2.3","2C":"4.1","3C":"4.4","4C":"4.4.3-4.4.4","5C":"5.0-5.4","6C":"6.2-6.4","7C":"7.2-7.4","8C":"8.2","9C":"9.2",AD:"11.1-11.2",BD:"12.0",CD:"13.0",DD:"14.0",ED:"15.0",FD:"17.0",GD:"18.0",HD:"19.0",ID:"13.18",JD:"2.5",KD:"3.0-3.1"};
 	return browserVersions;
 }var hasRequiredBrowserVersions;
 
@@ -58307,7 +58387,7 @@ var hasRequiredAgents$1;
 function requireAgents$1 () {
 	if (hasRequiredAgents$1) return agents;
 	hasRequiredAgents$1 = 1;
-	agents={A:{A:{K:0,E:0,F:0.0309495,G:0.041266,A:0,B:0.371394,IC:0},B:"ms",C:["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","IC","K","E","F","G","A","B","","",""],E:"IE",F:{IC:962323200,K:998870400,E:1161129600,F:1237420800,G:1300060800,A:1346716800,B:1381968000}},B:{A:{C:0,L:0,M:0,H:0,N:0,D:0.00477,O:0.00954,P:0,Q:0,R:0,S:0,T:0,U:0,V:0,W:0,X:0,Y:0.00477,Z:0,a:0,b:0.01431,c:0,d:0,e:0,f:0,g:0,h:0,i:0,n:0,o:0.00477,p:0.00477,q:0.00477,r:0,s:0,t:0.00477,u:0.01431,v:0.02385,w:0.08586,x:0.03339,y:0.0477,z:1.89369,j:3.01464,I:0},B:"webkit",C:["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","C","L","M","H","N","D","O","P","Q","R","S","T","U","V","W","X","Y","Z","a","b","c","d","e","f","g","h","i","n","o","p","q","r","s","t","u","v","w","x","y","z","j","I","","",""],E:"Edge",F:{C:1438128000,L:1447286400,M:1470096000,H:1491868800,N:1508198400,D:1525046400,O:1542067200,P:1579046400,Q:1581033600,R:1586736000,S:1590019200,T:1594857600,U:1598486400,V:1602201600,W:1605830400,X:1611360000,Y:1614816000,Z:1618358400,a:1622073600,b:1626912000,c:1630627200,d:1632441600,e:1634774400,f:1637539200,g:1641427200,h:1643932800,i:1646265600,n:1649635200,o:1651190400,p:1653955200,q:1655942400,r:1659657600,s:1661990400,t:1664755200,u:1666915200,v:1670198400,w:1673481600,x:1675900800,y:1678665600,z:1680825600,j:1683158400,I:1685664000},D:{C:"ms",L:"ms",M:"ms",H:"ms",N:"ms",D:"ms",O:"ms"}},C:{A:{"0":0,"1":0,"2":0,"3":0,"4":0,"5":0,"6":0,"7":0,"8":0,"9":0,JC:0,xB:0,J:0,K:0,E:0,F:0,G:0,A:0,B:0.00477,C:0,L:0,M:0,H:0,N:0,D:0,O:0,k:0,l:0,AB:0,BB:0,CB:0,DB:0,EB:0,FB:0,GB:0.00477,HB:0,IB:0,JB:0,KB:0,LB:0,MB:0,NB:0.01908,OB:0.00477,PB:0,QB:0,RB:0,SB:0,TB:0,UB:0,VB:0,WB:0.0477,XB:0,YB:0,ZB:0,aB:0.00477,bB:0,cB:0,yB:0,dB:0,zB:0,eB:0,fB:0,gB:0,hB:0,iB:0,jB:0,kB:0,lB:0,mB:0,nB:0,oB:0.00954,m:0,pB:0,qB:0,rB:0,sB:0,tB:0.03339,P:0,Q:0,R:0,"0B":0,S:0,T:0.00954,U:0,V:0,W:0.01431,X:0.00954,Y:0,Z:0,a:0.00954,b:0,c:0,d:0.00954,e:0,f:0,g:0,h:0,i:0,n:0,o:0,p:0.10971,q:0.02385,r:0.00477,s:0.00477,t:0.00477,u:0.00954,v:0.00954,w:0.01431,x:0.02385,y:0.05247,z:0.8109,j:1.09233,I:0.01431,"1B":0,"2B":0,KC:0,LC:0},B:"moz",C:["JC","xB","KC","LC","J","0","K","E","F","G","A","B","C","L","M","H","N","D","O","1","k","l","2","3","4","5","6","7","8","9","AB","BB","CB","DB","EB","FB","GB","HB","IB","JB","KB","LB","MB","NB","OB","PB","QB","RB","SB","TB","UB","VB","WB","XB","YB","ZB","aB","bB","cB","yB","dB","zB","eB","fB","gB","hB","iB","jB","kB","lB","mB","nB","oB","m","pB","qB","rB","sB","tB","P","Q","R","0B","S","T","U","V","W","X","Y","Z","a","b","c","d","e","f","g","h","i","n","o","p","q","r","s","t","u","v","w","x","y","z","j","I","1B","2B",""],E:"Firefox",F:{"0":1308614400,"1":1357603200,"2":1368489600,"3":1372118400,"4":1375747200,"5":1379376000,"6":1386633600,"7":1391472000,"8":1395100800,"9":1398729600,JC:1161648000,xB:1213660800,KC:1246320000,LC:1264032000,J:1300752000,K:1313452800,E:1317081600,F:1317081600,G:1320710400,A:1324339200,B:1327968000,C:1331596800,L:1335225600,M:1338854400,H:1342483200,N:1346112000,D:1349740800,O:1353628800,k:1361232000,l:1364860800,AB:1402358400,BB:1405987200,CB:1409616000,DB:1413244800,EB:1417392000,FB:1421107200,GB:1424736000,HB:1428278400,IB:1431475200,JB:1435881600,KB:1439251200,LB:1442880000,MB:1446508800,NB:1450137600,OB:1453852800,PB:1457395200,QB:1461628800,RB:1465257600,SB:1470096000,TB:1474329600,UB:1479168000,VB:1485216000,WB:1488844800,XB:1492560000,YB:1497312000,ZB:1502150400,aB:1506556800,bB:1510617600,cB:1516665600,yB:1520985600,dB:1525824000,zB:1529971200,eB:1536105600,fB:1540252800,gB:1544486400,hB:1548720000,iB:1552953600,jB:1558396800,kB:1562630400,lB:1567468800,mB:1571788800,nB:1575331200,oB:1578355200,m:1581379200,pB:1583798400,qB:1586304000,rB:1588636800,sB:1591056000,tB:1593475200,P:1595894400,Q:1598313600,R:1600732800,"0B":1603152000,S:1605571200,T:1607990400,U:1611619200,V:1614038400,W:1616457600,X:1618790400,Y:1622505600,Z:1626134400,a:1628553600,b:1630972800,c:1633392000,d:1635811200,e:1638835200,f:1641859200,g:1644364800,h:1646697600,i:1649116800,n:1651536000,o:1653955200,p:1656374400,q:1658793600,r:1661212800,s:1663632000,t:1666051200,u:1668470400,v:1670889600,w:1673913600,x:1676332800,y:1678752000,z:1681171200,j:1683590400,I:1686009600,"1B":null,"2B":null}},D:{A:{"0":0,"1":0,"2":0,"3":0,"4":0,"5":0,"6":0,"7":0,"8":0,"9":0,J:0,K:0,E:0,F:0,G:0,A:0,B:0,C:0,L:0,M:0,H:0,N:0,D:0,O:0,k:0,l:0,AB:0,BB:0,CB:0,DB:0,EB:0.00954,FB:0.00477,GB:0,HB:0,IB:0.01431,JB:0,KB:0.00954,LB:0,MB:0,NB:0.00954,OB:0.00477,PB:0.00954,QB:0,RB:0.00954,SB:0.01908,TB:0.03339,UB:0.00954,VB:0,WB:0.00477,XB:0.00954,YB:0,ZB:0.00477,aB:0.06678,bB:0,cB:0.00477,yB:0,dB:0.00954,zB:0.01431,eB:0,fB:0.00477,gB:0,hB:0.00954,iB:0.02862,jB:0.00954,kB:0.00954,lB:0.03816,mB:0.01908,nB:0.00954,oB:0.01908,m:0.01431,pB:0.03339,qB:0.07155,rB:0.05724,sB:0.01908,tB:0.02385,P:0.2385,Q:0.04293,R:0.04293,S:0.15264,T:0.01908,U:0.06678,V:0.05247,W:0.10494,X:0.02862,Y:0.03339,Z:0.0477,a:0.08109,b:0.0477,c:0.13356,d:0.03816,e:0.01908,f:0.03339,g:0.02862,h:0.05247,i:0.05724,n:0.04293,o:0.04293,p:0.05724,q:0.25758,r:0.05724,s:0.08109,t:0.05724,u:0.07632,v:0.21465,w:2.11788,x:0.20988,y:0.80613,z:6.99759,j:12.3829,I:0.07155,"1B":0.01908,"2B":0,MC:0},B:"webkit",C:["","","","","","J","0","K","E","F","G","A","B","C","L","M","H","N","D","O","1","k","l","2","3","4","5","6","7","8","9","AB","BB","CB","DB","EB","FB","GB","HB","IB","JB","KB","LB","MB","NB","OB","PB","QB","RB","SB","TB","UB","VB","WB","XB","YB","ZB","aB","bB","cB","yB","dB","zB","eB","fB","gB","hB","iB","jB","kB","lB","mB","nB","oB","m","pB","qB","rB","sB","tB","P","Q","R","S","T","U","V","W","X","Y","Z","a","b","c","d","e","f","g","h","i","n","o","p","q","r","s","t","u","v","w","x","y","z","j","I","1B","2B","MC"],E:"Chrome",F:{"0":1274745600,"1":1332892800,"2":1343692800,"3":1348531200,"4":1352246400,"5":1357862400,"6":1361404800,"7":1364428800,"8":1369094400,"9":1374105600,J:1264377600,K:1283385600,E:1287619200,F:1291248000,G:1296777600,A:1299542400,B:1303862400,C:1307404800,L:1312243200,M:1316131200,H:1316131200,N:1319500800,D:1323734400,O:1328659200,k:1337040000,l:1340668800,AB:1376956800,BB:1384214400,CB:1389657600,DB:1392940800,EB:1397001600,FB:1400544000,GB:1405468800,HB:1409011200,IB:1412640000,JB:1416268800,KB:1421798400,LB:1425513600,MB:1429401600,NB:1432080000,OB:1437523200,PB:1441152000,QB:1444780800,RB:1449014400,SB:1453248000,TB:1456963200,UB:1460592000,VB:1464134400,WB:1469059200,XB:1472601600,YB:1476230400,ZB:1480550400,aB:1485302400,bB:1489017600,cB:1492560000,yB:1496707200,dB:1500940800,zB:1504569600,eB:1508198400,fB:1512518400,gB:1516752000,hB:1520294400,iB:1523923200,jB:1527552000,kB:1532390400,lB:1536019200,mB:1539648000,nB:1543968000,oB:1548720000,m:1552348800,pB:1555977600,qB:1559606400,rB:1564444800,sB:1568073600,tB:1571702400,P:1575936000,Q:1580860800,R:1586304000,S:1589846400,T:1594684800,U:1598313600,V:1601942400,W:1605571200,X:1611014400,Y:1614556800,Z:1618272000,a:1621987200,b:1626739200,c:1630368000,d:1632268800,e:1634601600,f:1637020800,g:1641340800,h:1643673600,i:1646092800,n:1648512000,o:1650931200,p:1653350400,q:1655769600,r:1659398400,s:1661817600,t:1664236800,u:1666656000,v:1669680000,w:1673308800,x:1675728000,y:1678147200,z:1680566400,j:1682985600,I:1685404800,"1B":null,"2B":null,MC:null}},E:{A:{"0":0,J:0,K:0,E:0,F:0,G:0,A:0,B:0,C:0,L:0.02385,M:0.12879,H:0.03339,D:0,NC:0,"3B":0,OC:0.00954,PC:0,QC:0,RC:0.0477,"4B":0,uB:0.00477,vB:0.0477,"5B":0.18126,SC:0.37206,TC:0.05724,"6B":0.0477,"7B":0.11925,"8B":0.20988,"9B":0.86337,wB:0.09063,AC:0.29574,BC:0.35775,CC:0.98262,DC:1.86984,EC:0.14787,FC:0,UC:0},B:"webkit",C:["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","NC","3B","J","0","OC","K","PC","E","QC","F","G","RC","A","4B","B","uB","C","vB","L","5B","M","SC","H","TC","6B","7B","8B","9B","wB","AC","BC","CC","DC","EC","FC","D","UC"],E:"Safari",F:{"0":1275868800,NC:1205798400,"3B":1226534400,J:1244419200,OC:1311120000,K:1343174400,PC:1382400000,E:1382400000,QC:1410998400,F:1413417600,G:1443657600,RC:1458518400,A:1474329600,"4B":1490572800,B:1505779200,uB:1522281600,C:1537142400,vB:1553472000,L:1568851200,"5B":1585008000,M:1600214400,SC:1619395200,H:1632096000,TC:1635292800,"6B":1639353600,"7B":1647216000,"8B":1652745600,"9B":1658275200,wB:1662940800,AC:1666569600,BC:1670889600,CC:1674432000,DC:1679875200,EC:1684368000,FC:null,D:null,UC:null}},F:{A:{"1":0,"2":0,"3":0,"4":0,"5":0,"6":0,"7":0,"8":0.00954,"9":0,G:0,B:0.03816,C:0,H:0,N:0,D:0,O:0,k:0,l:0,AB:0,BB:0,CB:0,DB:0,EB:0,FB:0,GB:0,HB:0,IB:0,JB:0,KB:0.00477,LB:0,MB:0,NB:0,OB:0,PB:0,QB:0.01431,RB:0,SB:0,TB:0,UB:0,VB:0,WB:0,XB:0,YB:0,ZB:0,aB:0,bB:0,cB:0,dB:0,eB:0,fB:0,gB:0,hB:0,iB:0,jB:0,kB:0,lB:0,mB:0,nB:0,oB:0,m:0,pB:0,qB:0,rB:0,sB:0,tB:0,P:0,Q:0,R:0,"0B":0,S:0,T:0,U:0.00477,V:0,W:0,X:0,Y:0.01431,Z:0,a:0,b:0,c:0,d:0.00477,e:0.06201,f:0.01908,g:0.45315,h:1.16388,i:0.02385,VC:0,WC:0,XC:0,YC:0,uB:0,GC:0,ZC:0,vB:0},B:"webkit",C:["","","","","","","","","","","","","","","","","","","","","","G","VC","WC","XC","YC","B","uB","GC","ZC","C","vB","H","N","D","O","1","k","l","2","3","4","5","6","7","8","9","AB","BB","CB","DB","EB","FB","GB","HB","IB","JB","KB","LB","MB","NB","OB","PB","QB","RB","SB","TB","UB","VB","WB","XB","YB","ZB","aB","bB","cB","dB","eB","fB","gB","hB","iB","jB","kB","lB","mB","nB","oB","m","pB","qB","rB","sB","tB","P","Q","R","0B","S","T","U","V","W","X","Y","Z","a","b","c","d","e","f","g","h","i","","",""],E:"Opera",F:{"1":1390867200,"2":1401753600,"3":1405987200,"4":1409616000,"5":1413331200,"6":1417132800,"7":1422316800,"8":1425945600,"9":1430179200,G:1150761600,VC:1223424000,WC:1251763200,XC:1267488000,YC:1277942400,B:1292457600,uB:1302566400,GC:1309219200,ZC:1323129600,C:1323129600,vB:1352073600,H:1372723200,N:1377561600,D:1381104000,O:1386288000,k:1393891200,l:1399334400,AB:1433808000,BB:1438646400,CB:1442448000,DB:1445904000,EB:1449100800,FB:1454371200,GB:1457308800,HB:1462320000,IB:1465344000,JB:1470096000,KB:1474329600,LB:1477267200,MB:1481587200,NB:1486425600,OB:1490054400,PB:1494374400,QB:1498003200,RB:1502236800,SB:1506470400,TB:1510099200,UB:1515024000,VB:1517961600,WB:1521676800,XB:1525910400,YB:1530144000,ZB:1534982400,aB:1537833600,bB:1543363200,cB:1548201600,dB:1554768000,eB:1561593600,fB:1566259200,gB:1570406400,hB:1573689600,iB:1578441600,jB:1583971200,kB:1587513600,lB:1592956800,mB:1595894400,nB:1600128000,oB:1603238400,m:1613520000,pB:1612224000,qB:1616544000,rB:1619568000,sB:1623715200,tB:1627948800,P:1631577600,Q:1633392000,R:1635984000,"0B":1638403200,S:1642550400,T:1644969600,U:1647993600,V:1650412800,W:1652745600,X:1654646400,Y:1657152000,Z:1660780800,a:1663113600,b:1668816000,c:1668643200,d:1671062400,e:1675209600,f:1677024000,g:1679529600,h:1681948800,i:1684195200},D:{G:"o",B:"o",C:"o",VC:"o",WC:"o",XC:"o",YC:"o",uB:"o",GC:"o",ZC:"o",vB:"o"}},G:{A:{F:0,D:0,"3B":0,aC:0,HC:0.00307706,bC:0.00307706,cC:0.00461559,dC:0.0153853,eC:0.00923118,fC:0.00923118,gC:0.0476944,hC:0.00307706,iC:0.0630797,jC:0.0215394,kC:0.0200009,lC:0.0169238,mC:0.341554,nC:0.00923118,oC:0.0138468,pC:0.026155,qC:0.0738494,rC:0.204624,sC:0.380017,tC:0.116928,"6B":0.143083,"7B":0.164623,"8B":0.256934,"9B":0.667722,wB:0.776957,AC:1.4816,BC:0.821575,CC:2.3401,DC:6.00488,EC:0.430788,FC:0},B:"webkit",C:["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","3B","aC","HC","bC","cC","dC","F","eC","fC","gC","hC","iC","jC","kC","lC","mC","nC","oC","pC","qC","rC","sC","tC","6B","7B","8B","9B","wB","AC","BC","CC","DC","EC","FC","D",""],E:"Safari on iOS",F:{"3B":1270252800,aC:1283904000,HC:1299628800,bC:1331078400,cC:1359331200,dC:1394409600,F:1410912000,eC:1413763200,fC:1442361600,gC:1458518400,hC:1473724800,iC:1490572800,jC:1505779200,kC:1522281600,lC:1537142400,mC:1553472000,nC:1568851200,oC:1572220800,pC:1580169600,qC:1585008000,rC:1600214400,sC:1619395200,tC:1632096000,"6B":1639353600,"7B":1647216000,"8B":1652659200,"9B":1658275200,wB:1662940800,AC:1666569600,BC:1670889600,CC:1674432000,DC:1679875200,EC:1684368000,FC:null,D:null}},H:{A:{uC:0.886305},B:"o",C:["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","uC","","",""],E:"Opera Mini",F:{uC:1426464000}},I:{A:{xB:0,J:0.0144972,I:0,vC:0,wC:0.0579888,xC:0,yC:0.0144972,HC:0.0797346,zC:0,"0C":0.246452},B:"webkit",C:["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","vC","wC","xC","xB","J","yC","HC","zC","0C","I","","",""],E:"Android Browser",F:{vC:1256515200,wC:1274313600,xC:1291593600,xB:1298332800,J:1318896000,yC:1341792000,HC:1374624000,zC:1386547200,"0C":1401667200,I:1685404800}},J:{A:{E:0,A:0},B:"webkit",C:["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","E","A","","",""],E:"Blackberry Browser",F:{E:1325376000,A:1359504000}},K:{A:{A:0,B:0,C:0,m:0,uB:0,GC:0,vB:0},B:"o",C:["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","A","B","uB","GC","C","vB","m","","",""],E:"Opera Mobile",F:{A:1287100800,B:1300752000,uB:1314835200,GC:1318291200,C:1330300800,vB:1349740800,m:1673827200},D:{m:"webkit"}},L:{A:{I:37.5965},B:"webkit",C:["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","I","","",""],E:"Chrome for Android",F:{I:1685404800}},M:{A:{j:0.27719},B:"moz",C:["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","j","","",""],E:"Firefox for Android",F:{j:1683590400}},N:{A:{A:0,B:0},B:"ms",C:["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","A","B","","",""],E:"IE Mobile",F:{A:1340150400,B:1353456000}},O:{A:{"1C":0.80019},B:"webkit",C:["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","1C","","",""],E:"UC Browser for Android",F:{"1C":1634688000},D:{"1C":"webkit"}},P:{A:{J:0.157218,k:1.66651,l:0.408766,"2C":0,"3C":0,"4C":0.0524059,"5C":0,"6C":0,"4B":0,"7C":0.0209623,"8C":0,"9C":0.0209623,AD:0.0104812,BD:0.0104812,wB:0.0419247,CD:0.0524059,DD:0.0419247,ED:0.104812},B:"webkit",C:["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","J","2C","3C","4C","5C","6C","4B","7C","8C","9C","AD","BD","wB","CD","DD","ED","k","l","","",""],E:"Samsung Internet",F:{J:1461024000,"2C":1481846400,"3C":1509408000,"4C":1528329600,"5C":1546128000,"6C":1554163200,"4B":1567900800,"7C":1582588800,"8C":1593475200,"9C":1605657600,AD:1618531200,BD:1629072000,wB:1640736000,CD:1651708800,DD:1659657600,ED:1667260800,k:1677369600,l:1684454400}},Q:{A:{"5B":0.12552},B:"webkit",C:["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","5B","","",""],E:"QQ Browser",F:{"5B":1663718400}},R:{A:{FD:0},B:"webkit",C:["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","FD","","",""],E:"Baidu Browser",F:{FD:1663027200}},S:{A:{GD:0.1046,HD:0},B:"moz",C:["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","GD","HD","","",""],E:"KaiOS Browser",F:{GD:1527811200,HD:1631664000}}};
+	agents={A:{A:{K:0,F:0,G:0.034985,H:0.0466466,A:0,B:0.396496,KC:0},B:"ms",C:["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","KC","K","F","G","H","A","B","","",""],E:"IE",F:{KC:962323200,K:998870400,F:1161129600,G:1237420800,H:1300060800,A:1346716800,B:1381968000}},B:{A:{"0":3.57315,"1":0.994677,C:0,L:0,M:0,I:0.004269,N:0,D:0.004269,O:0.008538,P:0,Q:0.008538,R:0.008538,S:0.008538,T:0.008538,U:0.004269,V:0.008538,W:0.008538,X:0.004269,Y:0.008538,Z:0.008538,a:0,b:0.012807,c:0,d:0,e:0,f:0,g:0,h:0,i:0.017076,j:0,k:0,l:0,p:0,q:0,r:0,s:0.004269,t:0.008538,u:0.012807,v:0.081111,w:0.017076,x:0.055497,y:0.081111,z:0.055497,E:0},B:"webkit",C:["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","C","L","M","I","N","D","O","P","Q","R","S","T","U","V","W","X","Y","Z","a","b","c","d","e","f","g","h","i","j","k","l","p","q","r","s","t","u","v","w","x","y","z","0","1","E","","",""],E:"Edge",F:{"0":1685664000,"1":1689897600,C:1438128000,L:1447286400,M:1470096000,I:1491868800,N:1508198400,D:1525046400,O:1542067200,P:1579046400,Q:1581033600,R:1586736000,S:1590019200,T:1594857600,U:1598486400,V:1602201600,W:1605830400,X:1611360000,Y:1614816000,Z:1618358400,a:1622073600,b:1626912000,c:1630627200,d:1632441600,e:1634774400,f:1637539200,g:1641427200,h:1643932800,i:1646265600,j:1649635200,k:1651190400,l:1653955200,p:1655942400,q:1659657600,r:1661990400,s:1664755200,t:1666915200,u:1670198400,v:1673481600,w:1675900800,x:1678665600,y:1680825600,z:1683158400,E:1692576000},D:{C:"ms",L:"ms",M:"ms",I:"ms",N:"ms",D:"ms",O:"ms"}},C:{A:{"0":0.542163,"1":1.37889,"2":0,"3":0,"4":0,"5":0,"6":0,"7":0,"8":0,"9":0,LC:0,"0B":0,J:0,K:0,F:0,G:0,H:0,A:0,B:0.008538,C:0,L:0,M:0,I:0,N:0,D:0,O:0,m:0,n:0,AB:0,BB:0,CB:0,DB:0,EB:0,FB:0,GB:0,HB:0,IB:0,JB:0,KB:0,LB:0,MB:0,NB:0,OB:0,PB:0.008538,QB:0.008538,RB:0,SB:0,TB:0,UB:0,VB:0,WB:0,XB:0,YB:0.046959,ZB:0.004269,aB:0,bB:0,cB:0.004269,dB:0,eB:0,"1B":0.004269,fB:0,"2B":0,gB:0,hB:0,iB:0,jB:0,kB:0,lB:0,mB:0,nB:0,oB:0,pB:0,qB:0.004269,o:0,rB:0,sB:0,tB:0,uB:0,vB:0.04269,P:0,Q:0,R:0,"3B":0,S:0,T:0,U:0,V:0,W:0,X:0.004269,Y:0.004269,Z:0.004269,a:0.004269,b:0,c:0,d:0.008538,e:0,f:0,g:0,h:0,i:0,j:0,k:0,l:0.110994,p:0.008538,q:0,r:0.004269,s:0.004269,t:0.004269,u:0.008538,v:0.008538,w:0.012807,x:0.021345,y:0.068304,z:0.038421,E:0.008538,"4B":0,"5B":0,"6B":0,MC:0,NC:0,OC:0},B:"moz",C:["LC","0B","NC","OC","J","2","K","F","G","H","A","B","C","L","M","I","N","D","O","3","m","n","4","5","6","7","8","9","AB","BB","CB","DB","EB","FB","GB","HB","IB","JB","KB","LB","MB","NB","OB","PB","QB","RB","SB","TB","UB","VB","WB","XB","YB","ZB","aB","bB","cB","dB","eB","1B","fB","2B","gB","hB","iB","jB","kB","lB","mB","nB","oB","pB","qB","o","rB","sB","tB","uB","vB","P","Q","R","3B","S","T","U","V","W","X","Y","Z","a","b","c","d","e","f","g","h","i","j","k","l","p","q","r","s","t","u","v","w","x","y","z","0","1","E","4B","5B","6B","MC"],E:"Firefox",F:{"0":1686009600,"1":1688428800,"2":1308614400,"3":1357603200,"4":1368489600,"5":1372118400,"6":1375747200,"7":1379376000,"8":1386633600,"9":1391472000,LC:1161648000,"0B":1213660800,NC:1246320000,OC:1264032000,J:1300752000,K:1313452800,F:1317081600,G:1317081600,H:1320710400,A:1324339200,B:1327968000,C:1331596800,L:1335225600,M:1338854400,I:1342483200,N:1346112000,D:1349740800,O:1353628800,m:1361232000,n:1364860800,AB:1395100800,BB:1398729600,CB:1402358400,DB:1405987200,EB:1409616000,FB:1413244800,GB:1417392000,HB:1421107200,IB:1424736000,JB:1428278400,KB:1431475200,LB:1435881600,MB:1439251200,NB:1442880000,OB:1446508800,PB:1450137600,QB:1453852800,RB:1457395200,SB:1461628800,TB:1465257600,UB:1470096000,VB:1474329600,WB:1479168000,XB:1485216000,YB:1488844800,ZB:1492560000,aB:1497312000,bB:1502150400,cB:1506556800,dB:1510617600,eB:1516665600,"1B":1520985600,fB:1525824000,"2B":1529971200,gB:1536105600,hB:1540252800,iB:1544486400,jB:1548720000,kB:1552953600,lB:1558396800,mB:1562630400,nB:1567468800,oB:1571788800,pB:1575331200,qB:1578355200,o:1581379200,rB:1583798400,sB:1586304000,tB:1588636800,uB:1591056000,vB:1593475200,P:1595894400,Q:1598313600,R:1600732800,"3B":1603152000,S:1605571200,T:1607990400,U:1611619200,V:1614038400,W:1616457600,X:1618790400,Y:1622505600,Z:1626134400,a:1628553600,b:1630972800,c:1633392000,d:1635811200,e:1638835200,f:1641859200,g:1644364800,h:1646697600,i:1649116800,j:1651536000,k:1653955200,l:1656374400,p:1658793600,q:1661212800,r:1663632000,s:1666051200,t:1668470400,u:1670889600,v:1673913600,w:1676332800,x:1678752000,y:1681171200,z:1683590400,E:1690848000,"4B":1693267200,"5B":null,"6B":null,MC:null}},D:{A:{"0":16.3375,"1":2.92,"2":0,"3":0,"4":0,"5":0,"6":0,"7":0,"8":0,"9":0,J:0,K:0,F:0,G:0,H:0,A:0,B:0,C:0,L:0,M:0,I:0,N:0,D:0,O:0,m:0,n:0,AB:0,BB:0,CB:0,DB:0,EB:0,FB:0,GB:0.004269,HB:0,IB:0,JB:0,KB:0.017076,LB:0,MB:0.017076,NB:0.004269,OB:0,PB:0.004269,QB:0,RB:0,SB:0,TB:0.008538,UB:0.021345,VB:0.034152,WB:0.008538,XB:0.004269,YB:0.004269,ZB:0.008538,aB:0,bB:0.004269,cB:0.051228,dB:0.004269,eB:0.008538,"1B":0,fB:0.021345,"2B":0.012807,gB:0,hB:0.008538,iB:0,jB:0.008538,kB:0.029883,lB:0.008538,mB:0.046959,nB:0.064035,oB:0.064035,pB:0.025614,qB:0.034152,o:0.012807,rB:0.076842,sB:0.068304,tB:0.106725,uB:0.038421,vB:0.046959,P:0.247602,Q:0.072573,R:0.068304,S:0.153684,T:0.04269,U:0.102456,V:0.102456,W:0.110994,X:0.068304,Y:0.051228,Z:0.068304,a:0.072573,b:0.029883,c:0.145146,d:0.025614,e:0.021345,f:0.025614,g:0.029883,h:0.059766,i:0.051228,j:0.04269,k:0.051228,l:0.04269,p:0.226257,q:0.064035,r:0.055497,s:0.04269,t:0.093918,u:0.145146,v:1.8869,w:0.123801,x:0.29883,y:0.268947,z:0.4269,E:0.021345,"4B":0.008538,"5B":0,"6B":0},B:"webkit",C:["","","","","","","J","2","K","F","G","H","A","B","C","L","M","I","N","D","O","3","m","n","4","5","6","7","8","9","AB","BB","CB","DB","EB","FB","GB","HB","IB","JB","KB","LB","MB","NB","OB","PB","QB","RB","SB","TB","UB","VB","WB","XB","YB","ZB","aB","bB","cB","dB","eB","1B","fB","2B","gB","hB","iB","jB","kB","lB","mB","nB","oB","pB","qB","o","rB","sB","tB","uB","vB","P","Q","R","S","T","U","V","W","X","Y","Z","a","b","c","d","e","f","g","h","i","j","k","l","p","q","r","s","t","u","v","w","x","y","z","0","1","E","4B","5B","6B"],E:"Chrome",F:{"0":1685404800,"1":1689724800,"2":1274745600,"3":1332892800,"4":1343692800,"5":1348531200,"6":1352246400,"7":1357862400,"8":1361404800,"9":1364428800,J:1264377600,K:1283385600,F:1287619200,G:1291248000,H:1296777600,A:1299542400,B:1303862400,C:1307404800,L:1312243200,M:1316131200,I:1316131200,N:1319500800,D:1323734400,O:1328659200,m:1337040000,n:1340668800,AB:1369094400,BB:1374105600,CB:1376956800,DB:1384214400,EB:1389657600,FB:1392940800,GB:1397001600,HB:1400544000,IB:1405468800,JB:1409011200,KB:1412640000,LB:1416268800,MB:1421798400,NB:1425513600,OB:1429401600,PB:1432080000,QB:1437523200,RB:1441152000,SB:1444780800,TB:1449014400,UB:1453248000,VB:1456963200,WB:1460592000,XB:1464134400,YB:1469059200,ZB:1472601600,aB:1476230400,bB:1480550400,cB:1485302400,dB:1489017600,eB:1492560000,"1B":1496707200,fB:1500940800,"2B":1504569600,gB:1508198400,hB:1512518400,iB:1516752000,jB:1520294400,kB:1523923200,lB:1527552000,mB:1532390400,nB:1536019200,oB:1539648000,pB:1543968000,qB:1548720000,o:1552348800,rB:1555977600,sB:1559606400,tB:1564444800,uB:1568073600,vB:1571702400,P:1575936000,Q:1580860800,R:1586304000,S:1589846400,T:1594684800,U:1598313600,V:1601942400,W:1605571200,X:1611014400,Y:1614556800,Z:1618272000,a:1621987200,b:1626739200,c:1630368000,d:1632268800,e:1634601600,f:1637020800,g:1641340800,h:1643673600,i:1646092800,j:1648512000,k:1650931200,l:1653350400,p:1655769600,q:1659398400,r:1661817600,s:1664236800,t:1666656000,u:1669680000,v:1673308800,w:1675728000,x:1678147200,y:1680566400,z:1682985600,E:1692057600,"4B":null,"5B":null,"6B":null}},E:{A:{"2":0,J:0,K:0,F:0,G:0,H:0,A:0,B:0,C:0,L:0.017076,M:0.102456,I:0.021345,D:0.017076,PC:0,"7B":0,QC:0.008538,RC:0,SC:0,TC:0.204912,"8B":0,wB:0.008538,xB:0.029883,"9B":0.149415,UC:0.264678,VC:0.04269,AC:0.034152,BC:0.081111,yB:0.136608,WC:0.610467,zB:0.192105,CC:0.192105,DC:0.209181,EC:0.495204,FC:0.183567,GC:2.35649,HC:0.055497,XC:0},B:"webkit",C:["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","PC","7B","J","2","QC","K","RC","F","SC","G","H","TC","A","8B","B","wB","C","xB","L","9B","M","UC","I","VC","AC","BC","yB","WC","zB","CC","DC","EC","FC","GC","HC","D","XC"],E:"Safari",F:{"2":1275868800,PC:1205798400,"7B":1226534400,J:1244419200,QC:1311120000,K:1343174400,RC:1382400000,F:1382400000,SC:1410998400,G:1413417600,H:1443657600,TC:1458518400,A:1474329600,"8B":1490572800,B:1505779200,wB:1522281600,C:1537142400,xB:1553472000,L:1568851200,"9B":1585008000,M:1600214400,UC:1619395200,I:1632096000,VC:1635292800,AC:1639353600,BC:1647216000,yB:1652745600,WC:1658275200,zB:1662940800,CC:1666569600,DC:1670889600,EC:1674432000,FC:1679875200,GC:1684368000,HC:null,D:null,XC:null}},F:{A:{"3":0,"4":0,"5":0,"6":0,"7":0,"8":0,"9":0,H:0,B:0,C:0,I:0,N:0,D:0,O:0,m:0,n:0,AB:0.008538,BB:0,CB:0,DB:0,EB:0,FB:0,GB:0,HB:0,IB:0,JB:0,KB:0,LB:0,MB:0.004269,NB:0,OB:0,PB:0,QB:0,RB:0,SB:0.017076,TB:0,UB:0,VB:0,WB:0,XB:0,YB:0,ZB:0,aB:0.004269,bB:0.004269,cB:0,dB:0,eB:0,fB:0,gB:0,hB:0,iB:0,jB:0,kB:0,lB:0,mB:0,nB:0,oB:0,pB:0,qB:0,o:0,rB:0,sB:0,tB:0,uB:0,vB:0,P:0,Q:0,R:0,"3B":0,S:0,T:0,U:0.004269,V:0,W:0,X:0,Y:0,Z:0,a:0,b:0,c:0,d:0,e:0.055497,f:0.008538,g:0.04269,h:0.008538,i:1.05871,j:0.563508,k:0.008538,l:0,YC:0,ZC:0,aC:0,bC:0,wB:0,IC:0,cC:0,xB:0},B:"webkit",C:["","","","","","","","","","","","","","","","","","","","","","H","YC","ZC","aC","bC","B","wB","IC","cC","C","xB","I","N","D","O","3","m","n","4","5","6","7","8","9","AB","BB","CB","DB","EB","FB","GB","HB","IB","JB","KB","LB","MB","NB","OB","PB","QB","RB","SB","TB","UB","VB","WB","XB","YB","ZB","aB","bB","cB","dB","eB","fB","gB","hB","iB","jB","kB","lB","mB","nB","oB","pB","qB","o","rB","sB","tB","uB","vB","P","Q","R","3B","S","T","U","V","W","X","Y","Z","a","b","c","d","e","f","g","h","i","j","k","l","","",""],E:"Opera",F:{"3":1390867200,"4":1401753600,"5":1405987200,"6":1409616000,"7":1413331200,"8":1417132800,"9":1422316800,H:1150761600,YC:1223424000,ZC:1251763200,aC:1267488000,bC:1277942400,B:1292457600,wB:1302566400,IC:1309219200,cC:1323129600,C:1323129600,xB:1352073600,I:1372723200,N:1377561600,D:1381104000,O:1386288000,m:1393891200,n:1399334400,AB:1425945600,BB:1430179200,CB:1433808000,DB:1438646400,EB:1442448000,FB:1445904000,GB:1449100800,HB:1454371200,IB:1457308800,JB:1462320000,KB:1465344000,LB:1470096000,MB:1474329600,NB:1477267200,OB:1481587200,PB:1486425600,QB:1490054400,RB:1494374400,SB:1498003200,TB:1502236800,UB:1506470400,VB:1510099200,WB:1515024000,XB:1517961600,YB:1521676800,ZB:1525910400,aB:1530144000,bB:1534982400,cB:1537833600,dB:1543363200,eB:1548201600,fB:1554768000,gB:1561593600,hB:1566259200,iB:1570406400,jB:1573689600,kB:1578441600,lB:1583971200,mB:1587513600,nB:1592956800,oB:1595894400,pB:1600128000,qB:1603238400,o:1613520000,rB:1612224000,sB:1616544000,tB:1619568000,uB:1623715200,vB:1627948800,P:1631577600,Q:1633392000,R:1635984000,"3B":1638403200,S:1642550400,T:1644969600,U:1647993600,V:1650412800,W:1652745600,X:1654646400,Y:1657152000,Z:1660780800,a:1663113600,b:1668816000,c:1668643200,d:1671062400,e:1675209600,f:1677024000,g:1679529600,h:1681948800,i:1684195200,j:1687219200,k:1690329600,l:1692748800},D:{H:"o",B:"o",C:"o",YC:"o",ZC:"o",aC:"o",bC:"o",wB:"o",IC:"o",cC:"o",xB:"o"}},G:{A:{G:0,D:0.060132,"7B":0,dC:0,JC:0.0030066,eC:0.0030066,fC:0.0030066,gC:0.0120264,hC:0.0045099,iC:0.0105231,jC:0.0435957,kC:0.0030066,lC:0.0586287,mC:0.0315693,nC:0.0210462,oC:0.015033,pC:0.281117,qC:0.00751649,rC:0.0105231,sC:0.0195429,tC:0.0616352,uC:0.174383,vC:0.30517,wC:0.108238,AC:0.121767,BC:0.139807,yB:0.201442,xC:0.481056,zB:0.551711,CC:1.05231,DC:0.545697,EC:1.15604,FC:0.317196,GC:8.21102,HC:0.189416},B:"webkit",C:["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","7B","dC","JC","eC","fC","gC","G","hC","iC","jC","kC","lC","mC","nC","oC","pC","qC","rC","sC","tC","uC","vC","wC","AC","BC","yB","xC","zB","CC","DC","EC","FC","GC","HC","D",""],E:"Safari on iOS",F:{"7B":1270252800,dC:1283904000,JC:1299628800,eC:1331078400,fC:1359331200,gC:1394409600,G:1410912000,hC:1413763200,iC:1442361600,jC:1458518400,kC:1473724800,lC:1490572800,mC:1505779200,nC:1522281600,oC:1537142400,pC:1553472000,qC:1568851200,rC:1572220800,sC:1580169600,tC:1585008000,uC:1600214400,vC:1619395200,wC:1632096000,AC:1639353600,BC:1647216000,yB:1652659200,xC:1658275200,zB:1662940800,CC:1666569600,DC:1670889600,EC:1674432000,FC:1679875200,GC:1684368000,HC:null,D:null}},H:{A:{yC:1.05241},B:"o",C:["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","yC","","",""],E:"Opera Mini",F:{yC:1426464000}},I:{A:{"0B":0,J:0.0242902,E:0,zC:0,"0C":0.00809674,"1C":0,"2C":0.0404837,JC:0.0566772,"3C":0,"4C":0.242902},B:"webkit",C:["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","zC","0C","1C","0B","J","2C","JC","3C","4C","E","","",""],E:"Android Browser",F:{zC:1256515200,"0C":1274313600,"1C":1291593600,"0B":1298332800,J:1318896000,"2C":1341792000,JC:1374624000,"3C":1386547200,"4C":1401667200,E:1692057600}},J:{A:{F:0,A:0},B:"webkit",C:["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","F","A","","",""],E:"Blackberry Browser",F:{F:1325376000,A:1359504000}},K:{A:{A:0,B:0,C:0,o:0,wB:0,IC:0,xB:0},B:"o",C:["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","A","B","wB","IC","C","xB","o","","",""],E:"Opera Mobile",F:{A:1287100800,B:1300752000,wB:1314835200,IC:1318291200,C:1330300800,xB:1349740800,o:1673827200},D:{o:"webkit"}},L:{A:{E:38.273},B:"webkit",C:["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","E","","",""],E:"Chrome for Android",F:{E:1692057600}},M:{A:{E:0.2865},B:"moz",C:["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","E","","",""],E:"Firefox for Android",F:{E:1690848000}},N:{A:{A:0,B:0},B:"ms",C:["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","A","B","","",""],E:"IE Mobile",F:{A:1340150400,B:1353456000}},O:{A:{yB:1.02567},B:"webkit",C:["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","yB","","",""],E:"UC Browser for Android",F:{yB:1687132800},D:{yB:"webkit"}},P:{A:{J:0.135723,m:0.125283,n:1.23195,"5C":0,"6C":0,"7C":0.041761,"8C":0,"9C":0,"8B":0,AD:0.0104403,BD:0,CD:0.0208805,DD:0.0208805,ED:0.0104403,zB:0.0313208,FD:0.041761,GD:0.0313208,HD:0.0626415},B:"webkit",C:["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","J","5C","6C","7C","8C","9C","8B","AD","BD","CD","DD","ED","zB","FD","GD","HD","m","n","","",""],E:"Samsung Internet",F:{J:1461024000,"5C":1481846400,"6C":1509408000,"7C":1528329600,"8C":1546128000,"9C":1554163200,"8B":1567900800,AD:1582588800,BD:1593475200,CD:1605657600,DD:1618531200,ED:1629072000,zB:1640736000,FD:1651708800,GD:1659657600,HD:1667260800,m:1677369600,n:1684454400}},Q:{A:{"9B":0.16617},B:"webkit",C:["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","9B","","",""],E:"QQ Browser",F:{"9B":1663718400}},R:{A:{ID:0},B:"webkit",C:["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","ID","","",""],E:"Baidu Browser",F:{ID:1663027200}},S:{A:{JD:0.08595,KD:0},B:"moz",C:["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","JD","KD","","",""],E:"KaiOS Browser",F:{JD:1527811200,KD:1631664000}}};
 	return agents;
 }var hasRequiredAgents;
 
@@ -58621,10 +58701,20 @@ function requireVersions () {
 		"24.4": "112",
 		"24.5": "112",
 		"24.6": "112",
+		"24.7": "112",
+		"24.8": "112",
 		"25.0": "114",
 		"25.1": "114",
 		"25.2": "114",
-		"26.0": "116"
+		"25.3": "114",
+		"25.4": "114",
+		"25.5": "114",
+		"25.6": "114",
+		"25.7": "114",
+		"25.8": "114",
+		"26.0": "116",
+		"26.1": "116",
+		"27.0": "118"
 	};
 	return versions;
 }var error;
@@ -59799,7 +59889,7 @@ function requireBrowserslist () {
 	    matches: [],
 	    regexp: /^(firefox|ff|fx)\s+esr$/i,
 	    select: function () {
-	      return ['firefox 102']
+	      return ['firefox 102', 'firefox 115']
 	    }
 	  },
 	  opera_mini_all: {
@@ -60100,7 +60190,7 @@ validator.OptionValidator = OptionValidator;(function (exports) {
 	and_ff: "60",
 	node: "13.2.0",
 	opera: "48",
-	op_mob: "48",
+	op_mob: "45",
 	safari: "10.1",
 	ios: "10.3",
 	samsung: "8.2",
@@ -60928,7 +61018,7 @@ function requireTargets () {
 	  ios_saf: "ios",
 	  node: "node",
 	  deno: "deno",
-	  op_mob: "opera",
+	  op_mob: "opera_mobile",
 	  opera: "opera",
 	  safari: "safari",
 	  samsung: "samsung"
@@ -61023,7 +61113,8 @@ function requireOptions$1 () {
 	  android: "android",
 	  electron: "electron",
 	  samsung: "samsung",
-	  rhino: "rhino"
+	  rhino: "rhino",
+	  opera_mobile: "opera_mobile"
 	};
 	options$1.TargetNames = TargetNames;
 
@@ -61074,16 +61165,16 @@ function requirePretty () {
 
 	
 	return pretty;
-}var debug$2 = {};var hasRequiredDebug;
+}var debug$1 = {};var hasRequiredDebug;
 
 function requireDebug () {
-	if (hasRequiredDebug) return debug$2;
+	if (hasRequiredDebug) return debug$1;
 	hasRequiredDebug = 1;
 
-	Object.defineProperty(debug$2, "__esModule", {
+	Object.defineProperty(debug$1, "__esModule", {
 	  value: true
 	});
-	debug$2.getInclusionReasons = getInclusionReasons;
+	debug$1.getInclusionReasons = getInclusionReasons;
 	var _semver = requireSemver();
 	var _pretty = requirePretty();
 	var _utils = requireUtils();
@@ -61106,21 +61197,29 @@ function requireDebug () {
 	}
 
 	
-	return debug$2;
+	return debug$1;
 }var filterItems = {};var require$$0$1 = {
 	"transform-unicode-sets-regex": {
 	chrome: "112",
 	opera: "98",
-	edge: "112"
+	edge: "112",
+	firefox: "116",
+	node: "20",
+	deno: "1.32",
+	opera_mobile: "75",
+	electron: "24.0"
 },
 	"transform-class-static-block": {
 	chrome: "94",
 	opera: "80",
 	edge: "94",
 	firefox: "93",
+	safari: "16.4",
 	node: "16.11",
 	deno: "1.14",
+	ios: "16.4",
 	samsung: "17",
+	opera_mobile: "66",
 	electron: "15.0"
 },
 	"proposal-class-static-block": {
@@ -61128,9 +61227,12 @@ function requireDebug () {
 	opera: "80",
 	edge: "94",
 	firefox: "93",
+	safari: "16.4",
 	node: "16.11",
 	deno: "1.14",
+	ios: "16.4",
 	samsung: "17",
+	opera_mobile: "66",
 	electron: "15.0"
 },
 	"transform-private-property-in-object": {
@@ -61143,6 +61245,7 @@ function requireDebug () {
 	deno: "1.9",
 	ios: "15",
 	samsung: "16",
+	opera_mobile: "64",
 	electron: "13.0"
 },
 	"proposal-private-property-in-object": {
@@ -61155,6 +61258,7 @@ function requireDebug () {
 	deno: "1.9",
 	ios: "15",
 	samsung: "16",
+	opera_mobile: "64",
 	electron: "13.0"
 },
 	"transform-class-properties": {
@@ -61165,8 +61269,9 @@ function requireDebug () {
 	safari: "14.1",
 	node: "12",
 	deno: "1",
-	ios: "15",
+	ios: "14.5",
 	samsung: "11",
+	opera_mobile: "53",
 	electron: "6.0"
 },
 	"proposal-class-properties": {
@@ -61177,8 +61282,9 @@ function requireDebug () {
 	safari: "14.1",
 	node: "12",
 	deno: "1",
-	ios: "15",
+	ios: "14.5",
 	samsung: "11",
+	opera_mobile: "53",
 	electron: "6.0"
 },
 	"transform-private-methods": {
@@ -61191,6 +61297,7 @@ function requireDebug () {
 	deno: "1",
 	ios: "15",
 	samsung: "14",
+	opera_mobile: "60",
 	electron: "10.0"
 },
 	"proposal-private-methods": {
@@ -61203,6 +61310,7 @@ function requireDebug () {
 	deno: "1",
 	ios: "15",
 	samsung: "14",
+	opera_mobile: "60",
 	electron: "10.0"
 },
 	"transform-numeric-separator": {
@@ -61216,6 +61324,7 @@ function requireDebug () {
 	ios: "13",
 	samsung: "11",
 	rhino: "1.7.14",
+	opera_mobile: "54",
 	electron: "6.0"
 },
 	"proposal-numeric-separator": {
@@ -61229,6 +61338,7 @@ function requireDebug () {
 	ios: "13",
 	samsung: "11",
 	rhino: "1.7.14",
+	opera_mobile: "54",
 	electron: "6.0"
 },
 	"transform-logical-assignment-operators": {
@@ -61241,6 +61351,7 @@ function requireDebug () {
 	deno: "1.2",
 	ios: "14",
 	samsung: "14",
+	opera_mobile: "60",
 	electron: "10.0"
 },
 	"proposal-logical-assignment-operators": {
@@ -61253,6 +61364,7 @@ function requireDebug () {
 	deno: "1.2",
 	ios: "14",
 	samsung: "14",
+	opera_mobile: "60",
 	electron: "10.0"
 },
 	"transform-nullish-coalescing-operator": {
@@ -61265,6 +61377,7 @@ function requireDebug () {
 	deno: "1",
 	ios: "13.4",
 	samsung: "13",
+	opera_mobile: "57",
 	electron: "8.0"
 },
 	"proposal-nullish-coalescing-operator": {
@@ -61277,6 +61390,7 @@ function requireDebug () {
 	deno: "1",
 	ios: "13.4",
 	samsung: "13",
+	opera_mobile: "57",
 	electron: "8.0"
 },
 	"transform-optional-chaining": {
@@ -61289,6 +61403,7 @@ function requireDebug () {
 	deno: "1.9",
 	ios: "13.4",
 	samsung: "16",
+	opera_mobile: "64",
 	electron: "13.0"
 },
 	"proposal-optional-chaining": {
@@ -61301,6 +61416,7 @@ function requireDebug () {
 	deno: "1.9",
 	ios: "13.4",
 	samsung: "16",
+	opera_mobile: "64",
 	electron: "13.0"
 },
 	"transform-json-strings": {
@@ -61314,6 +61430,7 @@ function requireDebug () {
 	ios: "12",
 	samsung: "9",
 	rhino: "1.7.14",
+	opera_mobile: "47",
 	electron: "3.0"
 },
 	"proposal-json-strings": {
@@ -61327,6 +61444,7 @@ function requireDebug () {
 	ios: "12",
 	samsung: "9",
 	rhino: "1.7.14",
+	opera_mobile: "47",
 	electron: "3.0"
 },
 	"transform-optional-catch-binding": {
@@ -61339,6 +61457,7 @@ function requireDebug () {
 	deno: "1",
 	ios: "11.3",
 	samsung: "9",
+	opera_mobile: "47",
 	electron: "3.0"
 },
 	"proposal-optional-catch-binding": {
@@ -61351,6 +61470,7 @@ function requireDebug () {
 	deno: "1",
 	ios: "11.3",
 	samsung: "9",
+	opera_mobile: "47",
 	electron: "3.0"
 },
 	"transform-parameters": {
@@ -61358,9 +61478,12 @@ function requireDebug () {
 	opera: "36",
 	edge: "18",
 	firefox: "53",
+	safari: "16.3",
 	node: "6",
 	deno: "1",
+	ios: "16.3",
 	samsung: "5",
+	opera_mobile: "36",
 	electron: "0.37"
 },
 	"transform-async-generator-functions": {
@@ -61373,6 +61496,7 @@ function requireDebug () {
 	deno: "1",
 	ios: "12",
 	samsung: "8",
+	opera_mobile: "46",
 	electron: "3.0"
 },
 	"proposal-async-generator-functions": {
@@ -61385,6 +61509,7 @@ function requireDebug () {
 	deno: "1",
 	ios: "12",
 	samsung: "8",
+	opera_mobile: "46",
 	electron: "3.0"
 },
 	"transform-object-rest-spread": {
@@ -61397,6 +61522,7 @@ function requireDebug () {
 	deno: "1",
 	ios: "11.3",
 	samsung: "8",
+	opera_mobile: "44",
 	electron: "2.0"
 },
 	"proposal-object-rest-spread": {
@@ -61409,6 +61535,7 @@ function requireDebug () {
 	deno: "1",
 	ios: "11.3",
 	samsung: "8",
+	opera_mobile: "44",
 	electron: "2.0"
 },
 	"transform-dotall-regex": {
@@ -61421,6 +61548,7 @@ function requireDebug () {
 	deno: "1",
 	ios: "11.3",
 	samsung: "8",
+	opera_mobile: "46",
 	electron: "3.0"
 },
 	"transform-unicode-property-regex": {
@@ -61433,6 +61561,7 @@ function requireDebug () {
 	deno: "1",
 	ios: "11.3",
 	samsung: "9",
+	opera_mobile: "47",
 	electron: "3.0"
 },
 	"proposal-unicode-property-regex": {
@@ -61445,6 +61574,7 @@ function requireDebug () {
 	deno: "1",
 	ios: "11.3",
 	samsung: "9",
+	opera_mobile: "47",
 	electron: "3.0"
 },
 	"transform-named-capturing-groups-regex": {
@@ -61457,6 +61587,7 @@ function requireDebug () {
 	deno: "1",
 	ios: "11.3",
 	samsung: "9",
+	opera_mobile: "47",
 	electron: "3.0"
 },
 	"transform-async-to-generator": {
@@ -61469,6 +61600,7 @@ function requireDebug () {
 	deno: "1",
 	ios: "11",
 	samsung: "6",
+	opera_mobile: "42",
 	electron: "1.6"
 },
 	"transform-exponentiation-operator": {
@@ -61482,6 +61614,7 @@ function requireDebug () {
 	ios: "10.3",
 	samsung: "6",
 	rhino: "1.7.14",
+	opera_mobile: "41",
 	electron: "1.3"
 },
 	"transform-template-literals": {
@@ -61494,6 +61627,7 @@ function requireDebug () {
 	deno: "1",
 	ios: "13",
 	samsung: "3.4",
+	opera_mobile: "28",
 	electron: "0.21"
 },
 	"transform-literals": {
@@ -61506,6 +61640,7 @@ function requireDebug () {
 	deno: "1",
 	ios: "9",
 	samsung: "4",
+	opera_mobile: "32",
 	electron: "0.30"
 },
 	"transform-function-name": {
@@ -61518,6 +61653,7 @@ function requireDebug () {
 	deno: "1",
 	ios: "10",
 	samsung: "5",
+	opera_mobile: "41",
 	electron: "1.2"
 },
 	"transform-arrow-functions": {
@@ -61531,6 +61667,7 @@ function requireDebug () {
 	ios: "10",
 	samsung: "5",
 	rhino: "1.7.13",
+	opera_mobile: "34",
 	electron: "0.36"
 },
 	"transform-block-scoped-functions": {
@@ -61544,6 +61681,7 @@ function requireDebug () {
 	ie: "11",
 	ios: "10",
 	samsung: "3.4",
+	opera_mobile: "28",
 	electron: "0.21"
 },
 	"transform-classes": {
@@ -61556,6 +61694,7 @@ function requireDebug () {
 	deno: "1",
 	ios: "10",
 	samsung: "5",
+	opera_mobile: "33",
 	electron: "0.36"
 },
 	"transform-object-super": {
@@ -61568,6 +61707,7 @@ function requireDebug () {
 	deno: "1",
 	ios: "10",
 	samsung: "5",
+	opera_mobile: "33",
 	electron: "0.36"
 },
 	"transform-shorthand-properties": {
@@ -61581,6 +61721,7 @@ function requireDebug () {
 	ios: "9",
 	samsung: "4",
 	rhino: "1.7.14",
+	opera_mobile: "30",
 	electron: "0.27"
 },
 	"transform-duplicate-keys": {
@@ -61593,6 +61734,7 @@ function requireDebug () {
 	deno: "1",
 	ios: "9",
 	samsung: "3.4",
+	opera_mobile: "29",
 	electron: "0.25"
 },
 	"transform-computed-properties": {
@@ -61605,6 +61747,7 @@ function requireDebug () {
 	deno: "1",
 	ios: "8",
 	samsung: "4",
+	opera_mobile: "32",
 	electron: "0.30"
 },
 	"transform-for-of": {
@@ -61617,6 +61760,7 @@ function requireDebug () {
 	deno: "1",
 	ios: "10",
 	samsung: "5",
+	opera_mobile: "41",
 	electron: "1.2"
 },
 	"transform-sticky-regex": {
@@ -61629,6 +61773,7 @@ function requireDebug () {
 	deno: "1",
 	ios: "10",
 	samsung: "5",
+	opera_mobile: "36",
 	electron: "0.37"
 },
 	"transform-unicode-escapes": {
@@ -61641,6 +61786,7 @@ function requireDebug () {
 	deno: "1",
 	ios: "9",
 	samsung: "4",
+	opera_mobile: "32",
 	electron: "0.30"
 },
 	"transform-unicode-regex": {
@@ -61653,6 +61799,7 @@ function requireDebug () {
 	deno: "1",
 	ios: "12",
 	samsung: "5",
+	opera_mobile: "37",
 	electron: "1.1"
 },
 	"transform-spread": {
@@ -61665,6 +61812,7 @@ function requireDebug () {
 	deno: "1",
 	ios: "10",
 	samsung: "5",
+	opera_mobile: "33",
 	electron: "0.36"
 },
 	"transform-destructuring": {
@@ -61677,6 +61825,7 @@ function requireDebug () {
 	deno: "1",
 	ios: "10",
 	samsung: "5",
+	opera_mobile: "41",
 	electron: "1.2"
 },
 	"transform-block-scoping": {
@@ -61689,6 +61838,7 @@ function requireDebug () {
 	deno: "1",
 	ios: "11",
 	samsung: "5",
+	opera_mobile: "37",
 	electron: "1.1"
 },
 	"transform-typeof-symbol": {
@@ -61702,6 +61852,7 @@ function requireDebug () {
 	ios: "9",
 	samsung: "3",
 	rhino: "1.7.13",
+	opera_mobile: "25",
 	electron: "0.20"
 },
 	"transform-new-target": {
@@ -61714,6 +61865,7 @@ function requireDebug () {
 	deno: "1",
 	ios: "10",
 	samsung: "5",
+	opera_mobile: "33",
 	electron: "0.36"
 },
 	"transform-regenerator": {
@@ -61726,6 +61878,7 @@ function requireDebug () {
 	deno: "1",
 	ios: "10",
 	samsung: "5",
+	opera_mobile: "37",
 	electron: "1.1"
 },
 	"transform-member-expression-literals": {
@@ -61742,6 +61895,7 @@ function requireDebug () {
 	phantom: "1.9",
 	samsung: "1",
 	rhino: "1.7.13",
+	opera_mobile: "12",
 	electron: "0.20"
 },
 	"transform-property-literals": {
@@ -61758,6 +61912,7 @@ function requireDebug () {
 	phantom: "1.9",
 	samsung: "1",
 	rhino: "1.7.13",
+	opera_mobile: "12",
 	electron: "0.20"
 },
 	"transform-reserved-words": {
@@ -61774,30 +61929,33 @@ function requireDebug () {
 	phantom: "1.9",
 	samsung: "1",
 	rhino: "1.7.13",
+	opera_mobile: "10.1",
 	electron: "0.20"
 },
 	"transform-export-namespace-from": {
 	chrome: "72",
-	and_chr: "72",
+	deno: "1.0",
 	edge: "79",
 	firefox: "80",
-	and_ff: "80",
 	node: "13.2",
 	opera: "60",
-	op_mob: "51",
+	opera_mobile: "51",
+	safari: "14.1",
+	ios: "14.5",
 	samsung: "11.0",
 	android: "72",
 	electron: "5.0"
 },
 	"proposal-export-namespace-from": {
 	chrome: "72",
-	and_chr: "72",
+	deno: "1.0",
 	edge: "79",
 	firefox: "80",
-	and_ff: "80",
 	node: "13.2",
 	opera: "60",
-	op_mob: "51",
+	opera_mobile: "51",
+	safari: "14.1",
+	ios: "14.5",
 	samsung: "11.0",
 	android: "72",
 	electron: "5.0"
@@ -61875,12 +62033,8 @@ function requireFilterItems () {
 	      }
 	    }
 	  }
-	  if (defaultIncludes) {
-	    defaultIncludes.forEach(item => !excludes.has(item) && result.add(item));
-	  }
-	  if (defaultExcludes) {
-	    defaultExcludes.forEach(item => !includes.has(item) && result.delete(item));
-	  }
+	  defaultIncludes == null ? void 0 : defaultIncludes.forEach(item => !excludes.has(item) && result.add(item));
+	  defaultExcludes == null ? void 0 : defaultExcludes.forEach(item => !includes.has(item) && result.delete(item));
 	  return result;
 	}
 
@@ -62080,10 +62234,14 @@ getting parsed as 6.1, which can lead to unexpected behavior.
 		    const queryBrowsers = resolveTargetsCached(browsers, options.browserslistEnv);
 		    if (esmodules === "intersect") {
 		      for (const browser of Object.keys(queryBrowsers)) {
-		        const version = queryBrowsers[browser];
-		        const esmSupportVersion = ESM_SUPPORT[browser];
-		        if (esmSupportVersion) {
-		          queryBrowsers[browser] = (0, _utils.getHighestUnreleased)(version, (0, _utils.semverify)(esmSupportVersion), browser);
+		        if (browser !== "deno" && browser !== "ie") {
+		          const esmSupportVersion = ESM_SUPPORT[browser === "opera_mobile" ? "op_mob" : browser];
+		          if (esmSupportVersion) {
+		            const version = queryBrowsers[browser];
+		            queryBrowsers[browser] = (0, _utils.getHighestUnreleased)(version, (0, _utils.semverify)(esmSupportVersion), browser);
+		          } else {
+		            delete queryBrowsers[browser];
+		          }
 		        } else {
 		          delete queryBrowsers[browser];
 		        }
@@ -62173,7 +62331,8 @@ function requireConfigDescriptors () {
 	var _caching = caching;
 	var _resolveTargets = resolveTargetsBrowser;
 	function isEqualDescriptor(a, b) {
-	  return a.name === b.name && a.value === b.value && a.options === b.options && a.dirname === b.dirname && a.alias === b.alias && a.ownPass === b.ownPass && (a.file && a.file.request) === (b.file && b.file.request) && (a.file && a.file.resolved) === (b.file && b.file.resolved);
+	  var _a$file, _b$file, _a$file2, _b$file2;
+	  return a.name === b.name && a.value === b.value && a.options === b.options && a.dirname === b.dirname && a.alias === b.alias && a.ownPass === b.ownPass && ((_a$file = a.file) == null ? void 0 : _a$file.request) === ((_b$file = b.file) == null ? void 0 : _b$file.request) && ((_a$file2 = a.file) == null ? void 0 : _a$file2.resolved) === ((_b$file2 = b.file) == null ? void 0 : _b$file2.resolved);
 	}
 	function* handlerOf(value) {
 	  return value;
@@ -62613,9 +62772,7 @@ function requireOptionAssertions () {
 	}
 	function assertIgnoreList(loc, value) {
 	  const arr = assertArray(loc, value);
-	  if (arr) {
-	    arr.forEach((item, i) => assertIgnoreItem(access(loc, i), item));
-	  }
+	  arr == null ? void 0 : arr.forEach((item, i) => assertIgnoreItem(access(loc, i), item));
 	  return arr;
 	}
 	function assertIgnoreItem(loc, value) {
@@ -62765,8 +62922,9 @@ rewriteStackTrace.beginHiddenCallStack = beginHiddenCallStack;
 rewriteStackTrace.endHiddenCallStack = endHiddenCallStack;
 rewriteStackTrace.expectedError = expectedError;
 rewriteStackTrace.injectVirtualStackFrame = injectVirtualStackFrame;
+var _Object$getOwnPropert;
 const ErrorToString = Function.call.bind(Error.prototype.toString);
-const SUPPORTED = !!Error.captureStackTrace;
+const SUPPORTED = !!Error.captureStackTrace && ((_Object$getOwnPropert = Object.getOwnPropertyDescriptor(Error, "stackTraceLimit")) == null ? void 0 : _Object$getOwnPropert.writable) === true;
 const START_HIDING = "startHiding - secret - don't use this - v1";
 const STOP_HIDING = "stopHiding - secret - don't use this - v1";
 const expectedErrors = new WeakSet();
@@ -63062,14 +63220,14 @@ function requireOptions () {
   value: true
 });
 patternToRegex.default = pathToPattern;
-function _path$5() {
+function _path$4() {
   const data = require$$1;
-  _path$5 = function () {
+  _path$4 = function () {
     return data;
   };
   return data;
 }
-const sep = `\\${_path$5().sep}`;
+const sep = `\\${_path$4().sep}`;
 const endSep = `(?:${sep}|$)`;
 const substitution = `[^${sep}]+`;
 const starPat = `(?:${substitution}${sep})`;
@@ -63080,7 +63238,7 @@ function escapeRegExp(string) {
   return string.replace(/[|\\{}()[\]^$+*?.]/g, "\\$&");
 }
 function pathToPattern(pattern, dirname) {
-  const parts = _path$5().resolve(dirname, pattern).split(_path$5().sep);
+  const parts = _path$4().resolve(dirname, pattern).split(_path$4().sep);
   return new RegExp(["^", ...parts.map((part, i) => {
     const last = i === parts.length - 1;
     if (part === "**") return last ? starStarPatLast : starStarPat;
@@ -63094,9 +63252,9 @@ function pathToPattern(pattern, dirname) {
   value: true
 });
 printer.ConfigPrinter = printer.ChainFormatter = void 0;
-function _gensync$1() {
+function _gensync() {
   const data = requireGensync();
-  _gensync$1 = function () {
+  _gensync = function () {
     return data;
   };
   return data;
@@ -63194,7 +63352,7 @@ class ConfigPrinter {
   }
   *output() {
     if (this._stack.length === 0) return "";
-    const configs = yield* _gensync$1().all(this._stack.map(s => ConfigPrinter.format(s)));
+    const configs = yield* _gensync().all(this._stack.map(s => ConfigPrinter.format(s)));
     return configs.join("\n\n");
   }
 }
@@ -63204,16 +63362,16 @@ printer.ConfigPrinter = ConfigPrinter;Object.defineProperty(configChain, "__esMo
 configChain.buildPresetChain = buildPresetChain;
 configChain.buildPresetChainWalker = void 0;
 configChain.buildRootChain = buildRootChain;
-function _path$4() {
+function _path$3() {
   const data = require$$1;
-  _path$4 = function () {
+  _path$3 = function () {
     return data;
   };
   return data;
 }
-function _debug$1() {
+function _debug() {
   const data = requireBrowser$2();
-  _debug$1 = function () {
+  _debug = function () {
     return data;
   };
   return data;
@@ -63226,7 +63384,7 @@ var _configError = configError;
 var _files$1 = indexBrowser;
 var _caching = caching;
 var _configDescriptors = requireConfigDescriptors();
-const debug$1 = _debug$1()("babel:config:config-chain");
+const debug = _debug()("babel:config:config-chain");
 function* buildPresetChain(arg, context) {
   const chain = yield* buildPresetChainWalker(arg, context);
   if (!chain) return null;
@@ -63343,7 +63501,7 @@ function babelrcLoadEnabled(context, pkgData, babelrcRoots, babelrcRootsDirector
     babelrcPatterns = [babelrcPatterns];
   }
   babelrcPatterns = babelrcPatterns.map(pat => {
-    return typeof pat === "string" ? _path$4().resolve(babelrcRootsDirectory, pat) : pat;
+    return typeof pat === "string" ? _path$3().resolve(babelrcRootsDirectory, pat) : pat;
   });
   if (babelrcPatterns.length === 1 && babelrcPatterns[0] === absoluteRoot) {
     return pkgData.directories.indexOf(absoluteRoot) !== -1;
@@ -63388,9 +63546,7 @@ const loadFileChainWalker = makeChainWalker({
 });
 function* loadFileChain(input, context, files, baseLogger) {
   const chain = yield* loadFileChainWalker(input, context, files, baseLogger);
-  if (chain) {
-    chain.files.add(input.filepath);
-  }
+  chain == null ? void 0 : chain.files.add(input.filepath);
   return chain;
 }
 const loadFileDescriptors = (0, _caching.makeWeakCacheSync)(file => buildRootDescriptors(file, file.filepath, _configDescriptors.createUncachedDescriptors));
@@ -63424,14 +63580,16 @@ function buildEnvDescriptors({
   dirname,
   options
 }, alias, descriptors, envName) {
-  const opts = options.env && options.env[envName];
+  var _options$env;
+  const opts = (_options$env = options.env) == null ? void 0 : _options$env[envName];
   return opts ? descriptors(dirname, opts, `${alias}.env["${envName}"]`) : null;
 }
 function buildOverrideDescriptors({
   dirname,
   options
 }, alias, descriptors, index) {
-  const opts = options.overrides && options.overrides[index];
+  var _options$overrides;
+  const opts = (_options$overrides = options.overrides) == null ? void 0 : _options$overrides[index];
   if (!opts) throw new Error("Assertion failure - missing override");
   return descriptors(dirname, opts, `${alias}.overrides[${index}]`);
 }
@@ -63439,9 +63597,10 @@ function buildOverrideEnvDescriptors({
   dirname,
   options
 }, alias, descriptors, index, envName) {
-  const override = options.overrides && options.overrides[index];
+  var _options$overrides2, _override$env;
+  const override = (_options$overrides2 = options.overrides) == null ? void 0 : _options$overrides2[index];
   if (!override) throw new Error("Assertion failure - missing override");
-  const opts = override.env && override.env[envName];
+  const opts = (_override$env = override.env) == null ? void 0 : _override$env[envName];
   return opts ? descriptors(dirname, opts, `${alias}.overrides[${index}].env["${envName}"]`) : null;
 }
 function makeChainWalker({
@@ -63626,7 +63785,7 @@ function shouldIgnore(context, ignore, only, dirname) {
   if (ignore && matchesPatterns(context, ignore, dirname)) {
     var _context$filename;
     const message = `No config is applied to "${(_context$filename = context.filename) != null ? _context$filename : "(unknown)"}" because it matches one of \`ignore: ${JSON.stringify(ignore, ignoreListReplacer)}\` from "${dirname}"`;
-    debug$1(message);
+    debug(message);
     if (context.showConfig) {
       console.log(message);
     }
@@ -63635,7 +63794,7 @@ function shouldIgnore(context, ignore, only, dirname) {
   if (only && !matchesPatterns(context, only, dirname)) {
     var _context$filename2;
     const message = `No config is applied to "${(_context$filename2 = context.filename) != null ? _context$filename2 : "(unknown)"}" because it fails to match one of \`only: ${JSON.stringify(only, ignoreListReplacer)}\` from "${dirname}"`;
-    debug$1(message);
+    debug(message);
     if (context.showConfig) {
       console.log(message);
     }
@@ -63679,7 +63838,11 @@ const VALIDATORS = {
 function assertVisitorMap(loc, value) {
   const obj = (0, _optionAssertions.assertObject)(loc, value);
   if (obj) {
-    Object.keys(obj).forEach(prop => assertVisitorHandler(prop, obj[prop]));
+    Object.keys(obj).forEach(prop => {
+      if (prop !== "_exploded" && prop !== "_verified") {
+        assertVisitorHandler(prop, obj[prop]);
+      }
+    });
     if (obj.enter || obj.exit) {
       throw new Error(`${(0, _optionAssertions.msg)(loc)} cannot contain catch-all "enter" or "exit" handlers. Please target individual nodes.`);
     }
@@ -63696,7 +63859,6 @@ function assertVisitorHandler(key, value) {
   } else if (typeof value !== "function") {
     throw new Error(`.visitor["${key}"] must be a function`);
   }
-  return value;
 }
 function validatePluginObject(obj) {
   const rootPath = {
@@ -63811,17 +63973,10 @@ function requireConfigApi () {
   value: true
 });
 partial.default = loadPrivatePartialConfig;
-partial.loadPartialConfig = void 0;
-function _path$3() {
+partial.loadPartialConfig = loadPartialConfig;
+function _path$2() {
   const data = require$$1;
-  _path$3 = function () {
-    return data;
-  };
-  return data;
-}
-function _gensync() {
-  const data = requireGensync();
-  _gensync = function () {
+  _path$2 = function () {
     return data;
   };
   return data;
@@ -63871,9 +64026,9 @@ function* loadPrivatePartialConfig(inputOpts) {
     caller,
     cloneInputAst = true
   } = args;
-  const absoluteCwd = _path$3().resolve(cwd);
-  const absoluteRootDir = resolveRootMode(_path$3().resolve(absoluteCwd, rootDir), rootMode);
-  const filename = typeof args.filename === "string" ? _path$3().resolve(cwd, args.filename) : undefined;
+  const absoluteCwd = _path$2().resolve(cwd);
+  const absoluteRootDir = resolveRootMode(_path$2().resolve(absoluteCwd, rootDir), rootMode);
+  const filename = typeof args.filename === "string" ? _path$2().resolve(cwd, args.filename) : undefined;
   const showConfigPath = yield* (0, _files.resolveShowConfigPath)(absoluteCwd);
   const context = {
     filename,
@@ -63916,7 +64071,7 @@ function* loadPrivatePartialConfig(inputOpts) {
     files: configChain.files
   };
 }
-const loadPartialConfig = _gensync()(function* (opts) {
+function* loadPartialConfig(opts) {
   let showIgnoredFiles = false;
   if (typeof opts === "object" && opts !== null && !Array.isArray(opts)) {
     var _opts = opts;
@@ -63944,8 +64099,7 @@ const loadPartialConfig = _gensync()(function* (opts) {
     }
   });
   return new PartialConfig(options, babelrc ? babelrc.filepath : undefined, ignore ? ignore.filepath : undefined, config ? config.filepath : undefined, fileHandling, files);
-});
-partial.loadPartialConfig = loadPartialConfig;
+}
 class PartialConfig {
   constructor(options, babelrc, ignore, config, fileHandling, files) {
     this.options = void 0;
@@ -64240,13 +64394,12 @@ function requireFull () {
 	};
 	const validatePreset = (preset, context, descriptor) => {
 	  if (!context.filename) {
+	    var _options$overrides;
 	    const {
 	      options
 	    } = preset;
 	    validateIfOptionNeedsFilename(options, descriptor);
-	    if (options.overrides) {
-	      options.overrides.forEach(overrideOptions => validateIfOptionNeedsFilename(overrideOptions, descriptor));
-	    }
+	    (_options$overrides = options.overrides) == null ? void 0 : _options$overrides.forEach(overrideOptions => validateIfOptionNeedsFilename(overrideOptions, descriptor));
 	  }
 	};
 	const instantiatePreset = (0, _caching.makeWeakCacheSync)(({
@@ -64293,14 +64446,20 @@ function requireConfig () {
 		  value: true
 		});
 		exports.createConfigItem = createConfigItem;
-		exports.createConfigItemSync = exports.createConfigItemAsync = void 0;
+		exports.createConfigItemAsync = createConfigItemAsync;
+		exports.createConfigItemSync = createConfigItemSync;
 		Object.defineProperty(exports, "default", {
 		  enumerable: true,
 		  get: function () {
 		    return _full.default;
 		  }
 		});
-		exports.loadPartialConfigSync = exports.loadPartialConfigAsync = exports.loadPartialConfig = exports.loadOptionsSync = exports.loadOptionsAsync = exports.loadOptions = void 0;
+		exports.loadOptions = loadOptions;
+		exports.loadOptionsAsync = loadOptionsAsync;
+		exports.loadOptionsSync = loadOptionsSync;
+		exports.loadPartialConfig = loadPartialConfig;
+		exports.loadPartialConfigAsync = loadPartialConfigAsync;
+		exports.loadPartialConfigSync = loadPartialConfigSync;
 		function _gensync() {
 		  const data = requireGensync();
 		  _gensync = function () {
@@ -64311,50 +64470,64 @@ function requireConfig () {
 		var _full = requireFull();
 		var _partial = partial;
 		var _item = requireItem();
-		const loadOptionsRunner = _gensync()(function* (opts) {
+		var _rewriteStackTrace = rewriteStackTrace;
+		const loadPartialConfigRunner = _gensync()(_partial.loadPartialConfig);
+		function loadPartialConfigAsync(...args) {
+		  return (0, _rewriteStackTrace.beginHiddenCallStack)(loadPartialConfigRunner.async)(...args);
+		}
+		function loadPartialConfigSync(...args) {
+		  return (0, _rewriteStackTrace.beginHiddenCallStack)(loadPartialConfigRunner.sync)(...args);
+		}
+		function loadPartialConfig(opts, callback) {
+		  if (callback !== undefined) {
+		    (0, _rewriteStackTrace.beginHiddenCallStack)(loadPartialConfigRunner.errback)(opts, callback);
+		  } else if (typeof opts === "function") {
+		    (0, _rewriteStackTrace.beginHiddenCallStack)(loadPartialConfigRunner.errback)(undefined, opts);
+		  } else {
+		    {
+		      return loadPartialConfigSync(opts);
+		    }
+		  }
+		}
+		function* loadOptionsImpl(opts) {
 		  var _config$options;
 		  const config = yield* (0, _full.default)(opts);
 		  return (_config$options = config == null ? void 0 : config.options) != null ? _config$options : null;
-		});
-		const createConfigItemRunner = _gensync()(_item.createConfigItem);
-		const maybeErrback = runner => (argOrCallback, maybeCallback) => {
-		  let arg;
-		  let callback;
-		  if (maybeCallback === undefined && typeof argOrCallback === "function") {
-		    callback = argOrCallback;
-		    arg = undefined;
+		}
+		const loadOptionsRunner = _gensync()(loadOptionsImpl);
+		function loadOptionsAsync(...args) {
+		  return (0, _rewriteStackTrace.beginHiddenCallStack)(loadOptionsRunner.async)(...args);
+		}
+		function loadOptionsSync(...args) {
+		  return (0, _rewriteStackTrace.beginHiddenCallStack)(loadOptionsRunner.sync)(...args);
+		}
+		function loadOptions(opts, callback) {
+		  if (callback !== undefined) {
+		    (0, _rewriteStackTrace.beginHiddenCallStack)(loadOptionsRunner.errback)(opts, callback);
+		  } else if (typeof opts === "function") {
+		    (0, _rewriteStackTrace.beginHiddenCallStack)(loadOptionsRunner.errback)(undefined, opts);
 		  } else {
-		    callback = maybeCallback;
-		    arg = argOrCallback;
+		    {
+		      return loadOptionsSync(opts);
+		    }
 		  }
-		  if (!callback) {
-		    return runner.sync(arg);
-		  }
-		  runner.errback(arg, callback);
-		};
-		const loadPartialConfig = maybeErrback(_partial.loadPartialConfig);
-		exports.loadPartialConfig = loadPartialConfig;
-		const loadPartialConfigSync = _partial.loadPartialConfig.sync;
-		exports.loadPartialConfigSync = loadPartialConfigSync;
-		const loadPartialConfigAsync = _partial.loadPartialConfig.async;
-		exports.loadPartialConfigAsync = loadPartialConfigAsync;
-		const loadOptions = maybeErrback(loadOptionsRunner);
-		exports.loadOptions = loadOptions;
-		const loadOptionsSync = loadOptionsRunner.sync;
-		exports.loadOptionsSync = loadOptionsSync;
-		const loadOptionsAsync = loadOptionsRunner.async;
-		exports.loadOptionsAsync = loadOptionsAsync;
-		const createConfigItemSync = createConfigItemRunner.sync;
-		exports.createConfigItemSync = createConfigItemSync;
-		const createConfigItemAsync = createConfigItemRunner.async;
-		exports.createConfigItemAsync = createConfigItemAsync;
+		}
+		const createConfigItemRunner = _gensync()(_item.createConfigItem);
+		function createConfigItemAsync(...args) {
+		  return (0, _rewriteStackTrace.beginHiddenCallStack)(createConfigItemRunner.async)(...args);
+		}
+		function createConfigItemSync(...args) {
+		  return (0, _rewriteStackTrace.beginHiddenCallStack)(createConfigItemRunner.sync)(...args);
+		}
 		function createConfigItem(target, options, callback) {
 		  if (callback !== undefined) {
-		    createConfigItemRunner.errback(target, options, callback);
+		    (0, _rewriteStackTrace.beginHiddenCallStack)(createConfigItemRunner.errback)(target, options, callback);
 		  } else if (typeof options === "function") {
-		    createConfigItemRunner.errback(target, undefined, callback);
+		    (0, _rewriteStackTrace.beginHiddenCallStack)(createConfigItemRunner.errback)(target, undefined, callback);
 		  } else {
-		    return createConfigItemRunner.sync(target, options);
+		    {
+		      return createConfigItemSync(target, options);
+		    }
 		  }
 		}
 
@@ -64407,9 +64580,9 @@ pluginPass.default = PluginPass;
   value: true
 });
 blockHoistPlugin$1.default = loadBlockHoistPlugin;
-function _traverse$1() {
+function _traverse() {
   const data = requireLib$5();
-  _traverse$1 = function () {
+  _traverse = function () {
     return data;
   };
   return data;
@@ -64446,7 +64619,7 @@ const blockHoistPlugin = {
 function loadBlockHoistPlugin() {
   if (!LOADED_PLUGIN) {
     LOADED_PLUGIN = new _plugin.default(Object.assign({}, blockHoistPlugin, {
-      visitor: _traverse$1().default.explode(blockHoistPlugin.visitor)
+      visitor: _traverse().default.explode(blockHoistPlugin.visitor)
     }), {});
   }
   return LOADED_PLUGIN;
@@ -64478,9 +64651,9 @@ function stableSort(body) {
   value: true
 });
 normalizeOpts.default = normalizeOptions;
-function _path$2() {
+function _path$1() {
   const data = require$$1;
-  _path$2 = function () {
+  _path$1 = function () {
     return data;
   };
   return data;
@@ -64489,19 +64662,19 @@ function normalizeOptions(config) {
   const {
     filename,
     cwd,
-    filenameRelative = typeof filename === "string" ? _path$2().relative(cwd, filename) : "unknown",
+    filenameRelative = typeof filename === "string" ? _path$1().relative(cwd, filename) : "unknown",
     sourceType = "module",
     inputSourceMap,
     sourceMaps = !!inputSourceMap,
     sourceRoot = config.options.moduleRoot,
-    sourceFileName = _path$2().basename(filenameRelative),
+    sourceFileName = _path$1().basename(filenameRelative),
     comments = true,
     compact = "auto"
   } = config.options;
   const opts = config.options;
   const options = Object.assign({}, opts, {
     parserOpts: Object.assign({
-      sourceType: _path$2().extname(filenameRelative) === ".mjs" ? "module" : sourceType,
+      sourceType: _path$1().extname(filenameRelative) === ".mjs" ? "module" : sourceType,
       sourceFileName: filename,
       plugins: []
     }, opts.parserOpts),
@@ -64527,7 +64700,7 @@ function normalizeOptions(config) {
     }
   }
   return options;
-}var normalizeFile$1 = {};var _polyfillNode_fs = {};var _polyfillNode_fs$1=/*#__PURE__*/Object.freeze({__proto__:null,'default':_polyfillNode_fs});var require$$0 = /*@__PURE__*/getAugmentedNamespace(_polyfillNode_fs$1);var convertSourceMap = {};var hasRequiredConvertSourceMap;
+}var normalizeFile = {};var _polyfillNode_fs = {};var _polyfillNode_fs$1=/*#__PURE__*/Object.freeze({__proto__:null,default:_polyfillNode_fs});var require$$0 = /*@__PURE__*/getAugmentedNamespace(_polyfillNode_fs$1);var convertSourceMap = {};var hasRequiredConvertSourceMap;
 
 function requireConvertSourceMap () {
 	if (hasRequiredConvertSourceMap) return convertSourceMap;
@@ -65040,9 +65213,9 @@ If you want to leave it as-is, add ${syntaxPluginInfo} to the 'plugins' section 
   value: true
 });
 parser$1.default = parser;
-function _parser$1() {
+function _parser() {
   const data = requireLib$9();
-  _parser$1 = function () {
+  _parser = function () {
     return data;
   };
   return data;
@@ -65068,13 +65241,13 @@ function* parser(pluginPasses, {
           parserOverride
         } = plugin;
         if (parserOverride) {
-          const ast = parserOverride(code, parserOpts, _parser$1().parse);
+          const ast = parserOverride(code, parserOpts, _parser().parse);
           if (ast !== undefined) results.push(ast);
         }
       }
     }
     if (results.length === 0) {
-      return (0, _parser$1().parse)(code, parserOpts);
+      return (0, _parser().parse)(code, parserOpts);
     } else if (results.length === 1) {
       yield* [];
       if (typeof results[0].then === "function") {
@@ -65139,130 +65312,138 @@ function deepClone(value, cache) {
 function _default$5(value) {
   if (typeof value !== "object") return value;
   return deepClone(value, new Map());
-}Object.defineProperty(normalizeFile$1, "__esModule", {
-  value: true
-});
-normalizeFile$1.default = normalizeFile;
-function _fs() {
-  const data = require$$0;
-  _fs = function () {
-    return data;
-  };
-  return data;
-}
-function _path$1() {
-  const data = require$$1;
-  _path$1 = function () {
-    return data;
-  };
-  return data;
-}
-function _debug() {
-  const data = requireBrowser$2();
-  _debug = function () {
-    return data;
-  };
-  return data;
-}
-function _t$1() {
-  const data = requireLib$f();
-  _t$1 = function () {
-    return data;
-  };
-  return data;
-}
-function _convertSourceMap$1() {
-  const data = requireConvertSourceMap();
-  _convertSourceMap$1 = function () {
-    return data;
-  };
-  return data;
-}
-var _file = file$1;
-var _parser = parser$1;
-var _cloneDeep = cloneDeep;
-const {
-  file,
-  traverseFast
-} = _t$1();
-const debug = _debug()("babel:transform:file");
-const INLINE_SOURCEMAP_REGEX = /^[@#]\s+sourceMappingURL=data:(?:application|text)\/json;(?:charset[:=]\S+?;)?base64,(?:.*)$/;
-const EXTERNAL_SOURCEMAP_REGEX = /^[@#][ \t]+sourceMappingURL=([^\s'"`]+)[ \t]*$/;
-function* normalizeFile(pluginPasses, options, code, ast) {
-  code = `${code || ""}`;
-  if (ast) {
-    if (ast.type === "Program") {
-      ast = file(ast, [], []);
-    } else if (ast.type !== "File") {
-      throw new Error("AST root must be a Program or File node");
-    }
-    if (options.cloneInputAst) {
-      ast = (0, _cloneDeep.default)(ast);
-    }
-  } else {
-    ast = yield* (0, _parser.default)(pluginPasses, options, code);
-  }
-  let inputMap = null;
-  if (options.inputSourceMap !== false) {
-    if (typeof options.inputSourceMap === "object") {
-      inputMap = _convertSourceMap$1().fromObject(options.inputSourceMap);
-    }
-    if (!inputMap) {
-      const lastComment = extractComments(INLINE_SOURCEMAP_REGEX, ast);
-      if (lastComment) {
-        try {
-          inputMap = _convertSourceMap$1().fromComment(lastComment);
-        } catch (err) {
-          debug("discarding unknown inline input sourcemap", err);
-        }
-      }
-    }
-    if (!inputMap) {
-      const lastComment = extractComments(EXTERNAL_SOURCEMAP_REGEX, ast);
-      if (typeof options.filename === "string" && lastComment) {
-        try {
-          const match = EXTERNAL_SOURCEMAP_REGEX.exec(lastComment);
-          const inputMapContent = _fs().readFileSync(_path$1().resolve(_path$1().dirname(options.filename), match[1]), "utf8");
-          inputMap = _convertSourceMap$1().fromJSON(inputMapContent);
-        } catch (err) {
-          debug("discarding unknown file input sourcemap", err);
-        }
-      } else if (lastComment) {
-        debug("discarding un-loadable file input sourcemap");
-      }
-    }
-  }
-  return new _file.default(options, {
-    code,
-    ast: ast,
-    inputMap
-  });
-}
-function extractCommentsFromList(regex, comments, lastComment) {
-  if (comments) {
-    comments = comments.filter(({
-      value
-    }) => {
-      if (regex.test(value)) {
-        lastComment = value;
-        return false;
-      }
-      return true;
-    });
-  }
-  return [comments, lastComment];
-}
-function extractComments(regex, ast) {
-  let lastComment = null;
-  traverseFast(ast, node => {
-    [node.leadingComments, lastComment] = extractCommentsFromList(regex, node.leadingComments, lastComment);
-    [node.innerComments, lastComment] = extractCommentsFromList(regex, node.innerComments, lastComment);
-    [node.trailingComments, lastComment] = extractCommentsFromList(regex, node.trailingComments, lastComment);
-  });
-  return lastComment;
-}var generate = {};var mergeMap = {};var remapping_umd = {exports: {}};remapping_umd.exports;
+}var hasRequiredNormalizeFile;
 
-var hasRequiredRemapping_umd;
+function requireNormalizeFile () {
+	if (hasRequiredNormalizeFile) return normalizeFile;
+	hasRequiredNormalizeFile = 1;
+
+	Object.defineProperty(normalizeFile, "__esModule", {
+	  value: true
+	});
+	normalizeFile.default = normalizeFile$1;
+	function _fs() {
+	  const data = require$$0;
+	  _fs = function () {
+	    return data;
+	  };
+	  return data;
+	}
+	function _path() {
+	  const data = require$$1;
+	  _path = function () {
+	    return data;
+	  };
+	  return data;
+	}
+	function _debug() {
+	  const data = requireBrowser$2();
+	  _debug = function () {
+	    return data;
+	  };
+	  return data;
+	}
+	function _t() {
+	  const data = requireLib$f();
+	  _t = function () {
+	    return data;
+	  };
+	  return data;
+	}
+	function _convertSourceMap() {
+	  const data = requireConvertSourceMap();
+	  _convertSourceMap = function () {
+	    return data;
+	  };
+	  return data;
+	}
+	var _file = requireFile();
+	var _parser = parser$1;
+	var _cloneDeep = cloneDeep;
+	const {
+	  file,
+	  traverseFast
+	} = _t();
+	const debug = _debug()("babel:transform:file");
+	const INLINE_SOURCEMAP_REGEX = /^[@#]\s+sourceMappingURL=data:(?:application|text)\/json;(?:charset[:=]\S+?;)?base64,(?:.*)$/;
+	const EXTERNAL_SOURCEMAP_REGEX = /^[@#][ \t]+sourceMappingURL=([^\s'"`]+)[ \t]*$/;
+	function* normalizeFile$1(pluginPasses, options, code, ast) {
+	  code = `${code || ""}`;
+	  if (ast) {
+	    if (ast.type === "Program") {
+	      ast = file(ast, [], []);
+	    } else if (ast.type !== "File") {
+	      throw new Error("AST root must be a Program or File node");
+	    }
+	    if (options.cloneInputAst) {
+	      ast = (0, _cloneDeep.default)(ast);
+	    }
+	  } else {
+	    ast = yield* (0, _parser.default)(pluginPasses, options, code);
+	  }
+	  let inputMap = null;
+	  if (options.inputSourceMap !== false) {
+	    if (typeof options.inputSourceMap === "object") {
+	      inputMap = _convertSourceMap().fromObject(options.inputSourceMap);
+	    }
+	    if (!inputMap) {
+	      const lastComment = extractComments(INLINE_SOURCEMAP_REGEX, ast);
+	      if (lastComment) {
+	        try {
+	          inputMap = _convertSourceMap().fromComment(lastComment);
+	        } catch (err) {
+	          debug("discarding unknown inline input sourcemap", err);
+	        }
+	      }
+	    }
+	    if (!inputMap) {
+	      const lastComment = extractComments(EXTERNAL_SOURCEMAP_REGEX, ast);
+	      if (typeof options.filename === "string" && lastComment) {
+	        try {
+	          const match = EXTERNAL_SOURCEMAP_REGEX.exec(lastComment);
+	          const inputMapContent = _fs().readFileSync(_path().resolve(_path().dirname(options.filename), match[1]), "utf8");
+	          inputMap = _convertSourceMap().fromJSON(inputMapContent);
+	        } catch (err) {
+	          debug("discarding unknown file input sourcemap", err);
+	        }
+	      } else if (lastComment) {
+	        debug("discarding un-loadable file input sourcemap");
+	      }
+	    }
+	  }
+	  return new _file.default(options, {
+	    code,
+	    ast: ast,
+	    inputMap
+	  });
+	}
+	function extractCommentsFromList(regex, comments, lastComment) {
+	  if (comments) {
+	    comments = comments.filter(({
+	      value
+	    }) => {
+	      if (regex.test(value)) {
+	        lastComment = value;
+	        return false;
+	      }
+	      return true;
+	    });
+	  }
+	  return [comments, lastComment];
+	}
+	function extractComments(regex, ast) {
+	  let lastComment = null;
+	  traverseFast(ast, node => {
+	    [node.leadingComments, lastComment] = extractCommentsFromList(regex, node.leadingComments, lastComment);
+	    [node.innerComments, lastComment] = extractCommentsFromList(regex, node.innerComments, lastComment);
+	    [node.trailingComments, lastComment] = extractCommentsFromList(regex, node.trailingComments, lastComment);
+	  });
+	  return lastComment;
+	}
+
+	
+	return normalizeFile;
+}var generate = {};var mergeMap = {};var remapping_umd = {exports: {}};var hasRequiredRemapping_umd;
 
 function requireRemapping_umd () {
 	if (hasRequiredRemapping_umd) return remapping_umd.exports;
@@ -65461,7 +65642,7 @@ function requireRemapping_umd () {
 
 		}));
 		
-	} (remapping_umd, remapping_umd.exports));
+	} (remapping_umd));
 	return remapping_umd.exports;
 }Object.defineProperty(mergeMap, "__esModule", {
   value: true
@@ -65572,99 +65753,111 @@ function generateCode(pluginPasses, file) {
     outputCode,
     outputMap
   };
-}Object.defineProperty(transformation, "__esModule", {
-  value: true
-});
-transformation.run = run;
-function _traverse() {
-  const data = requireLib$5();
-  _traverse = function () {
-    return data;
-  };
-  return data;
-}
-var _pluginPass = pluginPass;
-var _blockHoistPlugin = blockHoistPlugin$1;
-var _normalizeOpts = normalizeOpts;
-var _normalizeFile = normalizeFile$1;
-var _generate = generate;
-var _deepArray = deepArray;
-function* run(config, code, ast) {
-  const file = yield* (0, _normalizeFile.default)(config.passes, (0, _normalizeOpts.default)(config), code, ast);
-  const opts = file.opts;
-  try {
-    yield* transformFile$1(file, config.passes);
-  } catch (e) {
-    var _opts$filename;
-    e.message = `${(_opts$filename = opts.filename) != null ? _opts$filename : "unknown file"}: ${e.message}`;
-    if (!e.code) {
-      e.code = "BABEL_TRANSFORM_ERROR";
-    }
-    throw e;
-  }
-  let outputCode, outputMap;
-  try {
-    if (opts.code !== false) {
-      ({
-        outputCode,
-        outputMap
-      } = (0, _generate.default)(config.passes, file));
-    }
-  } catch (e) {
-    var _opts$filename2;
-    e.message = `${(_opts$filename2 = opts.filename) != null ? _opts$filename2 : "unknown file"}: ${e.message}`;
-    if (!e.code) {
-      e.code = "BABEL_GENERATE_ERROR";
-    }
-    throw e;
-  }
-  return {
-    metadata: file.metadata,
-    options: opts,
-    ast: opts.ast === true ? file.ast : null,
-    code: outputCode === undefined ? null : outputCode,
-    map: outputMap === undefined ? null : outputMap,
-    sourceType: file.ast.program.sourceType,
-    externalDependencies: (0, _deepArray.flattenToSet)(config.externalDependencies)
-  };
-}
-function* transformFile$1(file, pluginPasses) {
-  for (const pluginPairs of pluginPasses) {
-    const passPairs = [];
-    const passes = [];
-    const visitors = [];
-    for (const plugin of pluginPairs.concat([(0, _blockHoistPlugin.default)()])) {
-      const pass = new _pluginPass.default(file, plugin.key, plugin.options);
-      passPairs.push([plugin, pass]);
-      passes.push(pass);
-      visitors.push(plugin.visitor);
-    }
-    for (const [plugin, pass] of passPairs) {
-      const fn = plugin.pre;
-      if (fn) {
-        const result = fn.call(pass, file);
-        yield* [];
-        if (isThenable(result)) {
-          throw new Error(`You appear to be using an plugin with an async .pre, ` + `which your current version of Babel does not support. ` + `If you're using a published plugin, you may need to upgrade ` + `your @babel/core version.`);
-        }
-      }
-    }
-    const visitor = _traverse().default.visitors.merge(visitors, passes, file.opts.wrapPluginVisitorMethod);
-    (0, _traverse().default)(file.ast, visitor, file.scope);
-    for (const [plugin, pass] of passPairs) {
-      const fn = plugin.post;
-      if (fn) {
-        const result = fn.call(pass, file);
-        yield* [];
-        if (isThenable(result)) {
-          throw new Error(`You appear to be using an plugin with an async .post, ` + `which your current version of Babel does not support. ` + `If you're using a published plugin, you may need to upgrade ` + `your @babel/core version.`);
-        }
-      }
-    }
-  }
-}
-function isThenable(val) {
-  return !!val && (typeof val === "object" || typeof val === "function") && !!val.then && typeof val.then === "function";
+}var hasRequiredTransformation;
+
+function requireTransformation () {
+	if (hasRequiredTransformation) return transformation;
+	hasRequiredTransformation = 1;
+
+	Object.defineProperty(transformation, "__esModule", {
+	  value: true
+	});
+	transformation.run = run;
+	function _traverse() {
+	  const data = requireLib$5();
+	  _traverse = function () {
+	    return data;
+	  };
+	  return data;
+	}
+	var _pluginPass = pluginPass;
+	var _blockHoistPlugin = blockHoistPlugin$1;
+	var _normalizeOpts = normalizeOpts;
+	var _normalizeFile = requireNormalizeFile();
+	var _generate = generate;
+	var _deepArray = deepArray;
+	function* run(config, code, ast) {
+	  const file = yield* (0, _normalizeFile.default)(config.passes, (0, _normalizeOpts.default)(config), code, ast);
+	  const opts = file.opts;
+	  try {
+	    yield* transformFile(file, config.passes);
+	  } catch (e) {
+	    var _opts$filename;
+	    e.message = `${(_opts$filename = opts.filename) != null ? _opts$filename : "unknown file"}: ${e.message}`;
+	    if (!e.code) {
+	      e.code = "BABEL_TRANSFORM_ERROR";
+	    }
+	    throw e;
+	  }
+	  let outputCode, outputMap;
+	  try {
+	    if (opts.code !== false) {
+	      ({
+	        outputCode,
+	        outputMap
+	      } = (0, _generate.default)(config.passes, file));
+	    }
+	  } catch (e) {
+	    var _opts$filename2;
+	    e.message = `${(_opts$filename2 = opts.filename) != null ? _opts$filename2 : "unknown file"}: ${e.message}`;
+	    if (!e.code) {
+	      e.code = "BABEL_GENERATE_ERROR";
+	    }
+	    throw e;
+	  }
+	  return {
+	    metadata: file.metadata,
+	    options: opts,
+	    ast: opts.ast === true ? file.ast : null,
+	    code: outputCode === undefined ? null : outputCode,
+	    map: outputMap === undefined ? null : outputMap,
+	    sourceType: file.ast.program.sourceType,
+	    externalDependencies: (0, _deepArray.flattenToSet)(config.externalDependencies)
+	  };
+	}
+	function* transformFile(file, pluginPasses) {
+	  for (const pluginPairs of pluginPasses) {
+	    const passPairs = [];
+	    const passes = [];
+	    const visitors = [];
+	    for (const plugin of pluginPairs.concat([(0, _blockHoistPlugin.default)()])) {
+	      const pass = new _pluginPass.default(file, plugin.key, plugin.options);
+	      passPairs.push([plugin, pass]);
+	      passes.push(pass);
+	      visitors.push(plugin.visitor);
+	    }
+	    for (const [plugin, pass] of passPairs) {
+	      const fn = plugin.pre;
+	      if (fn) {
+	        const result = fn.call(pass, file);
+	        yield* [];
+	        if (isThenable(result)) {
+	          throw new Error(`You appear to be using an plugin with an async .pre, ` + `which your current version of Babel does not support. ` + `If you're using a published plugin, you may need to upgrade ` + `your @babel/core version.`);
+	        }
+	      }
+	    }
+	    const visitor = _traverse().default.visitors.merge(visitors, passes, file.opts.wrapPluginVisitorMethod);
+	    {
+	      (0, _traverse().default)(file.ast, visitor, file.scope);
+	    }
+	    for (const [plugin, pass] of passPairs) {
+	      const fn = plugin.post;
+	      if (fn) {
+	        const result = fn.call(pass, file);
+	        yield* [];
+	        if (isThenable(result)) {
+	          throw new Error(`You appear to be using an plugin with an async .post, ` + `which your current version of Babel does not support. ` + `If you're using a published plugin, you may need to upgrade ` + `your @babel/core version.`);
+	        }
+	      }
+	    }
+	  }
+	}
+	function isThenable(val) {
+	  return !!val && (typeof val === "object" || typeof val === "function") && !!val.then && typeof val.then === "function";
+	}
+
+	
+	return transformation;
 }var hasRequiredTransform;
 
 function requireTransform () {
@@ -65685,7 +65878,7 @@ function requireTransform () {
 	  return data;
 	}
 	var _config = requireConfig();
-	var _transformation = transformation;
+	var _transformation = requireTransformation();
 	var _rewriteStackTrace = rewriteStackTrace;
 	const transformRunner = _gensync()(function* transform(code, opts) {
 	  const config = yield* (0, _config.default)(opts);
@@ -65757,7 +65950,7 @@ function requireTransformAst () {
 	  return data;
 	}
 	var _config = requireConfig();
-	var _transformation = transformation;
+	var _transformation = requireTransformation();
 	var _rewriteStackTrace = rewriteStackTrace;
 	const transformFromAstRunner = _gensync()(function* (ast, code, opts) {
 	  const config = yield* (0, _config.default)(opts);
@@ -66030,8 +66223,8 @@ function requireLib () {
 		  }
 		});
 		exports.version = exports.types = void 0;
-		var _file = file$1;
-		var _buildExternalHelpers = buildExternalHelpers;
+		var _file = requireFile();
+		var _buildExternalHelpers = requireBuildExternalHelpers();
 		var _files = indexBrowser;
 		var _environment = environment;
 		function _types() {
@@ -66074,7 +66267,7 @@ function requireLib () {
 		var _transformAst = requireTransformAst();
 		var _parse = requireParse();
 		requireLib();
-		const version = "7.22.5";
+		const version = "7.22.11";
 		exports.version = version;
 		const DEFAULT_EXTENSIONS = Object.freeze([".js", ".jsx", ".es6", ".es", ".mjs", ".cjs"]);
 		exports.DEFAULT_EXTENSIONS = DEFAULT_EXTENSIONS;
@@ -66954,11 +67147,187 @@ function isReactCall(path) {
 } (lib$7));const { transform } = requireLib();
 const presetReact = lib$7;
 
+const ignoreMap = {
+  '@emotion/react':
+    'https://ga.jspm.io/npm:@emotion/react@11.11.1/dist/emotion-react.browser.esm.js',
+  '@emotion/styled':
+    'https://ga.jspm.io/npm:@emotion/styled@11.11.0/dist/emotion-styled.browser.esm.js',
+  '@mui/joy': 'https://ga.jspm.io/npm:@mui/joy@5.0.0-alpha.84/index.js',
+  '@mui/joy/styles': 'https://ga.jspm.io/npm:@mui/joy@5.0.0-alpha.84/styles/index.js',
+  react: 'https://ga.jspm.io/npm:react@18.2.0/index.js',
+  'react-dom/client': 'https://ga.jspm.io/npm:react-dom@18.2.0/client.js',
+  '#AspectRatio': 'https://ga.jspm.io/npm:@mui/joy@5.0.0-alpha.84/AspectRatio/index.js',
+  '#AutocompleteListbox':
+    'https://ga.jspm.io/npm:@mui/joy@5.0.0-alpha.84/AutocompleteListbox/index.js',
+  '#AutocompleteOption':
+    'https://ga.jspm.io/npm:@mui/joy@5.0.0-alpha.84/AutocompleteOption/index.js',
+  '#AvatarGroup': 'https://ga.jspm.io/npm:@mui/joy@5.0.0-alpha.84/AvatarGroup/index.js',
+  '#Badge': 'https://ga.jspm.io/npm:@mui/joy@5.0.0-alpha.84/Badge/index.js',
+  '#Breadcrumbs': 'https://ga.jspm.io/npm:@mui/joy@5.0.0-alpha.84/Breadcrumbs/index.js',
+  '#ButtonGroup': 'https://ga.jspm.io/npm:@mui/joy@5.0.0-alpha.84/ButtonGroup/index.js',
+  '#CardContent': 'https://ga.jspm.io/npm:@mui/joy@5.0.0-alpha.84/CardContent/index.js',
+  '#CardCover': 'https://ga.jspm.io/npm:@mui/joy@5.0.0-alpha.84/CardCover/index.js',
+  '#CardOverflow': 'https://ga.jspm.io/npm:@mui/joy@5.0.0-alpha.84/CardOverflow/index.js',
+  '#ChipDelete': 'https://ga.jspm.io/npm:@mui/joy@5.0.0-alpha.84/ChipDelete/index.js',
+  '#CircularProgress': 'https://ga.jspm.io/npm:@mui/joy@5.0.0-alpha.84/CircularProgress/index.js',
+  '#Container': 'https://ga.jspm.io/npm:@mui/joy@5.0.0-alpha.84/Container/index.js',
+  '#FormControl': 'https://ga.jspm.io/npm:@mui/base@5.0.0-beta.4/FormControl/index.js',
+  '#GlobalStyles': 'https://ga.jspm.io/npm:@mui/styled-engine@5.13.2/GlobalStyles/index.js',
+  '#LinearProgress': 'https://ga.jspm.io/npm:@mui/joy@5.0.0-alpha.84/LinearProgress/index.js',
+  '#ListItemDecorator': 'https://ga.jspm.io/npm:@mui/joy@5.0.0-alpha.84/ListItemDecorator/index.js',
+  '#Menu': 'https://ga.jspm.io/npm:@mui/base@5.0.0-beta.4/Menu/index.js',
+  '#MenuItem': 'https://ga.jspm.io/npm:@mui/base@5.0.0-beta.4/MenuItem/index.js',
+  '#MenuList': 'https://ga.jspm.io/npm:@mui/joy@5.0.0-alpha.84/MenuList/index.js',
+  '#Modal': 'https://ga.jspm.io/npm:@mui/joy@5.0.0-alpha.84/Modal/index.js',
+  '#ModalClose': 'https://ga.jspm.io/npm:@mui/joy@5.0.0-alpha.84/ModalClose/index.js',
+  '#ModalDialog': 'https://ga.jspm.io/npm:@mui/joy@5.0.0-alpha.84/ModalDialog/index.js',
+  '#ModalOverflow': 'https://ga.jspm.io/npm:@mui/joy@5.0.0-alpha.84/ModalOverflow/index.js',
+  '#OptionGroup': 'https://ga.jspm.io/npm:@mui/base@5.0.0-beta.4/OptionGroup/index.js',
+  '#ScopedCssBaseline': 'https://ga.jspm.io/npm:@mui/joy@5.0.0-alpha.84/ScopedCssBaseline/index.js',
+  '#Slider': 'https://ga.jspm.io/npm:@mui/joy@5.0.0-alpha.84/Slider/index.js',
+  '#Snackbar': 'https://ga.jspm.io/npm:@mui/base@5.0.0-beta.4/Snackbar/index.js',
+  '#StyledEngineProvider':
+    'https://ga.jspm.io/npm:@mui/styled-engine@5.13.2/StyledEngineProvider/index.js',
+  '#Table': 'https://ga.jspm.io/npm:@mui/joy@5.0.0-alpha.84/Table/index.js',
+  '#className': 'https://ga.jspm.io/npm:@mui/joy@5.0.0-alpha.84/className/index.js',
+  '#useList': 'https://ga.jspm.io/npm:@mui/base@5.0.0-beta.4/useList/index.js',
+  '@babel/runtime/helpers/esm/extends':
+    'https://ga.jspm.io/npm:@babel/runtime@7.22.5/helpers/esm/extends.js',
+  '@babel/runtime/helpers/esm/objectWithoutPropertiesLoose':
+    'https://ga.jspm.io/npm:@babel/runtime@7.22.5/helpers/esm/objectWithoutPropertiesLoose.js',
+  '@babel/runtime/helpers/extends':
+    'https://ga.jspm.io/npm:@babel/runtime@7.22.5/helpers/esm/extends.js',
+  '@emotion/cache':
+    'https://ga.jspm.io/npm:@emotion/cache@11.11.0/dist/emotion-cache.browser.esm.js',
+  '@emotion/hash': 'https://ga.jspm.io/npm:@emotion/hash@0.9.1/dist/emotion-hash.esm.js',
+  '@emotion/is-prop-valid':
+    'https://ga.jspm.io/npm:@emotion/is-prop-valid@1.2.1/dist/emotion-is-prop-valid.esm.js',
+  '@emotion/memoize': 'https://ga.jspm.io/npm:@emotion/memoize@0.8.1/dist/emotion-memoize.esm.js',
+  '@emotion/serialize':
+    'https://ga.jspm.io/npm:@emotion/serialize@1.1.2/dist/emotion-serialize.browser.esm.js',
+  '@emotion/sheet': 'https://ga.jspm.io/npm:@emotion/sheet@1.2.2/dist/emotion-sheet.browser.esm.js',
+  '@emotion/unitless':
+    'https://ga.jspm.io/npm:@emotion/unitless@0.8.1/dist/emotion-unitless.esm.js',
+  '@emotion/use-insertion-effect-with-fallbacks':
+    'https://ga.jspm.io/npm:@emotion/use-insertion-effect-with-fallbacks@1.0.1/dist/emotion-use-insertion-effect-with-fallbacks.browser.esm.js',
+  '@emotion/utils': 'https://ga.jspm.io/npm:@emotion/utils@1.2.1/dist/emotion-utils.browser.esm.js',
+  '@emotion/weak-memoize':
+    'https://ga.jspm.io/npm:@emotion/weak-memoize@0.3.1/dist/emotion-weak-memoize.esm.js',
+  '@mui/base': 'https://ga.jspm.io/npm:@mui/base@5.0.0-beta.4/index.js',
+  '@mui/base/Badge': 'https://ga.jspm.io/npm:@mui/base@5.0.0-beta.4/Badge/index.js',
+  '@mui/base/Button': 'https://ga.jspm.io/npm:@mui/base@5.0.0-beta.4/Button/index.js',
+  '@mui/base/ClickAwayListener':
+    'https://ga.jspm.io/npm:@mui/base@5.0.0-beta.4/ClickAwayListener/index.js',
+  '@mui/base/FocusTrap': 'https://ga.jspm.io/npm:@mui/base@5.0.0-beta.4/FocusTrap/index.js',
+  '@mui/base/Input': 'https://ga.jspm.io/npm:@mui/base@5.0.0-beta.4/Input/index.js',
+  '@mui/base/Modal': 'https://ga.jspm.io/npm:@mui/base@5.0.0-beta.4/Modal/index.js',
+  '@mui/base/NoSsr': 'https://ga.jspm.io/npm:@mui/base@5.0.0-beta.4/NoSsr/index.js',
+  '@mui/base/Option': 'https://ga.jspm.io/npm:@mui/base@5.0.0-beta.4/Option/index.js',
+  '@mui/base/Popper': 'https://ga.jspm.io/npm:@mui/base@5.0.0-beta.4/Popper/index.js',
+  '@mui/base/Portal': 'https://ga.jspm.io/npm:@mui/base@5.0.0-beta.4/Portal/index.js',
+  '@mui/base/Select': 'https://ga.jspm.io/npm:@mui/base@5.0.0-beta.4/Select/index.js',
+  '@mui/base/Slider': 'https://ga.jspm.io/npm:@mui/base@5.0.0-beta.4/Slider/index.js',
+  '@mui/base/Switch': 'https://ga.jspm.io/npm:@mui/base@5.0.0-beta.4/Switch/index.js',
+  '@mui/base/Tab': 'https://ga.jspm.io/npm:@mui/base@5.0.0-beta.4/Tab/index.js',
+  '@mui/base/TabPanel': 'https://ga.jspm.io/npm:@mui/base@5.0.0-beta.4/TabPanel/index.js',
+  '@mui/base/TablePagination':
+    'https://ga.jspm.io/npm:@mui/base@5.0.0-beta.4/TablePagination/index.js',
+  '@mui/base/Tabs': 'https://ga.jspm.io/npm:@mui/base@5.0.0-beta.4/Tabs/index.js',
+  '@mui/base/TabsList': 'https://ga.jspm.io/npm:@mui/base@5.0.0-beta.4/TabsList/index.js',
+  '@mui/base/TextareaAutosize':
+    'https://ga.jspm.io/npm:@mui/base@5.0.0-beta.4/TextareaAutosize/index.js',
+  '@mui/base/composeClasses':
+    'https://ga.jspm.io/npm:@mui/base@5.0.0-beta.4/composeClasses/index.js',
+  '@mui/base/generateUtilityClass':
+    'https://ga.jspm.io/npm:@mui/base@5.0.0-beta.4/generateUtilityClass/index.js',
+  '@mui/base/generateUtilityClasses':
+    'https://ga.jspm.io/npm:@mui/base@5.0.0-beta.4/generateUtilityClasses/index.js',
+  '@mui/base/useAutocomplete':
+    'https://ga.jspm.io/npm:@mui/base@5.0.0-beta.4/useAutocomplete/index.js',
+  '@mui/base/useBadge': 'https://ga.jspm.io/npm:@mui/base@5.0.0-beta.4/useBadge/index.js',
+  '@mui/base/useButton': 'https://ga.jspm.io/npm:@mui/base@5.0.0-beta.4/useButton/index.js',
+  '@mui/base/useInput': 'https://ga.jspm.io/npm:@mui/base@5.0.0-beta.4/useInput/index.js',
+  '@mui/base/useMenu': 'https://ga.jspm.io/npm:@mui/base@5.0.0-beta.4/useMenu/index.js',
+  '@mui/base/useMenuItem': 'https://ga.jspm.io/npm:@mui/base@5.0.0-beta.4/useMenuItem/index.js',
+  '@mui/base/useOption': 'https://ga.jspm.io/npm:@mui/base@5.0.0-beta.4/useOption/index.js',
+  '@mui/base/useSelect': 'https://ga.jspm.io/npm:@mui/base@5.0.0-beta.4/useSelect/index.js',
+  '@mui/base/useSlider': 'https://ga.jspm.io/npm:@mui/base@5.0.0-beta.4/useSlider/index.js',
+  '@mui/base/useSnackbar': 'https://ga.jspm.io/npm:@mui/base@5.0.0-beta.4/useSnackbar/index.js',
+  '@mui/base/useSwitch': 'https://ga.jspm.io/npm:@mui/base@5.0.0-beta.4/useSwitch/index.js',
+  '@mui/base/useTab': 'https://ga.jspm.io/npm:@mui/base@5.0.0-beta.4/useTab/index.js',
+  '@mui/base/useTabPanel': 'https://ga.jspm.io/npm:@mui/base@5.0.0-beta.4/useTabPanel/index.js',
+  '@mui/base/useTabs': 'https://ga.jspm.io/npm:@mui/base@5.0.0-beta.4/useTabs/index.js',
+  '@mui/base/useTabsList': 'https://ga.jspm.io/npm:@mui/base@5.0.0-beta.4/useTabsList/index.js',
+  '@mui/base/utils': 'https://ga.jspm.io/npm:@mui/base@5.0.0-beta.4/utils/index.js',
+  '@mui/joy/Alert': 'https://ga.jspm.io/npm:@mui/joy@5.0.0-alpha.84/Alert/index.js',
+  '@mui/joy/Autocomplete': 'https://ga.jspm.io/npm:@mui/joy@5.0.0-alpha.84/Autocomplete/index.js',
+  '@mui/joy/Avatar': 'https://ga.jspm.io/npm:@mui/joy@5.0.0-alpha.84/Avatar/index.js',
+  '@mui/joy/Box': 'https://ga.jspm.io/npm:@mui/joy@5.0.0-alpha.84/Box/index.js',
+  '@mui/joy/Button': 'https://ga.jspm.io/npm:@mui/joy@5.0.0-alpha.84/Button/index.js',
+  '@mui/joy/Card': 'https://ga.jspm.io/npm:@mui/joy@5.0.0-alpha.84/Card/index.js',
+  '@mui/joy/Checkbox': 'https://ga.jspm.io/npm:@mui/joy@5.0.0-alpha.84/Checkbox/index.js',
+  '@mui/joy/Chip': 'https://ga.jspm.io/npm:@mui/joy@5.0.0-alpha.84/Chip/index.js',
+  '@mui/joy/CssBaseline': 'https://ga.jspm.io/npm:@mui/joy@5.0.0-alpha.84/CssBaseline/index.js',
+  '@mui/joy/Divider': 'https://ga.jspm.io/npm:@mui/joy@5.0.0-alpha.84/Divider/index.js',
+  '@mui/joy/FormControl': 'https://ga.jspm.io/npm:@mui/joy@5.0.0-alpha.84/FormControl/index.js',
+  '@mui/joy/FormHelperText':
+    'https://ga.jspm.io/npm:@mui/joy@5.0.0-alpha.84/FormHelperText/index.js',
+  '@mui/joy/FormLabel': 'https://ga.jspm.io/npm:@mui/joy@5.0.0-alpha.84/FormLabel/index.js',
+  '@mui/joy/GlobalStyles': 'https://ga.jspm.io/npm:@mui/joy@5.0.0-alpha.84/GlobalStyles/index.js',
+  '@mui/joy/Grid': 'https://ga.jspm.io/npm:@mui/joy@5.0.0-alpha.84/Grid/index.js',
+  '@mui/joy/IconButton': 'https://ga.jspm.io/npm:@mui/joy@5.0.0-alpha.84/IconButton/index.js',
+  '@mui/joy/Input': 'https://ga.jspm.io/npm:@mui/joy@5.0.0-alpha.84/Input/index.js',
+  '@mui/joy/Link': 'https://ga.jspm.io/npm:@mui/joy@5.0.0-alpha.84/Link/index.js',
+  '@mui/joy/List': 'https://ga.jspm.io/npm:@mui/joy@5.0.0-alpha.84/List/index.js',
+  '@mui/joy/ListDivider': 'https://ga.jspm.io/npm:@mui/joy@5.0.0-alpha.84/ListDivider/index.js',
+  '@mui/joy/ListItem': 'https://ga.jspm.io/npm:@mui/joy@5.0.0-alpha.84/ListItem/index.js',
+  '@mui/joy/ListItemButton':
+    'https://ga.jspm.io/npm:@mui/joy@5.0.0-alpha.84/ListItemButton/index.js',
+  '@mui/joy/ListItemContent':
+    'https://ga.jspm.io/npm:@mui/joy@5.0.0-alpha.84/ListItemContent/index.js',
+  '@mui/joy/ListSubheader': 'https://ga.jspm.io/npm:@mui/joy@5.0.0-alpha.84/ListSubheader/index.js',
+  '@mui/joy/Menu': 'https://ga.jspm.io/npm:@mui/joy@5.0.0-alpha.84/Menu/index.js',
+  '@mui/joy/MenuItem': 'https://ga.jspm.io/npm:@mui/joy@5.0.0-alpha.84/MenuItem/index.js',
+  '@mui/joy/Option': 'https://ga.jspm.io/npm:@mui/joy@5.0.0-alpha.84/Option/index.js',
+  '@mui/joy/Radio': 'https://ga.jspm.io/npm:@mui/joy@5.0.0-alpha.84/Radio/index.js',
+  '@mui/joy/RadioGroup': 'https://ga.jspm.io/npm:@mui/joy@5.0.0-alpha.84/RadioGroup/index.js',
+  '@mui/joy/Select': 'https://ga.jspm.io/npm:@mui/joy@5.0.0-alpha.84/Select/index.js',
+  '@mui/joy/Sheet': 'https://ga.jspm.io/npm:@mui/joy@5.0.0-alpha.84/Sheet/index.js',
+  '@mui/joy/Stack': 'https://ga.jspm.io/npm:@mui/joy@5.0.0-alpha.84/Stack/index.js',
+  '@mui/joy/SvgIcon': 'https://ga.jspm.io/npm:@mui/joy@5.0.0-alpha.84/SvgIcon/index.js',
+  '@mui/joy/Switch': 'https://ga.jspm.io/npm:@mui/joy@5.0.0-alpha.84/Switch/index.js',
+  '@mui/joy/Tab': 'https://ga.jspm.io/npm:@mui/joy@5.0.0-alpha.84/Tab/index.js',
+  '@mui/joy/TabList': 'https://ga.jspm.io/npm:@mui/joy@5.0.0-alpha.84/TabList/index.js',
+  '@mui/joy/TabPanel': 'https://ga.jspm.io/npm:@mui/joy@5.0.0-alpha.84/TabPanel/index.js',
+  '@mui/joy/Tabs': 'https://ga.jspm.io/npm:@mui/joy@5.0.0-alpha.84/Tabs/index.js',
+  '@mui/joy/TextField': 'https://ga.jspm.io/npm:@mui/joy@5.0.0-alpha.84/TextField/index.js',
+  '@mui/joy/Textarea': 'https://ga.jspm.io/npm:@mui/joy@5.0.0-alpha.84/Textarea/index.js',
+  '@mui/joy/Tooltip': 'https://ga.jspm.io/npm:@mui/joy@5.0.0-alpha.84/Tooltip/index.js',
+  '@mui/joy/Typography': 'https://ga.jspm.io/npm:@mui/joy@5.0.0-alpha.84/Typography/index.js',
+  '@mui/joy/colors': 'https://ga.jspm.io/npm:@mui/joy@5.0.0-alpha.84/colors/index.js',
+  '@mui/private-theming': 'https://ga.jspm.io/npm:@mui/private-theming@5.13.1/index.js',
+  '@mui/private-theming/ThemeProvider':
+    'https://ga.jspm.io/npm:@mui/private-theming@5.13.1/ThemeProvider/index.js',
+  '@mui/private-theming/useTheme':
+    'https://ga.jspm.io/npm:@mui/private-theming@5.13.1/useTheme/index.js',
+  '@mui/styled-engine': 'https://ga.jspm.io/npm:@mui/styled-engine@5.13.2/index.js',
+  '@mui/system': 'https://ga.jspm.io/npm:@mui/system@5.13.5/esm/index.js',
+  '@mui/system/Unstable_Grid':
+    'https://ga.jspm.io/npm:@mui/system@5.13.5/esm/Unstable_Grid/index.js',
+  '@mui/utils': 'https://ga.jspm.io/npm:@mui/utils@5.13.1/esm/index.js',
+  '@popperjs/core': 'https://ga.jspm.io/npm:@popperjs/core@2.11.8/lib/index.js',
+  clsx: 'https://ga.jspm.io/npm:clsx@1.2.1/dist/clsx.m.js',
+  'hoist-non-react-statics':
+    'https://ga.jspm.io/npm:hoist-non-react-statics@3.3.2/dist/hoist-non-react-statics.cjs.js',
+  'prop-types': 'https://ga.jspm.io/npm:prop-types@15.8.1/index.js',
+  'react-dom': 'https://ga.jspm.io/npm:react-dom@18.2.0/index.js',
+  'react-is': 'https://ga.jspm.io/npm:react-is@16.13.1/index.js',
+  'react/jsx-runtime': 'https://ga.jspm.io/npm:react@18.2.0/jsx-runtime.js',
+  scheduler: 'https://ga.jspm.io/npm:scheduler@0.23.0/index.js',
+  stylis: 'https://ga.jspm.io/npm:stylis@4.2.0/index.js',
+};
+
 async function jsxCompile(url, source) {
-  console.info(
-    'es-module-shims-jsx-plugin',
-    `[${new Date().toISOString()}] Compiling source from ${url}`
-  );
   const transformed = transform(source, {
     presets: [presetReact],
   });
@@ -66968,7 +67337,7 @@ async function jsxCompile(url, source) {
 
 globalThis.esmsInitOptions = globalThis.esmsInitOptions || {};
 globalThis.esmsInitOptions.shimMode = true;
-globalThis.esmsInitOptions.skip = false;
+globalThis.esmsInitOptions.skip = Object.keys(ignoreMap);
 const fetch = globalThis.esmsInitOptions.fetch || globalThis.fetch;
 
 globalThis.esmsInitOptions.fetch = async function (url, options) {
@@ -66977,4 +67346,12 @@ globalThis.esmsInitOptions.fetch = async function (url, options) {
   const source = await res.text();
   const transformed = await jsxCompile(url, source);
   return new Response(new Blob([transformed], { type: 'application/javascript' }))
+};
+
+globalThis.esmsInitOptions.resolve = function (id, parentUrl, defaultResolve) {
+  if (ignoreMap[id]) {
+    return ignoreMap[id]
+  }
+
+  return defaultResolve(id, parentUrl)
 };return src;})();

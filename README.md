@@ -17,6 +17,7 @@ Start a local web server and navigate to [localhost:3000/test](http://localhost:
 
 ```sh
 npx http-server -c-1 -p 3000
+chomp --watch
 ```
 
 ## Publish

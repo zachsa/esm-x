@@ -67157,21 +67157,14 @@ async function compile(url, source) {
   return source.replace(/\/\/#.*/, '')
 }
 
-globalThis.esmsInitOptions = globalThis.esmsInitOptions || {};
-globalThis.esmsInitOptions.shimMode = true;
-globalThis.esmsInitOptions.mapOverrides = true;
-globalThis.esmsInitOptions.skip = [];
-
-const fetch = globalThis.esmsInitOptions.fetch || globalThis.fetch;
-
-globalThis.esmsInitOptions.fetch = async function (url, options) {
-  const res = await fetch(url, options);
-  if (!res.ok) return res
-  const source = await res.text();
-  const transformed = await compile(url, source);
-  return new Response(new Blob([transformed], { type: 'application/javascript' }))
-};
-
-globalThis.esmsInitOptions.resolve = function (id, parentUrl, defaultResolve) {
-  return defaultResolve(id, parentUrl)
+globalThis.esmsInitOptions = {
+  ...(globalThis.esmsInitOptions || {}),
+  shimMode: true,
+  async fetch(url, options) {
+    const res = await fetch(url, options);
+    if (!res.ok) return res
+    const source = await res.text();
+    const transformed = await compile(url, source);
+    return new Response(new Blob([transformed], { type: 'application/javascript' }))
+  },
 };return src;})();

@@ -26,7 +26,7 @@ function getAugmentedNamespace(n) {
 		});
 	});
 	return a;
-}var src = {};var lib$r = {};var file = {};var lib$q = {};var lib$p = {};var visitors = {};var virtualTypes = {};var hasRequiredVirtualTypes;
+}var src = {};var lib$A = {};var file = {};var lib$z = {};var lib$y = {};var visitors = {};var virtualTypes = {};var hasRequiredVirtualTypes;
 
 function requireVirtualTypes () {
 	if (hasRequiredVirtualTypes) return virtualTypes;
@@ -75,7 +75,229 @@ function requireVirtualTypes () {
 
 	
 	return virtualTypes;
-}var lib$o = {};var isReactComponent = {};var buildMatchMemberExpression = {};var matchesPattern = {};var generated$3 = {};var shallowEqual = {};var hasRequiredShallowEqual;
+}var global$1 = (typeof global !== "undefined" ? global :
+  typeof self !== "undefined" ? self :
+  typeof window !== "undefined" ? window : {});// shim for using process in browser
+// based off https://github.com/defunctzombie/node-process/blob/master/browser.js
+
+function defaultSetTimout() {
+    throw new Error('setTimeout has not been defined');
+}
+function defaultClearTimeout () {
+    throw new Error('clearTimeout has not been defined');
+}
+var cachedSetTimeout = defaultSetTimout;
+var cachedClearTimeout = defaultClearTimeout;
+if (typeof global$1.setTimeout === 'function') {
+    cachedSetTimeout = setTimeout;
+}
+if (typeof global$1.clearTimeout === 'function') {
+    cachedClearTimeout = clearTimeout;
+}
+
+function runTimeout(fun) {
+    if (cachedSetTimeout === setTimeout) {
+        //normal enviroments in sane situations
+        return setTimeout(fun, 0);
+    }
+    // if setTimeout wasn't available but was latter defined
+    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
+        cachedSetTimeout = setTimeout;
+        return setTimeout(fun, 0);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedSetTimeout(fun, 0);
+    } catch(e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
+            return cachedSetTimeout.call(null, fun, 0);
+        } catch(e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
+            return cachedSetTimeout.call(this, fun, 0);
+        }
+    }
+
+
+}
+function runClearTimeout(marker) {
+    if (cachedClearTimeout === clearTimeout) {
+        //normal enviroments in sane situations
+        return clearTimeout(marker);
+    }
+    // if clearTimeout wasn't available but was latter defined
+    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
+        cachedClearTimeout = clearTimeout;
+        return clearTimeout(marker);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedClearTimeout(marker);
+    } catch (e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
+            return cachedClearTimeout.call(null, marker);
+        } catch (e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
+            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
+            return cachedClearTimeout.call(this, marker);
+        }
+    }
+
+
+
+}
+var queue = [];
+var draining = false;
+var currentQueue;
+var queueIndex = -1;
+
+function cleanUpNextTick() {
+    if (!draining || !currentQueue) {
+        return;
+    }
+    draining = false;
+    if (currentQueue.length) {
+        queue = currentQueue.concat(queue);
+    } else {
+        queueIndex = -1;
+    }
+    if (queue.length) {
+        drainQueue();
+    }
+}
+
+function drainQueue() {
+    if (draining) {
+        return;
+    }
+    var timeout = runTimeout(cleanUpNextTick);
+    draining = true;
+
+    var len = queue.length;
+    while(len) {
+        currentQueue = queue;
+        queue = [];
+        while (++queueIndex < len) {
+            if (currentQueue) {
+                currentQueue[queueIndex].run();
+            }
+        }
+        queueIndex = -1;
+        len = queue.length;
+    }
+    currentQueue = null;
+    draining = false;
+    runClearTimeout(timeout);
+}
+function nextTick(fun) {
+    var args = new Array(arguments.length - 1);
+    if (arguments.length > 1) {
+        for (var i = 1; i < arguments.length; i++) {
+            args[i - 1] = arguments[i];
+        }
+    }
+    queue.push(new Item(fun, args));
+    if (queue.length === 1 && !draining) {
+        runTimeout(drainQueue);
+    }
+}
+// v8 likes predictible objects
+function Item(fun, array) {
+    this.fun = fun;
+    this.array = array;
+}
+Item.prototype.run = function () {
+    this.fun.apply(null, this.array);
+};
+var title = 'browser';
+var platform = 'browser';
+var browser$4 = true;
+var env = {};
+var argv = [];
+var version = ''; // empty string to avoid regexp issues
+var versions$1 = {};
+var release = {};
+var config$1 = {};
+
+function noop() {}
+
+var on = noop;
+var addListener = noop;
+var once$1 = noop;
+var off = noop;
+var removeListener = noop;
+var removeAllListeners = noop;
+var emit = noop;
+
+function binding$1(name) {
+    throw new Error('process.binding is not supported');
+}
+
+function cwd () { return '/' }
+function chdir (dir) {
+    throw new Error('process.chdir is not supported');
+}function umask() { return 0; }
+
+// from https://github.com/kumavis/browser-process-hrtime/blob/master/index.js
+var performance = global$1.performance || {};
+var performanceNow =
+  performance.now        ||
+  performance.mozNow     ||
+  performance.msNow      ||
+  performance.oNow       ||
+  performance.webkitNow  ||
+  function(){ return (new Date()).getTime() };
+
+// generate timestamp or delta
+// see http://nodejs.org/api/process.html#process_process_hrtime
+function hrtime(previousTimestamp){
+  var clocktime = performanceNow.call(performance)*1e-3;
+  var seconds = Math.floor(clocktime);
+  var nanoseconds = Math.floor((clocktime%1)*1e9);
+  if (previousTimestamp) {
+    seconds = seconds - previousTimestamp[0];
+    nanoseconds = nanoseconds - previousTimestamp[1];
+    if (nanoseconds<0) {
+      seconds--;
+      nanoseconds += 1e9;
+    }
+  }
+  return [seconds,nanoseconds]
+}
+
+var startTime = new Date();
+function uptime() {
+  var currentTime = new Date();
+  var dif = currentTime - startTime;
+  return dif / 1000;
+}
+
+var browser$1$1 = {
+  nextTick: nextTick,
+  title: title,
+  browser: browser$4,
+  env: env,
+  argv: argv,
+  version: version,
+  versions: versions$1,
+  on: on,
+  addListener: addListener,
+  once: once$1,
+  off: off,
+  removeListener: removeListener,
+  removeAllListeners: removeAllListeners,
+  emit: emit,
+  binding: binding$1,
+  cwd: cwd,
+  chdir: chdir,
+  umask: umask,
+  hrtime: hrtime,
+  platform: platform,
+  release: release,
+  config: config$1,
+  uptime: uptime
+};var lib$x = {};var isReactComponent = {};var buildMatchMemberExpression = {};var matchesPattern = {};var generated$3 = {};var shallowEqual = {};var hasRequiredShallowEqual;
 
 function requireShallowEqual () {
 	if (hasRequiredShallowEqual) return shallowEqual;
@@ -2905,13 +3127,13 @@ function requireMatchesPattern () {
 	  value: true
 	});
 	matchesPattern.default = matchesPattern$1;
-	var _generated = requireGenerated$3();
+	var _index = requireGenerated$3();
 	function matchesPattern$1(member, match, allowPartial) {
-	  if (!(0, _generated.isMemberExpression)(member)) return false;
+	  if (!(0, _index.isMemberExpression)(member)) return false;
 	  const parts = Array.isArray(match) ? match : match.split(".");
 	  const nodes = [];
 	  let node;
-	  for (node = member; (0, _generated.isMemberExpression)(node); node = node.object) {
+	  for (node = member; (0, _index.isMemberExpression)(node); node = node.object) {
 	    nodes.push(node.property);
 	  }
 	  nodes.push(node);
@@ -2920,11 +3142,11 @@ function requireMatchesPattern () {
 	  for (let i = 0, j = nodes.length - 1; i < parts.length; i++, j--) {
 	    const node = nodes[j];
 	    let value;
-	    if ((0, _generated.isIdentifier)(node)) {
+	    if ((0, _index.isIdentifier)(node)) {
 	      value = node.name;
-	    } else if ((0, _generated.isStringLiteral)(node)) {
+	    } else if ((0, _index.isStringLiteral)(node)) {
 	      value = node.value;
-	    } else if ((0, _generated.isThisExpression)(node)) {
+	    } else if ((0, _index.isThisExpression)(node)) {
 	      value = "this";
 	    } else {
 	      return false;
@@ -3020,229 +3242,7 @@ function requireToFastProperties () {
 		return FastObject(o);
 	};
 	return toFastProperties;
-}var global$1 = (typeof global !== "undefined" ? global :
-  typeof self !== "undefined" ? self :
-  typeof window !== "undefined" ? window : {});// shim for using process in browser
-// based off https://github.com/defunctzombie/node-process/blob/master/browser.js
-
-function defaultSetTimout() {
-    throw new Error('setTimeout has not been defined');
-}
-function defaultClearTimeout () {
-    throw new Error('clearTimeout has not been defined');
-}
-var cachedSetTimeout = defaultSetTimout;
-var cachedClearTimeout = defaultClearTimeout;
-if (typeof global$1.setTimeout === 'function') {
-    cachedSetTimeout = setTimeout;
-}
-if (typeof global$1.clearTimeout === 'function') {
-    cachedClearTimeout = clearTimeout;
-}
-
-function runTimeout(fun) {
-    if (cachedSetTimeout === setTimeout) {
-        //normal enviroments in sane situations
-        return setTimeout(fun, 0);
-    }
-    // if setTimeout wasn't available but was latter defined
-    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
-        cachedSetTimeout = setTimeout;
-        return setTimeout(fun, 0);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedSetTimeout(fun, 0);
-    } catch(e){
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
-            return cachedSetTimeout.call(null, fun, 0);
-        } catch(e){
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
-            return cachedSetTimeout.call(this, fun, 0);
-        }
-    }
-
-
-}
-function runClearTimeout(marker) {
-    if (cachedClearTimeout === clearTimeout) {
-        //normal enviroments in sane situations
-        return clearTimeout(marker);
-    }
-    // if clearTimeout wasn't available but was latter defined
-    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
-        cachedClearTimeout = clearTimeout;
-        return clearTimeout(marker);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedClearTimeout(marker);
-    } catch (e){
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
-            return cachedClearTimeout.call(null, marker);
-        } catch (e){
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
-            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
-            return cachedClearTimeout.call(this, marker);
-        }
-    }
-
-
-
-}
-var queue = [];
-var draining = false;
-var currentQueue;
-var queueIndex = -1;
-
-function cleanUpNextTick() {
-    if (!draining || !currentQueue) {
-        return;
-    }
-    draining = false;
-    if (currentQueue.length) {
-        queue = currentQueue.concat(queue);
-    } else {
-        queueIndex = -1;
-    }
-    if (queue.length) {
-        drainQueue();
-    }
-}
-
-function drainQueue() {
-    if (draining) {
-        return;
-    }
-    var timeout = runTimeout(cleanUpNextTick);
-    draining = true;
-
-    var len = queue.length;
-    while(len) {
-        currentQueue = queue;
-        queue = [];
-        while (++queueIndex < len) {
-            if (currentQueue) {
-                currentQueue[queueIndex].run();
-            }
-        }
-        queueIndex = -1;
-        len = queue.length;
-    }
-    currentQueue = null;
-    draining = false;
-    runClearTimeout(timeout);
-}
-function nextTick(fun) {
-    var args = new Array(arguments.length - 1);
-    if (arguments.length > 1) {
-        for (var i = 1; i < arguments.length; i++) {
-            args[i - 1] = arguments[i];
-        }
-    }
-    queue.push(new Item(fun, args));
-    if (queue.length === 1 && !draining) {
-        runTimeout(drainQueue);
-    }
-}
-// v8 likes predictible objects
-function Item(fun, array) {
-    this.fun = fun;
-    this.array = array;
-}
-Item.prototype.run = function () {
-    this.fun.apply(null, this.array);
-};
-var title = 'browser';
-var platform = 'browser';
-var browser$4 = true;
-var env = {};
-var argv = [];
-var version = ''; // empty string to avoid regexp issues
-var versions$1 = {};
-var release = {};
-var config$1 = {};
-
-function noop() {}
-
-var on = noop;
-var addListener = noop;
-var once$1 = noop;
-var off = noop;
-var removeListener = noop;
-var removeAllListeners = noop;
-var emit = noop;
-
-function binding$1(name) {
-    throw new Error('process.binding is not supported');
-}
-
-function cwd () { return '/' }
-function chdir (dir) {
-    throw new Error('process.chdir is not supported');
-}function umask() { return 0; }
-
-// from https://github.com/kumavis/browser-process-hrtime/blob/master/index.js
-var performance = global$1.performance || {};
-var performanceNow =
-  performance.now        ||
-  performance.mozNow     ||
-  performance.msNow      ||
-  performance.oNow       ||
-  performance.webkitNow  ||
-  function(){ return (new Date()).getTime() };
-
-// generate timestamp or delta
-// see http://nodejs.org/api/process.html#process_process_hrtime
-function hrtime(previousTimestamp){
-  var clocktime = performanceNow.call(performance)*1e-3;
-  var seconds = Math.floor(clocktime);
-  var nanoseconds = Math.floor((clocktime%1)*1e9);
-  if (previousTimestamp) {
-    seconds = seconds - previousTimestamp[0];
-    nanoseconds = nanoseconds - previousTimestamp[1];
-    if (nanoseconds<0) {
-      seconds--;
-      nanoseconds += 1e9;
-    }
-  }
-  return [seconds,nanoseconds]
-}
-
-var startTime = new Date();
-function uptime() {
-  var currentTime = new Date();
-  var dif = currentTime - startTime;
-  return dif / 1000;
-}
-
-var browser$1$1 = {
-  nextTick: nextTick,
-  title: title,
-  browser: browser$4,
-  env: env,
-  argv: argv,
-  version: version,
-  versions: versions$1,
-  on: on,
-  addListener: addListener,
-  once: once$1,
-  off: off,
-  removeListener: removeListener,
-  removeAllListeners: removeAllListeners,
-  emit: emit,
-  binding: binding$1,
-  cwd: cwd,
-  chdir: chdir,
-  umask: umask,
-  hrtime: hrtime,
-  platform: platform,
-  release: release,
-  config: config$1,
-  uptime: uptime
-};var core = {};var is = {};var isType = {};var hasRequiredIsType;
+}var core = {};var is = {};var isType = {};var hasRequiredIsType;
 
 function requireIsType () {
 	if (hasRequiredIsType) return isType;
@@ -3252,12 +3252,12 @@ function requireIsType () {
 	  value: true
 	});
 	isType.default = isType$1;
-	var _definitions = requireDefinitions();
+	var _index = requireDefinitions();
 	function isType$1(nodeType, targetType) {
 	  if (nodeType === targetType) return true;
 	  if (nodeType == null) return false;
-	  if (_definitions.ALIAS_KEYS[targetType]) return false;
-	  const aliases = _definitions.FLIPPED_ALIAS_KEYS[targetType];
+	  if (_index.ALIAS_KEYS[targetType]) return false;
+	  const aliases = _index.FLIPPED_ALIAS_KEYS[targetType];
 	  if (aliases) {
 	    if (aliases[0] === nodeType) return true;
 	    for (const alias of aliases) {
@@ -3279,10 +3279,10 @@ function requireIsPlaceholderType () {
 	  value: true
 	});
 	isPlaceholderType.default = isPlaceholderType$1;
-	var _definitions = requireDefinitions();
+	var _index = requireDefinitions();
 	function isPlaceholderType$1(placeholderType, targetType) {
 	  if (placeholderType === targetType) return true;
-	  const aliases = _definitions.PLACEHOLDERS_ALIAS[placeholderType];
+	  const aliases = _index.PLACEHOLDERS_ALIAS[placeholderType];
 	  if (aliases) {
 	    for (const alias of aliases) {
 	      if (targetType === alias) return true;
@@ -3306,12 +3306,12 @@ function requireIs () {
 	var _shallowEqual = requireShallowEqual();
 	var _isType = requireIsType();
 	var _isPlaceholderType = requireIsPlaceholderType();
-	var _definitions = requireDefinitions();
+	var _index = requireDefinitions();
 	function is$1(type, node, opts) {
 	  if (!node) return false;
 	  const matches = (0, _isType.default)(node.type, type);
 	  if (!matches) {
-	    if (!opts && node.type === "Placeholder" && type in _definitions.FLIPPED_ALIAS_KEYS) {
+	    if (!opts && node.type === "Placeholder" && type in _index.FLIPPED_ALIAS_KEYS) {
 	      return (0, _isPlaceholderType.default)(node.expectedNode, type);
 	    }
 	    return false;
@@ -3325,18 +3325,18 @@ function requireIs () {
 
 	
 	return is;
-}var isValidIdentifier = {};var lib$n = {};var identifier$1 = {};var hasRequiredIdentifier;
+}var isValidIdentifier = {};var lib$w = {};var identifier$7 = {};var hasRequiredIdentifier;
 
 function requireIdentifier () {
-	if (hasRequiredIdentifier) return identifier$1;
+	if (hasRequiredIdentifier) return identifier$7;
 	hasRequiredIdentifier = 1;
 
-	Object.defineProperty(identifier$1, "__esModule", {
+	Object.defineProperty(identifier$7, "__esModule", {
 	  value: true
 	});
-	identifier$1.isIdentifierChar = isIdentifierChar;
-	identifier$1.isIdentifierName = isIdentifierName;
-	identifier$1.isIdentifierStart = isIdentifierStart;
+	identifier$7.isIdentifierChar = isIdentifierChar;
+	identifier$7.isIdentifierName = isIdentifierName;
+	identifier$7.isIdentifierStart = isIdentifierStart;
 	let nonASCIIidentifierStartChars = "\xaa\xb5\xba\xc0-\xd6\xd8-\xf6\xf8-\u02c1\u02c6-\u02d1\u02e0-\u02e4\u02ec\u02ee\u0370-\u0374\u0376\u0377\u037a-\u037d\u037f\u0386\u0388-\u038a\u038c\u038e-\u03a1\u03a3-\u03f5\u03f7-\u0481\u048a-\u052f\u0531-\u0556\u0559\u0560-\u0588\u05d0-\u05ea\u05ef-\u05f2\u0620-\u064a\u066e\u066f\u0671-\u06d3\u06d5\u06e5\u06e6\u06ee\u06ef\u06fa-\u06fc\u06ff\u0710\u0712-\u072f\u074d-\u07a5\u07b1\u07ca-\u07ea\u07f4\u07f5\u07fa\u0800-\u0815\u081a\u0824\u0828\u0840-\u0858\u0860-\u086a\u0870-\u0887\u0889-\u088e\u08a0-\u08c9\u0904-\u0939\u093d\u0950\u0958-\u0961\u0971-\u0980\u0985-\u098c\u098f\u0990\u0993-\u09a8\u09aa-\u09b0\u09b2\u09b6-\u09b9\u09bd\u09ce\u09dc\u09dd\u09df-\u09e1\u09f0\u09f1\u09fc\u0a05-\u0a0a\u0a0f\u0a10\u0a13-\u0a28\u0a2a-\u0a30\u0a32\u0a33\u0a35\u0a36\u0a38\u0a39\u0a59-\u0a5c\u0a5e\u0a72-\u0a74\u0a85-\u0a8d\u0a8f-\u0a91\u0a93-\u0aa8\u0aaa-\u0ab0\u0ab2\u0ab3\u0ab5-\u0ab9\u0abd\u0ad0\u0ae0\u0ae1\u0af9\u0b05-\u0b0c\u0b0f\u0b10\u0b13-\u0b28\u0b2a-\u0b30\u0b32\u0b33\u0b35-\u0b39\u0b3d\u0b5c\u0b5d\u0b5f-\u0b61\u0b71\u0b83\u0b85-\u0b8a\u0b8e-\u0b90\u0b92-\u0b95\u0b99\u0b9a\u0b9c\u0b9e\u0b9f\u0ba3\u0ba4\u0ba8-\u0baa\u0bae-\u0bb9\u0bd0\u0c05-\u0c0c\u0c0e-\u0c10\u0c12-\u0c28\u0c2a-\u0c39\u0c3d\u0c58-\u0c5a\u0c5d\u0c60\u0c61\u0c80\u0c85-\u0c8c\u0c8e-\u0c90\u0c92-\u0ca8\u0caa-\u0cb3\u0cb5-\u0cb9\u0cbd\u0cdd\u0cde\u0ce0\u0ce1\u0cf1\u0cf2\u0d04-\u0d0c\u0d0e-\u0d10\u0d12-\u0d3a\u0d3d\u0d4e\u0d54-\u0d56\u0d5f-\u0d61\u0d7a-\u0d7f\u0d85-\u0d96\u0d9a-\u0db1\u0db3-\u0dbb\u0dbd\u0dc0-\u0dc6\u0e01-\u0e30\u0e32\u0e33\u0e40-\u0e46\u0e81\u0e82\u0e84\u0e86-\u0e8a\u0e8c-\u0ea3\u0ea5\u0ea7-\u0eb0\u0eb2\u0eb3\u0ebd\u0ec0-\u0ec4\u0ec6\u0edc-\u0edf\u0f00\u0f40-\u0f47\u0f49-\u0f6c\u0f88-\u0f8c\u1000-\u102a\u103f\u1050-\u1055\u105a-\u105d\u1061\u1065\u1066\u106e-\u1070\u1075-\u1081\u108e\u10a0-\u10c5\u10c7\u10cd\u10d0-\u10fa\u10fc-\u1248\u124a-\u124d\u1250-\u1256\u1258\u125a-\u125d\u1260-\u1288\u128a-\u128d\u1290-\u12b0\u12b2-\u12b5\u12b8-\u12be\u12c0\u12c2-\u12c5\u12c8-\u12d6\u12d8-\u1310\u1312-\u1315\u1318-\u135a\u1380-\u138f\u13a0-\u13f5\u13f8-\u13fd\u1401-\u166c\u166f-\u167f\u1681-\u169a\u16a0-\u16ea\u16ee-\u16f8\u1700-\u1711\u171f-\u1731\u1740-\u1751\u1760-\u176c\u176e-\u1770\u1780-\u17b3\u17d7\u17dc\u1820-\u1878\u1880-\u18a8\u18aa\u18b0-\u18f5\u1900-\u191e\u1950-\u196d\u1970-\u1974\u1980-\u19ab\u19b0-\u19c9\u1a00-\u1a16\u1a20-\u1a54\u1aa7\u1b05-\u1b33\u1b45-\u1b4c\u1b83-\u1ba0\u1bae\u1baf\u1bba-\u1be5\u1c00-\u1c23\u1c4d-\u1c4f\u1c5a-\u1c7d\u1c80-\u1c88\u1c90-\u1cba\u1cbd-\u1cbf\u1ce9-\u1cec\u1cee-\u1cf3\u1cf5\u1cf6\u1cfa\u1d00-\u1dbf\u1e00-\u1f15\u1f18-\u1f1d\u1f20-\u1f45\u1f48-\u1f4d\u1f50-\u1f57\u1f59\u1f5b\u1f5d\u1f5f-\u1f7d\u1f80-\u1fb4\u1fb6-\u1fbc\u1fbe\u1fc2-\u1fc4\u1fc6-\u1fcc\u1fd0-\u1fd3\u1fd6-\u1fdb\u1fe0-\u1fec\u1ff2-\u1ff4\u1ff6-\u1ffc\u2071\u207f\u2090-\u209c\u2102\u2107\u210a-\u2113\u2115\u2118-\u211d\u2124\u2126\u2128\u212a-\u2139\u213c-\u213f\u2145-\u2149\u214e\u2160-\u2188\u2c00-\u2ce4\u2ceb-\u2cee\u2cf2\u2cf3\u2d00-\u2d25\u2d27\u2d2d\u2d30-\u2d67\u2d6f\u2d80-\u2d96\u2da0-\u2da6\u2da8-\u2dae\u2db0-\u2db6\u2db8-\u2dbe\u2dc0-\u2dc6\u2dc8-\u2dce\u2dd0-\u2dd6\u2dd8-\u2dde\u3005-\u3007\u3021-\u3029\u3031-\u3035\u3038-\u303c\u3041-\u3096\u309b-\u309f\u30a1-\u30fa\u30fc-\u30ff\u3105-\u312f\u3131-\u318e\u31a0-\u31bf\u31f0-\u31ff\u3400-\u4dbf\u4e00-\ua48c\ua4d0-\ua4fd\ua500-\ua60c\ua610-\ua61f\ua62a\ua62b\ua640-\ua66e\ua67f-\ua69d\ua6a0-\ua6ef\ua717-\ua71f\ua722-\ua788\ua78b-\ua7ca\ua7d0\ua7d1\ua7d3\ua7d5-\ua7d9\ua7f2-\ua801\ua803-\ua805\ua807-\ua80a\ua80c-\ua822\ua840-\ua873\ua882-\ua8b3\ua8f2-\ua8f7\ua8fb\ua8fd\ua8fe\ua90a-\ua925\ua930-\ua946\ua960-\ua97c\ua984-\ua9b2\ua9cf\ua9e0-\ua9e4\ua9e6-\ua9ef\ua9fa-\ua9fe\uaa00-\uaa28\uaa40-\uaa42\uaa44-\uaa4b\uaa60-\uaa76\uaa7a\uaa7e-\uaaaf\uaab1\uaab5\uaab6\uaab9-\uaabd\uaac0\uaac2\uaadb-\uaadd\uaae0-\uaaea\uaaf2-\uaaf4\uab01-\uab06\uab09-\uab0e\uab11-\uab16\uab20-\uab26\uab28-\uab2e\uab30-\uab5a\uab5c-\uab69\uab70-\uabe2\uac00-\ud7a3\ud7b0-\ud7c6\ud7cb-\ud7fb\uf900-\ufa6d\ufa70-\ufad9\ufb00-\ufb06\ufb13-\ufb17\ufb1d\ufb1f-\ufb28\ufb2a-\ufb36\ufb38-\ufb3c\ufb3e\ufb40\ufb41\ufb43\ufb44\ufb46-\ufbb1\ufbd3-\ufd3d\ufd50-\ufd8f\ufd92-\ufdc7\ufdf0-\ufdfb\ufe70-\ufe74\ufe76-\ufefc\uff21-\uff3a\uff41-\uff5a\uff66-\uffbe\uffc2-\uffc7\uffca-\uffcf\uffd2-\uffd7\uffda-\uffdc";
 	let nonASCIIidentifierChars = "\u200c\u200d\xb7\u0300-\u036f\u0387\u0483-\u0487\u0591-\u05bd\u05bf\u05c1\u05c2\u05c4\u05c5\u05c7\u0610-\u061a\u064b-\u0669\u0670\u06d6-\u06dc\u06df-\u06e4\u06e7\u06e8\u06ea-\u06ed\u06f0-\u06f9\u0711\u0730-\u074a\u07a6-\u07b0\u07c0-\u07c9\u07eb-\u07f3\u07fd\u0816-\u0819\u081b-\u0823\u0825-\u0827\u0829-\u082d\u0859-\u085b\u0898-\u089f\u08ca-\u08e1\u08e3-\u0903\u093a-\u093c\u093e-\u094f\u0951-\u0957\u0962\u0963\u0966-\u096f\u0981-\u0983\u09bc\u09be-\u09c4\u09c7\u09c8\u09cb-\u09cd\u09d7\u09e2\u09e3\u09e6-\u09ef\u09fe\u0a01-\u0a03\u0a3c\u0a3e-\u0a42\u0a47\u0a48\u0a4b-\u0a4d\u0a51\u0a66-\u0a71\u0a75\u0a81-\u0a83\u0abc\u0abe-\u0ac5\u0ac7-\u0ac9\u0acb-\u0acd\u0ae2\u0ae3\u0ae6-\u0aef\u0afa-\u0aff\u0b01-\u0b03\u0b3c\u0b3e-\u0b44\u0b47\u0b48\u0b4b-\u0b4d\u0b55-\u0b57\u0b62\u0b63\u0b66-\u0b6f\u0b82\u0bbe-\u0bc2\u0bc6-\u0bc8\u0bca-\u0bcd\u0bd7\u0be6-\u0bef\u0c00-\u0c04\u0c3c\u0c3e-\u0c44\u0c46-\u0c48\u0c4a-\u0c4d\u0c55\u0c56\u0c62\u0c63\u0c66-\u0c6f\u0c81-\u0c83\u0cbc\u0cbe-\u0cc4\u0cc6-\u0cc8\u0cca-\u0ccd\u0cd5\u0cd6\u0ce2\u0ce3\u0ce6-\u0cef\u0cf3\u0d00-\u0d03\u0d3b\u0d3c\u0d3e-\u0d44\u0d46-\u0d48\u0d4a-\u0d4d\u0d57\u0d62\u0d63\u0d66-\u0d6f\u0d81-\u0d83\u0dca\u0dcf-\u0dd4\u0dd6\u0dd8-\u0ddf\u0de6-\u0def\u0df2\u0df3\u0e31\u0e34-\u0e3a\u0e47-\u0e4e\u0e50-\u0e59\u0eb1\u0eb4-\u0ebc\u0ec8-\u0ece\u0ed0-\u0ed9\u0f18\u0f19\u0f20-\u0f29\u0f35\u0f37\u0f39\u0f3e\u0f3f\u0f71-\u0f84\u0f86\u0f87\u0f8d-\u0f97\u0f99-\u0fbc\u0fc6\u102b-\u103e\u1040-\u1049\u1056-\u1059\u105e-\u1060\u1062-\u1064\u1067-\u106d\u1071-\u1074\u1082-\u108d\u108f-\u109d\u135d-\u135f\u1369-\u1371\u1712-\u1715\u1732-\u1734\u1752\u1753\u1772\u1773\u17b4-\u17d3\u17dd\u17e0-\u17e9\u180b-\u180d\u180f-\u1819\u18a9\u1920-\u192b\u1930-\u193b\u1946-\u194f\u19d0-\u19da\u1a17-\u1a1b\u1a55-\u1a5e\u1a60-\u1a7c\u1a7f-\u1a89\u1a90-\u1a99\u1ab0-\u1abd\u1abf-\u1ace\u1b00-\u1b04\u1b34-\u1b44\u1b50-\u1b59\u1b6b-\u1b73\u1b80-\u1b82\u1ba1-\u1bad\u1bb0-\u1bb9\u1be6-\u1bf3\u1c24-\u1c37\u1c40-\u1c49\u1c50-\u1c59\u1cd0-\u1cd2\u1cd4-\u1ce8\u1ced\u1cf4\u1cf7-\u1cf9\u1dc0-\u1dff\u203f\u2040\u2054\u20d0-\u20dc\u20e1\u20e5-\u20f0\u2cef-\u2cf1\u2d7f\u2de0-\u2dff\u302a-\u302f\u3099\u309a\ua620-\ua629\ua66f\ua674-\ua67d\ua69e\ua69f\ua6f0\ua6f1\ua802\ua806\ua80b\ua823-\ua827\ua82c\ua880\ua881\ua8b4-\ua8c5\ua8d0-\ua8d9\ua8e0-\ua8f1\ua8ff-\ua909\ua926-\ua92d\ua947-\ua953\ua980-\ua983\ua9b3-\ua9c0\ua9d0-\ua9d9\ua9e5\ua9f0-\ua9f9\uaa29-\uaa36\uaa43\uaa4c\uaa4d\uaa50-\uaa59\uaa7b-\uaa7d\uaab0\uaab2-\uaab4\uaab7\uaab8\uaabe\uaabf\uaac1\uaaeb-\uaaef\uaaf5\uaaf6\uabe3-\uabea\uabec\uabed\uabf0-\uabf9\ufb1e\ufe00-\ufe0f\ufe20-\ufe2f\ufe33\ufe34\ufe4d-\ufe4f\uff10-\uff19\uff3f";
 	const nonASCIIidentifierStart = new RegExp("[" + nonASCIIidentifierStartChars + "]");
@@ -3399,7 +3399,7 @@ function requireIdentifier () {
 	}
 
 	
-	return identifier$1;
+	return identifier$7;
 }var keyword = {};var hasRequiredKeyword;
 
 function requireKeyword () {
@@ -3440,11 +3440,11 @@ function requireKeyword () {
 
 	
 	return keyword;
-}var hasRequiredLib$h;
+}var hasRequiredLib$d;
 
-function requireLib$h () {
-	if (hasRequiredLib$h) return lib$n;
-	hasRequiredLib$h = 1;
+function requireLib$d () {
+	if (hasRequiredLib$d) return lib$w;
+	hasRequiredLib$d = 1;
 	(function (exports) {
 
 		Object.defineProperty(exports, "__esModule", {
@@ -3502,8 +3502,8 @@ function requireLib$h () {
 		var _keyword = requireKeyword();
 
 		
-	} (lib$n));
-	return lib$n;
+	} (lib$w));
+	return lib$w;
 }var hasRequiredIsValidIdentifier;
 
 function requireIsValidIdentifier () {
@@ -3514,7 +3514,7 @@ function requireIsValidIdentifier () {
 	  value: true
 	});
 	isValidIdentifier.default = isValidIdentifier$1;
-	var _helperValidatorIdentifier = requireLib$h();
+	var _helperValidatorIdentifier = requireLib$d();
 	function isValidIdentifier$1(name, reserved = true) {
 	  if (typeof name !== "string") return false;
 	  if (reserved) {
@@ -3527,18 +3527,18 @@ function requireIsValidIdentifier () {
 
 	
 	return isValidIdentifier;
-}var lib$m = {};var hasRequiredLib$g;
+}var lib$v = {};var hasRequiredLib$c;
 
-function requireLib$g () {
-	if (hasRequiredLib$g) return lib$m;
-	hasRequiredLib$g = 1;
+function requireLib$c () {
+	if (hasRequiredLib$c) return lib$v;
+	hasRequiredLib$c = 1;
 
-	Object.defineProperty(lib$m, "__esModule", {
+	Object.defineProperty(lib$v, "__esModule", {
 	  value: true
 	});
-	lib$m.readCodePoint = readCodePoint;
-	lib$m.readInt = readInt;
-	lib$m.readStringContents = readStringContents;
+	lib$v.readCodePoint = readCodePoint;
+	lib$v.readInt = readInt;
+	lib$v.readStringContents = readStringContents;
 	var _isDigit = function isDigit(code) {
 	  return code >= 48 && code <= 57;
 	};
@@ -3826,7 +3826,7 @@ function requireLib$g () {
 	}
 
 	
-	return lib$m;
+	return lib$v;
 }var constants = {};var hasRequiredConstants;
 
 function requireConstants () {
@@ -4180,9 +4180,9 @@ function requireCore () {
 	core.patternLikeCommon = core.functionTypeAnnotationCommon = core.functionDeclarationCommon = core.functionCommon = core.classMethodOrPropertyCommon = core.classMethodOrDeclareMethodCommon = void 0;
 	var _is = requireIs();
 	var _isValidIdentifier = requireIsValidIdentifier();
-	var _helperValidatorIdentifier = requireLib$h();
-	var _helperStringParser = requireLib$g();
-	var _constants = requireConstants();
+	var _helperValidatorIdentifier = requireLib$d();
+	var _helperStringParser = requireLib$c();
+	var _index = requireConstants();
 	var _utils = requireUtils$1();
 	const defineType = (0, _utils.defineAliasedType)("Standardized");
 	defineType("ArrayExpression", {
@@ -4202,7 +4202,7 @@ function requireCore () {
 	        if (!browser$1$1.env.BABEL_TYPES_8_BREAKING) {
 	          return (0, _utils.assertValueType)("string");
 	        }
-	        const identifier = (0, _utils.assertOneOf)(..._constants.ASSIGNMENT_OPERATORS);
+	        const identifier = (0, _utils.assertOneOf)(..._index.ASSIGNMENT_OPERATORS);
 	        const pattern = (0, _utils.assertOneOf)("=");
 	        return function (node, key, val) {
 	          const validator = (0, _is.default)("Pattern", node.left) ? pattern : identifier;
@@ -4225,7 +4225,7 @@ function requireCore () {
 	  builder: ["operator", "left", "right"],
 	  fields: {
 	    operator: {
-	      validate: (0, _utils.assertOneOf)(..._constants.BINARY_OPERATORS)
+	      validate: (0, _utils.assertOneOf)(..._index.BINARY_OPERATORS)
 	    },
 	    left: {
 	      validate: function () {
@@ -4671,7 +4671,7 @@ function requireCore () {
 	  aliases: ["Binary", "Expression"],
 	  fields: {
 	    operator: {
-	      validate: (0, _utils.assertOneOf)(..._constants.LOGICAL_OPERATORS)
+	      validate: (0, _utils.assertOneOf)(..._index.LOGICAL_OPERATORS)
 	    },
 	    left: {
 	      validate: (0, _utils.assertNodeType)("Expression")
@@ -4956,7 +4956,7 @@ function requireCore () {
 	      validate: (0, _utils.assertNodeType)("Expression")
 	    },
 	    operator: {
-	      validate: (0, _utils.assertOneOf)(..._constants.UNARY_OPERATORS)
+	      validate: (0, _utils.assertOneOf)(..._index.UNARY_OPERATORS)
 	    }
 	  },
 	  visitor: ["argument"],
@@ -4972,7 +4972,7 @@ function requireCore () {
 	      validate: !browser$1$1.env.BABEL_TYPES_8_BREAKING ? (0, _utils.assertNodeType)("Expression") : (0, _utils.assertNodeType)("Identifier", "MemberExpression")
 	    },
 	    operator: {
-	      validate: (0, _utils.assertOneOf)(..._constants.UPDATE_OPERATORS)
+	      validate: (0, _utils.assertOneOf)(..._index.UPDATE_OPERATORS)
 	    }
 	  },
 	  visitor: ["argument"],
@@ -5149,7 +5149,8 @@ function requireCore () {
 	  aliases: ["Scopable", "Class", "Statement", "Declaration"],
 	  fields: {
 	    id: {
-	      validate: (0, _utils.assertNodeType)("Identifier")
+	      validate: (0, _utils.assertNodeType)("Identifier"),
+	      optional: true
 	    },
 	    typeParameters: {
 	      validate: (0, _utils.assertNodeType)("TypeParameterDeclaration", "TSTypeParameterDeclaration", "Noop"),
@@ -6495,7 +6496,7 @@ function requireJsx$1 () {
 
 	
 	return jsx$1;
-}var misc = {};var placeholders = {};var hasRequiredPlaceholders;
+}var misc$1 = {};var placeholders = {};var hasRequiredPlaceholders;
 
 function requirePlaceholders () {
 	if (hasRequiredPlaceholders) return placeholders;
@@ -6533,7 +6534,7 @@ function requirePlaceholders () {
 }var hasRequiredMisc;
 
 function requireMisc () {
-	if (hasRequiredMisc) return misc;
+	if (hasRequiredMisc) return misc$1;
 	hasRequiredMisc = 1;
 
 	var _utils = requireUtils$1();
@@ -6566,7 +6567,7 @@ function requireMisc () {
 	});
 
 	
-	return misc;
+	return misc$1;
 }var experimental = {};var hasRequiredExperimental;
 
 function requireExperimental () {
@@ -6706,10 +6707,10 @@ function requireExperimental () {
 
 	
 	return experimental;
-}var typescript$1 = {};var hasRequiredTypescript$1;
+}var typescript$2 = {};var hasRequiredTypescript$1;
 
 function requireTypescript$1 () {
-	if (hasRequiredTypescript$1) return typescript$1;
+	if (hasRequiredTypescript$1) return typescript$2;
 	hasRequiredTypescript$1 = 1;
 
 	var _utils = requireUtils$1();
@@ -7200,7 +7201,7 @@ function requireTypescript$1 () {
 	});
 
 	
-	return typescript$1;
+	return typescript$2;
 }var deprecatedAliases = {};var hasRequiredDeprecatedAliases;
 
 function requireDeprecatedAliases () {
@@ -7334,10 +7335,10 @@ function requireValidate () {
 	validate.default = validate$1;
 	validate.validateChild = validateChild;
 	validate.validateField = validateField;
-	var _definitions = requireDefinitions();
+	var _index = requireDefinitions();
 	function validate$1(node, key, val) {
 	  if (!node) return;
-	  const fields = _definitions.NODE_FIELDS[node.type];
+	  const fields = _index.NODE_FIELDS[node.type];
 	  if (!fields) return;
 	  const field = fields[key];
 	  validateField(node, key, val, field);
@@ -7350,7 +7351,7 @@ function requireValidate () {
 	}
 	function validateChild(node, key, val) {
 	  if (val == null) return;
-	  const validate = _definitions.NODE_PARENT_VALIDATIONS[val.type];
+	  const validate = _index.NODE_PARENT_VALIDATIONS[val.type];
 	  if (!validate) return;
 	  validate(node, key, val);
 	}
@@ -7368,9 +7369,9 @@ function requireValidateNode () {
 	});
 	validateNode.default = validateNode$1;
 	var _validate = requireValidate();
-	var _ = requireLib$f();
+	var _index = requireLib$b();
 	function validateNode$1(node) {
-	  const keys = _.BUILDER_KEYS[node.type];
+	  const keys = _index.BUILDER_KEYS[node.type];
 	  for (const key of keys) {
 	    (0, _validate.default)(node, key, node[key]);
 	  }
@@ -8043,7 +8044,7 @@ function requireGenerated$2 () {
 	    decorators
 	  });
 	}
-	function classDeclaration(id, superClass = null, body, decorators = null) {
+	function classDeclaration(id = null, superClass = null, body, decorators = null) {
 	  return (0, _validateNode.default)({
 	    type: "ClassDeclaration",
 	    id,
@@ -9379,8 +9380,8 @@ function requireCleanJSXElementLiteralChild () {
 	  value: true
 	});
 	cleanJSXElementLiteralChild.default = cleanJSXElementLiteralChild$1;
-	var _generated = requireGenerated$2();
-	var _ = requireLib$f();
+	var _index = requireGenerated$2();
+	var _index2 = requireLib$b();
 	function cleanJSXElementLiteralChild$1(child, args) {
 	  const lines = child.value.split(/\r\n|\n|\r/);
 	  let lastNonEmptyLine = 0;
@@ -9409,7 +9410,7 @@ function requireCleanJSXElementLiteralChild () {
 	      str += trimmedLine;
 	    }
 	  }
-	  if (str) args.push((0, _.inherits)((0, _generated.stringLiteral)(str), child));
+	  if (str) args.push((0, _index2.inherits)((0, _index.stringLiteral)(str), child));
 	}
 
 	
@@ -9424,18 +9425,18 @@ function requireBuildChildren () {
 	  value: true
 	});
 	buildChildren.default = buildChildren$1;
-	var _generated = requireGenerated$3();
+	var _index = requireGenerated$3();
 	var _cleanJSXElementLiteralChild = requireCleanJSXElementLiteralChild();
 	function buildChildren$1(node) {
 	  const elements = [];
 	  for (let i = 0; i < node.children.length; i++) {
 	    let child = node.children[i];
-	    if ((0, _generated.isJSXText)(child)) {
+	    if ((0, _index.isJSXText)(child)) {
 	      (0, _cleanJSXElementLiteralChild.default)(child, elements);
 	      continue;
 	    }
-	    if ((0, _generated.isJSXExpressionContainer)(child)) child = child.expression;
-	    if ((0, _generated.isJSXEmptyExpression)(child)) continue;
+	    if ((0, _index.isJSXExpressionContainer)(child)) child = child.expression;
+	    if ((0, _index.isJSXEmptyExpression)(child)) continue;
 	    elements.push(child);
 	  }
 	  return elements;
@@ -9453,9 +9454,9 @@ function requireIsNode () {
 	  value: true
 	});
 	isNode.default = isNode$1;
-	var _definitions = requireDefinitions();
+	var _index = requireDefinitions();
 	function isNode$1(node) {
-	  return !!(node && _definitions.VISITOR_KEYS[node.type]);
+	  return !!(node && _index.VISITOR_KEYS[node.type]);
 	}
 
 	
@@ -10727,27 +10728,27 @@ function requireCreateTypeAnnotationBasedOnTypeof () {
 	  value: true
 	});
 	createTypeAnnotationBasedOnTypeof.default = void 0;
-	var _generated = requireGenerated$2();
+	var _index = requireGenerated$2();
 	var _default = createTypeAnnotationBasedOnTypeof$1;
 	createTypeAnnotationBasedOnTypeof.default = _default;
 	function createTypeAnnotationBasedOnTypeof$1(type) {
 	  switch (type) {
 	    case "string":
-	      return (0, _generated.stringTypeAnnotation)();
+	      return (0, _index.stringTypeAnnotation)();
 	    case "number":
-	      return (0, _generated.numberTypeAnnotation)();
+	      return (0, _index.numberTypeAnnotation)();
 	    case "undefined":
-	      return (0, _generated.voidTypeAnnotation)();
+	      return (0, _index.voidTypeAnnotation)();
 	    case "boolean":
-	      return (0, _generated.booleanTypeAnnotation)();
+	      return (0, _index.booleanTypeAnnotation)();
 	    case "function":
-	      return (0, _generated.genericTypeAnnotation)((0, _generated.identifier)("Function"));
+	      return (0, _index.genericTypeAnnotation)((0, _index.identifier)("Function"));
 	    case "object":
-	      return (0, _generated.genericTypeAnnotation)((0, _generated.identifier)("Object"));
+	      return (0, _index.genericTypeAnnotation)((0, _index.identifier)("Object"));
 	    case "symbol":
-	      return (0, _generated.genericTypeAnnotation)((0, _generated.identifier)("Symbol"));
+	      return (0, _index.genericTypeAnnotation)((0, _index.identifier)("Symbol"));
 	    case "bigint":
-	      return (0, _generated.anyTypeAnnotation)();
+	      return (0, _index.anyTypeAnnotation)();
 	  }
 	  throw new Error("Invalid typeof value: " + type);
 	}
@@ -10764,9 +10765,9 @@ function requireRemoveTypeDuplicates$1 () {
 	  value: true
 	});
 	removeTypeDuplicates$1.default = removeTypeDuplicates;
-	var _generated = requireGenerated$3();
+	var _index = requireGenerated$3();
 	function getQualifiedName(node) {
-	  return (0, _generated.isIdentifier)(node) ? node.name : `${node.id.name}.${getQualifiedName(node.qualification)}`;
+	  return (0, _index.isIdentifier)(node) ? node.name : `${node.id.name}.${getQualifiedName(node.qualification)}`;
 	}
 	function removeTypeDuplicates(nodesIn) {
 	  const nodes = Array.from(nodesIn);
@@ -10780,21 +10781,21 @@ function requireRemoveTypeDuplicates$1 () {
 	    if (types.indexOf(node) >= 0) {
 	      continue;
 	    }
-	    if ((0, _generated.isAnyTypeAnnotation)(node)) {
+	    if ((0, _index.isAnyTypeAnnotation)(node)) {
 	      return [node];
 	    }
-	    if ((0, _generated.isFlowBaseAnnotation)(node)) {
+	    if ((0, _index.isFlowBaseAnnotation)(node)) {
 	      bases.set(node.type, node);
 	      continue;
 	    }
-	    if ((0, _generated.isUnionTypeAnnotation)(node)) {
+	    if ((0, _index.isUnionTypeAnnotation)(node)) {
 	      if (!typeGroups.has(node.types)) {
 	        nodes.push(...node.types);
 	        typeGroups.add(node.types);
 	      }
 	      continue;
 	    }
-	    if ((0, _generated.isGenericTypeAnnotation)(node)) {
+	    if ((0, _index.isGenericTypeAnnotation)(node)) {
 	      const name = getQualifiedName(node.id);
 	      if (generics.has(name)) {
 	        let existing = generics.get(name);
@@ -10834,14 +10835,14 @@ function requireCreateFlowUnionType () {
 	  value: true
 	});
 	createFlowUnionType.default = createFlowUnionType$1;
-	var _generated = requireGenerated$2();
+	var _index = requireGenerated$2();
 	var _removeTypeDuplicates = requireRemoveTypeDuplicates$1();
 	function createFlowUnionType$1(types) {
 	  const flattened = (0, _removeTypeDuplicates.default)(types);
 	  if (flattened.length === 1) {
 	    return flattened[0];
 	  } else {
-	    return (0, _generated.unionTypeAnnotation)(flattened);
+	    return (0, _index.unionTypeAnnotation)(flattened);
 	  }
 	}
 
@@ -10857,9 +10858,9 @@ function requireRemoveTypeDuplicates () {
 	  value: true
 	});
 	removeTypeDuplicates.default = removeTypeDuplicates$1;
-	var _generated = requireGenerated$3();
+	var _index = requireGenerated$3();
 	function getQualifiedName(node) {
-	  return (0, _generated.isIdentifier)(node) ? node.name : `${node.right.name}.${getQualifiedName(node.left)}`;
+	  return (0, _index.isIdentifier)(node) ? node.name : `${node.right.name}.${getQualifiedName(node.left)}`;
 	}
 	function removeTypeDuplicates$1(nodesIn) {
 	  const nodes = Array.from(nodesIn);
@@ -10873,21 +10874,21 @@ function requireRemoveTypeDuplicates () {
 	    if (types.indexOf(node) >= 0) {
 	      continue;
 	    }
-	    if ((0, _generated.isTSAnyKeyword)(node)) {
+	    if ((0, _index.isTSAnyKeyword)(node)) {
 	      return [node];
 	    }
-	    if ((0, _generated.isTSBaseType)(node)) {
+	    if ((0, _index.isTSBaseType)(node)) {
 	      bases.set(node.type, node);
 	      continue;
 	    }
-	    if ((0, _generated.isTSUnionType)(node)) {
+	    if ((0, _index.isTSUnionType)(node)) {
 	      if (!typeGroups.has(node.types)) {
 	        nodes.push(...node.types);
 	        typeGroups.add(node.types);
 	      }
 	      continue;
 	    }
-	    if ((0, _generated.isTSTypeReference)(node) && node.typeParameters) {
+	    if ((0, _index.isTSTypeReference)(node) && node.typeParameters) {
 	      const name = getQualifiedName(node.typeName);
 	      if (generics.has(name)) {
 	        let existing = generics.get(name);
@@ -10927,18 +10928,18 @@ function requireCreateTSUnionType () {
 	  value: true
 	});
 	createTSUnionType.default = createTSUnionType$1;
-	var _generated = requireGenerated$2();
+	var _index = requireGenerated$2();
 	var _removeTypeDuplicates = requireRemoveTypeDuplicates();
-	var _index = requireGenerated$3();
+	var _index2 = requireGenerated$3();
 	function createTSUnionType$1(typeAnnotations) {
 	  const types = typeAnnotations.map(type => {
-	    return (0, _index.isTSTypeAnnotation)(type) ? type.typeAnnotation : type;
+	    return (0, _index2.isTSTypeAnnotation)(type) ? type.typeAnnotation : type;
 	  });
 	  const flattened = (0, _removeTypeDuplicates.default)(types);
 	  if (flattened.length === 1) {
 	    return flattened[0];
 	  } else {
-	    return (0, _generated.tsUnionType)(flattened);
+	    return (0, _index.tsUnionType)(flattened);
 	  }
 	}
 
@@ -12477,18 +12478,18 @@ function requireUppercase () {
 		
 	} (uppercase));
 	return uppercase;
-}var cloneNode$1 = {};var hasRequiredCloneNode;
+}var cloneNode$6 = {};var hasRequiredCloneNode;
 
 function requireCloneNode () {
-	if (hasRequiredCloneNode) return cloneNode$1;
+	if (hasRequiredCloneNode) return cloneNode$6;
 	hasRequiredCloneNode = 1;
 
-	Object.defineProperty(cloneNode$1, "__esModule", {
+	Object.defineProperty(cloneNode$6, "__esModule", {
 	  value: true
 	});
-	cloneNode$1.default = cloneNode;
-	var _definitions = requireDefinitions();
-	var _generated = requireGenerated$3();
+	cloneNode$6.default = cloneNode;
+	var _index = requireDefinitions();
+	var _index2 = requireGenerated$3();
 	const has = Function.call.bind(Object.prototype.hasOwnProperty);
 	function cloneIfNode(obj, deep, withoutLoc, commentsCache) {
 	  if (obj && typeof obj.type === "string") {
@@ -12513,7 +12514,7 @@ function requireCloneNode () {
 	  const newNode = {
 	    type: node.type
 	  };
-	  if ((0, _generated.isIdentifier)(node)) {
+	  if ((0, _index2.isIdentifier)(node)) {
 	    newNode.name = node.name;
 	    if (has(node, "optional") && typeof node.optional === "boolean") {
 	      newNode.optional = node.optional;
@@ -12521,13 +12522,13 @@ function requireCloneNode () {
 	    if (has(node, "typeAnnotation")) {
 	      newNode.typeAnnotation = deep ? cloneIfNodeOrArray(node.typeAnnotation, true, withoutLoc, commentsCache) : node.typeAnnotation;
 	    }
-	  } else if (!has(_definitions.NODE_FIELDS, type)) {
+	  } else if (!has(_index.NODE_FIELDS, type)) {
 	    throw new Error(`Unknown node type: "${type}"`);
 	  } else {
-	    for (const field of Object.keys(_definitions.NODE_FIELDS[type])) {
+	    for (const field of Object.keys(_index.NODE_FIELDS[type])) {
 	      if (has(node, field)) {
 	        if (deep) {
-	          newNode[field] = (0, _generated.isFile)(node) && field === "comments" ? maybeCloneComments(node.comments, deep, withoutLoc, commentsCache) : cloneIfNodeOrArray(node[field], true, withoutLoc, commentsCache);
+	          newNode[field] = (0, _index2.isFile)(node) && field === "comments" ? maybeCloneComments(node.comments, deep, withoutLoc, commentsCache) : cloneIfNodeOrArray(node[field], true, withoutLoc, commentsCache);
 	        } else {
 	          newNode[field] = node[field];
 	        }
@@ -12581,7 +12582,7 @@ function requireCloneNode () {
 	}
 
 	
-	return cloneNode$1;
+	return cloneNode$6;
 }var clone = {};var hasRequiredClone;
 
 function requireClone () {
@@ -12798,9 +12799,9 @@ function requireRemoveComments () {
 	  value: true
 	});
 	removeComments.default = removeComments$1;
-	var _constants = requireConstants();
+	var _index = requireConstants();
 	function removeComments$1(node) {
-	  _constants.COMMENT_KEYS.forEach(key => {
+	  _index.COMMENT_KEYS.forEach(key => {
 	    node[key] = null;
 	  });
 	  return node;
@@ -12818,104 +12819,104 @@ function requireGenerated () {
 	  value: true
 	});
 	generated.WHILE_TYPES = generated.USERWHITESPACABLE_TYPES = generated.UNARYLIKE_TYPES = generated.TYPESCRIPT_TYPES = generated.TSTYPE_TYPES = generated.TSTYPEELEMENT_TYPES = generated.TSENTITYNAME_TYPES = generated.TSBASETYPE_TYPES = generated.TERMINATORLESS_TYPES = generated.STATEMENT_TYPES = generated.STANDARDIZED_TYPES = generated.SCOPABLE_TYPES = generated.PUREISH_TYPES = generated.PROPERTY_TYPES = generated.PRIVATE_TYPES = generated.PATTERN_TYPES = generated.PATTERNLIKE_TYPES = generated.OBJECTMEMBER_TYPES = generated.MODULESPECIFIER_TYPES = generated.MODULEDECLARATION_TYPES = generated.MISCELLANEOUS_TYPES = generated.METHOD_TYPES = generated.LVAL_TYPES = generated.LOOP_TYPES = generated.LITERAL_TYPES = generated.JSX_TYPES = generated.IMPORTOREXPORTDECLARATION_TYPES = generated.IMMUTABLE_TYPES = generated.FUNCTION_TYPES = generated.FUNCTIONPARENT_TYPES = generated.FOR_TYPES = generated.FORXSTATEMENT_TYPES = generated.FLOW_TYPES = generated.FLOWTYPE_TYPES = generated.FLOWPREDICATE_TYPES = generated.FLOWDECLARATION_TYPES = generated.FLOWBASEANNOTATION_TYPES = generated.EXPRESSION_TYPES = generated.EXPRESSIONWRAPPER_TYPES = generated.EXPORTDECLARATION_TYPES = generated.ENUMMEMBER_TYPES = generated.ENUMBODY_TYPES = generated.DECLARATION_TYPES = generated.CONDITIONAL_TYPES = generated.COMPLETIONSTATEMENT_TYPES = generated.CLASS_TYPES = generated.BLOCK_TYPES = generated.BLOCKPARENT_TYPES = generated.BINARY_TYPES = generated.ACCESSOR_TYPES = void 0;
-	var _definitions = requireDefinitions();
-	const STANDARDIZED_TYPES = _definitions.FLIPPED_ALIAS_KEYS["Standardized"];
+	var _index = requireDefinitions();
+	const STANDARDIZED_TYPES = _index.FLIPPED_ALIAS_KEYS["Standardized"];
 	generated.STANDARDIZED_TYPES = STANDARDIZED_TYPES;
-	const EXPRESSION_TYPES = _definitions.FLIPPED_ALIAS_KEYS["Expression"];
+	const EXPRESSION_TYPES = _index.FLIPPED_ALIAS_KEYS["Expression"];
 	generated.EXPRESSION_TYPES = EXPRESSION_TYPES;
-	const BINARY_TYPES = _definitions.FLIPPED_ALIAS_KEYS["Binary"];
+	const BINARY_TYPES = _index.FLIPPED_ALIAS_KEYS["Binary"];
 	generated.BINARY_TYPES = BINARY_TYPES;
-	const SCOPABLE_TYPES = _definitions.FLIPPED_ALIAS_KEYS["Scopable"];
+	const SCOPABLE_TYPES = _index.FLIPPED_ALIAS_KEYS["Scopable"];
 	generated.SCOPABLE_TYPES = SCOPABLE_TYPES;
-	const BLOCKPARENT_TYPES = _definitions.FLIPPED_ALIAS_KEYS["BlockParent"];
+	const BLOCKPARENT_TYPES = _index.FLIPPED_ALIAS_KEYS["BlockParent"];
 	generated.BLOCKPARENT_TYPES = BLOCKPARENT_TYPES;
-	const BLOCK_TYPES = _definitions.FLIPPED_ALIAS_KEYS["Block"];
+	const BLOCK_TYPES = _index.FLIPPED_ALIAS_KEYS["Block"];
 	generated.BLOCK_TYPES = BLOCK_TYPES;
-	const STATEMENT_TYPES = _definitions.FLIPPED_ALIAS_KEYS["Statement"];
+	const STATEMENT_TYPES = _index.FLIPPED_ALIAS_KEYS["Statement"];
 	generated.STATEMENT_TYPES = STATEMENT_TYPES;
-	const TERMINATORLESS_TYPES = _definitions.FLIPPED_ALIAS_KEYS["Terminatorless"];
+	const TERMINATORLESS_TYPES = _index.FLIPPED_ALIAS_KEYS["Terminatorless"];
 	generated.TERMINATORLESS_TYPES = TERMINATORLESS_TYPES;
-	const COMPLETIONSTATEMENT_TYPES = _definitions.FLIPPED_ALIAS_KEYS["CompletionStatement"];
+	const COMPLETIONSTATEMENT_TYPES = _index.FLIPPED_ALIAS_KEYS["CompletionStatement"];
 	generated.COMPLETIONSTATEMENT_TYPES = COMPLETIONSTATEMENT_TYPES;
-	const CONDITIONAL_TYPES = _definitions.FLIPPED_ALIAS_KEYS["Conditional"];
+	const CONDITIONAL_TYPES = _index.FLIPPED_ALIAS_KEYS["Conditional"];
 	generated.CONDITIONAL_TYPES = CONDITIONAL_TYPES;
-	const LOOP_TYPES = _definitions.FLIPPED_ALIAS_KEYS["Loop"];
+	const LOOP_TYPES = _index.FLIPPED_ALIAS_KEYS["Loop"];
 	generated.LOOP_TYPES = LOOP_TYPES;
-	const WHILE_TYPES = _definitions.FLIPPED_ALIAS_KEYS["While"];
+	const WHILE_TYPES = _index.FLIPPED_ALIAS_KEYS["While"];
 	generated.WHILE_TYPES = WHILE_TYPES;
-	const EXPRESSIONWRAPPER_TYPES = _definitions.FLIPPED_ALIAS_KEYS["ExpressionWrapper"];
+	const EXPRESSIONWRAPPER_TYPES = _index.FLIPPED_ALIAS_KEYS["ExpressionWrapper"];
 	generated.EXPRESSIONWRAPPER_TYPES = EXPRESSIONWRAPPER_TYPES;
-	const FOR_TYPES = _definitions.FLIPPED_ALIAS_KEYS["For"];
+	const FOR_TYPES = _index.FLIPPED_ALIAS_KEYS["For"];
 	generated.FOR_TYPES = FOR_TYPES;
-	const FORXSTATEMENT_TYPES = _definitions.FLIPPED_ALIAS_KEYS["ForXStatement"];
+	const FORXSTATEMENT_TYPES = _index.FLIPPED_ALIAS_KEYS["ForXStatement"];
 	generated.FORXSTATEMENT_TYPES = FORXSTATEMENT_TYPES;
-	const FUNCTION_TYPES = _definitions.FLIPPED_ALIAS_KEYS["Function"];
+	const FUNCTION_TYPES = _index.FLIPPED_ALIAS_KEYS["Function"];
 	generated.FUNCTION_TYPES = FUNCTION_TYPES;
-	const FUNCTIONPARENT_TYPES = _definitions.FLIPPED_ALIAS_KEYS["FunctionParent"];
+	const FUNCTIONPARENT_TYPES = _index.FLIPPED_ALIAS_KEYS["FunctionParent"];
 	generated.FUNCTIONPARENT_TYPES = FUNCTIONPARENT_TYPES;
-	const PUREISH_TYPES = _definitions.FLIPPED_ALIAS_KEYS["Pureish"];
+	const PUREISH_TYPES = _index.FLIPPED_ALIAS_KEYS["Pureish"];
 	generated.PUREISH_TYPES = PUREISH_TYPES;
-	const DECLARATION_TYPES = _definitions.FLIPPED_ALIAS_KEYS["Declaration"];
+	const DECLARATION_TYPES = _index.FLIPPED_ALIAS_KEYS["Declaration"];
 	generated.DECLARATION_TYPES = DECLARATION_TYPES;
-	const PATTERNLIKE_TYPES = _definitions.FLIPPED_ALIAS_KEYS["PatternLike"];
+	const PATTERNLIKE_TYPES = _index.FLIPPED_ALIAS_KEYS["PatternLike"];
 	generated.PATTERNLIKE_TYPES = PATTERNLIKE_TYPES;
-	const LVAL_TYPES = _definitions.FLIPPED_ALIAS_KEYS["LVal"];
+	const LVAL_TYPES = _index.FLIPPED_ALIAS_KEYS["LVal"];
 	generated.LVAL_TYPES = LVAL_TYPES;
-	const TSENTITYNAME_TYPES = _definitions.FLIPPED_ALIAS_KEYS["TSEntityName"];
+	const TSENTITYNAME_TYPES = _index.FLIPPED_ALIAS_KEYS["TSEntityName"];
 	generated.TSENTITYNAME_TYPES = TSENTITYNAME_TYPES;
-	const LITERAL_TYPES = _definitions.FLIPPED_ALIAS_KEYS["Literal"];
+	const LITERAL_TYPES = _index.FLIPPED_ALIAS_KEYS["Literal"];
 	generated.LITERAL_TYPES = LITERAL_TYPES;
-	const IMMUTABLE_TYPES = _definitions.FLIPPED_ALIAS_KEYS["Immutable"];
+	const IMMUTABLE_TYPES = _index.FLIPPED_ALIAS_KEYS["Immutable"];
 	generated.IMMUTABLE_TYPES = IMMUTABLE_TYPES;
-	const USERWHITESPACABLE_TYPES = _definitions.FLIPPED_ALIAS_KEYS["UserWhitespacable"];
+	const USERWHITESPACABLE_TYPES = _index.FLIPPED_ALIAS_KEYS["UserWhitespacable"];
 	generated.USERWHITESPACABLE_TYPES = USERWHITESPACABLE_TYPES;
-	const METHOD_TYPES = _definitions.FLIPPED_ALIAS_KEYS["Method"];
+	const METHOD_TYPES = _index.FLIPPED_ALIAS_KEYS["Method"];
 	generated.METHOD_TYPES = METHOD_TYPES;
-	const OBJECTMEMBER_TYPES = _definitions.FLIPPED_ALIAS_KEYS["ObjectMember"];
+	const OBJECTMEMBER_TYPES = _index.FLIPPED_ALIAS_KEYS["ObjectMember"];
 	generated.OBJECTMEMBER_TYPES = OBJECTMEMBER_TYPES;
-	const PROPERTY_TYPES = _definitions.FLIPPED_ALIAS_KEYS["Property"];
+	const PROPERTY_TYPES = _index.FLIPPED_ALIAS_KEYS["Property"];
 	generated.PROPERTY_TYPES = PROPERTY_TYPES;
-	const UNARYLIKE_TYPES = _definitions.FLIPPED_ALIAS_KEYS["UnaryLike"];
+	const UNARYLIKE_TYPES = _index.FLIPPED_ALIAS_KEYS["UnaryLike"];
 	generated.UNARYLIKE_TYPES = UNARYLIKE_TYPES;
-	const PATTERN_TYPES = _definitions.FLIPPED_ALIAS_KEYS["Pattern"];
+	const PATTERN_TYPES = _index.FLIPPED_ALIAS_KEYS["Pattern"];
 	generated.PATTERN_TYPES = PATTERN_TYPES;
-	const CLASS_TYPES = _definitions.FLIPPED_ALIAS_KEYS["Class"];
+	const CLASS_TYPES = _index.FLIPPED_ALIAS_KEYS["Class"];
 	generated.CLASS_TYPES = CLASS_TYPES;
-	const IMPORTOREXPORTDECLARATION_TYPES = _definitions.FLIPPED_ALIAS_KEYS["ImportOrExportDeclaration"];
+	const IMPORTOREXPORTDECLARATION_TYPES = _index.FLIPPED_ALIAS_KEYS["ImportOrExportDeclaration"];
 	generated.IMPORTOREXPORTDECLARATION_TYPES = IMPORTOREXPORTDECLARATION_TYPES;
-	const EXPORTDECLARATION_TYPES = _definitions.FLIPPED_ALIAS_KEYS["ExportDeclaration"];
+	const EXPORTDECLARATION_TYPES = _index.FLIPPED_ALIAS_KEYS["ExportDeclaration"];
 	generated.EXPORTDECLARATION_TYPES = EXPORTDECLARATION_TYPES;
-	const MODULESPECIFIER_TYPES = _definitions.FLIPPED_ALIAS_KEYS["ModuleSpecifier"];
+	const MODULESPECIFIER_TYPES = _index.FLIPPED_ALIAS_KEYS["ModuleSpecifier"];
 	generated.MODULESPECIFIER_TYPES = MODULESPECIFIER_TYPES;
-	const ACCESSOR_TYPES = _definitions.FLIPPED_ALIAS_KEYS["Accessor"];
+	const ACCESSOR_TYPES = _index.FLIPPED_ALIAS_KEYS["Accessor"];
 	generated.ACCESSOR_TYPES = ACCESSOR_TYPES;
-	const PRIVATE_TYPES = _definitions.FLIPPED_ALIAS_KEYS["Private"];
+	const PRIVATE_TYPES = _index.FLIPPED_ALIAS_KEYS["Private"];
 	generated.PRIVATE_TYPES = PRIVATE_TYPES;
-	const FLOW_TYPES = _definitions.FLIPPED_ALIAS_KEYS["Flow"];
+	const FLOW_TYPES = _index.FLIPPED_ALIAS_KEYS["Flow"];
 	generated.FLOW_TYPES = FLOW_TYPES;
-	const FLOWTYPE_TYPES = _definitions.FLIPPED_ALIAS_KEYS["FlowType"];
+	const FLOWTYPE_TYPES = _index.FLIPPED_ALIAS_KEYS["FlowType"];
 	generated.FLOWTYPE_TYPES = FLOWTYPE_TYPES;
-	const FLOWBASEANNOTATION_TYPES = _definitions.FLIPPED_ALIAS_KEYS["FlowBaseAnnotation"];
+	const FLOWBASEANNOTATION_TYPES = _index.FLIPPED_ALIAS_KEYS["FlowBaseAnnotation"];
 	generated.FLOWBASEANNOTATION_TYPES = FLOWBASEANNOTATION_TYPES;
-	const FLOWDECLARATION_TYPES = _definitions.FLIPPED_ALIAS_KEYS["FlowDeclaration"];
+	const FLOWDECLARATION_TYPES = _index.FLIPPED_ALIAS_KEYS["FlowDeclaration"];
 	generated.FLOWDECLARATION_TYPES = FLOWDECLARATION_TYPES;
-	const FLOWPREDICATE_TYPES = _definitions.FLIPPED_ALIAS_KEYS["FlowPredicate"];
+	const FLOWPREDICATE_TYPES = _index.FLIPPED_ALIAS_KEYS["FlowPredicate"];
 	generated.FLOWPREDICATE_TYPES = FLOWPREDICATE_TYPES;
-	const ENUMBODY_TYPES = _definitions.FLIPPED_ALIAS_KEYS["EnumBody"];
+	const ENUMBODY_TYPES = _index.FLIPPED_ALIAS_KEYS["EnumBody"];
 	generated.ENUMBODY_TYPES = ENUMBODY_TYPES;
-	const ENUMMEMBER_TYPES = _definitions.FLIPPED_ALIAS_KEYS["EnumMember"];
+	const ENUMMEMBER_TYPES = _index.FLIPPED_ALIAS_KEYS["EnumMember"];
 	generated.ENUMMEMBER_TYPES = ENUMMEMBER_TYPES;
-	const JSX_TYPES = _definitions.FLIPPED_ALIAS_KEYS["JSX"];
+	const JSX_TYPES = _index.FLIPPED_ALIAS_KEYS["JSX"];
 	generated.JSX_TYPES = JSX_TYPES;
-	const MISCELLANEOUS_TYPES = _definitions.FLIPPED_ALIAS_KEYS["Miscellaneous"];
+	const MISCELLANEOUS_TYPES = _index.FLIPPED_ALIAS_KEYS["Miscellaneous"];
 	generated.MISCELLANEOUS_TYPES = MISCELLANEOUS_TYPES;
-	const TYPESCRIPT_TYPES = _definitions.FLIPPED_ALIAS_KEYS["TypeScript"];
+	const TYPESCRIPT_TYPES = _index.FLIPPED_ALIAS_KEYS["TypeScript"];
 	generated.TYPESCRIPT_TYPES = TYPESCRIPT_TYPES;
-	const TSTYPEELEMENT_TYPES = _definitions.FLIPPED_ALIAS_KEYS["TSTypeElement"];
+	const TSTYPEELEMENT_TYPES = _index.FLIPPED_ALIAS_KEYS["TSTypeElement"];
 	generated.TSTYPEELEMENT_TYPES = TSTYPEELEMENT_TYPES;
-	const TSTYPE_TYPES = _definitions.FLIPPED_ALIAS_KEYS["TSType"];
+	const TSTYPE_TYPES = _index.FLIPPED_ALIAS_KEYS["TSType"];
 	generated.TSTYPE_TYPES = TSTYPE_TYPES;
-	const TSBASETYPE_TYPES = _definitions.FLIPPED_ALIAS_KEYS["TSBaseType"];
+	const TSBASETYPE_TYPES = _index.FLIPPED_ALIAS_KEYS["TSBaseType"];
 	generated.TSBASETYPE_TYPES = TSBASETYPE_TYPES;
 	const MODULEDECLARATION_TYPES = IMPORTOREXPORTDECLARATION_TYPES;
 	generated.MODULEDECLARATION_TYPES = MODULEDECLARATION_TYPES;
@@ -12932,26 +12933,26 @@ function requireToBlock () {
 	  value: true
 	});
 	toBlock.default = toBlock$1;
-	var _generated = requireGenerated$3();
-	var _generated2 = requireGenerated$2();
+	var _index = requireGenerated$3();
+	var _index2 = requireGenerated$2();
 	function toBlock$1(node, parent) {
-	  if ((0, _generated.isBlockStatement)(node)) {
+	  if ((0, _index.isBlockStatement)(node)) {
 	    return node;
 	  }
 	  let blockNodes = [];
-	  if ((0, _generated.isEmptyStatement)(node)) {
+	  if ((0, _index.isEmptyStatement)(node)) {
 	    blockNodes = [];
 	  } else {
-	    if (!(0, _generated.isStatement)(node)) {
-	      if ((0, _generated.isFunction)(parent)) {
-	        node = (0, _generated2.returnStatement)(node);
+	    if (!(0, _index.isStatement)(node)) {
+	      if ((0, _index.isFunction)(parent)) {
+	        node = (0, _index2.returnStatement)(node);
 	      } else {
-	        node = (0, _generated2.expressionStatement)(node);
+	        node = (0, _index2.expressionStatement)(node);
 	      }
 	    }
 	    blockNodes = [node];
 	  }
-	  return (0, _generated2.blockStatement)(blockNodes);
+	  return (0, _index2.blockStatement)(blockNodes);
 	}
 
 	
@@ -12975,7 +12976,7 @@ function requireEnsureBlock () {
 
 	
 	return ensureBlock;
-}var toBindingIdentifierName = {};var toIdentifier = {};var hasRequiredToIdentifier;
+}var toBindingIdentifierName$1 = {};var toIdentifier = {};var hasRequiredToIdentifier;
 
 function requireToIdentifier () {
 	if (hasRequiredToIdentifier) return toIdentifier;
@@ -12986,7 +12987,7 @@ function requireToIdentifier () {
 	});
 	toIdentifier.default = toIdentifier$1;
 	var _isValidIdentifier = requireIsValidIdentifier();
-	var _helperValidatorIdentifier = requireLib$h();
+	var _helperValidatorIdentifier = requireLib$d();
 	function toIdentifier$1(input) {
 	  input = input + "";
 	  let name = "";
@@ -13008,22 +13009,22 @@ function requireToIdentifier () {
 }var hasRequiredToBindingIdentifierName;
 
 function requireToBindingIdentifierName () {
-	if (hasRequiredToBindingIdentifierName) return toBindingIdentifierName;
+	if (hasRequiredToBindingIdentifierName) return toBindingIdentifierName$1;
 	hasRequiredToBindingIdentifierName = 1;
 
-	Object.defineProperty(toBindingIdentifierName, "__esModule", {
+	Object.defineProperty(toBindingIdentifierName$1, "__esModule", {
 	  value: true
 	});
-	toBindingIdentifierName.default = toBindingIdentifierName$1;
+	toBindingIdentifierName$1.default = toBindingIdentifierName;
 	var _toIdentifier = requireToIdentifier();
-	function toBindingIdentifierName$1(name) {
+	function toBindingIdentifierName(name) {
 	  name = (0, _toIdentifier.default)(name);
 	  if (name === "eval" || name === "arguments") name = "_" + name;
 	  return name;
 	}
 
 	
-	return toBindingIdentifierName;
+	return toBindingIdentifierName$1;
 }var toComputedKey = {};var hasRequiredToComputedKey;
 
 function requireToComputedKey () {
@@ -13034,10 +13035,10 @@ function requireToComputedKey () {
 	  value: true
 	});
 	toComputedKey.default = toComputedKey$1;
-	var _generated = requireGenerated$3();
-	var _generated2 = requireGenerated$2();
+	var _index = requireGenerated$3();
+	var _index2 = requireGenerated$2();
 	function toComputedKey$1(node, key = node.key || node.property) {
-	  if (!node.computed && (0, _generated.isIdentifier)(key)) key = (0, _generated2.stringLiteral)(key.name);
+	  if (!node.computed && (0, _index.isIdentifier)(key)) key = (0, _index2.stringLiteral)(key.name);
 	  return key;
 	}
 
@@ -13053,22 +13054,22 @@ function requireToExpression () {
 	  value: true
 	});
 	toExpression.default = void 0;
-	var _generated = requireGenerated$3();
+	var _index = requireGenerated$3();
 	var _default = toExpression$1;
 	toExpression.default = _default;
 	function toExpression$1(node) {
-	  if ((0, _generated.isExpressionStatement)(node)) {
+	  if ((0, _index.isExpressionStatement)(node)) {
 	    node = node.expression;
 	  }
-	  if ((0, _generated.isExpression)(node)) {
+	  if ((0, _index.isExpression)(node)) {
 	    return node;
 	  }
-	  if ((0, _generated.isClass)(node)) {
+	  if ((0, _index.isClass)(node)) {
 	    node.type = "ClassExpression";
-	  } else if ((0, _generated.isFunction)(node)) {
+	  } else if ((0, _index.isFunction)(node)) {
 	    node.type = "FunctionExpression";
 	  }
-	  if (!(0, _generated.isExpression)(node)) {
+	  if (!(0, _index.isExpression)(node)) {
 	    throw new Error(`cannot turn ${node.type} to an expression`);
 	  }
 	  return node;
@@ -13086,10 +13087,10 @@ function requireTraverseFast () {
 	  value: true
 	});
 	traverseFast.default = traverseFast$1;
-	var _definitions = requireDefinitions();
+	var _index = requireDefinitions();
 	function traverseFast$1(node, enter, opts) {
 	  if (!node) return;
-	  const keys = _definitions.VISITOR_KEYS[node.type];
+	  const keys = _index.VISITOR_KEYS[node.type];
 	  if (!keys) return;
 	  opts = opts || {};
 	  enter(node, opts);
@@ -13117,9 +13118,9 @@ function requireRemoveProperties () {
 	  value: true
 	});
 	removeProperties.default = removeProperties$1;
-	var _constants = requireConstants();
+	var _index = requireConstants();
 	const CLEAR_KEYS = ["tokens", "start", "end", "loc", "raw", "rawValue"];
-	const CLEAR_KEYS_PLUS_COMMENTS = [..._constants.COMMENT_KEYS, "comments", ...CLEAR_KEYS];
+	const CLEAR_KEYS_PLUS_COMMENTS = [..._index.COMMENT_KEYS, "comments", ...CLEAR_KEYS];
 	function removeProperties$1(node, opts = {}) {
 	  const map = opts.preserveComments ? CLEAR_KEYS : CLEAR_KEYS_PLUS_COMMENTS;
 	  for (const key of map) {
@@ -13165,16 +13166,16 @@ function requireToKeyAlias () {
 	  value: true
 	});
 	toKeyAlias.default = toKeyAlias$1;
-	var _generated = requireGenerated$3();
+	var _index = requireGenerated$3();
 	var _cloneNode = requireCloneNode();
 	var _removePropertiesDeep = requireRemovePropertiesDeep();
 	function toKeyAlias$1(node, key = node.key) {
 	  let alias;
 	  if (node.kind === "method") {
 	    return toKeyAlias$1.increment() + "";
-	  } else if ((0, _generated.isIdentifier)(key)) {
+	  } else if ((0, _index.isIdentifier)(key)) {
 	    alias = key.name;
-	  } else if ((0, _generated.isStringLiteral)(key)) {
+	  } else if ((0, _index.isStringLiteral)(key)) {
 	    alias = JSON.stringify(key.value);
 	  } else {
 	    alias = JSON.stringify((0, _removePropertiesDeep.default)((0, _cloneNode.default)(key)));
@@ -13208,7 +13209,7 @@ function requireGetBindingIdentifiers () {
 	  value: true
 	});
 	getBindingIdentifiers.default = getBindingIdentifiers$1;
-	var _generated = requireGenerated$3();
+	var _index = requireGenerated$3();
 	function getBindingIdentifiers$1(node, duplicates, outerOnly) {
 	  const search = [].concat(node);
 	  const ids = Object.create(null);
@@ -13216,7 +13217,7 @@ function requireGetBindingIdentifiers () {
 	    const id = search.shift();
 	    if (!id) continue;
 	    const keys = getBindingIdentifiers$1.keys[id.type];
-	    if ((0, _generated.isIdentifier)(id)) {
+	    if ((0, _index.isIdentifier)(id)) {
 	      if (duplicates) {
 	        const _ids = ids[id.name] = ids[id.name] || [];
 	        _ids.push(id);
@@ -13225,18 +13226,18 @@ function requireGetBindingIdentifiers () {
 	      }
 	      continue;
 	    }
-	    if ((0, _generated.isExportDeclaration)(id) && !(0, _generated.isExportAllDeclaration)(id)) {
-	      if ((0, _generated.isDeclaration)(id.declaration)) {
+	    if ((0, _index.isExportDeclaration)(id) && !(0, _index.isExportAllDeclaration)(id)) {
+	      if ((0, _index.isDeclaration)(id.declaration)) {
 	        search.push(id.declaration);
 	      }
 	      continue;
 	    }
 	    if (outerOnly) {
-	      if ((0, _generated.isFunctionDeclaration)(id)) {
+	      if ((0, _index.isFunctionDeclaration)(id)) {
 	        search.push(id.id);
 	        continue;
 	      }
-	      if ((0, _generated.isFunctionExpression)(id)) {
+	      if ((0, _index.isFunctionExpression)(id)) {
 	        continue;
 	      }
 	    }
@@ -13307,21 +13308,21 @@ function requireGatherSequenceExpressions () {
 	});
 	gatherSequenceExpressions.default = gatherSequenceExpressions$1;
 	var _getBindingIdentifiers = requireGetBindingIdentifiers();
-	var _generated = requireGenerated$3();
-	var _generated2 = requireGenerated$2();
+	var _index = requireGenerated$3();
+	var _index2 = requireGenerated$2();
 	var _cloneNode = requireCloneNode();
 	function gatherSequenceExpressions$1(nodes, scope, declars) {
 	  const exprs = [];
 	  let ensureLastUndefined = true;
 	  for (const node of nodes) {
-	    if (!(0, _generated.isEmptyStatement)(node)) {
+	    if (!(0, _index.isEmptyStatement)(node)) {
 	      ensureLastUndefined = false;
 	    }
-	    if ((0, _generated.isExpression)(node)) {
+	    if ((0, _index.isExpression)(node)) {
 	      exprs.push(node);
-	    } else if ((0, _generated.isExpressionStatement)(node)) {
+	    } else if ((0, _index.isExpressionStatement)(node)) {
 	      exprs.push(node.expression);
-	    } else if ((0, _generated.isVariableDeclaration)(node)) {
+	    } else if ((0, _index.isVariableDeclaration)(node)) {
 	      if (node.kind !== "var") return;
 	      for (const declar of node.declarations) {
 	        const bindings = (0, _getBindingIdentifiers.default)(declar);
@@ -13332,20 +13333,20 @@ function requireGatherSequenceExpressions () {
 	          });
 	        }
 	        if (declar.init) {
-	          exprs.push((0, _generated2.assignmentExpression)("=", declar.id, declar.init));
+	          exprs.push((0, _index2.assignmentExpression)("=", declar.id, declar.init));
 	        }
 	      }
 	      ensureLastUndefined = true;
-	    } else if ((0, _generated.isIfStatement)(node)) {
+	    } else if ((0, _index.isIfStatement)(node)) {
 	      const consequent = node.consequent ? gatherSequenceExpressions$1([node.consequent], scope, declars) : scope.buildUndefinedNode();
 	      const alternate = node.alternate ? gatherSequenceExpressions$1([node.alternate], scope, declars) : scope.buildUndefinedNode();
 	      if (!consequent || !alternate) return;
-	      exprs.push((0, _generated2.conditionalExpression)(node.test, consequent, alternate));
-	    } else if ((0, _generated.isBlockStatement)(node)) {
+	      exprs.push((0, _index2.conditionalExpression)(node.test, consequent, alternate));
+	    } else if ((0, _index.isBlockStatement)(node)) {
 	      const body = gatherSequenceExpressions$1(node.body, scope, declars);
 	      if (!body) return;
 	      exprs.push(body);
-	    } else if ((0, _generated.isEmptyStatement)(node)) {
+	    } else if ((0, _index.isEmptyStatement)(node)) {
 	      if (nodes.indexOf(node) === 0) {
 	        ensureLastUndefined = true;
 	      }
@@ -13359,7 +13360,7 @@ function requireGatherSequenceExpressions () {
 	  if (exprs.length === 1) {
 	    return exprs[0];
 	  } else {
-	    return (0, _generated2.sequenceExpression)(exprs);
+	    return (0, _index2.sequenceExpression)(exprs);
 	  }
 	}
 
@@ -13399,24 +13400,24 @@ function requireToStatement () {
 	  value: true
 	});
 	toStatement.default = void 0;
-	var _generated = requireGenerated$3();
-	var _generated2 = requireGenerated$2();
+	var _index = requireGenerated$3();
+	var _index2 = requireGenerated$2();
 	var _default = toStatement$1;
 	toStatement.default = _default;
 	function toStatement$1(node, ignore) {
-	  if ((0, _generated.isStatement)(node)) {
+	  if ((0, _index.isStatement)(node)) {
 	    return node;
 	  }
 	  let mustHaveId = false;
 	  let newType;
-	  if ((0, _generated.isClass)(node)) {
+	  if ((0, _index.isClass)(node)) {
 	    mustHaveId = true;
 	    newType = "ClassDeclaration";
-	  } else if ((0, _generated.isFunction)(node)) {
+	  } else if ((0, _index.isFunction)(node)) {
 	    mustHaveId = true;
 	    newType = "FunctionDeclaration";
-	  } else if ((0, _generated.isAssignmentExpression)(node)) {
-	    return (0, _generated2.expressionStatement)(node);
+	  } else if ((0, _index.isAssignmentExpression)(node)) {
+	    return (0, _index2.expressionStatement)(node);
 	  }
 	  if (mustHaveId && !node.id) {
 	    newType = false;
@@ -13445,7 +13446,7 @@ function requireValueToNode () {
 	});
 	valueToNode.default = void 0;
 	var _isValidIdentifier = requireIsValidIdentifier();
-	var _generated = requireGenerated$2();
+	var _index = requireGenerated$2();
 	var _default = valueToNode$1;
 	valueToNode.default = _default;
 	const objectToString = Function.call.bind(Object.prototype.toString);
@@ -13461,55 +13462,55 @@ function requireValueToNode () {
 	}
 	function valueToNode$1(value) {
 	  if (value === undefined) {
-	    return (0, _generated.identifier)("undefined");
+	    return (0, _index.identifier)("undefined");
 	  }
 	  if (value === true || value === false) {
-	    return (0, _generated.booleanLiteral)(value);
+	    return (0, _index.booleanLiteral)(value);
 	  }
 	  if (value === null) {
-	    return (0, _generated.nullLiteral)();
+	    return (0, _index.nullLiteral)();
 	  }
 	  if (typeof value === "string") {
-	    return (0, _generated.stringLiteral)(value);
+	    return (0, _index.stringLiteral)(value);
 	  }
 	  if (typeof value === "number") {
 	    let result;
 	    if (Number.isFinite(value)) {
-	      result = (0, _generated.numericLiteral)(Math.abs(value));
+	      result = (0, _index.numericLiteral)(Math.abs(value));
 	    } else {
 	      let numerator;
 	      if (Number.isNaN(value)) {
-	        numerator = (0, _generated.numericLiteral)(0);
+	        numerator = (0, _index.numericLiteral)(0);
 	      } else {
-	        numerator = (0, _generated.numericLiteral)(1);
+	        numerator = (0, _index.numericLiteral)(1);
 	      }
-	      result = (0, _generated.binaryExpression)("/", numerator, (0, _generated.numericLiteral)(0));
+	      result = (0, _index.binaryExpression)("/", numerator, (0, _index.numericLiteral)(0));
 	    }
 	    if (value < 0 || Object.is(value, -0)) {
-	      result = (0, _generated.unaryExpression)("-", result);
+	      result = (0, _index.unaryExpression)("-", result);
 	    }
 	    return result;
 	  }
 	  if (isRegExp(value)) {
 	    const pattern = value.source;
 	    const flags = value.toString().match(/\/([a-z]+|)$/)[1];
-	    return (0, _generated.regExpLiteral)(pattern, flags);
+	    return (0, _index.regExpLiteral)(pattern, flags);
 	  }
 	  if (Array.isArray(value)) {
-	    return (0, _generated.arrayExpression)(value.map(valueToNode$1));
+	    return (0, _index.arrayExpression)(value.map(valueToNode$1));
 	  }
 	  if (isPlainObject(value)) {
 	    const props = [];
 	    for (const key of Object.keys(value)) {
 	      let nodeKey;
 	      if ((0, _isValidIdentifier.default)(key)) {
-	        nodeKey = (0, _generated.identifier)(key);
+	        nodeKey = (0, _index.identifier)(key);
 	      } else {
-	        nodeKey = (0, _generated.stringLiteral)(key);
+	        nodeKey = (0, _index.stringLiteral)(key);
 	      }
-	      props.push((0, _generated.objectProperty)(nodeKey, valueToNode$1(value[key])));
+	      props.push((0, _index.objectProperty)(nodeKey, valueToNode$1(value[key])));
 	    }
-	    return (0, _generated.objectExpression)(props);
+	    return (0, _index.objectExpression)(props);
 	  }
 	  throw new Error("don't know how to turn this value into a node");
 	}
@@ -13526,9 +13527,9 @@ function requireAppendToMemberExpression () {
 	  value: true
 	});
 	appendToMemberExpression.default = appendToMemberExpression$1;
-	var _generated = requireGenerated$2();
+	var _index = requireGenerated$2();
 	function appendToMemberExpression$1(member, append, computed = false) {
-	  member.object = (0, _generated.memberExpression)(member.object, member.property, member.computed);
+	  member.object = (0, _index.memberExpression)(member.object, member.property, member.computed);
 	  member.property = append;
 	  member.computed = !!computed;
 	  return member;
@@ -13546,11 +13547,11 @@ function requireInherits () {
 	  value: true
 	});
 	inherits$2.default = inherits;
-	var _constants = requireConstants();
+	var _index = requireConstants();
 	var _inheritsComments = requireInheritsComments();
 	function inherits(child, parent) {
 	  if (!child || !parent) return child;
-	  for (const key of _constants.INHERIT_KEYS.optional) {
+	  for (const key of _index.INHERIT_KEYS.optional) {
 	    if (child[key] == null) {
 	      child[key] = parent[key];
 	    }
@@ -13560,7 +13561,7 @@ function requireInherits () {
 	      child[key] = parent[key];
 	    }
 	  }
-	  for (const key of _constants.INHERIT_KEYS.force) {
+	  for (const key of _index.INHERIT_KEYS.force) {
 	    child[key] = parent[key];
 	  }
 	  (0, _inheritsComments.default)(child, parent);
@@ -13579,13 +13580,13 @@ function requirePrependToMemberExpression () {
 	  value: true
 	});
 	prependToMemberExpression.default = prependToMemberExpression$1;
-	var _generated = requireGenerated$2();
-	var _ = requireLib$f();
+	var _index = requireGenerated$2();
+	var _index2 = requireLib$b();
 	function prependToMemberExpression$1(member, prepend) {
-	  if ((0, _.isSuper)(member.object)) {
+	  if ((0, _index2.isSuper)(member.object)) {
 	    throw new Error("Cannot prepend node to super property access (`super.foo`).");
 	  }
-	  member.object = (0, _generated.memberExpression)(prepend, member.object);
+	  member.object = (0, _index.memberExpression)(prepend, member.object);
 	  return member;
 	}
 
@@ -13620,7 +13621,7 @@ function requireTraverse () {
 	  value: true
 	});
 	traverse.default = traverse$1;
-	var _definitions = requireDefinitions();
+	var _index = requireDefinitions();
 	function traverse$1(node, handlers, state) {
 	  if (typeof handlers === "function") {
 	    handlers = {
@@ -13634,7 +13635,7 @@ function requireTraverse () {
 	  traverseSimpleImpl(node, enter, exit, state, []);
 	}
 	function traverseSimpleImpl(node, enter, exit, state, ancestors) {
-	  const keys = _definitions.VISITOR_KEYS[node.type];
+	  const keys = _index.VISITOR_KEYS[node.type];
 	  if (!keys) return;
 	  if (enter) enter(node, ancestors, state);
 	  for (const key of keys) {
@@ -13707,10 +13708,10 @@ function requireIsLet () {
 	  value: true
 	});
 	isLet.default = isLet$1;
-	var _generated = requireGenerated$3();
-	var _constants = requireConstants();
+	var _index = requireGenerated$3();
+	var _index2 = requireConstants();
 	function isLet$1(node) {
-	  return (0, _generated.isVariableDeclaration)(node) && (node.kind !== "var" || node[_constants.BLOCK_SCOPED_SYMBOL]);
+	  return (0, _index.isVariableDeclaration)(node) && (node.kind !== "var" || node[_index2.BLOCK_SCOPED_SYMBOL]);
 	}
 
 	
@@ -13725,10 +13726,10 @@ function requireIsBlockScoped () {
 	  value: true
 	});
 	isBlockScoped.default = isBlockScoped$1;
-	var _generated = requireGenerated$3();
+	var _index = requireGenerated$3();
 	var _isLet = requireIsLet();
 	function isBlockScoped$1(node) {
-	  return (0, _generated.isFunctionDeclaration)(node) || (0, _generated.isClassDeclaration)(node) || (0, _isLet.default)(node);
+	  return (0, _index.isFunctionDeclaration)(node) || (0, _index.isClassDeclaration)(node) || (0, _isLet.default)(node);
 	}
 
 	
@@ -13744,10 +13745,10 @@ function requireIsImmutable () {
 	});
 	isImmutable.default = isImmutable$1;
 	var _isType = requireIsType();
-	var _generated = requireGenerated$3();
+	var _index = requireGenerated$3();
 	function isImmutable$1(node) {
 	  if ((0, _isType.default)(node.type, "Immutable")) return true;
-	  if ((0, _generated.isIdentifier)(node)) {
+	  if ((0, _index.isIdentifier)(node)) {
 	    if (node.name === "undefined") {
 	      return true;
 	    } else {
@@ -13769,7 +13770,7 @@ function requireIsNodesEquivalent () {
 	  value: true
 	});
 	isNodesEquivalent.default = isNodesEquivalent$1;
-	var _definitions = requireDefinitions();
+	var _index = requireDefinitions();
 	function isNodesEquivalent$1(a, b) {
 	  if (typeof a !== "object" || typeof b !== "object" || a == null || b == null) {
 	    return a === b;
@@ -13777,8 +13778,8 @@ function requireIsNodesEquivalent () {
 	  if (a.type !== b.type) {
 	    return false;
 	  }
-	  const fields = Object.keys(_definitions.NODE_FIELDS[a.type] || a.type);
-	  const visitorKeys = _definitions.VISITOR_KEYS[a.type];
+	  const fields = Object.keys(_index.NODE_FIELDS[a.type] || a.type);
+	  const visitorKeys = _index.VISITOR_KEYS[a.type];
 	  for (const field of fields) {
 	    const val_a = a[field];
 	    const val_b = b[field];
@@ -13932,15 +13933,15 @@ function requireIsScope () {
 	  value: true
 	});
 	isScope.default = isScope$1;
-	var _generated = requireGenerated$3();
+	var _index = requireGenerated$3();
 	function isScope$1(node, parent) {
-	  if ((0, _generated.isBlockStatement)(node) && ((0, _generated.isFunction)(parent) || (0, _generated.isCatchClause)(parent))) {
+	  if ((0, _index.isBlockStatement)(node) && ((0, _index.isFunction)(parent) || (0, _index.isCatchClause)(parent))) {
 	    return false;
 	  }
-	  if ((0, _generated.isPattern)(node) && ((0, _generated.isFunction)(parent) || (0, _generated.isCatchClause)(parent))) {
+	  if ((0, _index.isPattern)(node) && ((0, _index.isFunction)(parent) || (0, _index.isCatchClause)(parent))) {
 	    return true;
 	  }
-	  return (0, _generated.isScopable)(node);
+	  return (0, _index.isScopable)(node);
 	}
 
 	
@@ -13955,9 +13956,9 @@ function requireIsSpecifierDefault () {
 	  value: true
 	});
 	isSpecifierDefault.default = isSpecifierDefault$1;
-	var _generated = requireGenerated$3();
+	var _index = requireGenerated$3();
 	function isSpecifierDefault$1(specifier) {
-	  return (0, _generated.isImportDefaultSpecifier)(specifier) || (0, _generated.isIdentifier)(specifier.imported || specifier.exported, {
+	  return (0, _index.isImportDefaultSpecifier)(specifier) || (0, _index.isIdentifier)(specifier.imported || specifier.exported, {
 	    name: "default"
 	  });
 	}
@@ -13992,23 +13993,31 @@ function requireIsVar () {
 	  value: true
 	});
 	isVar.default = isVar$1;
-	var _generated = requireGenerated$3();
-	var _constants = requireConstants();
+	var _index = requireGenerated$3();
+	var _index2 = requireConstants();
 	function isVar$1(node) {
-	  return (0, _generated.isVariableDeclaration)(node, {
+	  return (0, _index.isVariableDeclaration)(node, {
 	    kind: "var"
-	  }) && !node[_constants.BLOCK_SCOPED_SYMBOL];
+	  }) && !node[_index2.BLOCK_SCOPED_SYMBOL];
 	}
 
 	
 	return isVar;
-}var hasRequiredLib$f;
+}var hasRequiredLib$b;
 
-function requireLib$f () {
-	if (hasRequiredLib$f) return lib$o;
-	hasRequiredLib$f = 1;
+function requireLib$b () {
+	if (hasRequiredLib$b) return lib$x;
+	hasRequiredLib$b = 1;
 	(function (exports) {
 
+		if (typeof browser$1$1 === "object" && browser$1$1.version === "v20.6.0") {
+		  if (exports["___internal__alreadyRunning" + ""]) return;
+		  Object.defineProperty(exports, "___internal__alreadyRunning", {
+		    value: true,
+		    enumerable: false,
+		    configurable: true
+		  });
+		}
 		Object.defineProperty(exports, "__esModule", {
 		  value: true
 		});
@@ -14419,30 +14428,30 @@ function requireLib$f () {
 		var _isCompatTag = requireIsCompatTag();
 		var _buildChildren = requireBuildChildren();
 		var _assertNode = requireAssertNode();
-		var _generated = requireGenerated$1();
-		Object.keys(_generated).forEach(function (key) {
+		var _index = requireGenerated$1();
+		Object.keys(_index).forEach(function (key) {
 		  if (key === "default" || key === "__esModule") return;
 		  if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
-		  if (key in exports && exports[key] === _generated[key]) return;
+		  if (key in exports && exports[key] === _index[key]) return;
 		  Object.defineProperty(exports, key, {
 		    enumerable: true,
 		    get: function () {
-		      return _generated[key];
+		      return _index[key];
 		    }
 		  });
 		});
 		var _createTypeAnnotationBasedOnTypeof = requireCreateTypeAnnotationBasedOnTypeof();
 		var _createFlowUnionType = requireCreateFlowUnionType();
 		var _createTSUnionType = requireCreateTSUnionType();
-		var _generated2 = requireGenerated$2();
-		Object.keys(_generated2).forEach(function (key) {
+		var _index2 = requireGenerated$2();
+		Object.keys(_index2).forEach(function (key) {
 		  if (key === "default" || key === "__esModule") return;
 		  if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
-		  if (key in exports && exports[key] === _generated2[key]) return;
+		  if (key in exports && exports[key] === _index2[key]) return;
 		  Object.defineProperty(exports, key, {
 		    enumerable: true,
 		    get: function () {
-		      return _generated2[key];
+		      return _index2[key];
 		    }
 		  });
 		});
@@ -14470,27 +14479,27 @@ function requireLib$f () {
 		var _inheritsComments = requireInheritsComments();
 		var _inheritTrailingComments = requireInheritTrailingComments();
 		var _removeComments = requireRemoveComments();
-		var _generated3 = requireGenerated();
-		Object.keys(_generated3).forEach(function (key) {
+		var _index3 = requireGenerated();
+		Object.keys(_index3).forEach(function (key) {
 		  if (key === "default" || key === "__esModule") return;
 		  if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
-		  if (key in exports && exports[key] === _generated3[key]) return;
+		  if (key in exports && exports[key] === _index3[key]) return;
 		  Object.defineProperty(exports, key, {
 		    enumerable: true,
 		    get: function () {
-		      return _generated3[key];
+		      return _index3[key];
 		    }
 		  });
 		});
-		var _constants = requireConstants();
-		Object.keys(_constants).forEach(function (key) {
+		var _index4 = requireConstants();
+		Object.keys(_index4).forEach(function (key) {
 		  if (key === "default" || key === "__esModule") return;
 		  if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
-		  if (key in exports && exports[key] === _constants[key]) return;
+		  if (key in exports && exports[key] === _index4[key]) return;
 		  Object.defineProperty(exports, key, {
 		    enumerable: true,
 		    get: function () {
-		      return _constants[key];
+		      return _index4[key];
 		    }
 		  });
 		});
@@ -14504,15 +14513,15 @@ function requireLib$f () {
 		var _toSequenceExpression = requireToSequenceExpression();
 		var _toStatement = requireToStatement();
 		var _valueToNode = requireValueToNode();
-		var _definitions = requireDefinitions();
-		Object.keys(_definitions).forEach(function (key) {
+		var _index5 = requireDefinitions();
+		Object.keys(_index5).forEach(function (key) {
 		  if (key === "default" || key === "__esModule") return;
 		  if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
-		  if (key in exports && exports[key] === _definitions[key]) return;
+		  if (key in exports && exports[key] === _index5[key]) return;
 		  Object.defineProperty(exports, key, {
 		    enumerable: true,
 		    get: function () {
-		      return _definitions[key];
+		      return _index5[key];
 		    }
 		  });
 		});
@@ -14556,15 +14565,15 @@ function requireLib$f () {
 		var _matchesPattern = requireMatchesPattern();
 		var _validate = requireValidate();
 		var _buildMatchMemberExpression = requireBuildMatchMemberExpression();
-		var _generated4 = requireGenerated$3();
-		Object.keys(_generated4).forEach(function (key) {
+		var _index6 = requireGenerated$3();
+		Object.keys(_index6).forEach(function (key) {
 		  if (key === "default" || key === "__esModule") return;
 		  if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
-		  if (key in exports && exports[key] === _generated4[key]) return;
+		  if (key in exports && exports[key] === _index6[key]) return;
 		  Object.defineProperty(exports, key, {
 		    enumerable: true,
 		    get: function () {
-		      return _generated4[key];
+		      return _index6[key];
 		    }
 		  });
 		});
@@ -14575,10 +14584,11 @@ function requireLib$f () {
 		  buildChildren: _buildChildren.default
 		};
 		exports.react = react;
+		if (typeof browser$1$1 === "object" && browser$1$1.version === "v20.6.0") delete exports["___internal__alreadyRunning" + ""];
 
 		
-	} (lib$o));
-	return lib$o;
+	} (lib$x));
+	return lib$x;
 }var hasRequiredVisitors;
 
 function requireVisitors () {
@@ -14593,7 +14603,7 @@ function requireVisitors () {
 	visitors.merge = merge;
 	visitors.verify = verify;
 	var virtualTypes = requireVirtualTypes();
-	var _t = requireLib$f();
+	var _t = requireLib$b();
 	const {
 	  DEPRECATED_KEYS,
 	  DEPRECATED_ALIASES,
@@ -14852,7 +14862,7 @@ function requireCache () {
 
 	
 	return cache;
-}var traverseNode = {};var context$1 = {};var path = {};var browser$3 = {exports: {}};/**
+}var traverseNode = {};var context$1 = {};var path$1 = {};var browser$3 = {exports: {}};/**
  * Helpers.
  */
 
@@ -15576,132 +15586,112 @@ function requireBrowser$2 () {
 		}; 
 	} (browser$3, browser$3.exports));
 	return browser$3.exports;
-}var scope = {};var renamer = {};var lib$l = {};var hasRequiredLib$e;
-
-function requireLib$e () {
-	if (hasRequiredLib$e) return lib$l;
-	hasRequiredLib$e = 1;
-
-	Object.defineProperty(lib$l, "__esModule", {
-	  value: true
-	});
-	lib$l.default = splitExportDeclaration;
-	var _t = requireLib$f();
-	const {
-	  cloneNode,
-	  exportNamedDeclaration,
-	  exportSpecifier,
-	  identifier,
-	  variableDeclaration,
-	  variableDeclarator
-	} = _t;
-	function splitExportDeclaration(exportDeclaration) {
-	  if (!exportDeclaration.isExportDeclaration() || exportDeclaration.isExportAllDeclaration()) {
-	    throw new Error("Only default and named export declarations can be split.");
-	  }
-	  if (exportDeclaration.isExportDefaultDeclaration()) {
-	    const declaration = exportDeclaration.get("declaration");
-	    const standaloneDeclaration = declaration.isFunctionDeclaration() || declaration.isClassDeclaration();
-	    const exportExpr = declaration.isFunctionExpression() || declaration.isClassExpression();
-	    const scope = declaration.isScope() ? declaration.scope.parent : declaration.scope;
-	    let id = declaration.node.id;
-	    let needBindingRegistration = false;
-	    if (!id) {
-	      needBindingRegistration = true;
-	      id = scope.generateUidIdentifier("default");
-	      if (standaloneDeclaration || exportExpr) {
-	        declaration.node.id = cloneNode(id);
-	      }
-	    } else if (exportExpr && scope.hasBinding(id.name)) {
-	      needBindingRegistration = true;
-	      id = scope.generateUidIdentifier(id.name);
-	    }
-	    const updatedDeclaration = standaloneDeclaration ? declaration.node : variableDeclaration("var", [variableDeclarator(cloneNode(id), declaration.node)]);
-	    const updatedExportDeclaration = exportNamedDeclaration(null, [exportSpecifier(cloneNode(id), identifier("default"))]);
-	    exportDeclaration.insertAfter(updatedExportDeclaration);
-	    exportDeclaration.replaceWith(updatedDeclaration);
-	    if (needBindingRegistration) {
-	      scope.registerDeclaration(exportDeclaration);
-	    }
-	    return exportDeclaration;
-	  } else if (exportDeclaration.get("specifiers").length > 0) {
-	    throw new Error("It doesn't make sense to split exported specifiers.");
-	  }
-	  const declaration = exportDeclaration.get("declaration");
-	  const bindingIdentifiers = declaration.getOuterBindingIdentifiers();
-	  const specifiers = Object.keys(bindingIdentifiers).map(name => {
-	    return exportSpecifier(identifier(name), identifier(name));
-	  });
-	  const aliasDeclar = exportNamedDeclaration(null, specifiers);
-	  exportDeclaration.insertAfter(aliasDeclar);
-	  exportDeclaration.replaceWith(declaration.node);
-	  return exportDeclaration;
-	}
-
-	
-	return lib$l;
-}var lib$k = {};var hasRequiredLib$d;
-
-function requireLib$d () {
-	if (hasRequiredLib$d) return lib$k;
-	hasRequiredLib$d = 1;
-
-	Object.defineProperty(lib$k, "__esModule", {
-	  value: true
-	});
-	lib$k.default = void 0;
-	lib$k.requeueComputedKeyAndDecorators = requeueComputedKeyAndDecorators;
-	{
-	  {
-	    {
-	      lib$k.skipAllButComputedKey = function skipAllButComputedKey(path) {
-	        path.skip();
-	        if (path.node.computed) {
-	          path.context.maybeQueue(path.get("key"));
-	        }
-	      };
-	    }
-	  }
-	}
-	function requeueComputedKeyAndDecorators(path) {
-	  const {
-	    context,
-	    node
-	  } = path;
-	  if (node.computed) {
-	    context.maybeQueue(path.get("key"));
-	  }
-	  if (node.decorators) {
-	    for (const decorator of path.get("decorators")) {
-	      context.maybeQueue(decorator);
-	    }
-	  }
-	}
-	const visitor = {
-	  FunctionParent(path) {
-	    if (path.isArrowFunctionExpression()) {
-	      return;
-	    } else {
-	      path.skip();
-	      if (path.isMethod()) {
-	        requeueComputedKeyAndDecorators(path);
-	      }
-	    }
-	  },
-	  Property(path) {
-	    if (path.isObjectProperty()) {
-	      return;
-	    }
-	    path.skip();
-	    requeueComputedKeyAndDecorators(path);
-	  }
-	};
-	var _default = visitor;
-	lib$k.default = _default;
-
-	
-	return lib$k;
-}var hasRequiredRenamer;
+}var scope = {};var renamer = {};var lib$u = {};Object.defineProperty(lib$u, "__esModule", {
+  value: true
+});
+lib$u.default = splitExportDeclaration;
+var _t$8 = requireLib$b();
+const {
+  cloneNode: cloneNode$5,
+  exportNamedDeclaration,
+  exportSpecifier,
+  identifier: identifier$6,
+  variableDeclaration: variableDeclaration$1,
+  variableDeclarator: variableDeclarator$1
+} = _t$8;
+function splitExportDeclaration(exportDeclaration) {
+  if (!exportDeclaration.isExportDeclaration() || exportDeclaration.isExportAllDeclaration()) {
+    throw new Error("Only default and named export declarations can be split.");
+  }
+  if (exportDeclaration.isExportDefaultDeclaration()) {
+    const declaration = exportDeclaration.get("declaration");
+    const standaloneDeclaration = declaration.isFunctionDeclaration() || declaration.isClassDeclaration();
+    const exportExpr = declaration.isFunctionExpression() || declaration.isClassExpression();
+    const scope = declaration.isScope() ? declaration.scope.parent : declaration.scope;
+    let id = declaration.node.id;
+    let needBindingRegistration = false;
+    if (!id) {
+      needBindingRegistration = true;
+      id = scope.generateUidIdentifier("default");
+      if (standaloneDeclaration || exportExpr) {
+        declaration.node.id = cloneNode$5(id);
+      }
+    } else if (exportExpr && scope.hasBinding(id.name)) {
+      needBindingRegistration = true;
+      id = scope.generateUidIdentifier(id.name);
+    }
+    const updatedDeclaration = standaloneDeclaration ? declaration.node : variableDeclaration$1("var", [variableDeclarator$1(cloneNode$5(id), declaration.node)]);
+    const updatedExportDeclaration = exportNamedDeclaration(null, [exportSpecifier(cloneNode$5(id), identifier$6("default"))]);
+    exportDeclaration.insertAfter(updatedExportDeclaration);
+    exportDeclaration.replaceWith(updatedDeclaration);
+    if (needBindingRegistration) {
+      scope.registerDeclaration(exportDeclaration);
+    }
+    return exportDeclaration;
+  } else if (exportDeclaration.get("specifiers").length > 0) {
+    throw new Error("It doesn't make sense to split exported specifiers.");
+  }
+  const declaration = exportDeclaration.get("declaration");
+  const bindingIdentifiers = declaration.getOuterBindingIdentifiers();
+  const specifiers = Object.keys(bindingIdentifiers).map(name => {
+    return exportSpecifier(identifier$6(name), identifier$6(name));
+  });
+  const aliasDeclar = exportNamedDeclaration(null, specifiers);
+  exportDeclaration.insertAfter(aliasDeclar);
+  exportDeclaration.replaceWith(declaration.node);
+  return exportDeclaration;
+}var lib$t = {};Object.defineProperty(lib$t, "__esModule", {
+  value: true
+});
+lib$t.default = void 0;
+lib$t.requeueComputedKeyAndDecorators = requeueComputedKeyAndDecorators;
+{
+  {
+    {
+      lib$t.skipAllButComputedKey = function skipAllButComputedKey(path) {
+        path.skip();
+        if (path.node.computed) {
+          path.context.maybeQueue(path.get("key"));
+        }
+      };
+    }
+  }
+}
+function requeueComputedKeyAndDecorators(path) {
+  const {
+    context,
+    node
+  } = path;
+  if (node.computed) {
+    context.maybeQueue(path.get("key"));
+  }
+  if (node.decorators) {
+    for (const decorator of path.get("decorators")) {
+      context.maybeQueue(decorator);
+    }
+  }
+}
+const visitor$2 = {
+  FunctionParent(path) {
+    if (path.isArrowFunctionExpression()) {
+      return;
+    } else {
+      path.skip();
+      if (path.isMethod()) {
+        requeueComputedKeyAndDecorators(path);
+      }
+    }
+  },
+  Property(path) {
+    if (path.isObjectProperty()) {
+      return;
+    }
+    path.skip();
+    requeueComputedKeyAndDecorators(path);
+  }
+};
+var _default$b = visitor$2;
+lib$t.default = _default$b;var hasRequiredRenamer;
 
 function requireRenamer () {
 	if (hasRequiredRenamer) return renamer;
@@ -15711,9 +15701,9 @@ function requireRenamer () {
 	  value: true
 	});
 	renamer.default = void 0;
-	var _helperSplitExportDeclaration = requireLib$e();
-	var t = requireLib$f();
-	var _helperEnvironmentVisitor = requireLib$d();
+	var _helperSplitExportDeclaration = lib$u;
+	var t = requireLib$b();
+	var _helperEnvironmentVisitor = lib$t;
 	var _traverseNode = requireTraverseNode();
 	var _visitors = requireVisitors();
 	const renameVisitor = {
@@ -17459,7 +17449,7 @@ var devtools = {
 	unmonitorEvents: false,
 	values: false
 };
-var require$$0$5 = {
+var require$$0$4 = {
 	builtin: builtin,
 	es5: es5,
 	es2015: es2015,
@@ -17507,7 +17497,7 @@ var hasRequiredGlobals;
 function requireGlobals () {
 	if (hasRequiredGlobals) return globals;
 	hasRequiredGlobals = 1;
-	globals = require$$0$5;
+	globals = require$$0$4;
 	return globals;
 }var hasRequiredScope;
 
@@ -17520,10 +17510,10 @@ function requireScope () {
 	});
 	scope.default = void 0;
 	var _renamer = requireRenamer();
-	var _index = requireLib$5();
+	var _index = requireLib$4();
 	var _binding = requireBinding();
 	var _globals = requireGlobals();
-	var _t = requireLib$f();
+	var _t = requireLib$b();
 	var t = _t;
 	var _cache = requireCache();
 	var _visitors = requireVisitors();
@@ -18402,7 +18392,7 @@ function requireScope () {
 
 	
 	return scope;
-}var lib$j = {};var sourceMap = {};var genMapping_umd = {exports: {}};var setArray_umd = {exports: {}};var hasRequiredSetArray_umd;
+}var lib$s = {};var sourceMap = {};var genMapping_umd = {exports: {}};var setArray_umd = {exports: {}};var hasRequiredSetArray_umd;
 
 function requireSetArray_umd () {
 	if (hasRequiredSetArray_umd) return setArray_umd.exports;
@@ -22277,7 +22267,7 @@ function requireWhitespace () {
 	  value: true
 	});
 	whitespace.nodes = void 0;
-	var _t = requireLib$f();
+	var _t = requireLib$b();
 	const {
 	  FLIPPED_ALIAS_KEYS,
 	  isArrayExpression,
@@ -22451,7 +22441,7 @@ function requireParentheses () {
 	parentheses.IntersectionTypeAnnotation = parentheses.UnionTypeAnnotation = UnionTypeAnnotation;
 	parentheses.UpdateExpression = UpdateExpression;
 	parentheses.AwaitExpression = parentheses.YieldExpression = YieldExpression;
-	var _t = requireLib$f();
+	var _t = requireLib$b();
 	const {
 	  isArrayTypeAnnotation,
 	  isArrowFunctionExpression,
@@ -22743,7 +22733,7 @@ function requireNode () {
 	node.needsWhitespaceBefore = needsWhitespaceBefore;
 	var whitespace = requireWhitespace();
 	var parens = requireParentheses();
-	var _t = requireLib$f();
+	var _t = requireLib$b();
 	const {
 	  FLIPPED_ALIAS_KEYS,
 	  isCallExpression,
@@ -22882,7 +22872,7 @@ function requireExpressions () {
 	expressions.V8IntrinsicIdentifier = V8IntrinsicIdentifier;
 	expressions.YieldExpression = YieldExpression;
 	expressions._shouldPrintDecoratorsBeforeExport = _shouldPrintDecoratorsBeforeExport;
-	var _t = requireLib$f();
+	var _t = requireLib$b();
 	var n = requireNode();
 	const {
 	  isCallExpression,
@@ -23187,7 +23177,7 @@ function requireStatements () {
 	statements.VariableDeclarator = VariableDeclarator;
 	statements.WhileStatement = WhileStatement;
 	statements.WithStatement = WithStatement;
-	var _t = requireLib$f();
+	var _t = requireLib$b();
 	const {
 	  isFor,
 	  isForStatement,
@@ -23460,7 +23450,7 @@ function requireClasses () {
 	classes.ClassProperty = ClassProperty;
 	classes.StaticBlock = StaticBlock;
 	classes._classMethodHead = _classMethodHead;
-	var _t = requireLib$f();
+	var _t = requireLib$b();
 	const {
 	  isExportDefaultDeclaration,
 	  isExportNamedDeclaration
@@ -23641,7 +23631,7 @@ function requireMethods () {
 	methods._parameters = _parameters;
 	methods._params = _params;
 	methods._predicate = _predicate;
-	var _t = requireLib$f();
+	var _t = requireLib$b();
 	const {
 	  isIdentifier
 	} = _t;
@@ -23823,7 +23813,7 @@ function requireModules () {
 	modules.ImportNamespaceSpecifier = ImportNamespaceSpecifier;
 	modules.ImportSpecifier = ImportSpecifier;
 	modules._printAttributes = _printAttributes;
-	var _t = requireLib$f();
+	var _t = requireLib$b();
 	const {
 	  isClassDeclaration,
 	  isExportDefaultSpecifier,
@@ -24425,7 +24415,7 @@ function requireTypes () {
 	types.StringLiteral = StringLiteral;
 	types.TopicReference = TopicReference;
 	types.TupleExpression = TupleExpression;
-	var _t = requireLib$f();
+	var _t = requireLib$b();
 	var _jsesc = requireJsesc();
 	const {
 	  isAssignmentPattern,
@@ -24705,7 +24695,7 @@ function requireFlow () {
 		exports.VoidTypeAnnotation = VoidTypeAnnotation;
 		exports._interfaceish = _interfaceish;
 		exports._variance = _variance;
-		var _t = requireLib$f();
+		var _t = requireLib$b();
 		var _modules = requireModules();
 		var _types2 = requireTypes();
 		const {
@@ -25521,83 +25511,83 @@ function requireJsx () {
 
 	
 	return jsx;
-}var typescript = {};var hasRequiredTypescript;
+}var typescript$1 = {};var hasRequiredTypescript;
 
 function requireTypescript () {
-	if (hasRequiredTypescript) return typescript;
+	if (hasRequiredTypescript) return typescript$1;
 	hasRequiredTypescript = 1;
 
-	Object.defineProperty(typescript, "__esModule", {
+	Object.defineProperty(typescript$1, "__esModule", {
 	  value: true
 	});
-	typescript.TSAnyKeyword = TSAnyKeyword;
-	typescript.TSArrayType = TSArrayType;
-	typescript.TSSatisfiesExpression = typescript.TSAsExpression = TSTypeExpression;
-	typescript.TSBigIntKeyword = TSBigIntKeyword;
-	typescript.TSBooleanKeyword = TSBooleanKeyword;
-	typescript.TSCallSignatureDeclaration = TSCallSignatureDeclaration;
-	typescript.TSConditionalType = TSConditionalType;
-	typescript.TSConstructSignatureDeclaration = TSConstructSignatureDeclaration;
-	typescript.TSConstructorType = TSConstructorType;
-	typescript.TSDeclareFunction = TSDeclareFunction;
-	typescript.TSDeclareMethod = TSDeclareMethod;
-	typescript.TSEnumDeclaration = TSEnumDeclaration;
-	typescript.TSEnumMember = TSEnumMember;
-	typescript.TSExportAssignment = TSExportAssignment;
-	typescript.TSExpressionWithTypeArguments = TSExpressionWithTypeArguments;
-	typescript.TSExternalModuleReference = TSExternalModuleReference;
-	typescript.TSFunctionType = TSFunctionType;
-	typescript.TSImportEqualsDeclaration = TSImportEqualsDeclaration;
-	typescript.TSImportType = TSImportType;
-	typescript.TSIndexSignature = TSIndexSignature;
-	typescript.TSIndexedAccessType = TSIndexedAccessType;
-	typescript.TSInferType = TSInferType;
-	typescript.TSInstantiationExpression = TSInstantiationExpression;
-	typescript.TSInterfaceBody = TSInterfaceBody;
-	typescript.TSInterfaceDeclaration = TSInterfaceDeclaration;
-	typescript.TSIntersectionType = TSIntersectionType;
-	typescript.TSIntrinsicKeyword = TSIntrinsicKeyword;
-	typescript.TSLiteralType = TSLiteralType;
-	typescript.TSMappedType = TSMappedType;
-	typescript.TSMethodSignature = TSMethodSignature;
-	typescript.TSModuleBlock = TSModuleBlock;
-	typescript.TSModuleDeclaration = TSModuleDeclaration;
-	typescript.TSNamedTupleMember = TSNamedTupleMember;
-	typescript.TSNamespaceExportDeclaration = TSNamespaceExportDeclaration;
-	typescript.TSNeverKeyword = TSNeverKeyword;
-	typescript.TSNonNullExpression = TSNonNullExpression;
-	typescript.TSNullKeyword = TSNullKeyword;
-	typescript.TSNumberKeyword = TSNumberKeyword;
-	typescript.TSObjectKeyword = TSObjectKeyword;
-	typescript.TSOptionalType = TSOptionalType;
-	typescript.TSParameterProperty = TSParameterProperty;
-	typescript.TSParenthesizedType = TSParenthesizedType;
-	typescript.TSPropertySignature = TSPropertySignature;
-	typescript.TSQualifiedName = TSQualifiedName;
-	typescript.TSRestType = TSRestType;
-	typescript.TSStringKeyword = TSStringKeyword;
-	typescript.TSSymbolKeyword = TSSymbolKeyword;
-	typescript.TSThisType = TSThisType;
-	typescript.TSTupleType = TSTupleType;
-	typescript.TSTypeAliasDeclaration = TSTypeAliasDeclaration;
-	typescript.TSTypeAnnotation = TSTypeAnnotation;
-	typescript.TSTypeAssertion = TSTypeAssertion;
-	typescript.TSTypeLiteral = TSTypeLiteral;
-	typescript.TSTypeOperator = TSTypeOperator;
-	typescript.TSTypeParameter = TSTypeParameter;
-	typescript.TSTypeParameterDeclaration = typescript.TSTypeParameterInstantiation = TSTypeParameterInstantiation;
-	typescript.TSTypePredicate = TSTypePredicate;
-	typescript.TSTypeQuery = TSTypeQuery;
-	typescript.TSTypeReference = TSTypeReference;
-	typescript.TSUndefinedKeyword = TSUndefinedKeyword;
-	typescript.TSUnionType = TSUnionType;
-	typescript.TSUnknownKeyword = TSUnknownKeyword;
-	typescript.TSVoidKeyword = TSVoidKeyword;
-	typescript.tsPrintClassMemberModifiers = tsPrintClassMemberModifiers;
-	typescript.tsPrintFunctionOrConstructorType = tsPrintFunctionOrConstructorType;
-	typescript.tsPrintPropertyOrMethodName = tsPrintPropertyOrMethodName;
-	typescript.tsPrintSignatureDeclarationBase = tsPrintSignatureDeclarationBase;
-	typescript.tsPrintTypeLiteralOrInterfaceBody = tsPrintTypeLiteralOrInterfaceBody;
+	typescript$1.TSAnyKeyword = TSAnyKeyword;
+	typescript$1.TSArrayType = TSArrayType;
+	typescript$1.TSSatisfiesExpression = typescript$1.TSAsExpression = TSTypeExpression;
+	typescript$1.TSBigIntKeyword = TSBigIntKeyword;
+	typescript$1.TSBooleanKeyword = TSBooleanKeyword;
+	typescript$1.TSCallSignatureDeclaration = TSCallSignatureDeclaration;
+	typescript$1.TSConditionalType = TSConditionalType;
+	typescript$1.TSConstructSignatureDeclaration = TSConstructSignatureDeclaration;
+	typescript$1.TSConstructorType = TSConstructorType;
+	typescript$1.TSDeclareFunction = TSDeclareFunction;
+	typescript$1.TSDeclareMethod = TSDeclareMethod;
+	typescript$1.TSEnumDeclaration = TSEnumDeclaration;
+	typescript$1.TSEnumMember = TSEnumMember;
+	typescript$1.TSExportAssignment = TSExportAssignment;
+	typescript$1.TSExpressionWithTypeArguments = TSExpressionWithTypeArguments;
+	typescript$1.TSExternalModuleReference = TSExternalModuleReference;
+	typescript$1.TSFunctionType = TSFunctionType;
+	typescript$1.TSImportEqualsDeclaration = TSImportEqualsDeclaration;
+	typescript$1.TSImportType = TSImportType;
+	typescript$1.TSIndexSignature = TSIndexSignature;
+	typescript$1.TSIndexedAccessType = TSIndexedAccessType;
+	typescript$1.TSInferType = TSInferType;
+	typescript$1.TSInstantiationExpression = TSInstantiationExpression;
+	typescript$1.TSInterfaceBody = TSInterfaceBody;
+	typescript$1.TSInterfaceDeclaration = TSInterfaceDeclaration;
+	typescript$1.TSIntersectionType = TSIntersectionType;
+	typescript$1.TSIntrinsicKeyword = TSIntrinsicKeyword;
+	typescript$1.TSLiteralType = TSLiteralType;
+	typescript$1.TSMappedType = TSMappedType;
+	typescript$1.TSMethodSignature = TSMethodSignature;
+	typescript$1.TSModuleBlock = TSModuleBlock;
+	typescript$1.TSModuleDeclaration = TSModuleDeclaration;
+	typescript$1.TSNamedTupleMember = TSNamedTupleMember;
+	typescript$1.TSNamespaceExportDeclaration = TSNamespaceExportDeclaration;
+	typescript$1.TSNeverKeyword = TSNeverKeyword;
+	typescript$1.TSNonNullExpression = TSNonNullExpression;
+	typescript$1.TSNullKeyword = TSNullKeyword;
+	typescript$1.TSNumberKeyword = TSNumberKeyword;
+	typescript$1.TSObjectKeyword = TSObjectKeyword;
+	typescript$1.TSOptionalType = TSOptionalType;
+	typescript$1.TSParameterProperty = TSParameterProperty;
+	typescript$1.TSParenthesizedType = TSParenthesizedType;
+	typescript$1.TSPropertySignature = TSPropertySignature;
+	typescript$1.TSQualifiedName = TSQualifiedName;
+	typescript$1.TSRestType = TSRestType;
+	typescript$1.TSStringKeyword = TSStringKeyword;
+	typescript$1.TSSymbolKeyword = TSSymbolKeyword;
+	typescript$1.TSThisType = TSThisType;
+	typescript$1.TSTupleType = TSTupleType;
+	typescript$1.TSTypeAliasDeclaration = TSTypeAliasDeclaration;
+	typescript$1.TSTypeAnnotation = TSTypeAnnotation;
+	typescript$1.TSTypeAssertion = TSTypeAssertion;
+	typescript$1.TSTypeLiteral = TSTypeLiteral;
+	typescript$1.TSTypeOperator = TSTypeOperator;
+	typescript$1.TSTypeParameter = TSTypeParameter;
+	typescript$1.TSTypeParameterDeclaration = typescript$1.TSTypeParameterInstantiation = TSTypeParameterInstantiation;
+	typescript$1.TSTypePredicate = TSTypePredicate;
+	typescript$1.TSTypeQuery = TSTypeQuery;
+	typescript$1.TSTypeReference = TSTypeReference;
+	typescript$1.TSUndefinedKeyword = TSUndefinedKeyword;
+	typescript$1.TSUnionType = TSUnionType;
+	typescript$1.TSUnknownKeyword = TSUnknownKeyword;
+	typescript$1.TSVoidKeyword = TSVoidKeyword;
+	typescript$1.tsPrintClassMemberModifiers = tsPrintClassMemberModifiers;
+	typescript$1.tsPrintFunctionOrConstructorType = tsPrintFunctionOrConstructorType;
+	typescript$1.tsPrintPropertyOrMethodName = tsPrintPropertyOrMethodName;
+	typescript$1.tsPrintSignatureDeclarationBase = tsPrintSignatureDeclarationBase;
+	typescript$1.tsPrintTypeLiteralOrInterfaceBody = tsPrintTypeLiteralOrInterfaceBody;
 	function TSTypeAnnotation(node) {
 	  this.tokenChar(58);
 	  this.space();
@@ -26219,7 +26209,7 @@ function requireTypescript () {
 	}
 
 	
-	return typescript;
+	return typescript$1;
 }var hasRequiredGenerators;
 
 function requireGenerators () {
@@ -26367,7 +26357,7 @@ function requirePrinter () {
 	printer$1.default = void 0;
 	var _buffer = requireBuffer();
 	var n = requireNode();
-	var _t = requireLib$f();
+	var _t = requireLib$b();
 	var generatorFunctions = requireGenerators();
 	const {
 	  isFunction,
@@ -27011,17 +27001,17 @@ function requirePrinter () {
 
 	
 	return printer$1;
-}var hasRequiredLib$c;
+}var hasRequiredLib$a;
 
-function requireLib$c () {
-	if (hasRequiredLib$c) return lib$j;
-	hasRequiredLib$c = 1;
+function requireLib$a () {
+	if (hasRequiredLib$a) return lib$s;
+	hasRequiredLib$a = 1;
 
-	Object.defineProperty(lib$j, "__esModule", {
+	Object.defineProperty(lib$s, "__esModule", {
 	  value: true
 	});
-	lib$j.CodeGenerator = void 0;
-	lib$j.default = generate;
+	lib$s.CodeGenerator = void 0;
+	lib$s.default = generate;
 	var _sourceMap = requireSourceMap();
 	var _printer = requirePrinter();
 	class Generator extends _printer.default {
@@ -27102,14 +27092,14 @@ function requireLib$c () {
 	    return this._generator.generate();
 	  }
 	}
-	lib$j.CodeGenerator = CodeGenerator;
+	lib$s.CodeGenerator = CodeGenerator;
 	function generate(ast, opts, code) {
 	  const gen = new Generator(ast, opts, code);
 	  return gen.generate();
 	}
 
 	
-	return lib$j;
+	return lib$s;
 }var ancestry = {};var hasRequiredAncestry;
 
 function requireAncestry () {
@@ -27129,7 +27119,7 @@ function requireAncestry () {
 	ancestry.inType = inType;
 	ancestry.isAncestor = isAncestor;
 	ancestry.isDescendant = isDescendant;
-	var _t = requireLib$f();
+	var _t = requireLib$b();
 	const {
 	  VISITOR_KEYS
 	} = _t;
@@ -27266,7 +27256,7 @@ function requireUtil () {
 	  value: true
 	});
 	util$1.createUnionType = createUnionType;
-	var _t = requireLib$f();
+	var _t = requireLib$b();
 	const {
 	  createFlowUnionType,
 	  createTSUnionType,
@@ -27301,7 +27291,7 @@ function requireInfererReference () {
 	  value: true
 	});
 	infererReference.default = _default;
-	var _t = requireLib$f();
+	var _t = requireLib$b();
 	var _util = requireUtil();
 	const {
 	  BOOLEAN_NUMBER_BINARY_OPERATORS,
@@ -27488,7 +27478,7 @@ function requireInferers () {
 		exports.UnaryExpression = UnaryExpression;
 		exports.UpdateExpression = UpdateExpression;
 		exports.VariableDeclarator = VariableDeclarator;
-		var _t = requireLib$f();
+		var _t = requireLib$b();
 		var _infererReference = requireInfererReference();
 		var _util = requireUtil();
 		const {
@@ -27677,7 +27667,7 @@ function requireInference () {
 	inference.isBaseType = isBaseType;
 	inference.isGenericType = isGenericType;
 	var inferers = requireInferers();
-	var _t = requireLib$f();
+	var _t = requireLib$b();
 	const {
 	  anyTypeAnnotation,
 	  isAnyTypeAnnotation,
@@ -27815,7 +27805,7 @@ function requireInference () {
 
 	
 	return inference;
-}var replacement = {};var lib$i = {};var lib$h = {};var jsTokens = {};var hasRequiredJsTokens;
+}var replacement = {};var lib$r = {};var lib$q = {};var jsTokens = {};var hasRequiredJsTokens;
 
 function requireJsTokens () {
 	if (hasRequiredJsTokens) return jsTokens;
@@ -29636,19 +29626,19 @@ function requireChalk () {
 		module.exports.default = module.exports; // For TypeScript 
 	} (chalk));
 	return chalk.exports;
-}var hasRequiredLib$b;
+}var hasRequiredLib$9;
 
-function requireLib$b () {
-	if (hasRequiredLib$b) return lib$h;
-	hasRequiredLib$b = 1;
+function requireLib$9 () {
+	if (hasRequiredLib$9) return lib$q;
+	hasRequiredLib$9 = 1;
 
-	Object.defineProperty(lib$h, "__esModule", {
+	Object.defineProperty(lib$q, "__esModule", {
 	  value: true
 	});
-	lib$h.default = highlight;
-	lib$h.shouldHighlight = shouldHighlight;
+	lib$q.default = highlight;
+	lib$q.shouldHighlight = shouldHighlight;
 	var _jsTokens = requireJsTokens();
-	var _helperValidatorIdentifier = requireLib$h();
+	var _helperValidatorIdentifier = requireLib$d();
 	var _chalk = _interopRequireWildcard(requireChalk(), true);
 	function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function (nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 	function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
@@ -29734,7 +29724,7 @@ function requireLib$b () {
 	}
 	{
 	  {
-	    lib$h.getChalk = options => getChalk(options.forceColor);
+	    lib$q.getChalk = options => getChalk(options.forceColor);
 	  }
 	}
 	function highlight(code, options = {}) {
@@ -29747,19 +29737,19 @@ function requireLib$b () {
 	}
 
 	
-	return lib$h;
-}var hasRequiredLib$a;
+	return lib$q;
+}var hasRequiredLib$8;
 
-function requireLib$a () {
-	if (hasRequiredLib$a) return lib$i;
-	hasRequiredLib$a = 1;
+function requireLib$8 () {
+	if (hasRequiredLib$8) return lib$r;
+	hasRequiredLib$8 = 1;
 
-	Object.defineProperty(lib$i, "__esModule", {
+	Object.defineProperty(lib$r, "__esModule", {
 	  value: true
 	});
-	lib$i.codeFrameColumns = codeFrameColumns;
-	lib$i.default = _default;
-	var _highlight = requireLib$b();
+	lib$r.codeFrameColumns = codeFrameColumns;
+	lib$r.default = _default;
+	var _highlight = requireLib$9();
 	var _chalk = _interopRequireWildcard(requireChalk(), true);
 	function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function (nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 	function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
@@ -29909,12 +29899,12 @@ function requireLib$a () {
 	}
 
 	
-	return lib$i;
-}var lib$g = {};var hasRequiredLib$9;
+	return lib$r;
+}var lib$p = {};var hasRequiredLib$7;
 
-function requireLib$9 () {
-	if (hasRequiredLib$9) return lib$g;
-	hasRequiredLib$9 = 1;
+function requireLib$7 () {
+	if (hasRequiredLib$7) return lib$p;
+	hasRequiredLib$7 = 1;
 
 	function _objectWithoutPropertiesLoose(source, excluded) {
 	  if (source == null) return {};
@@ -44286,22 +44276,22 @@ function requireLib$9 () {
 	  }
 	  return cls;
 	}
-	lib$g.parse = parse;
-	lib$g.parseExpression = parseExpression;
-	lib$g.tokTypes = tokTypes;
+	lib$p.parse = parse;
+	lib$p.parseExpression = parseExpression;
+	lib$p.tokTypes = tokTypes;
 	
-	return lib$g;
-}var lib$f = {};var hasRequiredLib$8;
+	return lib$p;
+}var lib$o = {};var hasRequiredLib$6;
 
-function requireLib$8 () {
-	if (hasRequiredLib$8) return lib$f;
-	hasRequiredLib$8 = 1;
+function requireLib$6 () {
+	if (hasRequiredLib$6) return lib$o;
+	hasRequiredLib$6 = 1;
 
-	Object.defineProperty(lib$f, "__esModule", {
+	Object.defineProperty(lib$o, "__esModule", {
 	  value: true
 	});
-	lib$f.default = hoistVariables;
-	var _t = requireLib$f();
+	lib$o.default = hoistVariables;
+	var _t = requireLib$b();
 	const {
 	  assignmentExpression,
 	  expressionStatement,
@@ -44345,7 +44335,7 @@ function requireLib$8 () {
 	}
 
 	
-	return lib$f;
+	return lib$o;
 }var hasRequiredReplacement;
 
 function requireReplacement () {
@@ -44361,13 +44351,13 @@ function requireReplacement () {
 	replacement.replaceWith = replaceWith;
 	replacement.replaceWithMultiple = replaceWithMultiple;
 	replacement.replaceWithSourceString = replaceWithSourceString;
-	var _codeFrame = requireLib$a();
-	var _index = requireLib$5();
+	var _codeFrame = requireLib$8();
+	var _index = requireLib$4();
 	var _index2 = requirePath();
 	var _cache = requireCache();
-	var _parser = requireLib$9();
-	var _t = requireLib$f();
-	var _helperHoistVariables = requireLib$8();
+	var _parser = requireLib$7();
+	var _t = requireLib$b();
+	var _helperHoistVariables = requireLib$6();
 	const {
 	  FUNCTION_TYPES,
 	  arrowFunctionExpression,
@@ -44901,7 +44891,7 @@ function requireEvaluation () {
 
 	
 	return evaluation;
-}var conversion = {};var lib$e = {};var lib$d = {};var formatters = {};var hasRequiredFormatters;
+}var conversion = {};var lib$n = {};var lib$m = {};var formatters = {};var hasRequiredFormatters;
 
 function requireFormatters () {
 	if (hasRequiredFormatters) return formatters;
@@ -44911,7 +44901,7 @@ function requireFormatters () {
 	  value: true
 	});
 	formatters.statements = formatters.statement = formatters.smart = formatters.program = formatters.expression = void 0;
-	var _t = requireLib$f();
+	var _t = requireLib$b();
 	const {
 	  assertExpressionStatement
 	} = _t;
@@ -45060,9 +45050,9 @@ function requireParse$2 () {
 	  value: true
 	});
 	parse$2.default = parseAndBuildMetadata;
-	var _t = requireLib$f();
-	var _parser = requireLib$9();
-	var _codeFrame = requireLib$a();
+	var _t = requireLib$b();
+	var _parser = requireLib$7();
+	var _codeFrame = requireLib$8();
 	const {
 	  isCallExpression,
 	  isExpressionStatement,
@@ -45225,7 +45215,7 @@ function requirePopulate () {
 	  value: true
 	});
 	populate.default = populatePlaceholders;
-	var _t = requireLib$f();
+	var _t = requireLib$b();
 	const {
 	  blockStatement,
 	  cloneNode,
@@ -45515,28 +45505,28 @@ function requireBuilder () {
 
 	
 	return builder;
-}var hasRequiredLib$7;
+}var hasRequiredLib$5;
 
-function requireLib$7 () {
-	if (hasRequiredLib$7) return lib$d;
-	hasRequiredLib$7 = 1;
+function requireLib$5 () {
+	if (hasRequiredLib$5) return lib$m;
+	hasRequiredLib$5 = 1;
 
-	Object.defineProperty(lib$d, "__esModule", {
+	Object.defineProperty(lib$m, "__esModule", {
 	  value: true
 	});
-	lib$d.statements = lib$d.statement = lib$d.smart = lib$d.program = lib$d.expression = lib$d.default = void 0;
+	lib$m.statements = lib$m.statement = lib$m.smart = lib$m.program = lib$m.expression = lib$m.default = void 0;
 	var formatters = requireFormatters();
 	var _builder = requireBuilder();
 	const smart = (0, _builder.default)(formatters.smart);
-	lib$d.smart = smart;
+	lib$m.smart = smart;
 	const statement = (0, _builder.default)(formatters.statement);
-	lib$d.statement = statement;
+	lib$m.statement = statement;
 	const statements = (0, _builder.default)(formatters.statements);
-	lib$d.statements = statements;
+	lib$m.statements = statements;
 	const expression = (0, _builder.default)(formatters.expression);
-	lib$d.expression = expression;
+	lib$m.expression = expression;
 	const program = (0, _builder.default)(formatters.program);
-	lib$d.program = program;
+	lib$m.program = program;
 	var _default = Object.assign(smart.bind(undefined), {
 	  smart,
 	  statement,
@@ -45545,45 +45535,39 @@ function requireLib$7 () {
 	  program,
 	  ast: smart.ast
 	});
-	lib$d.default = _default;
+	lib$m.default = _default;
 
 	
-	return lib$d;
-}var hasRequiredLib$6;
-
-function requireLib$6 () {
-	if (hasRequiredLib$6) return lib$e;
-	hasRequiredLib$6 = 1;
-
-	Object.defineProperty(lib$e, "__esModule", {
-	  value: true
-	});
-	lib$e.default = _default;
-	var _template = requireLib$7();
-	var _t = requireLib$f();
-	const {
-	  NOT_LOCAL_BINDING,
-	  cloneNode,
-	  identifier,
-	  isAssignmentExpression,
-	  isAssignmentPattern,
-	  isFunction,
-	  isIdentifier,
-	  isLiteral,
-	  isNullLiteral,
-	  isObjectMethod,
-	  isObjectProperty,
-	  isRegExpLiteral,
-	  isRestElement,
-	  isTemplateLiteral,
-	  isVariableDeclarator,
-	  toBindingIdentifierName
-	} = _t;
-	function getFunctionArity(node) {
-	  const count = node.params.findIndex(param => isAssignmentPattern(param) || isRestElement(param));
-	  return count === -1 ? node.params.length : count;
-	}
-	const buildPropertyMethodAssignmentWrapper = _template.default.statement(`
+	return lib$m;
+}Object.defineProperty(lib$n, "__esModule", {
+  value: true
+});
+lib$n.default = _default$a;
+var _template = requireLib$5();
+var _t$7 = requireLib$b();
+const {
+  NOT_LOCAL_BINDING,
+  cloneNode: cloneNode$4,
+  identifier: identifier$5,
+  isAssignmentExpression,
+  isAssignmentPattern,
+  isFunction: isFunction$1,
+  isIdentifier: isIdentifier$1,
+  isLiteral,
+  isNullLiteral,
+  isObjectMethod,
+  isObjectProperty,
+  isRegExpLiteral,
+  isRestElement,
+  isTemplateLiteral,
+  isVariableDeclarator,
+  toBindingIdentifierName
+} = _t$7;
+function getFunctionArity(node) {
+  const count = node.params.findIndex(param => isAssignmentPattern(param) || isRestElement(param));
+  return count === -1 ? node.params.length : count;
+}
+const buildPropertyMethodAssignmentWrapper = _template.default.statement(`
   (function (FUNCTION_KEY) {
     function FUNCTION_ID() {
       return FUNCTION_KEY.apply(this, arguments);
@@ -45596,7 +45580,7 @@ function requireLib$6 () {
     return FUNCTION_ID;
   })(FUNCTION)
 `);
-	const buildGeneratorPropertyMethodAssignmentWrapper = _template.default.statement(`
+const buildGeneratorPropertyMethodAssignmentWrapper = _template.default.statement(`
   (function (FUNCTION_KEY) {
     function* FUNCTION_ID() {
       return yield* FUNCTION_KEY.apply(this, arguments);
@@ -45609,121 +45593,117 @@ function requireLib$6 () {
     return FUNCTION_ID;
   })(FUNCTION)
 `);
-	const visitor = {
-	  "ReferencedIdentifier|BindingIdentifier"(path, state) {
-	    if (path.node.name !== state.name) return;
-	    const localDeclar = path.scope.getBindingIdentifier(state.name);
-	    if (localDeclar !== state.outerDeclar) return;
-	    state.selfReference = true;
-	    path.stop();
-	  }
-	};
-	function getNameFromLiteralId(id) {
-	  if (isNullLiteral(id)) {
-	    return "null";
-	  }
-	  if (isRegExpLiteral(id)) {
-	    return `_${id.pattern}_${id.flags}`;
-	  }
-	  if (isTemplateLiteral(id)) {
-	    return id.quasis.map(quasi => quasi.value.raw).join("");
-	  }
-	  if (id.value !== undefined) {
-	    return id.value + "";
-	  }
-	  return "";
-	}
-	function wrap(state, method, id, scope) {
-	  if (state.selfReference) {
-	    if (scope.hasBinding(id.name) && !scope.hasGlobal(id.name)) {
-	      scope.rename(id.name);
-	    } else {
-	      if (!isFunction(method)) return;
-	      let build = buildPropertyMethodAssignmentWrapper;
-	      if (method.generator) {
-	        build = buildGeneratorPropertyMethodAssignmentWrapper;
-	      }
-	      const template = build({
-	        FUNCTION: method,
-	        FUNCTION_ID: id,
-	        FUNCTION_KEY: scope.generateUidIdentifier(id.name)
-	      }).expression;
-	      const params = template.callee.body.body[0].params;
-	      for (let i = 0, len = getFunctionArity(method); i < len; i++) {
-	        params.push(scope.generateUidIdentifier("x"));
-	      }
-	      return template;
-	    }
-	  }
-	  method.id = id;
-	  scope.getProgramParent().references[id.name] = true;
-	}
-	function visit(node, name, scope) {
-	  const state = {
-	    selfAssignment: false,
-	    selfReference: false,
-	    outerDeclar: scope.getBindingIdentifier(name),
-	    name: name
-	  };
-	  const binding = scope.getOwnBinding(name);
-	  if (binding) {
-	    if (binding.kind === "param") {
-	      state.selfReference = true;
-	    }
-	  } else if (state.outerDeclar || scope.hasGlobal(name)) {
-	    scope.traverse(node, visitor, state);
-	  }
-	  return state;
-	}
-	function _default({
-	  node,
-	  parent,
-	  scope,
-	  id
-	}, localBinding = false, supportUnicodeId = false) {
-	  if (node.id) return;
-	  if ((isObjectProperty(parent) || isObjectMethod(parent, {
-	    kind: "method"
-	  })) && (!parent.computed || isLiteral(parent.key))) {
-	    id = parent.key;
-	  } else if (isVariableDeclarator(parent)) {
-	    id = parent.id;
-	    if (isIdentifier(id) && !localBinding) {
-	      const binding = scope.parent.getBinding(id.name);
-	      if (binding && binding.constant && scope.getBinding(id.name) === binding) {
-	        node.id = cloneNode(id);
-	        node.id[NOT_LOCAL_BINDING] = true;
-	        return;
-	      }
-	    }
-	  } else if (isAssignmentExpression(parent, {
-	    operator: "="
-	  })) {
-	    id = parent.left;
-	  } else if (!id) {
-	    return;
-	  }
-	  let name;
-	  if (id && isLiteral(id)) {
-	    name = getNameFromLiteralId(id);
-	  } else if (id && isIdentifier(id)) {
-	    name = id.name;
-	  }
-	  if (name === undefined) {
-	    return;
-	  }
-	  if (!supportUnicodeId && isFunction(node) && /[\uD800-\uDFFF]/.test(name)) {
-	    return;
-	  }
-	  name = toBindingIdentifierName(name);
-	  const newId = identifier(name);
-	  newId[NOT_LOCAL_BINDING] = true;
-	  const state = visit(node, name, scope);
-	  return wrap(state, node, newId, scope) || node;
-	}
-
-	
-	return lib$e;
+const visitor$1 = {
+  "ReferencedIdentifier|BindingIdentifier"(path, state) {
+    if (path.node.name !== state.name) return;
+    const localDeclar = path.scope.getBindingIdentifier(state.name);
+    if (localDeclar !== state.outerDeclar) return;
+    state.selfReference = true;
+    path.stop();
+  }
+};
+function getNameFromLiteralId(id) {
+  if (isNullLiteral(id)) {
+    return "null";
+  }
+  if (isRegExpLiteral(id)) {
+    return `_${id.pattern}_${id.flags}`;
+  }
+  if (isTemplateLiteral(id)) {
+    return id.quasis.map(quasi => quasi.value.raw).join("");
+  }
+  if (id.value !== undefined) {
+    return id.value + "";
+  }
+  return "";
+}
+function wrap(state, method, id, scope) {
+  if (state.selfReference) {
+    if (scope.hasBinding(id.name) && !scope.hasGlobal(id.name)) {
+      scope.rename(id.name);
+    } else {
+      if (!isFunction$1(method)) return;
+      let build = buildPropertyMethodAssignmentWrapper;
+      if (method.generator) {
+        build = buildGeneratorPropertyMethodAssignmentWrapper;
+      }
+      const template = build({
+        FUNCTION: method,
+        FUNCTION_ID: id,
+        FUNCTION_KEY: scope.generateUidIdentifier(id.name)
+      }).expression;
+      const params = template.callee.body.body[0].params;
+      for (let i = 0, len = getFunctionArity(method); i < len; i++) {
+        params.push(scope.generateUidIdentifier("x"));
+      }
+      return template;
+    }
+  }
+  method.id = id;
+  scope.getProgramParent().references[id.name] = true;
+}
+function visit(node, name, scope) {
+  const state = {
+    selfAssignment: false,
+    selfReference: false,
+    outerDeclar: scope.getBindingIdentifier(name),
+    name: name
+  };
+  const binding = scope.getOwnBinding(name);
+  if (binding) {
+    if (binding.kind === "param") {
+      state.selfReference = true;
+    }
+  } else if (state.outerDeclar || scope.hasGlobal(name)) {
+    scope.traverse(node, visitor$1, state);
+  }
+  return state;
+}
+function _default$a({
+  node,
+  parent,
+  scope,
+  id
+}, localBinding = false, supportUnicodeId = false) {
+  if (node.id) return;
+  if ((isObjectProperty(parent) || isObjectMethod(parent, {
+    kind: "method"
+  })) && (!parent.computed || isLiteral(parent.key))) {
+    id = parent.key;
+  } else if (isVariableDeclarator(parent)) {
+    id = parent.id;
+    if (isIdentifier$1(id) && !localBinding) {
+      const binding = scope.parent.getBinding(id.name);
+      if (binding && binding.constant && scope.getBinding(id.name) === binding) {
+        node.id = cloneNode$4(id);
+        node.id[NOT_LOCAL_BINDING] = true;
+        return;
+      }
+    }
+  } else if (isAssignmentExpression(parent, {
+    operator: "="
+  })) {
+    id = parent.left;
+  } else if (!id) {
+    return;
+  }
+  let name;
+  if (id && isLiteral(id)) {
+    name = getNameFromLiteralId(id);
+  } else if (id && isIdentifier$1(id)) {
+    name = id.name;
+  }
+  if (name === undefined) {
+    return;
+  }
+  if (!supportUnicodeId && isFunction$1(node) && /[\uD800-\uDFFF]/.test(name)) {
+    return;
+  }
+  name = toBindingIdentifierName(name);
+  const newId = identifier$5(name);
+  newId[NOT_LOCAL_BINDING] = true;
+  const state = visit(node, name, scope);
+  return wrap(state, node, newId, scope) || node;
 }var hasRequiredConversion;
 
 function requireConversion () {
@@ -45737,9 +45717,9 @@ function requireConversion () {
 	conversion.ensureBlock = ensureBlock;
 	conversion.toComputedKey = toComputedKey;
 	conversion.unwrapFunctionEnvironment = unwrapFunctionEnvironment;
-	var _t = requireLib$f();
-	var _helperEnvironmentVisitor = requireLib$d();
-	var _helperFunctionName = requireLib$6();
+	var _t = requireLib$b();
+	var _helperEnvironmentVisitor = lib$t;
+	var _helperFunctionName = lib$n;
 	var _visitors = requireVisitors();
 	const {
 	  arrowFunctionExpression,
@@ -46227,7 +46207,7 @@ function requireIntrospection () {
 	introspection.referencesImport = referencesImport;
 	introspection.resolve = resolve;
 	introspection.willIMaybeExecuteBefore = willIMaybeExecuteBefore;
-	var _t = requireLib$f();
+	var _t = requireLib$b();
 	const {
 	  STATEMENT_OR_BLOCK_KEYS,
 	  VISITOR_KEYS,
@@ -46933,7 +46913,7 @@ function requireHoister () {
 	  value: true
 	});
 	hoister.default = void 0;
-	var _t = requireLib$f();
+	var _t = requireLib$b();
 	var _t2 = _t;
 	const {
 	  react
@@ -47121,7 +47101,7 @@ function requireModification () {
 	var _cache = requireCache();
 	var _hoister = requireHoister();
 	var _index = requirePath();
-	var _t = requireLib$f();
+	var _t = requireLib$b();
 	const {
 	  arrowFunctionExpression,
 	  assertExpression,
@@ -47353,7 +47333,7 @@ function requireFamily () {
 	family.getPrevSibling = getPrevSibling;
 	family.getSibling = getSibling;
 	var _index = requirePath();
-	var _t = requireLib$f();
+	var _t = requireLib$b();
 	const {
 	  getBindingIdentifiers: _getBindingIdentifiers,
 	  getOuterBindingIdentifiers: _getOuterBindingIdentifiers,
@@ -47682,7 +47662,7 @@ function requireComments () {
 	comments.addComment = addComment;
 	comments.addComments = addComments;
 	comments.shareCommentsWithSiblings = shareCommentsWithSiblings;
-	var _t = requireLib$f();
+	var _t = requireLib$b();
 	const {
 	  addComment: _addComment,
 	  addComments: _addComments
@@ -47754,7 +47734,7 @@ function requireVirtualTypesValidator () {
 	virtualTypesValidator.isStatement = isStatement;
 	virtualTypesValidator.isUser = isUser;
 	virtualTypesValidator.isVar = isVar;
-	var _t = requireLib$f();
+	var _t = requireLib$b();
 	const {
 	  isBinding,
 	  isBlockScoped: nodeIsBlockScoped,
@@ -47900,21 +47880,21 @@ function requireVirtualTypesValidator () {
 }var hasRequiredPath;
 
 function requirePath () {
-	if (hasRequiredPath) return path;
+	if (hasRequiredPath) return path$1;
 	hasRequiredPath = 1;
 
-	Object.defineProperty(path, "__esModule", {
+	Object.defineProperty(path$1, "__esModule", {
 	  value: true
 	});
-	path.default = path.SHOULD_STOP = path.SHOULD_SKIP = path.REMOVED = void 0;
+	path$1.default = path$1.SHOULD_STOP = path$1.SHOULD_SKIP = path$1.REMOVED = void 0;
 	var virtualTypes = requireVirtualTypes();
 	var _debug = requireBrowser$2();
-	var _index = requireLib$5();
+	var _index = requireLib$4();
 	var _scope = requireScope();
-	var _t = requireLib$f();
+	var _t = requireLib$b();
 	var t = _t;
 	var cache = requireCache();
-	var _generator = requireLib$c();
+	var _generator = requireLib$a();
 	var NodePath_ancestry = requireAncestry();
 	var NodePath_inference = requireInference();
 	var NodePath_replacement = requireReplacement();
@@ -47932,11 +47912,11 @@ function requirePath () {
 	} = _t;
 	const debug = _debug("babel");
 	const REMOVED = 1 << 0;
-	path.REMOVED = REMOVED;
+	path$1.REMOVED = REMOVED;
 	const SHOULD_STOP = 1 << 1;
-	path.SHOULD_STOP = SHOULD_STOP;
+	path$1.SHOULD_STOP = SHOULD_STOP;
 	const SHOULD_SKIP = 1 << 2;
-	path.SHOULD_SKIP = SHOULD_SKIP;
+	path$1.SHOULD_SKIP = SHOULD_SKIP;
 	class NodePath {
 	  constructor(hub, parent) {
 	    this.contexts = [];
@@ -48091,10 +48071,10 @@ function requirePath () {
 	  if (!t.TYPES.includes(type)) t.TYPES.push(type);
 	}
 	var _default = NodePath;
-	path.default = _default;
+	path$1.default = _default;
 
 	
-	return path;
+	return path$1;
 }var hasRequiredContext;
 
 function requireContext () {
@@ -48106,7 +48086,7 @@ function requireContext () {
 	});
 	context$1.default = void 0;
 	var _path = requirePath();
-	var _t = requireLib$f();
+	var _t = requireLib$b();
 	const {
 	  VISITOR_KEYS
 	} = _t;
@@ -48226,7 +48206,7 @@ function requireTraverseNode () {
 	});
 	traverseNode.traverseNode = traverseNode$1;
 	var _context = requireContext();
-	var _t = requireLib$f();
+	var _t = requireLib$b();
 	const {
 	  VISITOR_KEYS
 	} = _t;
@@ -48273,11 +48253,11 @@ function requireHub () {
 
 	
 	return hub;
-}var hasRequiredLib$5;
+}var hasRequiredLib$4;
 
-function requireLib$5 () {
-	if (hasRequiredLib$5) return lib$p;
-	hasRequiredLib$5 = 1;
+function requireLib$4 () {
+	if (hasRequiredLib$4) return lib$y;
+	hasRequiredLib$4 = 1;
 	(function (exports) {
 
 		Object.defineProperty(exports, "__esModule", {
@@ -48304,7 +48284,7 @@ function requireLib$5 () {
 		exports.visitors = exports.default = void 0;
 		var visitors = requireVisitors();
 		exports.visitors = visitors;
-		var _t = requireLib$f();
+		var _t = requireLib$b();
 		var cache = requireCache();
 		var _traverseNode = requireTraverseNode();
 		var _path = requirePath();
@@ -48373,8 +48353,8 @@ function requireLib$5 () {
 		traverse.cache = cache;
 
 		
-	} (lib$p));
-	return lib$p;
+	} (lib$y));
+	return lib$y;
 }var helpers = {};var helpersGenerated = {};var hasRequiredHelpersGenerated;
 
 function requireHelpersGenerated () {
@@ -48385,7 +48365,7 @@ function requireHelpersGenerated () {
 	  value: true
 	});
 	helpersGenerated.default = void 0;
-	var _template = requireLib$7();
+	var _template = requireLib$5();
 	function helper(minVersion, source) {
 	  return Object.freeze({
 	    minVersion,
@@ -48431,7 +48411,7 @@ function requireHelpers () {
 	  value: true
 	});
 	helpers.default = void 0;
-	var _template = requireLib$7();
+	var _template = requireLib$5();
 	var _helpersGenerated = requireHelpersGenerated();
 	const helpers$1 = Object.assign({
 	  __proto__: null
@@ -50210,23 +50190,23 @@ function requireHelpers () {
 
 	
 	return helpers;
-}var hasRequiredLib$4;
+}var hasRequiredLib$3;
 
-function requireLib$4 () {
-	if (hasRequiredLib$4) return lib$q;
-	hasRequiredLib$4 = 1;
+function requireLib$3 () {
+	if (hasRequiredLib$3) return lib$z;
+	hasRequiredLib$3 = 1;
 
-	Object.defineProperty(lib$q, "__esModule", {
+	Object.defineProperty(lib$z, "__esModule", {
 	  value: true
 	});
-	lib$q.default = void 0;
-	lib$q.ensure = ensure;
-	lib$q.get = get;
-	lib$q.getDependencies = getDependencies;
-	lib$q.list = void 0;
-	lib$q.minVersion = minVersion;
-	var _traverse = requireLib$5();
-	var _t = requireLib$f();
+	lib$z.default = void 0;
+	lib$z.ensure = ensure;
+	lib$z.get = get;
+	lib$z.getDependencies = getDependencies;
+	lib$z.list = void 0;
+	lib$z.minVersion = minVersion;
+	var _traverse = requireLib$4();
+	var _t = requireLib$b();
 	var _helpers = requireHelpers();
 	const {
 	  assignmentExpression,
@@ -50451,13 +50431,13 @@ function requireLib$4 () {
 	  loadHelper(name);
 	}
 	const list = Object.keys(_helpers.default).map(name => name.replace(/^_/, ""));
-	lib$q.list = list;
+	lib$z.list = list;
 	var _default = get;
-	lib$q.default = _default;
+	lib$z.default = _default;
 
 	
-	return lib$q;
-}var lib$c = {};var inherits;
+	return lib$z;
+}var lib$l = {};var inherits;
 if (typeof Object.create === 'function'){
   inherits = function inherits(ctor, superCtor) {
     // implementation from standard node.js 'util' module
@@ -51337,26 +51317,26 @@ function doesNotThrow(block, /*optional*/error, /*optional*/message) {
 assert.ifError = ifError;
 function ifError(err) {
   if (err) throw err;
-}var _polyfillNode_assert=/*#__PURE__*/Object.freeze({__proto__:null,AssertionError:AssertionError,assert:ok,deepEqual:deepEqual,deepStrictEqual:deepStrictEqual,default:assert,doesNotThrow:doesNotThrow,equal:equal,fail:fail,ifError:ifError,notDeepEqual:notDeepEqual,notDeepStrictEqual:notDeepStrictEqual,notEqual:notEqual,notStrictEqual:notStrictEqual,ok:ok,strictEqual:strictEqual,throws:throws});var require$$0$4 = /*@__PURE__*/getAugmentedNamespace(_polyfillNode_assert);var lib$b = {};var importInjector = {};var importBuilder = {};Object.defineProperty(importBuilder, "__esModule", {
+}var _polyfillNode_assert=/*#__PURE__*/Object.freeze({__proto__:null,AssertionError:AssertionError,assert:ok,deepEqual:deepEqual,deepStrictEqual:deepStrictEqual,default:assert,doesNotThrow:doesNotThrow,equal:equal,fail:fail,ifError:ifError,notDeepEqual:notDeepEqual,notDeepStrictEqual:notDeepStrictEqual,notEqual:notEqual,notStrictEqual:notStrictEqual,ok:ok,strictEqual:strictEqual,throws:throws});var require$$1 = /*@__PURE__*/getAugmentedNamespace(_polyfillNode_assert);var lib$k = {};var importInjector = {};var importBuilder = {};Object.defineProperty(importBuilder, "__esModule", {
   value: true
 });
 importBuilder.default = void 0;
-var _assert$1 = require$$0$4;
-var _t$2 = requireLib$f();
+var _assert$2 = require$$1;
+var _t$6 = requireLib$b();
 const {
-  callExpression,
-  cloneNode,
+  callExpression: callExpression$3,
+  cloneNode: cloneNode$3,
   expressionStatement,
-  identifier,
+  identifier: identifier$4,
   importDeclaration,
   importDefaultSpecifier,
   importNamespaceSpecifier,
   importSpecifier,
-  memberExpression,
-  stringLiteral,
+  memberExpression: memberExpression$3,
+  stringLiteral: stringLiteral$1,
   variableDeclaration,
   variableDeclarator
-} = _t$2;
+} = _t$6;
 class ImportBuilder {
   constructor(importedSource, scope, hub) {
     this._statements = [];
@@ -51373,51 +51353,51 @@ class ImportBuilder {
     };
   }
   import() {
-    this._statements.push(importDeclaration([], stringLiteral(this._importedSource)));
+    this._statements.push(importDeclaration([], stringLiteral$1(this._importedSource)));
     return this;
   }
   require() {
-    this._statements.push(expressionStatement(callExpression(identifier("require"), [stringLiteral(this._importedSource)])));
+    this._statements.push(expressionStatement(callExpression$3(identifier$4("require"), [stringLiteral$1(this._importedSource)])));
     return this;
   }
   namespace(name = "namespace") {
     const local = this._scope.generateUidIdentifier(name);
     const statement = this._statements[this._statements.length - 1];
-    _assert$1(statement.type === "ImportDeclaration");
-    _assert$1(statement.specifiers.length === 0);
+    _assert$2(statement.type === "ImportDeclaration");
+    _assert$2(statement.specifiers.length === 0);
     statement.specifiers = [importNamespaceSpecifier(local)];
-    this._resultName = cloneNode(local);
+    this._resultName = cloneNode$3(local);
     return this;
   }
   default(name) {
     const id = this._scope.generateUidIdentifier(name);
     const statement = this._statements[this._statements.length - 1];
-    _assert$1(statement.type === "ImportDeclaration");
-    _assert$1(statement.specifiers.length === 0);
+    _assert$2(statement.type === "ImportDeclaration");
+    _assert$2(statement.specifiers.length === 0);
     statement.specifiers = [importDefaultSpecifier(id)];
-    this._resultName = cloneNode(id);
+    this._resultName = cloneNode$3(id);
     return this;
   }
   named(name, importName) {
     if (importName === "default") return this.default(name);
     const id = this._scope.generateUidIdentifier(name);
     const statement = this._statements[this._statements.length - 1];
-    _assert$1(statement.type === "ImportDeclaration");
-    _assert$1(statement.specifiers.length === 0);
-    statement.specifiers = [importSpecifier(id, identifier(importName))];
-    this._resultName = cloneNode(id);
+    _assert$2(statement.type === "ImportDeclaration");
+    _assert$2(statement.specifiers.length === 0);
+    statement.specifiers = [importSpecifier(id, identifier$4(importName))];
+    this._resultName = cloneNode$3(id);
     return this;
   }
   var(name) {
     const id = this._scope.generateUidIdentifier(name);
     let statement = this._statements[this._statements.length - 1];
     if (statement.type !== "ExpressionStatement") {
-      _assert$1(this._resultName);
+      _assert$2(this._resultName);
       statement = expressionStatement(this._resultName);
       this._statements.push(statement);
     }
     this._statements[this._statements.length - 1] = variableDeclaration("var", [variableDeclarator(id, statement.expression)]);
-    this._resultName = cloneNode(id);
+    this._resultName = cloneNode$3(id);
     return this;
   }
   defaultInterop() {
@@ -51429,29 +51409,29 @@ class ImportBuilder {
   _interop(callee) {
     const statement = this._statements[this._statements.length - 1];
     if (statement.type === "ExpressionStatement") {
-      statement.expression = callExpression(callee, [statement.expression]);
+      statement.expression = callExpression$3(callee, [statement.expression]);
     } else if (statement.type === "VariableDeclaration") {
-      _assert$1(statement.declarations.length === 1);
-      statement.declarations[0].init = callExpression(callee, [statement.declarations[0].init]);
+      _assert$2(statement.declarations.length === 1);
+      statement.declarations[0].init = callExpression$3(callee, [statement.declarations[0].init]);
     } else {
-      _assert$1.fail("Unexpected type.");
+      _assert$2.fail("Unexpected type.");
     }
     return this;
   }
   prop(name) {
     const statement = this._statements[this._statements.length - 1];
     if (statement.type === "ExpressionStatement") {
-      statement.expression = memberExpression(statement.expression, identifier(name));
+      statement.expression = memberExpression$3(statement.expression, identifier$4(name));
     } else if (statement.type === "VariableDeclaration") {
-      _assert$1(statement.declarations.length === 1);
-      statement.declarations[0].init = memberExpression(statement.declarations[0].init, identifier(name));
+      _assert$2(statement.declarations.length === 1);
+      statement.declarations[0].init = memberExpression$3(statement.declarations[0].init, identifier$4(name));
     } else {
-      _assert$1.fail("Unexpected type:" + statement.type);
+      _assert$2.fail("Unexpected type:" + statement.type);
     }
     return this;
   }
   read(name) {
-    this._resultName = memberExpression(this._resultName, identifier(name));
+    this._resultName = memberExpression$3(this._resultName, identifier$4(name));
   }
 }
 importBuilder.default = ImportBuilder;var isModule$1 = {};Object.defineProperty(isModule$1, "__esModule", {
@@ -51464,14 +51444,14 @@ function isModule(path) {
   value: true
 });
 importInjector.default = void 0;
-var _assert = require$$0$4;
-var _t$1 = requireLib$f();
+var _assert$1 = require$$1;
+var _t$5 = requireLib$b();
 var _importBuilder = importBuilder;
 var _isModule = isModule$1;
 const {
-  numericLiteral,
-  sequenceExpression
-} = _t$1;
+  numericLiteral: numericLiteral$1,
+  sequenceExpression: sequenceExpression$3
+} = _t$5;
 class ImportInjector {
   constructor(path, importedSource, opts) {
     this._defaultOpts = {
@@ -51493,7 +51473,7 @@ class ImportInjector {
     return this.addNamed("default", importedSourceIn, opts);
   }
   addNamed(importName, importedSourceIn, opts) {
-    _assert(typeof importName === "string");
+    _assert$1(typeof importName === "string");
     return this._generateImport(this._applyDefaults(importedSourceIn, opts), importName);
   }
   addNamespace(importedSourceIn, opts) {
@@ -51509,7 +51489,7 @@ class ImportInjector {
         importedSource
       }, opts);
     } else {
-      _assert(!opts, "Unexpected secondary arguments.");
+      _assert$1(!opts, "Unexpected secondary arguments.");
       newOpts = Object.assign({}, this._defaultOpts, importedSource);
     }
     if (!isInit && opts) {
@@ -51666,7 +51646,7 @@ class ImportInjector {
     } = builder.done();
     this._insertStatements(statements, importPosition, blockHoist);
     if ((isDefault || isNamed) && ensureNoContext && resultName.type !== "Identifier") {
-      return sequenceExpression([numericLiteral(0), resultName]);
+      return sequenceExpression$3([numericLiteral$1(0), resultName]);
     }
     return resultName;
   }
@@ -51732,7 +51712,7 @@ importInjector.default = ImportInjector;(function (exports) {
 	}
 
 	
-} (lib$b));var rewriteThis = {};var hasRequiredRewriteThis;
+} (lib$k));var rewriteThis = {};var hasRequiredRewriteThis;
 
 function requireRewriteThis () {
 	if (hasRequiredRewriteThis) return rewriteThis;
@@ -51742,7 +51722,7 @@ function requireRewriteThis () {
 	  value: true
 	});
 	rewriteThis.default = rewriteThis$1;
-	var _helperEnvironmentVisitor = requireLib$d();
+	var _helperEnvironmentVisitor = lib$t;
 	var _core = requireLib();
 	const {
 	  numericLiteral,
@@ -51761,102 +51741,92 @@ function requireRewriteThis () {
 
 	
 	return rewriteThis;
-}var rewriteLiveReferences = {};var lib$a = {};var hasRequiredLib$3;
-
-function requireLib$3 () {
-	if (hasRequiredLib$3) return lib$a;
-	hasRequiredLib$3 = 1;
-
-	Object.defineProperty(lib$a, "__esModule", {
-	  value: true
-	});
-	lib$a.default = simplifyAccess;
-	var _t = requireLib$f();
-	const {
-	  LOGICAL_OPERATORS,
-	  assignmentExpression,
-	  binaryExpression,
-	  cloneNode,
-	  identifier,
-	  logicalExpression,
-	  numericLiteral,
-	  sequenceExpression,
-	  unaryExpression
-	} = _t;
-	const simpleAssignmentVisitor = {
-	  AssignmentExpression: {
-	    exit(path) {
-	      const {
-	        scope,
-	        seen,
-	        bindingNames
-	      } = this;
-	      if (path.node.operator === "=") return;
-	      if (seen.has(path.node)) return;
-	      seen.add(path.node);
-	      const left = path.get("left");
-	      if (!left.isIdentifier()) return;
-	      const localName = left.node.name;
-	      if (!bindingNames.has(localName)) return;
-	      if (scope.getBinding(localName) !== path.scope.getBinding(localName)) {
-	        return;
-	      }
-	      const operator = path.node.operator.slice(0, -1);
-	      if (LOGICAL_OPERATORS.includes(operator)) {
-	        path.replaceWith(logicalExpression(operator, path.node.left, assignmentExpression("=", cloneNode(path.node.left), path.node.right)));
-	      } else {
-	        path.node.right = binaryExpression(operator, cloneNode(path.node.left), path.node.right);
-	        path.node.operator = "=";
-	      }
-	    }
-	  }
-	};
-	{
-	  simpleAssignmentVisitor.UpdateExpression = {
-	    exit(path) {
-	      if (!this.includeUpdateExpression) return;
-	      const {
-	        scope,
-	        bindingNames
-	      } = this;
-	      const arg = path.get("argument");
-	      if (!arg.isIdentifier()) return;
-	      const localName = arg.node.name;
-	      if (!bindingNames.has(localName)) return;
-	      if (scope.getBinding(localName) !== path.scope.getBinding(localName)) {
-	        return;
-	      }
-	      if (path.parentPath.isExpressionStatement() && !path.isCompletionRecord()) {
-	        const operator = path.node.operator == "++" ? "+=" : "-=";
-	        path.replaceWith(assignmentExpression(operator, arg.node, numericLiteral(1)));
-	      } else if (path.node.prefix) {
-	        path.replaceWith(assignmentExpression("=", identifier(localName), binaryExpression(path.node.operator[0], unaryExpression("+", arg.node), numericLiteral(1))));
-	      } else {
-	        const old = path.scope.generateUidIdentifierBasedOnNode(arg.node, "old");
-	        const varName = old.name;
-	        path.scope.push({
-	          id: old
-	        });
-	        const binary = binaryExpression(path.node.operator[0], identifier(varName), numericLiteral(1));
-	        path.replaceWith(sequenceExpression([assignmentExpression("=", identifier(varName), unaryExpression("+", arg.node)), assignmentExpression("=", cloneNode(arg.node), binary), identifier(varName)]));
-	      }
-	    }
-	  };
-	}
-	function simplifyAccess(path, bindingNames) {
-	  {
-	    var _arguments$;
-	    path.traverse(simpleAssignmentVisitor, {
-	      scope: path.scope,
-	      bindingNames,
-	      seen: new WeakSet(),
-	      includeUpdateExpression: (_arguments$ = arguments[2]) != null ? _arguments$ : true
-	    });
-	  }
-	}
-
-	
-	return lib$a;
+}var rewriteLiveReferences = {};var lib$j = {};Object.defineProperty(lib$j, "__esModule", {
+  value: true
+});
+lib$j.default = simplifyAccess;
+var _t$4 = requireLib$b();
+const {
+  LOGICAL_OPERATORS: LOGICAL_OPERATORS$1,
+  assignmentExpression: assignmentExpression$2,
+  binaryExpression: binaryExpression$1,
+  cloneNode: cloneNode$2,
+  identifier: identifier$3,
+  logicalExpression: logicalExpression$1,
+  numericLiteral,
+  sequenceExpression: sequenceExpression$2,
+  unaryExpression
+} = _t$4;
+const simpleAssignmentVisitor = {
+  AssignmentExpression: {
+    exit(path) {
+      const {
+        scope,
+        seen,
+        bindingNames
+      } = this;
+      if (path.node.operator === "=") return;
+      if (seen.has(path.node)) return;
+      seen.add(path.node);
+      const left = path.get("left");
+      if (!left.isIdentifier()) return;
+      const localName = left.node.name;
+      if (!bindingNames.has(localName)) return;
+      if (scope.getBinding(localName) !== path.scope.getBinding(localName)) {
+        return;
+      }
+      const operator = path.node.operator.slice(0, -1);
+      if (LOGICAL_OPERATORS$1.includes(operator)) {
+        path.replaceWith(logicalExpression$1(operator, path.node.left, assignmentExpression$2("=", cloneNode$2(path.node.left), path.node.right)));
+      } else {
+        path.node.right = binaryExpression$1(operator, cloneNode$2(path.node.left), path.node.right);
+        path.node.operator = "=";
+      }
+    }
+  }
+};
+{
+  simpleAssignmentVisitor.UpdateExpression = {
+    exit(path) {
+      if (!this.includeUpdateExpression) return;
+      const {
+        scope,
+        bindingNames
+      } = this;
+      const arg = path.get("argument");
+      if (!arg.isIdentifier()) return;
+      const localName = arg.node.name;
+      if (!bindingNames.has(localName)) return;
+      if (scope.getBinding(localName) !== path.scope.getBinding(localName)) {
+        return;
+      }
+      if (path.parentPath.isExpressionStatement() && !path.isCompletionRecord()) {
+        const operator = path.node.operator == "++" ? "+=" : "-=";
+        path.replaceWith(assignmentExpression$2(operator, arg.node, numericLiteral(1)));
+      } else if (path.node.prefix) {
+        path.replaceWith(assignmentExpression$2("=", identifier$3(localName), binaryExpression$1(path.node.operator[0], unaryExpression("+", arg.node), numericLiteral(1))));
+      } else {
+        const old = path.scope.generateUidIdentifierBasedOnNode(arg.node, "old");
+        const varName = old.name;
+        path.scope.push({
+          id: old
+        });
+        const binary = binaryExpression$1(path.node.operator[0], identifier$3(varName), numericLiteral(1));
+        path.replaceWith(sequenceExpression$2([assignmentExpression$2("=", identifier$3(varName), unaryExpression("+", arg.node)), assignmentExpression$2("=", cloneNode$2(arg.node), binary), identifier$3(varName)]));
+      }
+    }
+  };
+}
+function simplifyAccess(path, bindingNames) {
+  {
+    var _arguments$;
+    path.traverse(simpleAssignmentVisitor, {
+      scope: path.scope,
+      bindingNames,
+      seen: new WeakSet(),
+      includeUpdateExpression: (_arguments$ = arguments[2]) != null ? _arguments$ : true
+    });
+  }
 }var hasRequiredRewriteLiveReferences;
 
 function requireRewriteLiveReferences () {
@@ -51867,9 +51837,9 @@ function requireRewriteLiveReferences () {
 	  value: true
 	});
 	rewriteLiveReferences.default = rewriteLiveReferences$1;
-	var _assert = require$$0$4;
+	var _assert = require$$1;
 	var _core = requireLib();
-	var _helperSimpleAccess = requireLib$3();
+	var _helperSimpleAccess = lib$j;
 	const {
 	  assignmentExpression,
 	  callExpression,
@@ -52442,380 +52412,370 @@ var substr = 'ab'.substr(-1) === 'b' ?
         if (start < 0) start = str.length + start;
         return str.substr(start, len);
     }
-;var _polyfillNode_path$1=/*#__PURE__*/Object.freeze({__proto__:null,basename:basename,default:_polyfillNode_path,delimiter:delimiter,dirname:dirname,extname:extname,isAbsolute:isAbsolute,join:join,normalize:normalize,relative:relative,resolve:resolve,sep:sep$1});var require$$1 = /*@__PURE__*/getAugmentedNamespace(_polyfillNode_path$1);var hasRequiredNormalizeAndLoadMetadata;
-
-function requireNormalizeAndLoadMetadata () {
-	if (hasRequiredNormalizeAndLoadMetadata) return normalizeAndLoadMetadata;
-	hasRequiredNormalizeAndLoadMetadata = 1;
-
-	Object.defineProperty(normalizeAndLoadMetadata, "__esModule", {
-	  value: true
-	});
-	normalizeAndLoadMetadata.default = normalizeModuleAndLoadMetadata;
-	normalizeAndLoadMetadata.hasExports = hasExports;
-	normalizeAndLoadMetadata.isSideEffectImport = isSideEffectImport;
-	normalizeAndLoadMetadata.validateImportInteropOption = validateImportInteropOption;
-	var _path = require$$1;
-	var _helperValidatorIdentifier = requireLib$h();
-	var _helperSplitExportDeclaration = requireLib$e();
-	function hasExports(metadata) {
-	  return metadata.hasExports;
-	}
-	function isSideEffectImport(source) {
-	  return source.imports.size === 0 && source.importsNamespace.size === 0 && source.reexports.size === 0 && source.reexportNamespace.size === 0 && !source.reexportAll;
-	}
-	function validateImportInteropOption(importInterop) {
-	  if (typeof importInterop !== "function" && importInterop !== "none" && importInterop !== "babel" && importInterop !== "node") {
-	    throw new Error(`.importInterop must be one of "none", "babel", "node", or a function returning one of those values (received ${importInterop}).`);
-	  }
-	  return importInterop;
-	}
-	function resolveImportInterop(importInterop, source, filename) {
-	  if (typeof importInterop === "function") {
-	    return validateImportInteropOption(importInterop(source, filename));
-	  }
-	  return importInterop;
-	}
-	function normalizeModuleAndLoadMetadata(programPath, exportName, {
-	  importInterop,
-	  initializeReexports = false,
-	  lazy = false,
-	  esNamespaceOnly = false,
-	  filename
-	}) {
-	  if (!exportName) {
-	    exportName = programPath.scope.generateUidIdentifier("exports").name;
-	  }
-	  const stringSpecifiers = new Set();
-	  nameAnonymousExports(programPath);
-	  const {
-	    local,
-	    sources,
-	    hasExports
-	  } = getModuleMetadata(programPath, {
-	    initializeReexports,
-	    lazy
-	  }, stringSpecifiers);
-	  removeImportExportDeclarations(programPath);
-	  for (const [source, metadata] of sources) {
-	    if (metadata.importsNamespace.size > 0) {
-	      metadata.name = metadata.importsNamespace.values().next().value;
-	    }
-	    const resolvedInterop = resolveImportInterop(importInterop, source, filename);
-	    if (resolvedInterop === "none") {
-	      metadata.interop = "none";
-	    } else if (resolvedInterop === "node" && metadata.interop === "namespace") {
-	      metadata.interop = "node-namespace";
-	    } else if (resolvedInterop === "node" && metadata.interop === "default") {
-	      metadata.interop = "node-default";
-	    } else if (esNamespaceOnly && metadata.interop === "namespace") {
-	      metadata.interop = "default";
-	    }
-	  }
-	  return {
-	    exportName,
-	    exportNameListName: null,
-	    hasExports,
-	    local,
-	    source: sources,
-	    stringSpecifiers
-	  };
-	}
-	function getExportSpecifierName(path, stringSpecifiers) {
-	  if (path.isIdentifier()) {
-	    return path.node.name;
-	  } else if (path.isStringLiteral()) {
-	    const stringValue = path.node.value;
-	    if (!(0, _helperValidatorIdentifier.isIdentifierName)(stringValue)) {
-	      stringSpecifiers.add(stringValue);
-	    }
-	    return stringValue;
-	  } else {
-	    throw new Error(`Expected export specifier to be either Identifier or StringLiteral, got ${path.node.type}`);
-	  }
-	}
-	function assertExportSpecifier(path) {
-	  if (path.isExportSpecifier()) {
-	    return;
-	  } else if (path.isExportNamespaceSpecifier()) {
-	    throw path.buildCodeFrameError("Export namespace should be first transformed by `@babel/plugin-transform-export-namespace-from`.");
-	  } else {
-	    throw path.buildCodeFrameError("Unexpected export specifier type");
-	  }
-	}
-	function getModuleMetadata(programPath, {
-	  lazy,
-	  initializeReexports
-	}, stringSpecifiers) {
-	  const localData = getLocalExportMetadata(programPath, initializeReexports, stringSpecifiers);
-	  const sourceData = new Map();
-	  const getData = sourceNode => {
-	    const source = sourceNode.value;
-	    let data = sourceData.get(source);
-	    if (!data) {
-	      data = {
-	        name: programPath.scope.generateUidIdentifier((0, _path.basename)(source, (0, _path.extname)(source))).name,
-	        interop: "none",
-	        loc: null,
-	        imports: new Map(),
-	        importsNamespace: new Set(),
-	        reexports: new Map(),
-	        reexportNamespace: new Set(),
-	        reexportAll: null,
-	        lazy: false,
-	        referenced: false
-	      };
-	      sourceData.set(source, data);
-	    }
-	    return data;
-	  };
-	  let hasExports = false;
-	  programPath.get("body").forEach(child => {
-	    if (child.isImportDeclaration()) {
-	      const data = getData(child.node.source);
-	      if (!data.loc) data.loc = child.node.loc;
-	      child.get("specifiers").forEach(spec => {
-	        if (spec.isImportDefaultSpecifier()) {
-	          const localName = spec.get("local").node.name;
-	          data.imports.set(localName, "default");
-	          const reexport = localData.get(localName);
-	          if (reexport) {
-	            localData.delete(localName);
-	            reexport.names.forEach(name => {
-	              data.reexports.set(name, "default");
-	            });
-	            data.referenced = true;
-	          }
-	        } else if (spec.isImportNamespaceSpecifier()) {
-	          const localName = spec.get("local").node.name;
-	          data.importsNamespace.add(localName);
-	          const reexport = localData.get(localName);
-	          if (reexport) {
-	            localData.delete(localName);
-	            reexport.names.forEach(name => {
-	              data.reexportNamespace.add(name);
-	            });
-	            data.referenced = true;
-	          }
-	        } else if (spec.isImportSpecifier()) {
-	          const importName = getExportSpecifierName(spec.get("imported"), stringSpecifiers);
-	          const localName = spec.get("local").node.name;
-	          data.imports.set(localName, importName);
-	          const reexport = localData.get(localName);
-	          if (reexport) {
-	            localData.delete(localName);
-	            reexport.names.forEach(name => {
-	              data.reexports.set(name, importName);
-	            });
-	            data.referenced = true;
-	          }
-	        }
-	      });
-	    } else if (child.isExportAllDeclaration()) {
-	      hasExports = true;
-	      const data = getData(child.node.source);
-	      if (!data.loc) data.loc = child.node.loc;
-	      data.reexportAll = {
-	        loc: child.node.loc
-	      };
-	      data.referenced = true;
-	    } else if (child.isExportNamedDeclaration() && child.node.source) {
-	      hasExports = true;
-	      const data = getData(child.node.source);
-	      if (!data.loc) data.loc = child.node.loc;
-	      child.get("specifiers").forEach(spec => {
-	        assertExportSpecifier(spec);
-	        const importName = getExportSpecifierName(spec.get("local"), stringSpecifiers);
-	        const exportName = getExportSpecifierName(spec.get("exported"), stringSpecifiers);
-	        data.reexports.set(exportName, importName);
-	        data.referenced = true;
-	        if (exportName === "__esModule") {
-	          throw spec.get("exported").buildCodeFrameError('Illegal export "__esModule".');
-	        }
-	      });
-	    } else if (child.isExportNamedDeclaration() || child.isExportDefaultDeclaration()) {
-	      hasExports = true;
-	    }
-	  });
-	  for (const metadata of sourceData.values()) {
-	    let needsDefault = false;
-	    let needsNamed = false;
-	    if (metadata.importsNamespace.size > 0) {
-	      needsDefault = true;
-	      needsNamed = true;
-	    }
-	    if (metadata.reexportAll) {
-	      needsNamed = true;
-	    }
-	    for (const importName of metadata.imports.values()) {
-	      if (importName === "default") needsDefault = true;else needsNamed = true;
-	    }
-	    for (const importName of metadata.reexports.values()) {
-	      if (importName === "default") needsDefault = true;else needsNamed = true;
-	    }
-	    if (needsDefault && needsNamed) {
-	      metadata.interop = "namespace";
-	    } else if (needsDefault) {
-	      metadata.interop = "default";
-	    }
-	  }
-	  for (const [source, metadata] of sourceData) {
-	    if (lazy !== false && !(isSideEffectImport(metadata) || metadata.reexportAll)) {
-	      if (lazy === true) {
-	        metadata.lazy = !/\./.test(source);
-	      } else if (Array.isArray(lazy)) {
-	        metadata.lazy = lazy.indexOf(source) !== -1;
-	      } else if (typeof lazy === "function") {
-	        metadata.lazy = lazy(source);
-	      } else {
-	        throw new Error(`.lazy must be a boolean, string array, or function`);
-	      }
-	    }
-	  }
-	  return {
-	    hasExports,
-	    local: localData,
-	    sources: sourceData
-	  };
-	}
-	function getLocalExportMetadata(programPath, initializeReexports, stringSpecifiers) {
-	  const bindingKindLookup = new Map();
-	  programPath.get("body").forEach(child => {
-	    let kind;
-	    if (child.isImportDeclaration()) {
-	      kind = "import";
-	    } else {
-	      if (child.isExportDefaultDeclaration()) {
-	        child = child.get("declaration");
-	      }
-	      if (child.isExportNamedDeclaration()) {
-	        if (child.node.declaration) {
-	          child = child.get("declaration");
-	        } else if (initializeReexports && child.node.source && child.get("source").isStringLiteral()) {
-	          child.get("specifiers").forEach(spec => {
-	            assertExportSpecifier(spec);
-	            bindingKindLookup.set(spec.get("local").node.name, "block");
-	          });
-	          return;
-	        }
-	      }
-	      if (child.isFunctionDeclaration()) {
-	        kind = "hoisted";
-	      } else if (child.isClassDeclaration()) {
-	        kind = "block";
-	      } else if (child.isVariableDeclaration({
-	        kind: "var"
-	      })) {
-	        kind = "var";
-	      } else if (child.isVariableDeclaration()) {
-	        kind = "block";
-	      } else {
-	        return;
-	      }
-	    }
-	    Object.keys(child.getOuterBindingIdentifiers()).forEach(name => {
-	      bindingKindLookup.set(name, kind);
-	    });
-	  });
-	  const localMetadata = new Map();
-	  const getLocalMetadata = idPath => {
-	    const localName = idPath.node.name;
-	    let metadata = localMetadata.get(localName);
-	    if (!metadata) {
-	      const kind = bindingKindLookup.get(localName);
-	      if (kind === undefined) {
-	        throw idPath.buildCodeFrameError(`Exporting local "${localName}", which is not declared.`);
-	      }
-	      metadata = {
-	        names: [],
-	        kind
-	      };
-	      localMetadata.set(localName, metadata);
-	    }
-	    return metadata;
-	  };
-	  programPath.get("body").forEach(child => {
-	    if (child.isExportNamedDeclaration() && (initializeReexports || !child.node.source)) {
-	      if (child.node.declaration) {
-	        const declaration = child.get("declaration");
-	        const ids = declaration.getOuterBindingIdentifierPaths();
-	        Object.keys(ids).forEach(name => {
-	          if (name === "__esModule") {
-	            throw declaration.buildCodeFrameError('Illegal export "__esModule".');
-	          }
-	          getLocalMetadata(ids[name]).names.push(name);
-	        });
-	      } else {
-	        child.get("specifiers").forEach(spec => {
-	          const local = spec.get("local");
-	          const exported = spec.get("exported");
-	          const localMetadata = getLocalMetadata(local);
-	          const exportName = getExportSpecifierName(exported, stringSpecifiers);
-	          if (exportName === "__esModule") {
-	            throw exported.buildCodeFrameError('Illegal export "__esModule".');
-	          }
-	          localMetadata.names.push(exportName);
-	        });
-	      }
-	    } else if (child.isExportDefaultDeclaration()) {
-	      const declaration = child.get("declaration");
-	      if (declaration.isFunctionDeclaration() || declaration.isClassDeclaration()) {
-	        getLocalMetadata(declaration.get("id")).names.push("default");
-	      } else {
-	        throw declaration.buildCodeFrameError("Unexpected default expression export.");
-	      }
-	    }
-	  });
-	  return localMetadata;
-	}
-	function nameAnonymousExports(programPath) {
-	  programPath.get("body").forEach(child => {
-	    if (!child.isExportDefaultDeclaration()) return;
-	    (0, _helperSplitExportDeclaration.default)(child);
-	  });
-	}
-	function removeImportExportDeclarations(programPath) {
-	  programPath.get("body").forEach(child => {
-	    if (child.isImportDeclaration()) {
-	      child.remove();
-	    } else if (child.isExportNamedDeclaration()) {
-	      if (child.node.declaration) {
-	        child.node.declaration._blockHoist = child.node._blockHoist;
-	        child.replaceWith(child.node.declaration);
-	      } else {
-	        child.remove();
-	      }
-	    } else if (child.isExportDefaultDeclaration()) {
-	      const declaration = child.get("declaration");
-	      if (declaration.isFunctionDeclaration() || declaration.isClassDeclaration()) {
-	        declaration._blockHoist = child.node._blockHoist;
-	        child.replaceWith(declaration);
-	      } else {
-	        throw declaration.buildCodeFrameError("Unexpected default expression export.");
-	      }
-	    } else if (child.isExportAllDeclaration()) {
-	      child.remove();
-	    }
-	  });
-	}
-
-	
-	return normalizeAndLoadMetadata;
-}var dynamicImport = {};var hasRequiredDynamicImport;
+;var _polyfillNode_path$1=/*#__PURE__*/Object.freeze({__proto__:null,basename:basename,default:_polyfillNode_path,delimiter:delimiter,dirname:dirname,extname:extname,isAbsolute:isAbsolute,join:join,normalize:normalize,relative:relative,resolve:resolve,sep:sep$1});var require$$3 = /*@__PURE__*/getAugmentedNamespace(_polyfillNode_path$1);Object.defineProperty(normalizeAndLoadMetadata, "__esModule", {
+  value: true
+});
+normalizeAndLoadMetadata.default = normalizeModuleAndLoadMetadata;
+normalizeAndLoadMetadata.hasExports = hasExports;
+normalizeAndLoadMetadata.isSideEffectImport = isSideEffectImport;
+normalizeAndLoadMetadata.validateImportInteropOption = validateImportInteropOption;
+var _path$5 = require$$3;
+var _helperValidatorIdentifier = requireLib$d();
+var _helperSplitExportDeclaration = lib$u;
+function hasExports(metadata) {
+  return metadata.hasExports;
+}
+function isSideEffectImport(source) {
+  return source.imports.size === 0 && source.importsNamespace.size === 0 && source.reexports.size === 0 && source.reexportNamespace.size === 0 && !source.reexportAll;
+}
+function validateImportInteropOption(importInterop) {
+  if (typeof importInterop !== "function" && importInterop !== "none" && importInterop !== "babel" && importInterop !== "node") {
+    throw new Error(`.importInterop must be one of "none", "babel", "node", or a function returning one of those values (received ${importInterop}).`);
+  }
+  return importInterop;
+}
+function resolveImportInterop(importInterop, source, filename) {
+  if (typeof importInterop === "function") {
+    return validateImportInteropOption(importInterop(source, filename));
+  }
+  return importInterop;
+}
+function normalizeModuleAndLoadMetadata(programPath, exportName, {
+  importInterop,
+  initializeReexports = false,
+  lazy = false,
+  esNamespaceOnly = false,
+  filename
+}) {
+  if (!exportName) {
+    exportName = programPath.scope.generateUidIdentifier("exports").name;
+  }
+  const stringSpecifiers = new Set();
+  nameAnonymousExports(programPath);
+  const {
+    local,
+    sources,
+    hasExports
+  } = getModuleMetadata(programPath, {
+    initializeReexports,
+    lazy
+  }, stringSpecifiers);
+  removeImportExportDeclarations(programPath);
+  for (const [source, metadata] of sources) {
+    if (metadata.importsNamespace.size > 0) {
+      metadata.name = metadata.importsNamespace.values().next().value;
+    }
+    const resolvedInterop = resolveImportInterop(importInterop, source, filename);
+    if (resolvedInterop === "none") {
+      metadata.interop = "none";
+    } else if (resolvedInterop === "node" && metadata.interop === "namespace") {
+      metadata.interop = "node-namespace";
+    } else if (resolvedInterop === "node" && metadata.interop === "default") {
+      metadata.interop = "node-default";
+    } else if (esNamespaceOnly && metadata.interop === "namespace") {
+      metadata.interop = "default";
+    }
+  }
+  return {
+    exportName,
+    exportNameListName: null,
+    hasExports,
+    local,
+    source: sources,
+    stringSpecifiers
+  };
+}
+function getExportSpecifierName(path, stringSpecifiers) {
+  if (path.isIdentifier()) {
+    return path.node.name;
+  } else if (path.isStringLiteral()) {
+    const stringValue = path.node.value;
+    if (!(0, _helperValidatorIdentifier.isIdentifierName)(stringValue)) {
+      stringSpecifiers.add(stringValue);
+    }
+    return stringValue;
+  } else {
+    throw new Error(`Expected export specifier to be either Identifier or StringLiteral, got ${path.node.type}`);
+  }
+}
+function assertExportSpecifier(path) {
+  if (path.isExportSpecifier()) {
+    return;
+  } else if (path.isExportNamespaceSpecifier()) {
+    throw path.buildCodeFrameError("Export namespace should be first transformed by `@babel/plugin-transform-export-namespace-from`.");
+  } else {
+    throw path.buildCodeFrameError("Unexpected export specifier type");
+  }
+}
+function getModuleMetadata(programPath, {
+  lazy,
+  initializeReexports
+}, stringSpecifiers) {
+  const localData = getLocalExportMetadata(programPath, initializeReexports, stringSpecifiers);
+  const sourceData = new Map();
+  const getData = sourceNode => {
+    const source = sourceNode.value;
+    let data = sourceData.get(source);
+    if (!data) {
+      data = {
+        name: programPath.scope.generateUidIdentifier((0, _path$5.basename)(source, (0, _path$5.extname)(source))).name,
+        interop: "none",
+        loc: null,
+        imports: new Map(),
+        importsNamespace: new Set(),
+        reexports: new Map(),
+        reexportNamespace: new Set(),
+        reexportAll: null,
+        lazy: false,
+        referenced: false
+      };
+      sourceData.set(source, data);
+    }
+    return data;
+  };
+  let hasExports = false;
+  programPath.get("body").forEach(child => {
+    if (child.isImportDeclaration()) {
+      const data = getData(child.node.source);
+      if (!data.loc) data.loc = child.node.loc;
+      child.get("specifiers").forEach(spec => {
+        if (spec.isImportDefaultSpecifier()) {
+          const localName = spec.get("local").node.name;
+          data.imports.set(localName, "default");
+          const reexport = localData.get(localName);
+          if (reexport) {
+            localData.delete(localName);
+            reexport.names.forEach(name => {
+              data.reexports.set(name, "default");
+            });
+            data.referenced = true;
+          }
+        } else if (spec.isImportNamespaceSpecifier()) {
+          const localName = spec.get("local").node.name;
+          data.importsNamespace.add(localName);
+          const reexport = localData.get(localName);
+          if (reexport) {
+            localData.delete(localName);
+            reexport.names.forEach(name => {
+              data.reexportNamespace.add(name);
+            });
+            data.referenced = true;
+          }
+        } else if (spec.isImportSpecifier()) {
+          const importName = getExportSpecifierName(spec.get("imported"), stringSpecifiers);
+          const localName = spec.get("local").node.name;
+          data.imports.set(localName, importName);
+          const reexport = localData.get(localName);
+          if (reexport) {
+            localData.delete(localName);
+            reexport.names.forEach(name => {
+              data.reexports.set(name, importName);
+            });
+            data.referenced = true;
+          }
+        }
+      });
+    } else if (child.isExportAllDeclaration()) {
+      hasExports = true;
+      const data = getData(child.node.source);
+      if (!data.loc) data.loc = child.node.loc;
+      data.reexportAll = {
+        loc: child.node.loc
+      };
+      data.referenced = true;
+    } else if (child.isExportNamedDeclaration() && child.node.source) {
+      hasExports = true;
+      const data = getData(child.node.source);
+      if (!data.loc) data.loc = child.node.loc;
+      child.get("specifiers").forEach(spec => {
+        assertExportSpecifier(spec);
+        const importName = getExportSpecifierName(spec.get("local"), stringSpecifiers);
+        const exportName = getExportSpecifierName(spec.get("exported"), stringSpecifiers);
+        data.reexports.set(exportName, importName);
+        data.referenced = true;
+        if (exportName === "__esModule") {
+          throw spec.get("exported").buildCodeFrameError('Illegal export "__esModule".');
+        }
+      });
+    } else if (child.isExportNamedDeclaration() || child.isExportDefaultDeclaration()) {
+      hasExports = true;
+    }
+  });
+  for (const metadata of sourceData.values()) {
+    let needsDefault = false;
+    let needsNamed = false;
+    if (metadata.importsNamespace.size > 0) {
+      needsDefault = true;
+      needsNamed = true;
+    }
+    if (metadata.reexportAll) {
+      needsNamed = true;
+    }
+    for (const importName of metadata.imports.values()) {
+      if (importName === "default") needsDefault = true;else needsNamed = true;
+    }
+    for (const importName of metadata.reexports.values()) {
+      if (importName === "default") needsDefault = true;else needsNamed = true;
+    }
+    if (needsDefault && needsNamed) {
+      metadata.interop = "namespace";
+    } else if (needsDefault) {
+      metadata.interop = "default";
+    }
+  }
+  for (const [source, metadata] of sourceData) {
+    if (lazy !== false && !(isSideEffectImport(metadata) || metadata.reexportAll)) {
+      if (lazy === true) {
+        metadata.lazy = !/\./.test(source);
+      } else if (Array.isArray(lazy)) {
+        metadata.lazy = lazy.indexOf(source) !== -1;
+      } else if (typeof lazy === "function") {
+        metadata.lazy = lazy(source);
+      } else {
+        throw new Error(`.lazy must be a boolean, string array, or function`);
+      }
+    }
+  }
+  return {
+    hasExports,
+    local: localData,
+    sources: sourceData
+  };
+}
+function getLocalExportMetadata(programPath, initializeReexports, stringSpecifiers) {
+  const bindingKindLookup = new Map();
+  programPath.get("body").forEach(child => {
+    let kind;
+    if (child.isImportDeclaration()) {
+      kind = "import";
+    } else {
+      if (child.isExportDefaultDeclaration()) {
+        child = child.get("declaration");
+      }
+      if (child.isExportNamedDeclaration()) {
+        if (child.node.declaration) {
+          child = child.get("declaration");
+        } else if (initializeReexports && child.node.source && child.get("source").isStringLiteral()) {
+          child.get("specifiers").forEach(spec => {
+            assertExportSpecifier(spec);
+            bindingKindLookup.set(spec.get("local").node.name, "block");
+          });
+          return;
+        }
+      }
+      if (child.isFunctionDeclaration()) {
+        kind = "hoisted";
+      } else if (child.isClassDeclaration()) {
+        kind = "block";
+      } else if (child.isVariableDeclaration({
+        kind: "var"
+      })) {
+        kind = "var";
+      } else if (child.isVariableDeclaration()) {
+        kind = "block";
+      } else {
+        return;
+      }
+    }
+    Object.keys(child.getOuterBindingIdentifiers()).forEach(name => {
+      bindingKindLookup.set(name, kind);
+    });
+  });
+  const localMetadata = new Map();
+  const getLocalMetadata = idPath => {
+    const localName = idPath.node.name;
+    let metadata = localMetadata.get(localName);
+    if (!metadata) {
+      const kind = bindingKindLookup.get(localName);
+      if (kind === undefined) {
+        throw idPath.buildCodeFrameError(`Exporting local "${localName}", which is not declared.`);
+      }
+      metadata = {
+        names: [],
+        kind
+      };
+      localMetadata.set(localName, metadata);
+    }
+    return metadata;
+  };
+  programPath.get("body").forEach(child => {
+    if (child.isExportNamedDeclaration() && (initializeReexports || !child.node.source)) {
+      if (child.node.declaration) {
+        const declaration = child.get("declaration");
+        const ids = declaration.getOuterBindingIdentifierPaths();
+        Object.keys(ids).forEach(name => {
+          if (name === "__esModule") {
+            throw declaration.buildCodeFrameError('Illegal export "__esModule".');
+          }
+          getLocalMetadata(ids[name]).names.push(name);
+        });
+      } else {
+        child.get("specifiers").forEach(spec => {
+          const local = spec.get("local");
+          const exported = spec.get("exported");
+          const localMetadata = getLocalMetadata(local);
+          const exportName = getExportSpecifierName(exported, stringSpecifiers);
+          if (exportName === "__esModule") {
+            throw exported.buildCodeFrameError('Illegal export "__esModule".');
+          }
+          localMetadata.names.push(exportName);
+        });
+      }
+    } else if (child.isExportDefaultDeclaration()) {
+      const declaration = child.get("declaration");
+      if (declaration.isFunctionDeclaration() || declaration.isClassDeclaration()) {
+        getLocalMetadata(declaration.get("id")).names.push("default");
+      } else {
+        throw declaration.buildCodeFrameError("Unexpected default expression export.");
+      }
+    }
+  });
+  return localMetadata;
+}
+function nameAnonymousExports(programPath) {
+  programPath.get("body").forEach(child => {
+    if (!child.isExportDefaultDeclaration()) return;
+    (0, _helperSplitExportDeclaration.default)(child);
+  });
+}
+function removeImportExportDeclarations(programPath) {
+  programPath.get("body").forEach(child => {
+    if (child.isImportDeclaration()) {
+      child.remove();
+    } else if (child.isExportNamedDeclaration()) {
+      if (child.node.declaration) {
+        child.node.declaration._blockHoist = child.node._blockHoist;
+        child.replaceWith(child.node.declaration);
+      } else {
+        child.remove();
+      }
+    } else if (child.isExportDefaultDeclaration()) {
+      const declaration = child.get("declaration");
+      if (declaration.isFunctionDeclaration() || declaration.isClassDeclaration()) {
+        declaration._blockHoist = child.node._blockHoist;
+        child.replaceWith(declaration);
+      } else {
+        throw declaration.buildCodeFrameError("Unexpected default expression export.");
+      }
+    } else if (child.isExportAllDeclaration()) {
+      child.remove();
+    }
+  });
+}var dynamicImport$1 = {};var hasRequiredDynamicImport;
 
 function requireDynamicImport () {
-	if (hasRequiredDynamicImport) return dynamicImport;
+	if (hasRequiredDynamicImport) return dynamicImport$1;
 	hasRequiredDynamicImport = 1;
 
-	Object.defineProperty(dynamicImport, "__esModule", {
+	Object.defineProperty(dynamicImport$1, "__esModule", {
 	  value: true
 	});
-	dynamicImport.buildDynamicImport = buildDynamicImport;
+	dynamicImport$1.buildDynamicImport = buildDynamicImport;
 	var _core = requireLib();
 	{
 	  {
 	    {
-	      dynamicImport.getDynamicImportSource = function getDynamicImportSource(node) {
+	      dynamicImport$1.getDynamicImportSource = function getDynamicImportSource(node) {
 	        const [source] = node.arguments;
 	        return _core.types.isStringLiteral(source) || _core.types.isTemplateLiteral(source) ? source : _core.template.expression.ast`\`\${${source}}\``;
 	      };
@@ -52857,64 +52817,54 @@ function requireDynamicImport () {
 	}
 
 	
-	return dynamicImport;
-}var getModuleName = {};var hasRequiredGetModuleName;
-
-function requireGetModuleName () {
-	if (hasRequiredGetModuleName) return getModuleName;
-	hasRequiredGetModuleName = 1;
-
-	Object.defineProperty(getModuleName, "__esModule", {
-	  value: true
-	});
-	getModuleName.default = getModuleName$1;
-	{
-	  const originalGetModuleName = getModuleName$1;
-	  getModuleName.default = getModuleName$1 = function getModuleName(rootOpts, pluginOpts) {
-	    var _pluginOpts$moduleId, _pluginOpts$moduleIds, _pluginOpts$getModule, _pluginOpts$moduleRoo;
-	    return originalGetModuleName(rootOpts, {
-	      moduleId: (_pluginOpts$moduleId = pluginOpts.moduleId) != null ? _pluginOpts$moduleId : rootOpts.moduleId,
-	      moduleIds: (_pluginOpts$moduleIds = pluginOpts.moduleIds) != null ? _pluginOpts$moduleIds : rootOpts.moduleIds,
-	      getModuleId: (_pluginOpts$getModule = pluginOpts.getModuleId) != null ? _pluginOpts$getModule : rootOpts.getModuleId,
-	      moduleRoot: (_pluginOpts$moduleRoo = pluginOpts.moduleRoot) != null ? _pluginOpts$moduleRoo : rootOpts.moduleRoot
-	    });
-	  };
-	}
-	function getModuleName$1(rootOpts, pluginOpts) {
-	  const {
-	    filename,
-	    filenameRelative = filename,
-	    sourceRoot = pluginOpts.moduleRoot
-	  } = rootOpts;
-	  const {
-	    moduleId,
-	    moduleIds = !!moduleId,
-	    getModuleId,
-	    moduleRoot = sourceRoot
-	  } = pluginOpts;
-	  if (!moduleIds) return null;
-	  if (moduleId != null && !getModuleId) {
-	    return moduleId;
-	  }
-	  let moduleName = moduleRoot != null ? moduleRoot + "/" : "";
-	  if (filenameRelative) {
-	    const sourceRootReplacer = sourceRoot != null ? new RegExp("^" + sourceRoot + "/?") : "";
-	    moduleName += filenameRelative.replace(sourceRootReplacer, "").replace(/\.(\w*?)$/, "");
-	  }
-	  moduleName = moduleName.replace(/\\/g, "/");
-	  if (getModuleId) {
-	    return getModuleId(moduleName) || moduleName;
-	  } else {
-	    return moduleName;
-	  }
-	}
-
-	
-	return getModuleName;
+	return dynamicImport$1;
+}var getModuleName$1 = {};Object.defineProperty(getModuleName$1, "__esModule", {
+  value: true
+});
+getModuleName$1.default = getModuleName;
+{
+  const originalGetModuleName = getModuleName;
+  getModuleName$1.default = getModuleName = function getModuleName(rootOpts, pluginOpts) {
+    var _pluginOpts$moduleId, _pluginOpts$moduleIds, _pluginOpts$getModule, _pluginOpts$moduleRoo;
+    return originalGetModuleName(rootOpts, {
+      moduleId: (_pluginOpts$moduleId = pluginOpts.moduleId) != null ? _pluginOpts$moduleId : rootOpts.moduleId,
+      moduleIds: (_pluginOpts$moduleIds = pluginOpts.moduleIds) != null ? _pluginOpts$moduleIds : rootOpts.moduleIds,
+      getModuleId: (_pluginOpts$getModule = pluginOpts.getModuleId) != null ? _pluginOpts$getModule : rootOpts.getModuleId,
+      moduleRoot: (_pluginOpts$moduleRoo = pluginOpts.moduleRoot) != null ? _pluginOpts$moduleRoo : rootOpts.moduleRoot
+    });
+  };
+}
+function getModuleName(rootOpts, pluginOpts) {
+  const {
+    filename,
+    filenameRelative = filename,
+    sourceRoot = pluginOpts.moduleRoot
+  } = rootOpts;
+  const {
+    moduleId,
+    moduleIds = !!moduleId,
+    getModuleId,
+    moduleRoot = sourceRoot
+  } = pluginOpts;
+  if (!moduleIds) return null;
+  if (moduleId != null && !getModuleId) {
+    return moduleId;
+  }
+  let moduleName = moduleRoot != null ? moduleRoot + "/" : "";
+  if (filenameRelative) {
+    const sourceRootReplacer = sourceRoot != null ? new RegExp("^" + sourceRoot + "/?") : "";
+    moduleName += filenameRelative.replace(sourceRootReplacer, "").replace(/\.(\w*?)$/, "");
+  }
+  moduleName = moduleName.replace(/\\/g, "/");
+  if (getModuleId) {
+    return getModuleId(moduleName) || moduleName;
+  } else {
+    return moduleName;
+  }
 }var hasRequiredLib$2;
 
 function requireLib$2 () {
-	if (hasRequiredLib$2) return lib$c;
+	if (hasRequiredLib$2) return lib$l;
 	hasRequiredLib$2 = 1;
 	(function (exports) {
 
@@ -52961,14 +52911,14 @@ function requireLib$2 () {
 		  }
 		});
 		exports.wrapInterop = wrapInterop;
-		var _assert = require$$0$4;
+		var _assert = require$$1;
 		var _core = requireLib();
-		var _helperModuleImports = lib$b;
+		var _helperModuleImports = lib$k;
 		var _rewriteThis = requireRewriteThis();
 		var _rewriteLiveReferences = requireRewriteLiveReferences();
-		var _normalizeAndLoadMetadata = requireNormalizeAndLoadMetadata();
+		var _normalizeAndLoadMetadata = normalizeAndLoadMetadata;
 		var _dynamicImport = requireDynamicImport();
-		var _getModuleName = requireGetModuleName();
+		var _getModuleName = getModuleName$1;
 		const {
 		  booleanLiteral,
 		  callExpression,
@@ -53068,15 +53018,15 @@ function requireLib$2 () {
 		}
 		function buildNamespaceInitStatements(metadata, sourceMetadata, constantReexports = false) {
 		  const statements = [];
-		  let srcNamespace = identifier(sourceMetadata.name);
-		  if (sourceMetadata.lazy) srcNamespace = callExpression(srcNamespace, []);
+		  const srcNamespaceId = identifier(sourceMetadata.name);
 		  for (const localName of sourceMetadata.importsNamespace) {
 		    if (localName === sourceMetadata.name) continue;
 		    statements.push(_core.template.statement`var NAME = SOURCE;`({
 		      NAME: localName,
-		      SOURCE: cloneNode(srcNamespace)
+		      SOURCE: cloneNode(srcNamespaceId)
 		    }));
 		  }
+		  const srcNamespace = sourceMetadata.lazy ? callExpression(srcNamespaceId, []) : srcNamespaceId;
 		  if (constantReexports) {
 		    statements.push(...buildReexportsFromMeta(metadata, sourceMetadata, true));
 		  }
@@ -53291,8 +53241,8 @@ function requireLib$2 () {
 		}
 
 		
-	} (lib$c));
-	return lib$c;
+	} (lib$l));
+	return lib$l;
 }var semver = {exports: {}};var hasRequiredSemver;
 
 function requireSemver () {
@@ -54955,28 +54905,28 @@ function requireFile () {
 	});
 	file.default = void 0;
 	function helpers() {
-	  const data = requireLib$4();
+	  const data = requireLib$3();
 	  helpers = function () {
 	    return data;
 	  };
 	  return data;
 	}
 	function _traverse() {
-	  const data = requireLib$5();
+	  const data = requireLib$4();
 	  _traverse = function () {
 	    return data;
 	  };
 	  return data;
 	}
 	function _codeFrame() {
-	  const data = requireLib$a();
+	  const data = requireLib$8();
 	  _codeFrame = function () {
 	    return data;
 	  };
 	  return data;
 	}
 	function _t() {
-	  const data = requireLib$f();
+	  const data = requireLib$b();
 	  _t = function () {
 	    return data;
 	  };
@@ -55170,28 +55120,28 @@ function requireBuildExternalHelpers () {
 	});
 	buildExternalHelpers.default = _default;
 	function helpers() {
-	  const data = requireLib$4();
+	  const data = requireLib$3();
 	  helpers = function () {
 	    return data;
 	  };
 	  return data;
 	}
 	function _generator() {
-	  const data = requireLib$c();
+	  const data = requireLib$a();
 	  _generator = function () {
 	    return data;
 	  };
 	  return data;
 	}
 	function _template() {
-	  const data = requireLib$7();
+	  const data = requireLib$5();
 	  _template = function () {
 	    return data;
 	  };
 	  return data;
 	}
 	function _t() {
-	  const data = requireLib$f();
+	  const data = requireLib$b();
 	  _t = function () {
 	    return data;
 	  };
@@ -56174,7 +56124,7 @@ class Lock {
     this.released = true;
     this._resolve(value);
   }
-}var resolveTargetsBrowser = {};var lib$9 = {};var require$$0$3 = [
+}var resolveTargetsBrowser = {};var lib$i = {};var require$$0$3 = [
 	{
 		name: "nodejs",
 		version: "0.2.0",
@@ -58889,7 +58839,7 @@ function requireBrowserslist () {
 	var jsReleases = require$$0$3;
 	var agents = requireAgents().agents;
 	var jsEOL = require$$2;
-	var path = require$$1;
+	var path = require$$3;
 	var e2c = requireVersions();
 
 	var BrowserslistError = requireError();
@@ -60083,7 +60033,7 @@ function requireBrowserslist () {
 
 	browserslist_1 = browserslist;
 	return browserslist_1;
-}var lib$8 = {};var validator = {};var findSuggestion$1 = {};Object.defineProperty(findSuggestion$1, "__esModule", {
+}var lib$h = {};var validator = {};var findSuggestion$1 = {};Object.defineProperty(findSuggestion$1, "__esModule", {
   value: true
 });
 findSuggestion$1.findSuggestion = findSuggestion;
@@ -60181,7 +60131,7 @@ validator.OptionValidator = OptionValidator;(function (exports) {
 	var _findSuggestion = findSuggestion$1;
 
 	
-} (lib$8));var require$$0$2 = {
+} (lib$h));var require$$0$2 = {
 	"es6.module": {
 	chrome: "61",
 	and_chr: "61",
@@ -61043,7 +60993,7 @@ function requireUtils () {
 	utils.semverMin = semverMin;
 	utils.semverify = semverify;
 	var _semver = requireSemver();
-	var _helperValidatorOption = lib$8;
+	var _helperValidatorOption = lib$h;
 	var _targets = requireTargets();
 	const versionRegExp = /^(\d+|\d+.\d+)$/;
 	const v = new _helperValidatorOption.OptionValidator("@babel/helper-compilation-targets");
@@ -62043,7 +61993,7 @@ function requireFilterItems () {
 }var hasRequiredLib$1;
 
 function requireLib$1 () {
-	if (hasRequiredLib$1) return lib$9;
+	if (hasRequiredLib$1) return lib$i;
 	hasRequiredLib$1 = 1;
 	(function (exports) {
 
@@ -62089,7 +62039,7 @@ function requireLib$1 () {
 		  }
 		});
 		var _browserslist = requireBrowserslist();
-		var _helperValidatorOption = lib$8;
+		var _helperValidatorOption = lib$h;
 		var _nativeModules = requireNativeModules();
 		var _lruCache = requireLruCache();
 		var _utils = requireUtils();
@@ -62269,8 +62219,8 @@ getting parsed as 6.1, which can lead to unexpected behavior.
 		}
 
 		
-	} (lib$9));
-	return lib$9;
+	} (lib$i));
+	return lib$i;
 }Object.defineProperty(resolveTargetsBrowser, "__esModule", {
   value: true
 });
@@ -62513,7 +62463,7 @@ function requireItem () {
 	item.createItemFromDescriptor = createItemFromDescriptor;
 	item.getItemDescriptor = getItemDescriptor;
 	function _path() {
-	  const data = require$$1;
+	  const data = require$$3;
 	  _path = function () {
 	    return data;
 	  };
@@ -62575,7 +62525,7 @@ function requireItem () {
   value: true
 });
 removed.default = void 0;
-var _default$6 = {
+var _default$9 = {
   auxiliaryComment: {
     message: "Use `auxiliaryCommentBefore` or `auxiliaryCommentAfter`"
   },
@@ -62634,7 +62584,7 @@ var _default$6 = {
     message: "The `sourceMapTarget` option has been removed because it makes more sense for the tooling " + "that calls Babel to assign `map.file` themselves."
   }
 };
-removed.default = _default$6;var optionAssertions = {};var hasRequiredOptionAssertions;
+removed.default = _default$9;var optionAssertions = {};var hasRequiredOptionAssertions;
 
 function requireOptionAssertions () {
 	if (hasRequiredOptionAssertions) return optionAssertions;
@@ -63221,7 +63171,7 @@ function requireOptions () {
 });
 patternToRegex.default = pathToPattern;
 function _path$4() {
-  const data = require$$1;
+  const data = require$$3;
   _path$4 = function () {
     return data;
   };
@@ -63363,7 +63313,7 @@ configChain.buildPresetChain = buildPresetChain;
 configChain.buildPresetChainWalker = void 0;
 configChain.buildRootChain = buildRootChain;
 function _path$3() {
-  const data = require$$1;
+  const data = require$$3;
   _path$3 = function () {
     return data;
   };
@@ -63391,7 +63341,7 @@ function* buildPresetChain(arg, context) {
   return {
     plugins: dedupDescriptors(chain.plugins),
     presets: dedupDescriptors(chain.presets),
-    options: chain.options.map(o => normalizeOptions$1(o)),
+    options: chain.options.map(o => normalizeOptions$2(o)),
     files: new Set()
   };
 }
@@ -63482,7 +63432,7 @@ function* buildRootChain(opts, context) {
   return {
     plugins: isIgnored ? [] : dedupDescriptors(chain.plugins),
     presets: isIgnored ? [] : dedupDescriptors(chain.presets),
-    options: isIgnored ? [] : chain.options.map(o => normalizeOptions$1(o)),
+    options: isIgnored ? [] : chain.options.map(o => normalizeOptions$2(o)),
     fileHandling: isIgnored ? "ignored" : "transpile",
     ignore: ignoreFile || undefined,
     babelrc: babelrcFile || undefined,
@@ -63715,7 +63665,7 @@ function emptyChain() {
     files: new Set()
   };
 }
-function normalizeOptions$1(opts) {
+function normalizeOptions$2(opts) {
   const options = Object.assign({}, opts);
   delete options.extends;
   delete options.env;
@@ -63975,7 +63925,7 @@ function requireConfigApi () {
 partial.default = loadPrivatePartialConfig;
 partial.loadPartialConfig = loadPartialConfig;
 function _path$2() {
-  const data = require$$1;
+  const data = require$$3;
   _path$2 = function () {
     return data;
   };
@@ -64145,7 +64095,7 @@ function requireFull () {
 	var _configChain = configChain;
 	var _deepArray = deepArray;
 	function _traverse() {
-	  const data = requireLib$5();
+	  const data = requireLib$4();
 	  _traverse = function () {
 	    return data;
 	  };
@@ -64581,7 +64531,7 @@ pluginPass.default = PluginPass;
 });
 blockHoistPlugin$1.default = loadBlockHoistPlugin;
 function _traverse() {
-  const data = requireLib$5();
+  const data = requireLib$4();
   _traverse = function () {
     return data;
   };
@@ -64650,15 +64600,15 @@ function stableSort(body) {
 }var normalizeOpts = {};Object.defineProperty(normalizeOpts, "__esModule", {
   value: true
 });
-normalizeOpts.default = normalizeOptions;
+normalizeOpts.default = normalizeOptions$1;
 function _path$1() {
-  const data = require$$1;
+  const data = require$$3;
   _path$1 = function () {
     return data;
   };
   return data;
 }
-function normalizeOptions(config) {
+function normalizeOptions$1(config) {
   const {
     filename,
     cwd,
@@ -64707,7 +64657,7 @@ function requireConvertSourceMap () {
 	hasRequiredConvertSourceMap = 1;
 	(function (exports) {
 		var fs = require$$0;
-		var path = require$$1;
+		var path = require$$3;
 
 		Object.defineProperty(exports, 'commentRegex', {
 		  get: function getCommentRegex () {
@@ -65214,14 +65164,14 @@ If you want to leave it as-is, add ${syntaxPluginInfo} to the 'plugins' section 
 });
 parser$1.default = parser;
 function _parser() {
-  const data = requireLib$9();
+  const data = requireLib$7();
   _parser = function () {
     return data;
   };
   return data;
 }
 function _codeFrame() {
-  const data = requireLib$a();
+  const data = requireLib$8();
   _codeFrame = function () {
     return data;
   };
@@ -65285,7 +65235,7 @@ function* parser(pluginPasses, {
 }var cloneDeep = {};Object.defineProperty(cloneDeep, "__esModule", {
   value: true
 });
-cloneDeep.default = _default$5;
+cloneDeep.default = _default$8;
 function deepClone(value, cache) {
   if (value !== null) {
     if (cache.has(value)) return cache.get(value);
@@ -65309,7 +65259,7 @@ function deepClone(value, cache) {
   }
   return value;
 }
-function _default$5(value) {
+function _default$8(value) {
   if (typeof value !== "object") return value;
   return deepClone(value, new Map());
 }var hasRequiredNormalizeFile;
@@ -65330,7 +65280,7 @@ function requireNormalizeFile () {
 	  return data;
 	}
 	function _path() {
-	  const data = require$$1;
+	  const data = require$$3;
 	  _path = function () {
 	    return data;
 	  };
@@ -65344,7 +65294,7 @@ function requireNormalizeFile () {
 	  return data;
 	}
 	function _t() {
-	  const data = requireLib$f();
+	  const data = requireLib$b();
 	  _t = function () {
 	    return data;
 	  };
@@ -65687,7 +65637,7 @@ function _convertSourceMap() {
   return data;
 }
 function _generator() {
-  const data = requireLib$c();
+  const data = requireLib$a();
   _generator = function () {
     return data;
   };
@@ -65764,7 +65714,7 @@ function requireTransformation () {
 	});
 	transformation.run = run;
 	function _traverse() {
-	  const data = requireLib$5();
+	  const data = requireLib$4();
 	  _traverse = function () {
 	    return data;
 	  };
@@ -66040,7 +65990,7 @@ function requireParse () {
 }var hasRequiredLib;
 
 function requireLib () {
-	if (hasRequiredLib) return lib$r;
+	if (hasRequiredLib) return lib$A;
 	hasRequiredLib = 1;
 	(function (exports) {
 
@@ -66228,7 +66178,7 @@ function requireLib () {
 		var _files = indexBrowser;
 		var _environment = environment;
 		function _types() {
-		  const data = requireLib$f();
+		  const data = requireLib$b();
 		  _types = function () {
 		    return data;
 		  };
@@ -66241,21 +66191,21 @@ function requireLib () {
 		  }
 		});
 		function _parser() {
-		  const data = requireLib$9();
+		  const data = requireLib$7();
 		  _parser = function () {
 		    return data;
 		  };
 		  return data;
 		}
 		function _traverse() {
-		  const data = requireLib$5();
+		  const data = requireLib$4();
 		  _traverse = function () {
 		    return data;
 		  };
 		  return data;
 		}
 		function _template() {
-		  const data = requireLib$7();
+		  const data = requireLib$5();
 		  _template = function () {
 		    return data;
 		  };
@@ -66285,13 +66235,13 @@ function requireLib () {
 		}
 
 		
-	} (lib$r));
-	return lib$r;
-}var lib$7 = {};var lib$6 = {};Object.defineProperty(lib$6, "__esModule", {
+	} (lib$A));
+	return lib$A;
+}var lib$g = {};var lib$f = {};Object.defineProperty(lib$f, "__esModule", {
   value: true
 });
-lib$6.declare = declare;
-lib$6.declarePreset = void 0;
+lib$f.declare = declare;
+lib$f.declarePreset = void 0;
 const apiPolyfills = {
   assertVersion: api => range => {
     throwVersionError(range, api.version);
@@ -66321,7 +66271,7 @@ function declare(builder) {
   };
 }
 const declarePreset = declare;
-lib$6.declarePreset = declarePreset;
+lib$f.declarePreset = declarePreset;
 function copyApiObject(api) {
   let proto = null;
   if (typeof api.version === "string" && /^7\./.test(api.version)) {
@@ -66363,12 +66313,12 @@ function throwVersionError(range, version) {
     version,
     range
   });
-}var lib$5 = {};var createPlugin$1 = {};var lib$4 = {};Object.defineProperty(lib$4, "__esModule", {
+}var lib$e = {};var createPlugin$1 = {};var lib$d = {};Object.defineProperty(lib$d, "__esModule", {
   value: true
 });
-lib$4.default = void 0;
-var _helperPluginUtils$3 = lib$6;
-var _default$4 = (0, _helperPluginUtils$3.declare)(api => {
+lib$d.default = void 0;
+var _helperPluginUtils$6 = lib$f;
+var _default$7 = (0, _helperPluginUtils$6.declare)(api => {
   api.assertVersion(7);
   return {
     name: "syntax-jsx",
@@ -66382,14 +66332,14 @@ var _default$4 = (0, _helperPluginUtils$3.declare)(api => {
     }
   };
 });
-lib$4.default = _default$4;var lib$3 = {};Object.defineProperty(lib$3, "__esModule", {
+lib$d.default = _default$7;var lib$c = {};Object.defineProperty(lib$c, "__esModule", {
   value: true
 });
-lib$3.default = annotateAsPure;
-var _t = requireLib$f();
+lib$c.default = annotateAsPure;
+var _t$3 = requireLib$b();
 const {
   addComment
-} = _t;
+} = _t$3;
 const PURE_ANNOTATION = "#__PURE__";
 const isPureAnnotated = ({
   leadingComments
@@ -66404,11 +66354,11 @@ function annotateAsPure(pathOrNode) {
   value: true
 });
 createPlugin$1.default = createPlugin;
-var _pluginSyntaxJsx = lib$4;
-var _helperPluginUtils$2 = lib$6;
-var _core$2 = requireLib();
-var _helperModuleImports = lib$b;
-var _helperAnnotateAsPure$1 = lib$3;
+var _pluginSyntaxJsx = lib$d;
+var _helperPluginUtils$5 = lib$f;
+var _core$a = requireLib();
+var _helperModuleImports = lib$k;
+var _helperAnnotateAsPure$3 = lib$c;
 const DEFAULT = {
   importSource: "react",
   runtime: "automatic",
@@ -66422,12 +66372,12 @@ const JSX_FRAG_ANNOTATION_REGEX = /^\s*\*?\s*@jsxFrag\s+([^\s]+)\s*$/m;
 const get = (pass, name) => pass.get(`@babel/plugin-react-jsx/${name}`);
 const set = (pass, name, v) => pass.set(`@babel/plugin-react-jsx/${name}`, v);
 function hasProto(node) {
-  return node.properties.some(value => _core$2.types.isObjectProperty(value, {
+  return node.properties.some(value => _core$a.types.isObjectProperty(value, {
     computed: false,
     shorthand: false
-  }) && (_core$2.types.isIdentifier(value.key, {
+  }) && (_core$a.types.isIdentifier(value.key, {
     name: "__proto__"
-  }) || _core$2.types.isStringLiteral(value.key, {
+  }) || _core$a.types.isStringLiteral(value.key, {
     value: "__proto__"
   })));
 }
@@ -66435,7 +66385,7 @@ function createPlugin({
   name,
   development
 }) {
-  return (0, _helperPluginUtils$2.declare)((_, options) => {
+  return (0, _helperPluginUtils$5.declare)((_, options) => {
     const {
       pure: PURE_ANNOTATION,
       throwIfNamespace = true,
@@ -66466,9 +66416,9 @@ function createPlugin({
       JSXOpeningElement(path, state) {
         const attributes = [];
         if (isThisAllowed(path.scope)) {
-          attributes.push(_core$2.types.jsxAttribute(_core$2.types.jsxIdentifier("__self"), _core$2.types.jsxExpressionContainer(_core$2.types.thisExpression())));
+          attributes.push(_core$a.types.jsxAttribute(_core$a.types.jsxIdentifier("__self"), _core$a.types.jsxExpressionContainer(_core$a.types.thisExpression())));
         }
-        attributes.push(_core$2.types.jsxAttribute(_core$2.types.jsxIdentifier("__source"), _core$2.types.jsxExpressionContainer(makeSource(path, state))));
+        attributes.push(_core$a.types.jsxAttribute(_core$a.types.jsxIdentifier("__source"), _core$a.types.jsxExpressionContainer(makeSource(path, state))));
         path.pushContainer("attributes", attributes);
       }
     };
@@ -66527,8 +66477,8 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`);
               }
               const createElement = toMemberExpression(pragma);
               const fragment = toMemberExpression(pragmaFrag);
-              set(state, "id/createElement", () => _core$2.types.cloneNode(createElement));
-              set(state, "id/fragment", () => _core$2.types.cloneNode(fragment));
+              set(state, "id/createElement", () => _core$a.types.cloneNode(createElement));
+              set(state, "id/fragment", () => _core$a.types.cloneNode(fragment));
               set(state, "defaultPure", pragma === DEFAULT.pragma);
             } else if (runtime === "automatic") {
               if (pragmaSet || pragmaFragSet) {
@@ -66556,7 +66506,7 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`);
             } else {
               callExpr = buildJSXFragmentCall(path, file);
             }
-            path.replaceWith(_core$2.types.inherits(callExpr, path.node));
+            path.replaceWith(_core$a.types.inherits(callExpr, path.node));
           }
         },
         JSXElement: {
@@ -66567,12 +66517,12 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`);
             } else {
               callExpr = buildJSXElementCall(path, file);
             }
-            path.replaceWith(_core$2.types.inherits(callExpr, path.node));
+            path.replaceWith(_core$a.types.inherits(callExpr, path.node));
           }
         },
         JSXAttribute(path) {
-          if (_core$2.types.isJSXElement(path.node.value)) {
-            path.node.value = _core$2.types.jsxExpressionContainer(path.node.value);
+          if (_core$a.types.isJSXElement(path.node.value)) {
+            path.node.value = _core$a.types.jsxExpressionContainer(path.node.value);
           }
         }
       }
@@ -66601,8 +66551,8 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`);
       return true;
     }
     function call(pass, name, args) {
-      const node = _core$2.types.callExpression(get(pass, `id/${name}`)(), args);
-      if (PURE_ANNOTATION != null ? PURE_ANNOTATION : get(pass, "defaultPure")) (0, _helperAnnotateAsPure$1.default)(node);
+      const node = _core$a.types.callExpression(get(pass, `id/${name}`)(), args);
+      if (PURE_ANNOTATION != null ? PURE_ANNOTATION : get(pass, "defaultPure")) (0, _helperAnnotateAsPure$3.default)(node);
       return node;
     }
     function shouldUseCreateElement(path) {
@@ -66611,65 +66561,65 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`);
       let seenPropsSpread = false;
       for (let i = 0; i < attributes.length; i++) {
         const attr = attributes[i];
-        if (seenPropsSpread && _core$2.types.isJSXAttribute(attr) && attr.name.name === "key") {
+        if (seenPropsSpread && _core$a.types.isJSXAttribute(attr) && attr.name.name === "key") {
           return true;
-        } else if (_core$2.types.isJSXSpreadAttribute(attr)) {
+        } else if (_core$a.types.isJSXSpreadAttribute(attr)) {
           seenPropsSpread = true;
         }
       }
       return false;
     }
     function convertJSXIdentifier(node, parent) {
-      if (_core$2.types.isJSXIdentifier(node)) {
-        if (node.name === "this" && _core$2.types.isReferenced(node, parent)) {
-          return _core$2.types.thisExpression();
-        } else if (_core$2.types.isValidIdentifier(node.name, false)) {
+      if (_core$a.types.isJSXIdentifier(node)) {
+        if (node.name === "this" && _core$a.types.isReferenced(node, parent)) {
+          return _core$a.types.thisExpression();
+        } else if (_core$a.types.isValidIdentifier(node.name, false)) {
           node.type = "Identifier";
           return node;
         } else {
-          return _core$2.types.stringLiteral(node.name);
+          return _core$a.types.stringLiteral(node.name);
         }
-      } else if (_core$2.types.isJSXMemberExpression(node)) {
-        return _core$2.types.memberExpression(convertJSXIdentifier(node.object, node), convertJSXIdentifier(node.property, node));
-      } else if (_core$2.types.isJSXNamespacedName(node)) {
-        return _core$2.types.stringLiteral(`${node.namespace.name}:${node.name.name}`);
+      } else if (_core$a.types.isJSXMemberExpression(node)) {
+        return _core$a.types.memberExpression(convertJSXIdentifier(node.object, node), convertJSXIdentifier(node.property, node));
+      } else if (_core$a.types.isJSXNamespacedName(node)) {
+        return _core$a.types.stringLiteral(`${node.namespace.name}:${node.name.name}`);
       }
       return node;
     }
     function convertAttributeValue(node) {
-      if (_core$2.types.isJSXExpressionContainer(node)) {
+      if (_core$a.types.isJSXExpressionContainer(node)) {
         return node.expression;
       } else {
         return node;
       }
     }
     function accumulateAttribute(array, attribute) {
-      if (_core$2.types.isJSXSpreadAttribute(attribute.node)) {
+      if (_core$a.types.isJSXSpreadAttribute(attribute.node)) {
         const arg = attribute.node.argument;
-        if (_core$2.types.isObjectExpression(arg) && !hasProto(arg)) {
+        if (_core$a.types.isObjectExpression(arg) && !hasProto(arg)) {
           array.push(...arg.properties);
         } else {
-          array.push(_core$2.types.spreadElement(arg));
+          array.push(_core$a.types.spreadElement(arg));
         }
         return array;
       }
-      const value = convertAttributeValue(attribute.node.name.name !== "key" ? attribute.node.value || _core$2.types.booleanLiteral(true) : attribute.node.value);
+      const value = convertAttributeValue(attribute.node.name.name !== "key" ? attribute.node.value || _core$a.types.booleanLiteral(true) : attribute.node.value);
       if (attribute.node.name.name === "key" && value === null) {
         throw attribute.buildCodeFrameError('Please provide an explicit key value. Using "key" as a shorthand for "key={true}" is not allowed.');
       }
-      if (_core$2.types.isStringLiteral(value) && !_core$2.types.isJSXExpressionContainer(attribute.node.value)) {
+      if (_core$a.types.isStringLiteral(value) && !_core$a.types.isJSXExpressionContainer(attribute.node.value)) {
         var _value$extra;
         value.value = value.value.replace(/\n\s+/g, " ");
         (_value$extra = value.extra) == null ? true : delete _value$extra.raw;
       }
-      if (_core$2.types.isJSXNamespacedName(attribute.node.name)) {
-        attribute.node.name = _core$2.types.stringLiteral(attribute.node.name.namespace.name + ":" + attribute.node.name.name.name);
-      } else if (_core$2.types.isValidIdentifier(attribute.node.name.name, false)) {
+      if (_core$a.types.isJSXNamespacedName(attribute.node.name)) {
+        attribute.node.name = _core$a.types.stringLiteral(attribute.node.name.namespace.name + ":" + attribute.node.name.name.name);
+      } else if (_core$a.types.isValidIdentifier(attribute.node.name.name, false)) {
         attribute.node.name.type = "Identifier";
       } else {
-        attribute.node.name = _core$2.types.stringLiteral(attribute.node.name.name);
+        attribute.node.name = _core$a.types.stringLiteral(attribute.node.name.name);
       }
-      array.push(_core$2.types.inherits(_core$2.types.objectProperty(attribute.node.name, value), attribute.node));
+      array.push(_core$a.types.inherits(_core$a.types.objectProperty(attribute.node.name, value), attribute.node));
       return array;
     }
     function buildChildrenProperty(children) {
@@ -66677,11 +66627,11 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`);
       if (children.length === 1) {
         childrenNode = children[0];
       } else if (children.length > 1) {
-        childrenNode = _core$2.types.arrayExpression(children);
+        childrenNode = _core$a.types.arrayExpression(children);
       } else {
         return undefined;
       }
-      return _core$2.types.objectProperty(_core$2.types.identifier("children"), childrenNode);
+      return _core$a.types.objectProperty(_core$a.types.identifier("children"), childrenNode);
     }
     function buildJSXElementCall(path, file) {
       const openingPath = path.get("openingElement");
@@ -66689,7 +66639,7 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`);
       const attribsArray = [];
       const extracted = Object.create(null);
       for (const attr of openingPath.get("attributes")) {
-        if (attr.isJSXAttribute() && _core$2.types.isJSXIdentifier(attr.node.name)) {
+        if (attr.isJSXAttribute() && _core$a.types.isJSXIdentifier(attr.node.name)) {
           const {
             name
           } = attr.node.name;
@@ -66713,17 +66663,17 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`);
           attribsArray.push(attr);
         }
       }
-      const children = _core$2.types.react.buildChildren(path.node);
+      const children = _core$a.types.react.buildChildren(path.node);
       let attribs;
       if (attribsArray.length || children.length) {
         attribs = buildJSXOpeningElementAttributes(attribsArray, children);
       } else {
-        attribs = _core$2.types.objectExpression([]);
+        attribs = _core$a.types.objectExpression([]);
       }
       args.push(attribs);
       if (development) {
         var _extracted$key;
-        args.push((_extracted$key = extracted.key) != null ? _extracted$key : path.scope.buildUndefinedNode(), _core$2.types.booleanLiteral(children.length > 1));
+        args.push((_extracted$key = extracted.key) != null ? _extracted$key : path.scope.buildUndefinedNode(), _core$a.types.booleanLiteral(children.length > 1));
         if (extracted.__source) {
           args.push(extracted.__source);
           if (extracted.__self) args.push(extracted.__self);
@@ -66740,35 +66690,35 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`);
       if ((children == null ? void 0 : children.length) > 0) {
         props.push(buildChildrenProperty(children));
       }
-      return _core$2.types.objectExpression(props);
+      return _core$a.types.objectExpression(props);
     }
     function buildJSXFragmentCall(path, file) {
       const args = [get(file, "id/fragment")()];
-      const children = _core$2.types.react.buildChildren(path.node);
-      args.push(_core$2.types.objectExpression(children.length > 0 ? [buildChildrenProperty(children)] : []));
+      const children = _core$a.types.react.buildChildren(path.node);
+      args.push(_core$a.types.objectExpression(children.length > 0 ? [buildChildrenProperty(children)] : []));
       if (development) {
-        args.push(path.scope.buildUndefinedNode(), _core$2.types.booleanLiteral(children.length > 1));
+        args.push(path.scope.buildUndefinedNode(), _core$a.types.booleanLiteral(children.length > 1));
       }
       return call(file, children.length > 1 ? "jsxs" : "jsx", args);
     }
     function buildCreateElementFragmentCall(path, file) {
       if (filter && !filter(path.node, file)) return;
-      return call(file, "createElement", [get(file, "id/fragment")(), _core$2.types.nullLiteral(), ..._core$2.types.react.buildChildren(path.node)]);
+      return call(file, "createElement", [get(file, "id/fragment")(), _core$a.types.nullLiteral(), ..._core$a.types.react.buildChildren(path.node)]);
     }
     function buildCreateElementCall(path, file) {
       const openingPath = path.get("openingElement");
-      return call(file, "createElement", [getTag(openingPath), buildCreateElementOpeningElementAttributes(file, path, openingPath.get("attributes")), ..._core$2.types.react.buildChildren(path.node)]);
+      return call(file, "createElement", [getTag(openingPath), buildCreateElementOpeningElementAttributes(file, path, openingPath.get("attributes")), ..._core$a.types.react.buildChildren(path.node)]);
     }
     function getTag(openingPath) {
       const tagExpr = convertJSXIdentifier(openingPath.node.name, openingPath.node);
       let tagName;
-      if (_core$2.types.isIdentifier(tagExpr)) {
+      if (_core$a.types.isIdentifier(tagExpr)) {
         tagName = tagExpr.name;
-      } else if (_core$2.types.isStringLiteral(tagExpr)) {
+      } else if (_core$a.types.isStringLiteral(tagExpr)) {
         tagName = tagExpr.value;
       }
-      if (_core$2.types.react.isCompatTag(tagName)) {
-        return _core$2.types.stringLiteral(tagName);
+      if (_core$a.types.react.isCompatTag(tagName)) {
+        return _core$a.types.stringLiteral(tagName);
       } else {
         return tagExpr;
       }
@@ -66782,33 +66732,33 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`);
           if (!useSpread) {
             let start = 0;
             props.forEach((prop, i) => {
-              if (_core$2.types.isSpreadElement(prop)) {
+              if (_core$a.types.isSpreadElement(prop)) {
                 if (i > start) {
-                  objs.push(_core$2.types.objectExpression(props.slice(start, i)));
+                  objs.push(_core$a.types.objectExpression(props.slice(start, i)));
                 }
                 objs.push(prop.argument);
                 start = i + 1;
               }
             });
             if (props.length > start) {
-              objs.push(_core$2.types.objectExpression(props.slice(start)));
+              objs.push(_core$a.types.objectExpression(props.slice(start)));
             }
           } else if (props.length) {
-            objs.push(_core$2.types.objectExpression(props));
+            objs.push(_core$a.types.objectExpression(props));
           }
           if (!objs.length) {
-            return _core$2.types.nullLiteral();
+            return _core$a.types.nullLiteral();
           }
           if (objs.length === 1) {
-            if (!(_core$2.types.isSpreadElement(props[0]) && _core$2.types.isObjectExpression(props[0].argument))) {
+            if (!(_core$a.types.isSpreadElement(props[0]) && _core$a.types.isObjectExpression(props[0].argument))) {
               return objs[0];
             }
           }
-          if (!_core$2.types.isObjectExpression(objs[0])) {
-            objs.unshift(_core$2.types.objectExpression([]));
+          if (!_core$a.types.isObjectExpression(objs[0])) {
+            objs.unshift(_core$a.types.objectExpression([]));
           }
-          const helper = useBuiltIns ? _core$2.types.memberExpression(_core$2.types.identifier("Object"), _core$2.types.identifier("assign")) : file.addHelper("extends");
-          return _core$2.types.callExpression(helper, objs);
+          const helper = useBuiltIns ? _core$a.types.memberExpression(_core$a.types.identifier("Object"), _core$a.types.identifier("assign")) : file.addHelper("extends");
+          return _core$a.types.callExpression(helper, objs);
         }
       }
       const props = [];
@@ -66817,14 +66767,14 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`);
         const {
           node
         } = attr;
-        const name = _core$2.types.isJSXAttribute(node) && _core$2.types.isJSXIdentifier(node.name) && node.name.name;
+        const name = _core$a.types.isJSXAttribute(node) && _core$a.types.isJSXIdentifier(node.name) && node.name.name;
         if (runtime === "automatic" && (name === "__source" || name === "__self")) {
           if (found[name]) throw sourceSelfError(path, name);
           found[name] = true;
         }
         accumulateAttribute(props, attr);
       }
-      return props.length === 1 && _core$2.types.isSpreadElement(props[0]) && !_core$2.types.isObjectExpression(props[0].argument) ? props[0].argument : props.length > 0 ? _core$2.types.objectExpression(props) : _core$2.types.nullLiteral();
+      return props.length === 1 && _core$a.types.isSpreadElement(props[0]) && !_core$a.types.isObjectExpression(props[0].argument) ? props[0].argument : props.length > 0 ? _core$a.types.objectExpression(props) : _core$a.types.nullLiteral();
     }
   });
   function getSource(source, importName) {
@@ -66845,7 +66795,7 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`);
       const actualSource = getSource(source, importName);
       if ((0, _helperModuleImports.isModule)(path)) {
         let reference = get(pass, `imports/${importName}`);
-        if (reference) return _core$2.types.cloneNode(reference);
+        if (reference) return _core$a.types.cloneNode(reference);
         reference = (0, _helperModuleImports.addNamed)(path, importName, actualSource, {
           importedInterop: "uncompiled",
           importPosition: "after"
@@ -66855,20 +66805,20 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`);
       } else {
         let reference = get(pass, `requires/${actualSource}`);
         if (reference) {
-          reference = _core$2.types.cloneNode(reference);
+          reference = _core$a.types.cloneNode(reference);
         } else {
           reference = (0, _helperModuleImports.addNamespace)(path, actualSource, {
             importedInterop: "uncompiled"
           });
           set(pass, `requires/${actualSource}`, reference);
         }
-        return _core$2.types.memberExpression(reference, _core$2.types.identifier(importName));
+        return _core$a.types.memberExpression(reference, _core$a.types.identifier(importName));
       }
     };
   }
 }
 function toMemberExpression(id) {
-  return id.split(".").map(name => _core$2.types.identifier(name)).reduce((object, property) => _core$2.types.memberExpression(object, property));
+  return id.split(".").map(name => _core$a.types.identifier(name)).reduce((object, property) => _core$a.types.memberExpression(object, property));
 }
 function makeSource(path, state) {
   const location = path.node.loc;
@@ -66882,16 +66832,16 @@ function makeSource(path, state) {
     const fileNameIdentifier = path.scope.generateUidIdentifier("_jsxFileName");
     path.scope.getProgramParent().push({
       id: fileNameIdentifier,
-      init: _core$2.types.stringLiteral(filename)
+      init: _core$a.types.stringLiteral(filename)
     });
     state.fileNameIdentifier = fileNameIdentifier;
   }
-  return makeTrace(_core$2.types.cloneNode(state.fileNameIdentifier), location.start.line, location.start.column);
+  return makeTrace(_core$a.types.cloneNode(state.fileNameIdentifier), location.start.line, location.start.column);
 }
 function makeTrace(fileNameIdentifier, lineNumber, column0Based) {
-  const fileLineLiteral = lineNumber != null ? _core$2.types.numericLiteral(lineNumber) : _core$2.types.nullLiteral();
-  const fileColumnLiteral = column0Based != null ? _core$2.types.numericLiteral(column0Based + 1) : _core$2.types.nullLiteral();
-  return _core$2.template.expression.ast`{
+  const fileLineLiteral = lineNumber != null ? _core$a.types.numericLiteral(lineNumber) : _core$a.types.nullLiteral();
+  const fileColumnLiteral = column0Based != null ? _core$a.types.numericLiteral(column0Based + 1) : _core$a.types.nullLiteral();
+  return _core$a.template.expression.ast`{
     fileName: ${fileNameIdentifier},
     lineNumber: ${fileLineLiteral},
     columnNumber: ${fileColumnLiteral},
@@ -66900,25 +66850,25 @@ function makeTrace(fileNameIdentifier, lineNumber, column0Based) {
 function sourceSelfError(path, name) {
   const pluginName = `transform-react-jsx-${name.slice(2)}`;
   return path.buildCodeFrameError(`Duplicate ${name} prop found. You are most likely using the deprecated ${pluginName} Babel plugin. Both __source and __self are automatically set when using the automatic runtime. Please remove transform-react-jsx-source and transform-react-jsx-self from your Babel config.`);
-}Object.defineProperty(lib$5, "__esModule", {
+}Object.defineProperty(lib$e, "__esModule", {
   value: true
 });
-lib$5.default = void 0;
+lib$e.default = void 0;
 var _createPlugin$1 = createPlugin$1;
-var _default$3 = (0, _createPlugin$1.default)({
+var _default$6 = (0, _createPlugin$1.default)({
   name: "transform-react-jsx",
   development: false
 });
-lib$5.default = _default$3;var lib$2 = {};var development = {};Object.defineProperty(development, "__esModule", {
+lib$e.default = _default$6;var lib$b = {};var development = {};Object.defineProperty(development, "__esModule", {
   value: true
 });
 development.default = void 0;
 var _createPlugin = createPlugin$1;
-var _default$2 = (0, _createPlugin.default)({
+var _default$5 = (0, _createPlugin.default)({
   name: "transform-react-jsx/development",
   development: true
 });
-development.default = _default$2;(function (exports) {
+development.default = _default$5;(function (exports) {
 
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
@@ -66932,25 +66882,25 @@ development.default = _default$2;(function (exports) {
 	var _development = development;
 
 	
-} (lib$2));var lib$1 = {};Object.defineProperty(lib$1, "__esModule", {
+} (lib$b));var lib$a = {};Object.defineProperty(lib$a, "__esModule", {
   value: true
 });
-lib$1.default = void 0;
-var _helperPluginUtils$1 = lib$6;
-var _path = require$$1;
-var _core$1 = requireLib();
-var _default$1 = (0, _helperPluginUtils$1.declare)(api => {
+lib$a.default = void 0;
+var _helperPluginUtils$4 = lib$f;
+var _path = require$$3;
+var _core$9 = requireLib();
+var _default$4 = (0, _helperPluginUtils$4.declare)(api => {
   api.assertVersion(7);
   function addDisplayName(id, call) {
     const props = call.arguments[0].properties;
     let safe = true;
     for (let i = 0; i < props.length; i++) {
       const prop = props[i];
-      if (_core$1.types.isSpreadElement(prop)) {
+      if (_core$9.types.isSpreadElement(prop)) {
         continue;
       }
-      const key = _core$1.types.toComputedKey(prop);
-      if (_core$1.types.isStringLiteral(key, {
+      const key = _core$9.types.toComputedKey(prop);
+      if (_core$9.types.isStringLiteral(key, {
         value: "displayName"
       })) {
         safe = false;
@@ -66958,22 +66908,22 @@ var _default$1 = (0, _helperPluginUtils$1.declare)(api => {
       }
     }
     if (safe) {
-      props.unshift(_core$1.types.objectProperty(_core$1.types.identifier("displayName"), _core$1.types.stringLiteral(id)));
+      props.unshift(_core$9.types.objectProperty(_core$9.types.identifier("displayName"), _core$9.types.stringLiteral(id)));
     }
   }
-  const isCreateClassCallExpression = _core$1.types.buildMatchMemberExpression("React.createClass");
-  const isCreateClassAddon = callee => _core$1.types.isIdentifier(callee, {
+  const isCreateClassCallExpression = _core$9.types.buildMatchMemberExpression("React.createClass");
+  const isCreateClassAddon = callee => _core$9.types.isIdentifier(callee, {
     name: "createReactClass"
   });
   function isCreateClass(node) {
-    if (!node || !_core$1.types.isCallExpression(node)) return false;
+    if (!node || !_core$9.types.isCallExpression(node)) return false;
     if (!isCreateClassCallExpression(node.callee) && !isCreateClassAddon(node.callee)) {
       return false;
     }
     const args = node.arguments;
     if (args.length !== 1) return false;
     const first = args[0];
-    if (!_core$1.types.isObjectExpression(first)) return false;
+    if (!_core$9.types.isObjectExpression(first)) return false;
     return true;
   }
   return {
@@ -67010,38 +66960,38 @@ var _default$1 = (0, _helperPluginUtils$1.declare)(api => {
           if (id) return true;
         });
         if (!id) return;
-        if (_core$1.types.isMemberExpression(id)) {
+        if (_core$9.types.isMemberExpression(id)) {
           id = id.property;
         }
-        if (_core$1.types.isIdentifier(id)) {
+        if (_core$9.types.isIdentifier(id)) {
           addDisplayName(id.name, node);
         }
       }
     }
   };
 });
-lib$1.default = _default$1;var lib = {};Object.defineProperty(lib, "__esModule", {
+lib$a.default = _default$4;var lib$9 = {};Object.defineProperty(lib$9, "__esModule", {
   value: true
 });
-lib.default = void 0;
-var _helperPluginUtils = lib$6;
-var _helperAnnotateAsPure = lib$3;
-var _core = requireLib();
+lib$9.default = void 0;
+var _helperPluginUtils$3 = lib$f;
+var _helperAnnotateAsPure$2 = lib$c;
+var _core$8 = requireLib();
 const PURE_CALLS = [["react", new Set(["cloneElement", "createContext", "createElement", "createFactory", "createRef", "forwardRef", "isValidElement", "memo", "lazy"])], ["react-dom", new Set(["createPortal"])]];
-var _default = (0, _helperPluginUtils.declare)(api => {
+var _default$3 = (0, _helperPluginUtils$3.declare)(api => {
   api.assertVersion(7);
   return {
     name: "transform-react-pure-annotations",
     visitor: {
       CallExpression(path) {
         if (isReactCall(path)) {
-          (0, _helperAnnotateAsPure.default)(path);
+          (0, _helperAnnotateAsPure$2.default)(path);
         }
       }
     }
   };
 });
-lib.default = _default;
+lib$9.default = _default$3;
 function isReactCall(path) {
   const calleePath = path.get("callee");
   if (!calleePath.isMemberExpression()) {
@@ -67056,7 +67006,7 @@ function isReactCall(path) {
   }
   const object = calleePath.get("object");
   const callee = calleePath.node;
-  if (!callee.computed && _core.types.isIdentifier(callee.property)) {
+  if (!callee.computed && _core$8.types.isIdentifier(callee.property)) {
     const propertyName = callee.property.name;
     for (const [module, methods] of PURE_CALLS) {
       if (object.referencesImport(module, "default") || object.referencesImport(module, "*")) {
@@ -67069,12 +67019,12 @@ function isReactCall(path) {
 
 	Object.defineProperty(exports, '__esModule', { value: true });
 
-	var helperPluginUtils = lib$6;
-	var transformReactJSX = lib$5;
-	var transformReactJSXDevelopment = lib$2;
-	var transformReactDisplayName = lib$1;
-	var transformReactPure = lib;
-	var helperValidatorOption = lib$8;
+	var helperPluginUtils = lib$f;
+	var transformReactJSX = lib$e;
+	var transformReactJSXDevelopment = lib$b;
+	var transformReactDisplayName = lib$a;
+	var transformReactPure = lib$9;
+	var helperValidatorOption = lib$h;
 
 	function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
 
@@ -67144,13 +67094,3484 @@ function isReactCall(path) {
 
 	exports["default"] = index;
 	
-} (lib$7));const { transform } = requireLib();
-const presetReact = lib$7;
+} (lib$g));var lib$8 = {};var lib$7 = {};var lib$6 = {};Object.defineProperty(lib$6, "__esModule", {
+  value: true
+});
+lib$6.default = void 0;
+var _helperPluginUtils$2 = lib$f;
+{
+  var removePlugin = function (plugins, name) {
+    const indices = [];
+    plugins.forEach((plugin, i) => {
+      const n = Array.isArray(plugin) ? plugin[0] : plugin;
+      if (n === name) {
+        indices.unshift(i);
+      }
+    });
+    for (const i of indices) {
+      plugins.splice(i, 1);
+    }
+  };
+}
+var _default$2 = (0, _helperPluginUtils$2.declare)((api, opts) => {
+  api.assertVersion(7);
+  const {
+    disallowAmbiguousJSXLike,
+    dts
+  } = opts;
+  {
+    var {
+      isTSX
+    } = opts;
+  }
+  return {
+    name: "syntax-typescript",
+    manipulateOptions(opts, parserOpts) {
+      {
+        const {
+          plugins
+        } = parserOpts;
+        removePlugin(plugins, "flow");
+        removePlugin(plugins, "jsx");
+        plugins.push("objectRestSpread", "classProperties");
+        if (isTSX) {
+          plugins.push("jsx");
+        }
+      }
+      parserOpts.plugins.push(["typescript", {
+        disallowAmbiguousJSXLike,
+        dts
+      }]);
+    }
+  };
+});
+lib$6.default = _default$2;var lib$5 = {};var fields = {};var lib$4 = {};var lib$3 = {};Object.defineProperty(lib$3, '__esModule', { value: true });
+
+var _t$2 = requireLib$b();
+
+function _interopNamespace$1(e) {
+  if (e && e.__esModule) return e;
+  var n = Object.create(null);
+  if (e) {
+    Object.keys(e).forEach(function (k) {
+      if (k !== 'default') {
+        var d = Object.getOwnPropertyDescriptor(e, k);
+        Object.defineProperty(n, k, d.get ? d : {
+          enumerable: true,
+          get: function () { return e[k]; }
+        });
+      }
+    });
+  }
+  n.default = e;
+  return Object.freeze(n);
+}
+
+var _t__namespace = /*#__PURE__*/_interopNamespace$1(_t$2);
+
+function willPathCastToBoolean(path) {
+  const maybeWrapped = path;
+  const {
+    node,
+    parentPath
+  } = maybeWrapped;
+  if (parentPath.isLogicalExpression()) {
+    const {
+      operator,
+      right
+    } = parentPath.node;
+    if (operator === "&&" || operator === "||" || operator === "??" && node === right) {
+      return willPathCastToBoolean(parentPath);
+    }
+  }
+  if (parentPath.isSequenceExpression()) {
+    const {
+      expressions
+    } = parentPath.node;
+    if (expressions[expressions.length - 1] === node) {
+      return willPathCastToBoolean(parentPath);
+    } else {
+      return true;
+    }
+  }
+  return parentPath.isConditional({
+    test: node
+  }) || parentPath.isUnaryExpression({
+    operator: "!"
+  }) || parentPath.isLoop({
+    test: node
+  });
+}
+
+const {
+  LOGICAL_OPERATORS,
+  arrowFunctionExpression,
+  assignmentExpression: assignmentExpression$1,
+  binaryExpression,
+  booleanLiteral: booleanLiteral$1,
+  callExpression: callExpression$2,
+  cloneNode: cloneNode$1,
+  conditionalExpression,
+  identifier: identifier$2,
+  isMemberExpression,
+  isOptionalCallExpression,
+  isOptionalMemberExpression,
+  isUpdateExpression,
+  logicalExpression,
+  memberExpression: memberExpression$2,
+  nullLiteral,
+  optionalCallExpression: optionalCallExpression$1,
+  optionalMemberExpression: optionalMemberExpression$1,
+  sequenceExpression: sequenceExpression$1,
+  updateExpression
+} = _t__namespace;
+class AssignmentMemoiser {
+  constructor() {
+    this._map = void 0;
+    this._map = new WeakMap();
+  }
+  has(key) {
+    return this._map.has(key);
+  }
+  get(key) {
+    if (!this.has(key)) return;
+    const record = this._map.get(key);
+    const {
+      value
+    } = record;
+    record.count--;
+    if (record.count === 0) {
+      return assignmentExpression$1("=", value, key);
+    }
+    return value;
+  }
+  set(key, value, count) {
+    return this._map.set(key, {
+      count,
+      value
+    });
+  }
+}
+function toNonOptional(path, base) {
+  const {
+    node
+  } = path;
+  if (isOptionalMemberExpression(node)) {
+    return memberExpression$2(base, node.property, node.computed);
+  }
+  if (path.isOptionalCallExpression()) {
+    const callee = path.get("callee");
+    if (path.node.optional && callee.isOptionalMemberExpression()) {
+      const object = callee.node.object;
+      const context = path.scope.maybeGenerateMemoised(object);
+      callee.get("object").replaceWith(assignmentExpression$1("=", context, object));
+      return callExpression$2(memberExpression$2(base, identifier$2("call")), [context, ...path.node.arguments]);
+    }
+    return callExpression$2(base, path.node.arguments);
+  }
+  return path.node;
+}
+function isInDetachedTree(path) {
+  while (path) {
+    if (path.isProgram()) break;
+    const {
+      parentPath,
+      container,
+      listKey
+    } = path;
+    const parentNode = parentPath.node;
+    if (listKey) {
+      if (container !== parentNode[listKey]) {
+        return true;
+      }
+    } else {
+      if (container !== parentNode) return true;
+    }
+    path = parentPath;
+  }
+  return false;
+}
+const handle = {
+  memoise() {},
+  handle(member, noDocumentAll) {
+    const {
+      node,
+      parent,
+      parentPath,
+      scope
+    } = member;
+    if (member.isOptionalMemberExpression()) {
+      if (isInDetachedTree(member)) return;
+      const endPath = member.find(({
+        node,
+        parent
+      }) => {
+        if (isOptionalMemberExpression(parent)) {
+          return parent.optional || parent.object !== node;
+        }
+        if (isOptionalCallExpression(parent)) {
+          return node !== member.node && parent.optional || parent.callee !== node;
+        }
+        return true;
+      });
+      if (scope.path.isPattern()) {
+        endPath.replaceWith(callExpression$2(arrowFunctionExpression([], endPath.node), []));
+        return;
+      }
+      const willEndPathCastToBoolean = willPathCastToBoolean(endPath);
+      const rootParentPath = endPath.parentPath;
+      if (rootParentPath.isUpdateExpression({
+        argument: node
+      }) || rootParentPath.isAssignmentExpression({
+        left: node
+      })) {
+        throw member.buildCodeFrameError(`can't handle assignment`);
+      }
+      const isDeleteOperation = rootParentPath.isUnaryExpression({
+        operator: "delete"
+      });
+      if (isDeleteOperation && endPath.isOptionalMemberExpression() && endPath.get("property").isPrivateName()) {
+        throw member.buildCodeFrameError(`can't delete a private class element`);
+      }
+      let startingOptional = member;
+      for (;;) {
+        if (startingOptional.isOptionalMemberExpression()) {
+          if (startingOptional.node.optional) break;
+          startingOptional = startingOptional.get("object");
+          continue;
+        } else if (startingOptional.isOptionalCallExpression()) {
+          if (startingOptional.node.optional) break;
+          startingOptional = startingOptional.get("callee");
+          continue;
+        }
+        throw new Error(`Internal error: unexpected ${startingOptional.node.type}`);
+      }
+      const startingNode = startingOptional.isOptionalMemberExpression() ? startingOptional.node.object : startingOptional.node.callee;
+      const baseNeedsMemoised = scope.maybeGenerateMemoised(startingNode);
+      const baseRef = baseNeedsMemoised != null ? baseNeedsMemoised : startingNode;
+      const parentIsOptionalCall = parentPath.isOptionalCallExpression({
+        callee: node
+      });
+      const isOptionalCall = parent => parentIsOptionalCall;
+      const parentIsCall = parentPath.isCallExpression({
+        callee: node
+      });
+      startingOptional.replaceWith(toNonOptional(startingOptional, baseRef));
+      if (isOptionalCall()) {
+        if (parent.optional) {
+          parentPath.replaceWith(this.optionalCall(member, parent.arguments));
+        } else {
+          parentPath.replaceWith(this.call(member, parent.arguments));
+        }
+      } else if (parentIsCall) {
+        member.replaceWith(this.boundGet(member));
+      } else if (this.delete && parentPath.isUnaryExpression({
+        operator: "delete"
+      })) {
+        parentPath.replaceWith(this.delete(member));
+      } else {
+        member.replaceWith(this.get(member));
+      }
+      let regular = member.node;
+      for (let current = member; current !== endPath;) {
+        const parentPath = current.parentPath;
+        if (parentPath === endPath && isOptionalCall() && parent.optional) {
+          regular = parentPath.node;
+          break;
+        }
+        regular = toNonOptional(parentPath, regular);
+        current = parentPath;
+      }
+      let context;
+      const endParentPath = endPath.parentPath;
+      if (isMemberExpression(regular) && endParentPath.isOptionalCallExpression({
+        callee: endPath.node,
+        optional: true
+      })) {
+        const {
+          object
+        } = regular;
+        context = member.scope.maybeGenerateMemoised(object);
+        if (context) {
+          regular.object = assignmentExpression$1("=", context, object);
+        }
+      }
+      let replacementPath = endPath;
+      if (isDeleteOperation) {
+        replacementPath = endParentPath;
+        regular = endParentPath.node;
+      }
+      const baseMemoised = baseNeedsMemoised ? assignmentExpression$1("=", cloneNode$1(baseRef), cloneNode$1(startingNode)) : cloneNode$1(baseRef);
+      if (willEndPathCastToBoolean) {
+        let nonNullishCheck;
+        if (noDocumentAll) {
+          nonNullishCheck = binaryExpression("!=", baseMemoised, nullLiteral());
+        } else {
+          nonNullishCheck = logicalExpression("&&", binaryExpression("!==", baseMemoised, nullLiteral()), binaryExpression("!==", cloneNode$1(baseRef), scope.buildUndefinedNode()));
+        }
+        replacementPath.replaceWith(logicalExpression("&&", nonNullishCheck, regular));
+      } else {
+        let nullishCheck;
+        if (noDocumentAll) {
+          nullishCheck = binaryExpression("==", baseMemoised, nullLiteral());
+        } else {
+          nullishCheck = logicalExpression("||", binaryExpression("===", baseMemoised, nullLiteral()), binaryExpression("===", cloneNode$1(baseRef), scope.buildUndefinedNode()));
+        }
+        replacementPath.replaceWith(conditionalExpression(nullishCheck, isDeleteOperation ? booleanLiteral$1(true) : scope.buildUndefinedNode(), regular));
+      }
+      if (context) {
+        const endParent = endParentPath.node;
+        endParentPath.replaceWith(optionalCallExpression$1(optionalMemberExpression$1(endParent.callee, identifier$2("call"), false, true), [cloneNode$1(context), ...endParent.arguments], false));
+      }
+      return;
+    }
+    if (isUpdateExpression(parent, {
+      argument: node
+    })) {
+      if (this.simpleSet) {
+        member.replaceWith(this.simpleSet(member));
+        return;
+      }
+      const {
+        operator,
+        prefix
+      } = parent;
+      this.memoise(member, 2);
+      const ref = scope.generateUidIdentifierBasedOnNode(node);
+      scope.push({
+        id: ref
+      });
+      const seq = [assignmentExpression$1("=", cloneNode$1(ref), this.get(member))];
+      if (prefix) {
+        seq.push(updateExpression(operator, cloneNode$1(ref), prefix));
+        const value = sequenceExpression$1(seq);
+        parentPath.replaceWith(this.set(member, value));
+        return;
+      } else {
+        const ref2 = scope.generateUidIdentifierBasedOnNode(node);
+        scope.push({
+          id: ref2
+        });
+        seq.push(assignmentExpression$1("=", cloneNode$1(ref2), updateExpression(operator, cloneNode$1(ref), prefix)), cloneNode$1(ref));
+        const value = sequenceExpression$1(seq);
+        parentPath.replaceWith(sequenceExpression$1([this.set(member, value), cloneNode$1(ref2)]));
+        return;
+      }
+    }
+    if (parentPath.isAssignmentExpression({
+      left: node
+    })) {
+      if (this.simpleSet) {
+        member.replaceWith(this.simpleSet(member));
+        return;
+      }
+      const {
+        operator,
+        right: value
+      } = parentPath.node;
+      if (operator === "=") {
+        parentPath.replaceWith(this.set(member, value));
+      } else {
+        const operatorTrunc = operator.slice(0, -1);
+        if (LOGICAL_OPERATORS.includes(operatorTrunc)) {
+          this.memoise(member, 1);
+          parentPath.replaceWith(logicalExpression(operatorTrunc, this.get(member), this.set(member, value)));
+        } else {
+          this.memoise(member, 2);
+          parentPath.replaceWith(this.set(member, binaryExpression(operatorTrunc, this.get(member), value)));
+        }
+      }
+      return;
+    }
+    if (parentPath.isCallExpression({
+      callee: node
+    })) {
+      parentPath.replaceWith(this.call(member, parentPath.node.arguments));
+      return;
+    }
+    if (parentPath.isOptionalCallExpression({
+      callee: node
+    })) {
+      if (scope.path.isPattern()) {
+        parentPath.replaceWith(callExpression$2(arrowFunctionExpression([], parentPath.node), []));
+        return;
+      }
+      parentPath.replaceWith(this.optionalCall(member, parentPath.node.arguments));
+      return;
+    }
+    if (this.delete && parentPath.isUnaryExpression({
+      operator: "delete"
+    })) {
+      parentPath.replaceWith(this.delete(member));
+      return;
+    }
+    if (parentPath.isForXStatement({
+      left: node
+    }) || parentPath.isObjectProperty({
+      value: node
+    }) && parentPath.parentPath.isObjectPattern() || parentPath.isAssignmentPattern({
+      left: node
+    }) && parentPath.parentPath.isObjectProperty({
+      value: parent
+    }) && parentPath.parentPath.parentPath.isObjectPattern() || parentPath.isArrayPattern() || parentPath.isAssignmentPattern({
+      left: node
+    }) && parentPath.parentPath.isArrayPattern() || parentPath.isRestElement()) {
+      member.replaceWith(this.destructureSet(member));
+      return;
+    }
+    if (parentPath.isTaggedTemplateExpression()) {
+      member.replaceWith(this.boundGet(member));
+    } else {
+      member.replaceWith(this.get(member));
+    }
+  }
+};
+function memberExpressionToFunctions(path, visitor, state) {
+  path.traverse(visitor, Object.assign({}, handle, state, {
+    memoiser: new AssignmentMemoiser()
+  }));
+}
+
+lib$3.default = memberExpressionToFunctions;var lib$2 = {};Object.defineProperty(lib$2, "__esModule", {
+  value: true
+});
+lib$2.default = optimiseCallExpression;
+var _t$1 = requireLib$b();
+const {
+  callExpression: callExpression$1,
+  identifier: identifier$1,
+  isIdentifier,
+  isSpreadElement,
+  memberExpression: memberExpression$1,
+  optionalCallExpression,
+  optionalMemberExpression
+} = _t$1;
+function optimiseCallExpression(callee, thisNode, args, optional) {
+  if (args.length === 1 && isSpreadElement(args[0]) && isIdentifier(args[0].argument, {
+    name: "arguments"
+  })) {
+    if (optional) {
+      return optionalCallExpression(optionalMemberExpression(callee, identifier$1("apply"), false, true), [thisNode, args[0].argument], false);
+    }
+    return callExpression$1(memberExpression$1(callee, identifier$1("apply")), [thisNode, args[0].argument]);
+  } else {
+    if (optional) {
+      return optionalCallExpression(optionalMemberExpression(callee, identifier$1("call"), false, true), [thisNode, ...args], false);
+    }
+    return callExpression$1(memberExpression$1(callee, identifier$1("call")), [thisNode, ...args]);
+  }
+}Object.defineProperty(lib$4, "__esModule", {
+  value: true
+});
+lib$4.default = void 0;
+var _helperEnvironmentVisitor$2 = lib$t;
+var _helperMemberExpressionToFunctions$1 = lib$3;
+var _helperOptimiseCallExpression$1 = lib$2;
+var _core$7 = requireLib();
+const {
+  assignmentExpression,
+  booleanLiteral,
+  callExpression,
+  cloneNode,
+  identifier,
+  memberExpression,
+  sequenceExpression,
+  stringLiteral,
+  thisExpression
+} = _core$7.types;
+{
+  {
+    {
+      const ns = lib$t;
+      lib$4.environmentVisitor = ns.default;
+      lib$4.skipAllButComputedKey = ns.skipAllButComputedKey;
+    }
+  }
+}
+function getPrototypeOfExpression(objectRef, isStatic, file, isPrivateMethod) {
+  objectRef = cloneNode(objectRef);
+  const targetRef = isStatic || isPrivateMethod ? objectRef : memberExpression(objectRef, identifier("prototype"));
+  return callExpression(file.addHelper("getPrototypeOf"), [targetRef]);
+}
+const visitor = _core$7.traverse.visitors.merge([_helperEnvironmentVisitor$2.default, {
+  Super(path, state) {
+    const {
+      node,
+      parentPath
+    } = path;
+    if (!parentPath.isMemberExpression({
+      object: node
+    })) return;
+    state.handle(parentPath);
+  }
+}]);
+const unshadowSuperBindingVisitor = _core$7.traverse.visitors.merge([_helperEnvironmentVisitor$2.default, {
+  Scopable(path, {
+    refName
+  }) {
+    const binding = path.scope.getOwnBinding(refName);
+    if (binding && binding.identifier.name === refName) {
+      path.scope.rename(refName);
+    }
+  }
+}]);
+const specHandlers = {
+  memoise(superMember, count) {
+    const {
+      scope,
+      node
+    } = superMember;
+    const {
+      computed,
+      property
+    } = node;
+    if (!computed) {
+      return;
+    }
+    const memo = scope.maybeGenerateMemoised(property);
+    if (!memo) {
+      return;
+    }
+    this.memoiser.set(property, memo, count);
+  },
+  prop(superMember) {
+    const {
+      computed,
+      property
+    } = superMember.node;
+    if (this.memoiser.has(property)) {
+      return cloneNode(this.memoiser.get(property));
+    }
+    if (computed) {
+      return cloneNode(property);
+    }
+    return stringLiteral(property.name);
+  },
+  get(superMember) {
+    return this._get(superMember, this._getThisRefs());
+  },
+  _get(superMember, thisRefs) {
+    const proto = getPrototypeOfExpression(this.getObjectRef(), this.isStatic, this.file, this.isPrivateMethod);
+    return callExpression(this.file.addHelper("get"), [thisRefs.memo ? sequenceExpression([thisRefs.memo, proto]) : proto, this.prop(superMember), thisRefs.this]);
+  },
+  _getThisRefs() {
+    if (!this.isDerivedConstructor) {
+      return {
+        this: thisExpression()
+      };
+    }
+    const thisRef = this.scope.generateDeclaredUidIdentifier("thisSuper");
+    return {
+      memo: assignmentExpression("=", thisRef, thisExpression()),
+      this: cloneNode(thisRef)
+    };
+  },
+  set(superMember, value) {
+    const thisRefs = this._getThisRefs();
+    const proto = getPrototypeOfExpression(this.getObjectRef(), this.isStatic, this.file, this.isPrivateMethod);
+    return callExpression(this.file.addHelper("set"), [thisRefs.memo ? sequenceExpression([thisRefs.memo, proto]) : proto, this.prop(superMember), value, thisRefs.this, booleanLiteral(superMember.isInStrictMode())]);
+  },
+  destructureSet(superMember) {
+    throw superMember.buildCodeFrameError(`Destructuring to a super field is not supported yet.`);
+  },
+  call(superMember, args) {
+    const thisRefs = this._getThisRefs();
+    return (0, _helperOptimiseCallExpression$1.default)(this._get(superMember, thisRefs), cloneNode(thisRefs.this), args, false);
+  },
+  optionalCall(superMember, args) {
+    const thisRefs = this._getThisRefs();
+    return (0, _helperOptimiseCallExpression$1.default)(this._get(superMember, thisRefs), cloneNode(thisRefs.this), args, true);
+  },
+  delete(superMember) {
+    if (superMember.node.computed) {
+      return sequenceExpression([callExpression(this.file.addHelper("toPropertyKey"), [cloneNode(superMember.node.property)]), _core$7.template.expression.ast`
+          function () { throw new ReferenceError("'delete super[expr]' is invalid"); }()
+        `]);
+    } else {
+      return _core$7.template.expression.ast`
+        function () { throw new ReferenceError("'delete super.prop' is invalid"); }()
+      `;
+    }
+  }
+};
+const looseHandlers = Object.assign({}, specHandlers, {
+  prop(superMember) {
+    const {
+      property
+    } = superMember.node;
+    if (this.memoiser.has(property)) {
+      return cloneNode(this.memoiser.get(property));
+    }
+    return cloneNode(property);
+  },
+  get(superMember) {
+    const {
+      isStatic,
+      getSuperRef
+    } = this;
+    const {
+      computed
+    } = superMember.node;
+    const prop = this.prop(superMember);
+    let object;
+    if (isStatic) {
+      var _getSuperRef;
+      object = (_getSuperRef = getSuperRef()) != null ? _getSuperRef : memberExpression(identifier("Function"), identifier("prototype"));
+    } else {
+      var _getSuperRef2;
+      object = memberExpression((_getSuperRef2 = getSuperRef()) != null ? _getSuperRef2 : identifier("Object"), identifier("prototype"));
+    }
+    return memberExpression(object, prop, computed);
+  },
+  set(superMember, value) {
+    const {
+      computed
+    } = superMember.node;
+    const prop = this.prop(superMember);
+    return assignmentExpression("=", memberExpression(thisExpression(), prop, computed), value);
+  },
+  destructureSet(superMember) {
+    const {
+      computed
+    } = superMember.node;
+    const prop = this.prop(superMember);
+    return memberExpression(thisExpression(), prop, computed);
+  },
+  call(superMember, args) {
+    return (0, _helperOptimiseCallExpression$1.default)(this.get(superMember), thisExpression(), args, false);
+  },
+  optionalCall(superMember, args) {
+    return (0, _helperOptimiseCallExpression$1.default)(this.get(superMember), thisExpression(), args, true);
+  }
+});
+class ReplaceSupers {
+  constructor(opts) {
+    var _opts$constantSuper;
+    const path = opts.methodPath;
+    this.methodPath = path;
+    this.isDerivedConstructor = path.isClassMethod({
+      kind: "constructor"
+    }) && !!opts.superRef;
+    this.isStatic = path.isObjectMethod() || path.node.static || (path.isStaticBlock == null ? void 0 : path.isStaticBlock());
+    this.isPrivateMethod = path.isPrivate() && path.isMethod();
+    this.file = opts.file;
+    this.constantSuper = (_opts$constantSuper = opts.constantSuper) != null ? _opts$constantSuper : opts.isLoose;
+    this.opts = opts;
+  }
+  getObjectRef() {
+    return cloneNode(this.opts.objectRef || this.opts.getObjectRef());
+  }
+  getSuperRef() {
+    if (this.opts.superRef) return cloneNode(this.opts.superRef);
+    if (this.opts.getSuperRef) {
+      return cloneNode(this.opts.getSuperRef());
+    }
+  }
+  replace() {
+    if (this.opts.refToPreserve) {
+      this.methodPath.traverse(unshadowSuperBindingVisitor, {
+        refName: this.opts.refToPreserve.name
+      });
+    }
+    const handler = this.constantSuper ? looseHandlers : specHandlers;
+    (0, _helperMemberExpressionToFunctions$1.default)(this.methodPath, visitor, Object.assign({
+      file: this.file,
+      scope: this.methodPath.scope,
+      isDerivedConstructor: this.isDerivedConstructor,
+      isStatic: this.isStatic,
+      isPrivateMethod: this.isPrivateMethod,
+      getObjectRef: this.getObjectRef.bind(this),
+      getSuperRef: this.getSuperRef.bind(this),
+      boundGet: handler.get
+    }, handler));
+  }
+}
+lib$4.default = ReplaceSupers;var lib$1 = {};Object.defineProperty(lib$1, "__esModule", {
+  value: true
+});
+lib$1.isTransparentExprWrapper = isTransparentExprWrapper;
+lib$1.skipTransparentExprWrapperNodes = skipTransparentExprWrapperNodes;
+lib$1.skipTransparentExprWrappers = skipTransparentExprWrappers;
+var _t = requireLib$b();
+const {
+  isParenthesizedExpression,
+  isTSAsExpression,
+  isTSNonNullExpression,
+  isTSSatisfiesExpression,
+  isTSTypeAssertion,
+  isTypeCastExpression
+} = _t;
+function isTransparentExprWrapper(node) {
+  return isTSAsExpression(node) || isTSSatisfiesExpression(node) || isTSTypeAssertion(node) || isTSNonNullExpression(node) || isTypeCastExpression(node) || isParenthesizedExpression(node);
+}
+function skipTransparentExprWrappers(path) {
+  while (isTransparentExprWrapper(path.node)) {
+    path = path.get("expression");
+  }
+  return path;
+}
+function skipTransparentExprWrapperNodes(node) {
+  while (isTransparentExprWrapper(node)) {
+    node = node.expression;
+  }
+  return node;
+}var typescript = {};Object.defineProperty(typescript, "__esModule", {
+  value: true
+});
+typescript.assertFieldTransformed = assertFieldTransformed;
+function assertFieldTransformed(path) {
+  if (path.node.declare || false) {
+    throw path.buildCodeFrameError(`TypeScript 'declare' fields must first be transformed by ` + `@babel/plugin-transform-typescript.\n` + `If you have already enabled that plugin (or '@babel/preset-typescript'), make sure ` + `that it runs before any plugin related to additional class features:\n` + ` - @babel/plugin-transform-class-properties\n` + ` - @babel/plugin-transform-private-methods\n` + ` - @babel/plugin-proposal-decorators`);
+  }
+}Object.defineProperty(fields, "__esModule", {
+  value: true
+});
+fields.buildCheckInRHS = buildCheckInRHS;
+fields.buildFieldsInitNodes = buildFieldsInitNodes;
+fields.buildPrivateNamesMap = buildPrivateNamesMap;
+fields.buildPrivateNamesNodes = buildPrivateNamesNodes;
+fields.transformPrivateNamesUsage = transformPrivateNamesUsage;
+var _core$6 = requireLib();
+var _helperReplaceSupers$1 = lib$4;
+var _helperEnvironmentVisitor$1 = lib$t;
+var _helperMemberExpressionToFunctions = lib$3;
+var _helperOptimiseCallExpression = lib$2;
+var _helperAnnotateAsPure$1 = lib$c;
+var _helperSkipTransparentExpressionWrappers = lib$1;
+var ts = typescript;
+function buildPrivateNamesMap(props) {
+  const privateNamesMap = new Map();
+  for (const prop of props) {
+    if (prop.isPrivate()) {
+      const {
+        name
+      } = prop.node.key.id;
+      const update = privateNamesMap.has(name) ? privateNamesMap.get(name) : {
+        id: prop.scope.generateUidIdentifier(name),
+        static: prop.node.static,
+        method: !prop.isProperty()
+      };
+      if (prop.isClassPrivateMethod()) {
+        if (prop.node.kind === "get") {
+          update.getId = prop.scope.generateUidIdentifier(`get_${name}`);
+        } else if (prop.node.kind === "set") {
+          update.setId = prop.scope.generateUidIdentifier(`set_${name}`);
+        } else if (prop.node.kind === "method") {
+          update.methodId = prop.scope.generateUidIdentifier(name);
+        }
+      }
+      privateNamesMap.set(name, update);
+    }
+  }
+  return privateNamesMap;
+}
+function buildPrivateNamesNodes(privateNamesMap, privateFieldsAsProperties, privateFieldsAsSymbols, state) {
+  const initNodes = [];
+  for (const [name, value] of privateNamesMap) {
+    const {
+      static: isStatic,
+      method: isMethod,
+      getId,
+      setId
+    } = value;
+    const isAccessor = getId || setId;
+    const id = _core$6.types.cloneNode(value.id);
+    let init;
+    if (privateFieldsAsProperties) {
+      init = _core$6.types.callExpression(state.addHelper("classPrivateFieldLooseKey"), [_core$6.types.stringLiteral(name)]);
+    } else if (privateFieldsAsSymbols) {
+      init = _core$6.types.callExpression(_core$6.types.identifier("Symbol"), [_core$6.types.stringLiteral(name)]);
+    } else if (!isStatic) {
+      init = _core$6.types.newExpression(_core$6.types.identifier(!isMethod || isAccessor ? "WeakMap" : "WeakSet"), []);
+    }
+    if (init) {
+      (0, _helperAnnotateAsPure$1.default)(init);
+      initNodes.push(_core$6.template.statement.ast`var ${id} = ${init}`);
+    }
+  }
+  return initNodes;
+}
+function privateNameVisitorFactory(visitor) {
+  const nestedVisitor = _core$6.traverse.visitors.merge([Object.assign({}, visitor), _helperEnvironmentVisitor$1.default]);
+  const privateNameVisitor = Object.assign({}, visitor, {
+    Class(path) {
+      const {
+        privateNamesMap
+      } = this;
+      const body = path.get("body.body");
+      const visiblePrivateNames = new Map(privateNamesMap);
+      const redeclared = [];
+      for (const prop of body) {
+        if (!prop.isPrivate()) continue;
+        const {
+          name
+        } = prop.node.key.id;
+        visiblePrivateNames.delete(name);
+        redeclared.push(name);
+      }
+      if (!redeclared.length) {
+        return;
+      }
+      path.get("body").traverse(nestedVisitor, Object.assign({}, this, {
+        redeclared
+      }));
+      path.traverse(privateNameVisitor, Object.assign({}, this, {
+        privateNamesMap: visiblePrivateNames
+      }));
+      path.skipKey("body");
+    }
+  });
+  return privateNameVisitor;
+}
+const privateNameVisitor = privateNameVisitorFactory({
+  PrivateName(path, {
+    noDocumentAll
+  }) {
+    const {
+      privateNamesMap,
+      redeclared
+    } = this;
+    const {
+      node,
+      parentPath
+    } = path;
+    if (!parentPath.isMemberExpression({
+      property: node
+    }) && !parentPath.isOptionalMemberExpression({
+      property: node
+    })) {
+      return;
+    }
+    const {
+      name
+    } = node.id;
+    if (!privateNamesMap.has(name)) return;
+    if (redeclared && redeclared.includes(name)) return;
+    this.handle(parentPath, noDocumentAll);
+  }
+});
+function unshadow(name, scope, innerBinding) {
+  while ((_scope = scope) != null && _scope.hasBinding(name) && !scope.bindingIdentifierEquals(name, innerBinding)) {
+    var _scope;
+    scope.rename(name);
+    scope = scope.parent;
+  }
+}
+function buildCheckInRHS(rhs, file, inRHSIsObject) {
+  if (inRHSIsObject || !(file.availableHelper != null && file.availableHelper("checkInRHS"))) return rhs;
+  return _core$6.types.callExpression(file.addHelper("checkInRHS"), [rhs]);
+}
+const privateInVisitor = privateNameVisitorFactory({
+  BinaryExpression(path, {
+    file
+  }) {
+    const {
+      operator,
+      left,
+      right
+    } = path.node;
+    if (operator !== "in") return;
+    if (!_core$6.types.isPrivateName(left)) return;
+    const {
+      privateFieldsAsProperties,
+      privateNamesMap,
+      redeclared
+    } = this;
+    const {
+      name
+    } = left.id;
+    if (!privateNamesMap.has(name)) return;
+    if (redeclared && redeclared.includes(name)) return;
+    unshadow(this.classRef.name, path.scope, this.innerBinding);
+    if (privateFieldsAsProperties) {
+      const {
+        id
+      } = privateNamesMap.get(name);
+      path.replaceWith(_core$6.template.expression.ast`
+        Object.prototype.hasOwnProperty.call(${buildCheckInRHS(right, file)}, ${_core$6.types.cloneNode(id)})
+      `);
+      return;
+    }
+    const {
+      id,
+      static: isStatic
+    } = privateNamesMap.get(name);
+    if (isStatic) {
+      path.replaceWith(_core$6.template.expression.ast`${buildCheckInRHS(right, file)} === ${_core$6.types.cloneNode(this.classRef)}`);
+      return;
+    }
+    path.replaceWith(_core$6.template.expression.ast`${_core$6.types.cloneNode(id)}.has(${buildCheckInRHS(right, file)})`);
+  }
+});
+const privateNameHandlerSpec = {
+  memoise(member, count) {
+    const {
+      scope
+    } = member;
+    const {
+      object
+    } = member.node;
+    const memo = scope.maybeGenerateMemoised(object);
+    if (!memo) {
+      return;
+    }
+    this.memoiser.set(object, memo, count);
+  },
+  receiver(member) {
+    const {
+      object
+    } = member.node;
+    if (this.memoiser.has(object)) {
+      return _core$6.types.cloneNode(this.memoiser.get(object));
+    }
+    return _core$6.types.cloneNode(object);
+  },
+  get(member) {
+    const {
+      classRef,
+      privateNamesMap,
+      file,
+      innerBinding
+    } = this;
+    const {
+      name
+    } = member.node.property.id;
+    const {
+      id,
+      static: isStatic,
+      method: isMethod,
+      methodId,
+      getId,
+      setId
+    } = privateNamesMap.get(name);
+    const isAccessor = getId || setId;
+    if (isStatic) {
+      const helperName = isMethod && !isAccessor ? "classStaticPrivateMethodGet" : "classStaticPrivateFieldSpecGet";
+      unshadow(classRef.name, member.scope, innerBinding);
+      return _core$6.types.callExpression(file.addHelper(helperName), [this.receiver(member), _core$6.types.cloneNode(classRef), _core$6.types.cloneNode(id)]);
+    }
+    if (isMethod) {
+      if (isAccessor) {
+        if (!getId && setId) {
+          if (file.availableHelper("writeOnlyError")) {
+            return _core$6.types.sequenceExpression([this.receiver(member), _core$6.types.callExpression(file.addHelper("writeOnlyError"), [_core$6.types.stringLiteral(`#${name}`)])]);
+          }
+          console.warn(`@babel/helpers is outdated, update it to silence this warning.`);
+        }
+        return _core$6.types.callExpression(file.addHelper("classPrivateFieldGet"), [this.receiver(member), _core$6.types.cloneNode(id)]);
+      }
+      return _core$6.types.callExpression(file.addHelper("classPrivateMethodGet"), [this.receiver(member), _core$6.types.cloneNode(id), _core$6.types.cloneNode(methodId)]);
+    }
+    return _core$6.types.callExpression(file.addHelper("classPrivateFieldGet"), [this.receiver(member), _core$6.types.cloneNode(id)]);
+  },
+  boundGet(member) {
+    this.memoise(member, 1);
+    return _core$6.types.callExpression(_core$6.types.memberExpression(this.get(member), _core$6.types.identifier("bind")), [this.receiver(member)]);
+  },
+  set(member, value) {
+    const {
+      classRef,
+      privateNamesMap,
+      file
+    } = this;
+    const {
+      name
+    } = member.node.property.id;
+    const {
+      id,
+      static: isStatic,
+      method: isMethod,
+      setId,
+      getId
+    } = privateNamesMap.get(name);
+    const isAccessor = getId || setId;
+    if (isStatic) {
+      const helperName = isMethod && !isAccessor ? "classStaticPrivateMethodSet" : "classStaticPrivateFieldSpecSet";
+      return _core$6.types.callExpression(file.addHelper(helperName), [this.receiver(member), _core$6.types.cloneNode(classRef), _core$6.types.cloneNode(id), value]);
+    }
+    if (isMethod) {
+      if (setId) {
+        return _core$6.types.callExpression(file.addHelper("classPrivateFieldSet"), [this.receiver(member), _core$6.types.cloneNode(id), value]);
+      }
+      return _core$6.types.sequenceExpression([this.receiver(member), value, _core$6.types.callExpression(file.addHelper("readOnlyError"), [_core$6.types.stringLiteral(`#${name}`)])]);
+    }
+    return _core$6.types.callExpression(file.addHelper("classPrivateFieldSet"), [this.receiver(member), _core$6.types.cloneNode(id), value]);
+  },
+  destructureSet(member) {
+    const {
+      classRef,
+      privateNamesMap,
+      file
+    } = this;
+    const {
+      name
+    } = member.node.property.id;
+    const {
+      id,
+      static: isStatic
+    } = privateNamesMap.get(name);
+    if (isStatic) {
+      try {
+        var helper = file.addHelper("classStaticPrivateFieldDestructureSet");
+      } catch (_unused) {
+        throw new Error("Babel can not transpile `[C.#p] = [0]` with @babel/helpers < 7.13.10, \n" + "please update @babel/helpers to the latest version.");
+      }
+      return _core$6.types.memberExpression(_core$6.types.callExpression(helper, [this.receiver(member), _core$6.types.cloneNode(classRef), _core$6.types.cloneNode(id)]), _core$6.types.identifier("value"));
+    }
+    return _core$6.types.memberExpression(_core$6.types.callExpression(file.addHelper("classPrivateFieldDestructureSet"), [this.receiver(member), _core$6.types.cloneNode(id)]), _core$6.types.identifier("value"));
+  },
+  call(member, args) {
+    this.memoise(member, 1);
+    return (0, _helperOptimiseCallExpression.default)(this.get(member), this.receiver(member), args, false);
+  },
+  optionalCall(member, args) {
+    this.memoise(member, 1);
+    return (0, _helperOptimiseCallExpression.default)(this.get(member), this.receiver(member), args, true);
+  },
+  delete() {
+    throw new Error("Internal Babel error: deleting private elements is a parsing error.");
+  }
+};
+const privateNameHandlerLoose = {
+  get(member) {
+    const {
+      privateNamesMap,
+      file
+    } = this;
+    const {
+      object
+    } = member.node;
+    const {
+      name
+    } = member.node.property.id;
+    return _core$6.template.expression`BASE(REF, PROP)[PROP]`({
+      BASE: file.addHelper("classPrivateFieldLooseBase"),
+      REF: _core$6.types.cloneNode(object),
+      PROP: _core$6.types.cloneNode(privateNamesMap.get(name).id)
+    });
+  },
+  set() {
+    throw new Error("private name handler with loose = true don't need set()");
+  },
+  boundGet(member) {
+    return _core$6.types.callExpression(_core$6.types.memberExpression(this.get(member), _core$6.types.identifier("bind")), [_core$6.types.cloneNode(member.node.object)]);
+  },
+  simpleSet(member) {
+    return this.get(member);
+  },
+  destructureSet(member) {
+    return this.get(member);
+  },
+  call(member, args) {
+    return _core$6.types.callExpression(this.get(member), args);
+  },
+  optionalCall(member, args) {
+    return _core$6.types.optionalCallExpression(this.get(member), args, true);
+  },
+  delete() {
+    throw new Error("Internal Babel error: deleting private elements is a parsing error.");
+  }
+};
+function transformPrivateNamesUsage(ref, path, privateNamesMap, {
+  privateFieldsAsProperties,
+  noDocumentAll,
+  innerBinding
+}, state) {
+  if (!privateNamesMap.size) return;
+  const body = path.get("body");
+  const handler = privateFieldsAsProperties ? privateNameHandlerLoose : privateNameHandlerSpec;
+  (0, _helperMemberExpressionToFunctions.default)(body, privateNameVisitor, Object.assign({
+    privateNamesMap,
+    classRef: ref,
+    file: state
+  }, handler, {
+    noDocumentAll,
+    innerBinding
+  }));
+  body.traverse(privateInVisitor, {
+    privateNamesMap,
+    classRef: ref,
+    file: state,
+    privateFieldsAsProperties,
+    innerBinding
+  });
+}
+function buildPrivateFieldInitLoose(ref, prop, privateNamesMap) {
+  const {
+    id
+  } = privateNamesMap.get(prop.node.key.id.name);
+  const value = prop.node.value || prop.scope.buildUndefinedNode();
+  return inheritPropComments(_core$6.template.statement.ast`
+      Object.defineProperty(${ref}, ${_core$6.types.cloneNode(id)}, {
+        // configurable is false by default
+        // enumerable is false by default
+        writable: true,
+        value: ${value}
+      });
+    `, prop);
+}
+function buildPrivateInstanceFieldInitSpec(ref, prop, privateNamesMap, state) {
+  const {
+    id
+  } = privateNamesMap.get(prop.node.key.id.name);
+  const value = prop.node.value || prop.scope.buildUndefinedNode();
+  {
+    if (!state.availableHelper("classPrivateFieldInitSpec")) {
+      return inheritPropComments(_core$6.template.statement.ast`${_core$6.types.cloneNode(id)}.set(${ref}, {
+          // configurable is always false for private elements
+          // enumerable is always false for private elements
+          writable: true,
+          value: ${value},
+        })`, prop);
+    }
+  }
+  const helper = state.addHelper("classPrivateFieldInitSpec");
+  return inheritPropComments(_core$6.template.statement.ast`${helper}(
+      ${_core$6.types.thisExpression()},
+      ${_core$6.types.cloneNode(id)},
+      {
+        writable: true,
+        value: ${value}
+      },
+    )`, prop);
+}
+function buildPrivateStaticFieldInitSpec(prop, privateNamesMap) {
+  const privateName = privateNamesMap.get(prop.node.key.id.name);
+  const {
+    id,
+    getId,
+    setId,
+    initAdded
+  } = privateName;
+  const isAccessor = getId || setId;
+  if (!prop.isProperty() && (initAdded || !isAccessor)) return;
+  if (isAccessor) {
+    privateNamesMap.set(prop.node.key.id.name, Object.assign({}, privateName, {
+      initAdded: true
+    }));
+    return inheritPropComments(_core$6.template.statement.ast`
+        var ${_core$6.types.cloneNode(id)} = {
+          // configurable is false by default
+          // enumerable is false by default
+          // writable is false by default
+          get: ${getId ? getId.name : prop.scope.buildUndefinedNode()},
+          set: ${setId ? setId.name : prop.scope.buildUndefinedNode()}
+        }
+      `, prop);
+  }
+  const value = prop.node.value || prop.scope.buildUndefinedNode();
+  return inheritPropComments(_core$6.template.statement.ast`
+      var ${_core$6.types.cloneNode(id)} = {
+        // configurable is false by default
+        // enumerable is false by default
+        writable: true,
+        value: ${value}
+      };
+    `, prop);
+}
+function buildPrivateMethodInitLoose(ref, prop, privateNamesMap) {
+  const privateName = privateNamesMap.get(prop.node.key.id.name);
+  const {
+    methodId,
+    id,
+    getId,
+    setId,
+    initAdded
+  } = privateName;
+  if (initAdded) return;
+  if (methodId) {
+    return inheritPropComments(_core$6.template.statement.ast`
+        Object.defineProperty(${ref}, ${id}, {
+          // configurable is false by default
+          // enumerable is false by default
+          // writable is false by default
+          value: ${methodId.name}
+        });
+      `, prop);
+  }
+  const isAccessor = getId || setId;
+  if (isAccessor) {
+    privateNamesMap.set(prop.node.key.id.name, Object.assign({}, privateName, {
+      initAdded: true
+    }));
+    return inheritPropComments(_core$6.template.statement.ast`
+        Object.defineProperty(${ref}, ${id}, {
+          // configurable is false by default
+          // enumerable is false by default
+          // writable is false by default
+          get: ${getId ? getId.name : prop.scope.buildUndefinedNode()},
+          set: ${setId ? setId.name : prop.scope.buildUndefinedNode()}
+        });
+      `, prop);
+  }
+}
+function buildPrivateInstanceMethodInitSpec(ref, prop, privateNamesMap, state) {
+  const privateName = privateNamesMap.get(prop.node.key.id.name);
+  const {
+    getId,
+    setId,
+    initAdded
+  } = privateName;
+  if (initAdded) return;
+  const isAccessor = getId || setId;
+  if (isAccessor) {
+    return buildPrivateAccessorInitialization(ref, prop, privateNamesMap, state);
+  }
+  return buildPrivateInstanceMethodInitialization(ref, prop, privateNamesMap, state);
+}
+function buildPrivateAccessorInitialization(ref, prop, privateNamesMap, state) {
+  const privateName = privateNamesMap.get(prop.node.key.id.name);
+  const {
+    id,
+    getId,
+    setId
+  } = privateName;
+  privateNamesMap.set(prop.node.key.id.name, Object.assign({}, privateName, {
+    initAdded: true
+  }));
+  {
+    if (!state.availableHelper("classPrivateFieldInitSpec")) {
+      return inheritPropComments(_core$6.template.statement.ast`
+          ${id}.set(${ref}, {
+            get: ${getId ? getId.name : prop.scope.buildUndefinedNode()},
+            set: ${setId ? setId.name : prop.scope.buildUndefinedNode()}
+          });
+        `, prop);
+    }
+  }
+  const helper = state.addHelper("classPrivateFieldInitSpec");
+  return inheritPropComments(_core$6.template.statement.ast`${helper}(
+      ${_core$6.types.thisExpression()},
+      ${_core$6.types.cloneNode(id)},
+      {
+        get: ${getId ? getId.name : prop.scope.buildUndefinedNode()},
+        set: ${setId ? setId.name : prop.scope.buildUndefinedNode()}
+      },
+    )`, prop);
+}
+function buildPrivateInstanceMethodInitialization(ref, prop, privateNamesMap, state) {
+  const privateName = privateNamesMap.get(prop.node.key.id.name);
+  const {
+    id
+  } = privateName;
+  {
+    if (!state.availableHelper("classPrivateMethodInitSpec")) {
+      return inheritPropComments(_core$6.template.statement.ast`${id}.add(${ref})`, prop);
+    }
+  }
+  const helper = state.addHelper("classPrivateMethodInitSpec");
+  return inheritPropComments(_core$6.template.statement.ast`${helper}(
+      ${_core$6.types.thisExpression()},
+      ${_core$6.types.cloneNode(id)}
+    )`, prop);
+}
+function buildPublicFieldInitLoose(ref, prop) {
+  const {
+    key,
+    computed
+  } = prop.node;
+  const value = prop.node.value || prop.scope.buildUndefinedNode();
+  return inheritPropComments(_core$6.types.expressionStatement(_core$6.types.assignmentExpression("=", _core$6.types.memberExpression(ref, key, computed || _core$6.types.isLiteral(key)), value)), prop);
+}
+function buildPublicFieldInitSpec(ref, prop, state) {
+  const {
+    key,
+    computed
+  } = prop.node;
+  const value = prop.node.value || prop.scope.buildUndefinedNode();
+  return inheritPropComments(_core$6.types.expressionStatement(_core$6.types.callExpression(state.addHelper("defineProperty"), [ref, computed || _core$6.types.isLiteral(key) ? key : _core$6.types.stringLiteral(key.name), value])), prop);
+}
+function buildPrivateStaticMethodInitLoose(ref, prop, state, privateNamesMap) {
+  const privateName = privateNamesMap.get(prop.node.key.id.name);
+  const {
+    id,
+    methodId,
+    getId,
+    setId,
+    initAdded
+  } = privateName;
+  if (initAdded) return;
+  const isAccessor = getId || setId;
+  if (isAccessor) {
+    privateNamesMap.set(prop.node.key.id.name, Object.assign({}, privateName, {
+      initAdded: true
+    }));
+    return inheritPropComments(_core$6.template.statement.ast`
+        Object.defineProperty(${ref}, ${id}, {
+          // configurable is false by default
+          // enumerable is false by default
+          // writable is false by default
+          get: ${getId ? getId.name : prop.scope.buildUndefinedNode()},
+          set: ${setId ? setId.name : prop.scope.buildUndefinedNode()}
+        })
+      `, prop);
+  }
+  return inheritPropComments(_core$6.template.statement.ast`
+      Object.defineProperty(${ref}, ${id}, {
+        // configurable is false by default
+        // enumerable is false by default
+        // writable is false by default
+        value: ${methodId.name}
+      });
+    `, prop);
+}
+function buildPrivateMethodDeclaration(prop, privateNamesMap, privateFieldsAsProperties = false) {
+  const privateName = privateNamesMap.get(prop.node.key.id.name);
+  const {
+    id,
+    methodId,
+    getId,
+    setId,
+    getterDeclared,
+    setterDeclared,
+    static: isStatic
+  } = privateName;
+  const {
+    params,
+    body,
+    generator,
+    async
+  } = prop.node;
+  const isGetter = getId && !getterDeclared && params.length === 0;
+  const isSetter = setId && !setterDeclared && params.length > 0;
+  let declId = methodId;
+  if (isGetter) {
+    privateNamesMap.set(prop.node.key.id.name, Object.assign({}, privateName, {
+      getterDeclared: true
+    }));
+    declId = getId;
+  } else if (isSetter) {
+    privateNamesMap.set(prop.node.key.id.name, Object.assign({}, privateName, {
+      setterDeclared: true
+    }));
+    declId = setId;
+  } else if (isStatic && !privateFieldsAsProperties) {
+    declId = id;
+  }
+  return inheritPropComments(_core$6.types.functionDeclaration(_core$6.types.cloneNode(declId), params, body, generator, async), prop);
+}
+const thisContextVisitor = _core$6.traverse.visitors.merge([{
+  UnaryExpression(path) {
+    const {
+      node
+    } = path;
+    if (node.operator === "delete") {
+      const argument = (0, _helperSkipTransparentExpressionWrappers.skipTransparentExprWrapperNodes)(node.argument);
+      if (_core$6.types.isThisExpression(argument)) {
+        path.replaceWith(_core$6.types.booleanLiteral(true));
+      }
+    }
+  },
+  ThisExpression(path, state) {
+    state.needsClassRef = true;
+    path.replaceWith(_core$6.types.cloneNode(state.classRef));
+  },
+  MetaProperty(path) {
+    const {
+      node,
+      scope
+    } = path;
+    if (node.meta.name === "new" && node.property.name === "target") {
+      path.replaceWith(scope.buildUndefinedNode());
+    }
+  }
+}, _helperEnvironmentVisitor$1.default]);
+const innerReferencesVisitor = {
+  ReferencedIdentifier(path, state) {
+    if (path.scope.bindingIdentifierEquals(path.node.name, state.innerBinding)) {
+      state.needsClassRef = true;
+      path.node.name = state.classRef.name;
+    }
+  }
+};
+function replaceThisContext(path, ref, innerBindingRef) {
+  var _state$classRef;
+  const state = {
+    classRef: ref,
+    needsClassRef: false,
+    innerBinding: innerBindingRef
+  };
+  if (!path.isMethod()) {
+    path.traverse(thisContextVisitor, state);
+  }
+  if (innerBindingRef != null && (_state$classRef = state.classRef) != null && _state$classRef.name && state.classRef.name !== innerBindingRef.name) {
+    path.traverse(innerReferencesVisitor, state);
+  }
+  return state.needsClassRef;
+}
+function isNameOrLength({
+  key,
+  computed
+}) {
+  if (key.type === "Identifier") {
+    return !computed && (key.name === "name" || key.name === "length");
+  }
+  if (key.type === "StringLiteral") {
+    return key.value === "name" || key.value === "length";
+  }
+  return false;
+}
+function inheritPropComments(node, prop) {
+  _core$6.types.inheritLeadingComments(node, prop.node);
+  _core$6.types.inheritInnerComments(node, prop.node);
+  return node;
+}
+function buildFieldsInitNodes(ref, superRef, props, privateNamesMap, file, setPublicClassFields, privateFieldsAsProperties, constantSuper, innerBindingRef) {
+  var _ref, _ref2;
+  let classRefFlags = 0;
+  let injectSuperRef;
+  const staticNodes = [];
+  const instanceNodes = [];
+  const pureStaticNodes = [];
+  let classBindingNode = null;
+  const getSuperRef = _core$6.types.isIdentifier(superRef) ? () => superRef : () => {
+    var _injectSuperRef;
+    (_injectSuperRef = injectSuperRef) != null ? _injectSuperRef : injectSuperRef = props[0].scope.generateUidIdentifierBasedOnNode(superRef);
+    return injectSuperRef;
+  };
+  const classRefForInnerBinding = (_ref = ref) != null ? _ref : props[0].scope.generateUidIdentifier("class");
+  (_ref2 = ref) != null ? _ref2 : ref = _core$6.types.cloneNode(innerBindingRef);
+  for (const prop of props) {
+    prop.isClassProperty() && ts.assertFieldTransformed(prop);
+    const isStatic = !(_core$6.types.isStaticBlock != null && _core$6.types.isStaticBlock(prop.node)) && prop.node.static;
+    const isInstance = !isStatic;
+    const isPrivate = prop.isPrivate();
+    const isPublic = !isPrivate;
+    const isField = prop.isProperty();
+    const isMethod = !isField;
+    const isStaticBlock = prop.isStaticBlock == null ? void 0 : prop.isStaticBlock();
+    if (isStatic) classRefFlags |= 1;
+    if (isStatic || isMethod && isPrivate || isStaticBlock) {
+      new _helperReplaceSupers$1.default({
+        methodPath: prop,
+        constantSuper,
+        file: file,
+        refToPreserve: innerBindingRef,
+        getSuperRef,
+        getObjectRef() {
+          classRefFlags |= 2;
+          if (isStatic || isStaticBlock) {
+            return classRefForInnerBinding;
+          } else {
+            return _core$6.types.memberExpression(classRefForInnerBinding, _core$6.types.identifier("prototype"));
+          }
+        }
+      }).replace();
+      const replaced = replaceThisContext(prop, classRefForInnerBinding, innerBindingRef);
+      if (replaced) {
+        classRefFlags |= 2;
+      }
+    }
+    switch (true) {
+      case isStaticBlock:
+        {
+          const blockBody = prop.node.body;
+          if (blockBody.length === 1 && _core$6.types.isExpressionStatement(blockBody[0])) {
+            staticNodes.push(inheritPropComments(blockBody[0], prop));
+          } else {
+            staticNodes.push(_core$6.types.inheritsComments(_core$6.template.statement.ast`(() => { ${blockBody} })()`, prop.node));
+          }
+          break;
+        }
+      case isStatic && isPrivate && isField && privateFieldsAsProperties:
+        staticNodes.push(buildPrivateFieldInitLoose(_core$6.types.cloneNode(ref), prop, privateNamesMap));
+        break;
+      case isStatic && isPrivate && isField && !privateFieldsAsProperties:
+        staticNodes.push(buildPrivateStaticFieldInitSpec(prop, privateNamesMap));
+        break;
+      case isStatic && isPublic && isField && setPublicClassFields:
+        if (!isNameOrLength(prop.node)) {
+          staticNodes.push(buildPublicFieldInitLoose(_core$6.types.cloneNode(ref), prop));
+          break;
+        }
+      case isStatic && isPublic && isField && !setPublicClassFields:
+        staticNodes.push(buildPublicFieldInitSpec(_core$6.types.cloneNode(ref), prop, file));
+        break;
+      case isInstance && isPrivate && isField && privateFieldsAsProperties:
+        instanceNodes.push(buildPrivateFieldInitLoose(_core$6.types.thisExpression(), prop, privateNamesMap));
+        break;
+      case isInstance && isPrivate && isField && !privateFieldsAsProperties:
+        instanceNodes.push(buildPrivateInstanceFieldInitSpec(_core$6.types.thisExpression(), prop, privateNamesMap, file));
+        break;
+      case isInstance && isPrivate && isMethod && privateFieldsAsProperties:
+        instanceNodes.unshift(buildPrivateMethodInitLoose(_core$6.types.thisExpression(), prop, privateNamesMap));
+        pureStaticNodes.push(buildPrivateMethodDeclaration(prop, privateNamesMap, privateFieldsAsProperties));
+        break;
+      case isInstance && isPrivate && isMethod && !privateFieldsAsProperties:
+        instanceNodes.unshift(buildPrivateInstanceMethodInitSpec(_core$6.types.thisExpression(), prop, privateNamesMap, file));
+        pureStaticNodes.push(buildPrivateMethodDeclaration(prop, privateNamesMap, privateFieldsAsProperties));
+        break;
+      case isStatic && isPrivate && isMethod && !privateFieldsAsProperties:
+        staticNodes.unshift(buildPrivateStaticFieldInitSpec(prop, privateNamesMap));
+        pureStaticNodes.push(buildPrivateMethodDeclaration(prop, privateNamesMap, privateFieldsAsProperties));
+        break;
+      case isStatic && isPrivate && isMethod && privateFieldsAsProperties:
+        staticNodes.unshift(buildPrivateStaticMethodInitLoose(_core$6.types.cloneNode(ref), prop, file, privateNamesMap));
+        pureStaticNodes.push(buildPrivateMethodDeclaration(prop, privateNamesMap, privateFieldsAsProperties));
+        break;
+      case isInstance && isPublic && isField && setPublicClassFields:
+        instanceNodes.push(buildPublicFieldInitLoose(_core$6.types.thisExpression(), prop));
+        break;
+      case isInstance && isPublic && isField && !setPublicClassFields:
+        instanceNodes.push(buildPublicFieldInitSpec(_core$6.types.thisExpression(), prop, file));
+        break;
+      default:
+        throw new Error("Unreachable.");
+    }
+  }
+  if (classRefFlags & 2 && innerBindingRef != null) {
+    classBindingNode = _core$6.types.expressionStatement(_core$6.types.assignmentExpression("=", _core$6.types.cloneNode(classRefForInnerBinding), _core$6.types.cloneNode(innerBindingRef)));
+  }
+  return {
+    staticNodes: staticNodes.filter(Boolean),
+    instanceNodes: instanceNodes.filter(Boolean),
+    pureStaticNodes: pureStaticNodes.filter(Boolean),
+    classBindingNode,
+    wrapClass(path) {
+      for (const prop of props) {
+        prop.node.leadingComments = null;
+        prop.remove();
+      }
+      if (injectSuperRef) {
+        path.scope.push({
+          id: _core$6.types.cloneNode(injectSuperRef)
+        });
+        path.set("superClass", _core$6.types.assignmentExpression("=", injectSuperRef, path.node.superClass));
+      }
+      if (classRefFlags !== 0) {
+        if (path.isClassExpression()) {
+          path.scope.push({
+            id: ref
+          });
+          path.replaceWith(_core$6.types.assignmentExpression("=", _core$6.types.cloneNode(ref), path.node));
+        } else {
+          if (innerBindingRef == null) {
+            path.node.id = ref;
+          }
+          if (classBindingNode != null) {
+            path.scope.push({
+              id: classRefForInnerBinding
+            });
+          }
+        }
+      }
+      return path;
+    }
+  };
+}var decorators = {};Object.defineProperty(decorators, "__esModule", {
+  value: true
+});
+decorators.buildDecoratedClass = buildDecoratedClass;
+decorators.hasDecorators = hasDecorators;
+decorators.hasOwnDecorators = hasOwnDecorators;
+var _core$5 = requireLib();
+var _helperReplaceSupers = lib$4;
+var _helperFunctionName = lib$n;
+function hasOwnDecorators(node) {
+  var _node$decorators;
+  return !!((_node$decorators = node.decorators) != null && _node$decorators.length);
+}
+function hasDecorators(node) {
+  return hasOwnDecorators(node) || node.body.body.some(hasOwnDecorators);
+}
+function prop(key, value) {
+  if (!value) return null;
+  return _core$5.types.objectProperty(_core$5.types.identifier(key), value);
+}
+function method(key, body) {
+  return _core$5.types.objectMethod("method", _core$5.types.identifier(key), [], _core$5.types.blockStatement(body));
+}
+function takeDecorators(node) {
+  let result;
+  if (node.decorators && node.decorators.length > 0) {
+    result = _core$5.types.arrayExpression(node.decorators.map(decorator => decorator.expression));
+  }
+  node.decorators = undefined;
+  return result;
+}
+function getKey(node) {
+  if (node.computed) {
+    return node.key;
+  } else if (_core$5.types.isIdentifier(node.key)) {
+    return _core$5.types.stringLiteral(node.key.name);
+  } else {
+    return _core$5.types.stringLiteral(String(node.key.value));
+  }
+}
+function extractElementDescriptor(file, classRef, superRef, path) {
+  const isMethod = path.isClassMethod();
+  if (path.isPrivate()) {
+    throw path.buildCodeFrameError(`Private ${isMethod ? "methods" : "fields"} in decorated classes are not supported yet.`);
+  }
+  if (path.node.type === "ClassAccessorProperty") {
+    throw path.buildCodeFrameError(`Accessor properties are not supported in 2018-09 decorator transform, please specify { "version": "2021-12" } instead.`);
+  }
+  if (path.node.type === "StaticBlock") {
+    throw path.buildCodeFrameError(`Static blocks are not supported in 2018-09 decorator transform, please specify { "version": "2021-12" } instead.`);
+  }
+  const {
+    node,
+    scope
+  } = path;
+  if (!path.isTSDeclareMethod()) {
+    new _helperReplaceSupers.default({
+      methodPath: path,
+      objectRef: classRef,
+      superRef,
+      file,
+      refToPreserve: classRef
+    }).replace();
+  }
+  const properties = [prop("kind", _core$5.types.stringLiteral(_core$5.types.isClassMethod(node) ? node.kind : "field")), prop("decorators", takeDecorators(node)), prop("static", node.static && _core$5.types.booleanLiteral(true)), prop("key", getKey(node))].filter(Boolean);
+  if (_core$5.types.isClassMethod(node)) {
+    const id = node.computed ? null : node.key;
+    const transformed = _core$5.types.toExpression(node);
+    properties.push(prop("value", (0, _helperFunctionName.default)({
+      node: transformed,
+      id,
+      scope
+    }) || transformed));
+  } else if (_core$5.types.isClassProperty(node) && node.value) {
+    properties.push(method("value", _core$5.template.statements.ast`return ${node.value}`));
+  } else {
+    properties.push(prop("value", scope.buildUndefinedNode()));
+  }
+  path.remove();
+  return _core$5.types.objectExpression(properties);
+}
+function addDecorateHelper(file) {
+  return file.addHelper("decorate");
+}
+function buildDecoratedClass(ref, path, elements, file) {
+  const {
+    node,
+    scope
+  } = path;
+  const initializeId = scope.generateUidIdentifier("initialize");
+  const isDeclaration = node.id && path.isDeclaration();
+  const isStrict = path.isInStrictMode();
+  const {
+    superClass
+  } = node;
+  node.type = "ClassDeclaration";
+  if (!node.id) node.id = _core$5.types.cloneNode(ref);
+  let superId;
+  if (superClass) {
+    superId = scope.generateUidIdentifierBasedOnNode(node.superClass, "super");
+    node.superClass = superId;
+  }
+  const classDecorators = takeDecorators(node);
+  const definitions = _core$5.types.arrayExpression(elements.filter(element => !element.node.abstract && element.node.type !== "TSIndexSignature").map(path => extractElementDescriptor(file, node.id, superId, path)));
+  const wrapperCall = _core$5.template.expression.ast`
+    ${addDecorateHelper(file)}(
+      ${classDecorators || _core$5.types.nullLiteral()},
+      function (${initializeId}, ${superClass ? _core$5.types.cloneNode(superId) : null}) {
+        ${node}
+        return { F: ${_core$5.types.cloneNode(node.id)}, d: ${definitions} };
+      },
+      ${superClass}
+    )
+  `;
+  if (!isStrict) {
+    wrapperCall.arguments[1].body.directives.push(_core$5.types.directive(_core$5.types.directiveLiteral("use strict")));
+  }
+  let replacement = wrapperCall;
+  let classPathDesc = "arguments.1.body.body.0";
+  if (isDeclaration) {
+    replacement = _core$5.template.statement.ast`let ${ref} = ${wrapperCall}`;
+    classPathDesc = "declarations.0.init." + classPathDesc;
+  }
+  return {
+    instanceNodes: [_core$5.template.statement.ast`${_core$5.types.cloneNode(initializeId)}(this)`],
+    wrapClass(path) {
+      path.replaceWith(replacement);
+      return path.get(classPathDesc);
+    }
+  };
+}var misc = {};Object.defineProperty(misc, "__esModule", {
+  value: true
+});
+misc.extractComputedKeys = extractComputedKeys;
+misc.injectInitialization = injectInitialization;
+var _core$4 = requireLib();
+var _helperEnvironmentVisitor = lib$t;
+const findBareSupers = _core$4.traverse.visitors.merge([{
+  Super(path) {
+    const {
+      node,
+      parentPath
+    } = path;
+    if (parentPath.isCallExpression({
+      callee: node
+    })) {
+      this.push(parentPath);
+    }
+  }
+}, _helperEnvironmentVisitor.default]);
+const referenceVisitor = {
+  "TSTypeAnnotation|TypeAnnotation"(path) {
+    path.skip();
+  },
+  ReferencedIdentifier(path, {
+    scope
+  }) {
+    if (scope.hasOwnBinding(path.node.name)) {
+      scope.rename(path.node.name);
+      path.skip();
+    }
+  }
+};
+function handleClassTDZ(path, state) {
+  if (state.classBinding && state.classBinding === path.scope.getBinding(path.node.name)) {
+    const classNameTDZError = state.file.addHelper("classNameTDZError");
+    const throwNode = _core$4.types.callExpression(classNameTDZError, [_core$4.types.stringLiteral(path.node.name)]);
+    path.replaceWith(_core$4.types.sequenceExpression([throwNode, path.node]));
+    path.skip();
+  }
+}
+const classFieldDefinitionEvaluationTDZVisitor = {
+  ReferencedIdentifier: handleClassTDZ
+};
+function injectInitialization(path, constructor, nodes, renamer) {
+  if (!nodes.length) return;
+  const isDerived = !!path.node.superClass;
+  if (!constructor) {
+    const newConstructor = _core$4.types.classMethod("constructor", _core$4.types.identifier("constructor"), [], _core$4.types.blockStatement([]));
+    if (isDerived) {
+      newConstructor.params = [_core$4.types.restElement(_core$4.types.identifier("args"))];
+      newConstructor.body.body.push(_core$4.template.statement.ast`super(...args)`);
+    }
+    [constructor] = path.get("body").unshiftContainer("body", newConstructor);
+  }
+  if (renamer) {
+    renamer(referenceVisitor, {
+      scope: constructor.scope
+    });
+  }
+  if (isDerived) {
+    const bareSupers = [];
+    constructor.traverse(findBareSupers, bareSupers);
+    let isFirst = true;
+    for (const bareSuper of bareSupers) {
+      if (isFirst) {
+        bareSuper.insertAfter(nodes);
+        isFirst = false;
+      } else {
+        bareSuper.insertAfter(nodes.map(n => _core$4.types.cloneNode(n)));
+      }
+    }
+  } else {
+    constructor.get("body").unshiftContainer("body", nodes);
+  }
+}
+function extractComputedKeys(path, computedPaths, file) {
+  const declarations = [];
+  const state = {
+    classBinding: path.node.id && path.scope.getBinding(path.node.id.name),
+    file
+  };
+  for (const computedPath of computedPaths) {
+    const computedKey = computedPath.get("key");
+    if (computedKey.isReferencedIdentifier()) {
+      handleClassTDZ(computedKey, state);
+    } else {
+      computedKey.traverse(classFieldDefinitionEvaluationTDZVisitor, state);
+    }
+    const computedNode = computedPath.node;
+    if (!computedKey.isConstantExpression()) {
+      const ident = path.scope.generateUidIdentifierBasedOnNode(computedNode.key);
+      path.scope.push({
+        id: ident,
+        kind: "let"
+      });
+      declarations.push(_core$4.types.expressionStatement(_core$4.types.assignmentExpression("=", _core$4.types.cloneNode(ident), computedNode.key)));
+      computedNode.key = _core$4.types.cloneNode(ident);
+    }
+  }
+  return declarations;
+}var features = {};Object.defineProperty(features, "__esModule", {
+  value: true
+});
+features.FEATURES = void 0;
+features.enableFeature = enableFeature;
+features.isLoose = isLoose;
+features.shouldTransform = shouldTransform;
+var _decorators = decorators;
+const FEATURES = Object.freeze({
+  fields: 1 << 1,
+  privateMethods: 1 << 2,
+  decorators: 1 << 3,
+  privateIn: 1 << 4,
+  staticBlocks: 1 << 5
+});
+features.FEATURES = FEATURES;
+const featuresSameLoose = new Map([[FEATURES.fields, "@babel/plugin-transform-class-properties"], [FEATURES.privateMethods, "@babel/plugin-transform-private-methods"], [FEATURES.privateIn, "@babel/plugin-transform-private-property-in-object"]]);
+const featuresKey = "@babel/plugin-class-features/featuresKey";
+const looseKey = "@babel/plugin-class-features/looseKey";
+const looseLowPriorityKey = "@babel/plugin-class-features/looseLowPriorityKey/#__internal__@babel/preset-env__please-overwrite-loose-instead-of-throwing";
+function enableFeature(file, feature, loose) {
+  if (!hasFeature(file, feature) || canIgnoreLoose(file, feature)) {
+    file.set(featuresKey, file.get(featuresKey) | feature);
+    if (loose === "#__internal__@babel/preset-env__prefer-true-but-false-is-ok-if-it-prevents-an-error") {
+      setLoose(file, feature, true);
+      file.set(looseLowPriorityKey, file.get(looseLowPriorityKey) | feature);
+    } else if (loose === "#__internal__@babel/preset-env__prefer-false-but-true-is-ok-if-it-prevents-an-error") {
+      setLoose(file, feature, false);
+      file.set(looseLowPriorityKey, file.get(looseLowPriorityKey) | feature);
+    } else {
+      setLoose(file, feature, loose);
+    }
+  }
+  let resolvedLoose;
+  let higherPriorityPluginName;
+  for (const [mask, name] of featuresSameLoose) {
+    if (!hasFeature(file, mask)) continue;
+    const loose = isLoose(file, mask);
+    if (canIgnoreLoose(file, mask)) {
+      continue;
+    } else if (resolvedLoose === !loose) {
+      throw new Error("'loose' mode configuration must be the same for @babel/plugin-transform-class-properties, " + "@babel/plugin-transform-private-methods and " + "@babel/plugin-transform-private-property-in-object (when they are enabled).");
+    } else {
+      resolvedLoose = loose;
+      higherPriorityPluginName = name;
+    }
+  }
+  if (resolvedLoose !== undefined) {
+    for (const [mask, name] of featuresSameLoose) {
+      if (hasFeature(file, mask) && isLoose(file, mask) !== resolvedLoose) {
+        setLoose(file, mask, resolvedLoose);
+        console.warn(`Though the "loose" option was set to "${!resolvedLoose}" in your @babel/preset-env ` + `config, it will not be used for ${name} since the "loose" mode option was set to ` + `"${resolvedLoose}" for ${higherPriorityPluginName}.\nThe "loose" option must be the ` + `same for @babel/plugin-transform-class-properties, @babel/plugin-transform-private-methods ` + `and @babel/plugin-transform-private-property-in-object (when they are enabled): you can ` + `silence this warning by explicitly adding\n` + `\t["${name}", { "loose": ${resolvedLoose} }]\n` + `to the "plugins" section of your Babel config.`);
+      }
+    }
+  }
+}
+function hasFeature(file, feature) {
+  return !!(file.get(featuresKey) & feature);
+}
+function isLoose(file, feature) {
+  return !!(file.get(looseKey) & feature);
+}
+function setLoose(file, feature, loose) {
+  if (loose) file.set(looseKey, file.get(looseKey) | feature);else file.set(looseKey, file.get(looseKey) & ~feature);
+  file.set(looseLowPriorityKey, file.get(looseLowPriorityKey) & ~feature);
+}
+function canIgnoreLoose(file, feature) {
+  return !!(file.get(looseLowPriorityKey) & feature);
+}
+function shouldTransform(path, file) {
+  let decoratorPath = null;
+  let publicFieldPath = null;
+  let privateFieldPath = null;
+  let privateMethodPath = null;
+  let staticBlockPath = null;
+  if ((0, _decorators.hasOwnDecorators)(path.node)) {
+    decoratorPath = path.get("decorators.0");
+  }
+  for (const el of path.get("body.body")) {
+    if (!decoratorPath && (0, _decorators.hasOwnDecorators)(el.node)) {
+      decoratorPath = el.get("decorators.0");
+    }
+    if (!publicFieldPath && el.isClassProperty()) {
+      publicFieldPath = el;
+    }
+    if (!privateFieldPath && el.isClassPrivateProperty()) {
+      privateFieldPath = el;
+    }
+    if (!privateMethodPath && el.isClassPrivateMethod != null && el.isClassPrivateMethod()) {
+      privateMethodPath = el;
+    }
+    if (!staticBlockPath && el.isStaticBlock != null && el.isStaticBlock()) {
+      staticBlockPath = el;
+    }
+  }
+  if (decoratorPath && privateFieldPath) {
+    throw privateFieldPath.buildCodeFrameError("Private fields in decorated classes are not supported yet.");
+  }
+  if (decoratorPath && privateMethodPath) {
+    throw privateMethodPath.buildCodeFrameError("Private methods in decorated classes are not supported yet.");
+  }
+  if (decoratorPath && !hasFeature(file, FEATURES.decorators)) {
+    throw path.buildCodeFrameError("Decorators are not enabled." + "\nIf you are using " + '["@babel/plugin-proposal-decorators", { "version": "legacy" }], ' + 'make sure it comes *before* "@babel/plugin-transform-class-properties" ' + "and enable loose mode, like so:\n" + '\t["@babel/plugin-proposal-decorators", { "version": "legacy" }]\n' + '\t["@babel/plugin-transform-class-properties", { "loose": true }]');
+  }
+  if (privateMethodPath && !hasFeature(file, FEATURES.privateMethods)) {
+    throw privateMethodPath.buildCodeFrameError("Class private methods are not enabled. " + "Please add `@babel/plugin-transform-private-methods` to your configuration.");
+  }
+  if ((publicFieldPath || privateFieldPath) && !hasFeature(file, FEATURES.fields) && !hasFeature(file, FEATURES.privateMethods)) {
+    throw path.buildCodeFrameError("Class fields are not enabled. " + "Please add `@babel/plugin-transform-class-properties` to your configuration.");
+  }
+  if (staticBlockPath && !hasFeature(file, FEATURES.staticBlocks)) {
+    throw path.buildCodeFrameError("Static class blocks are not enabled. " + "Please add `@babel/plugin-transform-class-static-block` to your configuration.");
+  }
+  if (decoratorPath || privateMethodPath || staticBlockPath) {
+    return true;
+  }
+  if ((publicFieldPath || privateFieldPath) && hasFeature(file, FEATURES.fields)) {
+    return true;
+  }
+  return false;
+}(function (exports) {
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	Object.defineProperty(exports, "FEATURES", {
+	  enumerable: true,
+	  get: function () {
+	    return _features.FEATURES;
+	  }
+	});
+	Object.defineProperty(exports, "buildCheckInRHS", {
+	  enumerable: true,
+	  get: function () {
+	    return _fields.buildCheckInRHS;
+	  }
+	});
+	exports.createClassFeaturePlugin = createClassFeaturePlugin;
+	Object.defineProperty(exports, "enableFeature", {
+	  enumerable: true,
+	  get: function () {
+	    return _features.enableFeature;
+	  }
+	});
+	Object.defineProperty(exports, "injectInitialization", {
+	  enumerable: true,
+	  get: function () {
+	    return _misc.injectInitialization;
+	  }
+	});
+	var _core = requireLib();
+	var _helperFunctionName = lib$n;
+	var _helperSplitExportDeclaration = lib$u;
+	var _semver = requireSemver();
+	var _fields = fields;
+	var _decorators = decorators;
+	var _misc = misc;
+	var _features = features;
+	var _typescript = typescript;
+	const versionKey = "@babel/plugin-class-features/version";
+	function createClassFeaturePlugin({
+	  name,
+	  feature,
+	  loose,
+	  manipulateOptions,
+	  api,
+	  inherits
+	}) {
+	  {
+	    var _api;
+	    (_api = api) != null ? _api : api = {
+	      assumption: () => void 0
+	    };
+	  }
+	  const setPublicClassFields = api.assumption("setPublicClassFields");
+	  const privateFieldsAsSymbols = api.assumption("privateFieldsAsSymbols");
+	  const privateFieldsAsProperties = api.assumption("privateFieldsAsProperties");
+	  const constantSuper = api.assumption("constantSuper");
+	  const noDocumentAll = api.assumption("noDocumentAll");
+	  if (privateFieldsAsProperties && privateFieldsAsSymbols) {
+	    throw new Error(`Cannot enable both the "privateFieldsAsProperties" and ` + `"privateFieldsAsSymbols" assumptions as the same time.`);
+	  }
+	  const privateFieldsAsSymbolsOrProperties = privateFieldsAsProperties || privateFieldsAsSymbols;
+	  if (loose === true) {
+	    const explicit = [];
+	    if (setPublicClassFields !== undefined) {
+	      explicit.push(`"setPublicClassFields"`);
+	    }
+	    if (privateFieldsAsProperties !== undefined) {
+	      explicit.push(`"privateFieldsAsProperties"`);
+	    }
+	    if (privateFieldsAsSymbols !== undefined) {
+	      explicit.push(`"privateFieldsAsSymbols"`);
+	    }
+	    if (explicit.length !== 0) {
+	      console.warn(`[${name}]: You are using the "loose: true" option and you are` + ` explicitly setting a value for the ${explicit.join(" and ")}` + ` assumption${explicit.length > 1 ? "s" : ""}. The "loose" option` + ` can cause incompatibilities with the other class features` + ` plugins, so it's recommended that you replace it with the` + ` following top-level option:\n` + `\t"assumptions": {\n` + `\t\t"setPublicClassFields": true,\n` + `\t\t"privateFieldsAsSymbols": true\n` + `\t}`);
+	    }
+	  }
+	  return {
+	    name,
+	    manipulateOptions,
+	    inherits,
+	    pre(file) {
+	      (0, _features.enableFeature)(file, feature, loose);
+	      {
+	        if (typeof file.get(versionKey) === "number") {
+	          file.set(versionKey, "7.22.15");
+	          return;
+	        }
+	      }
+	      if (!file.get(versionKey) || _semver.lt(file.get(versionKey), "7.22.15")) {
+	        file.set(versionKey, "7.22.15");
+	      }
+	    },
+	    visitor: {
+	      Class(path, {
+	        file
+	      }) {
+	        var _ref;
+	        if (file.get(versionKey) !== "7.22.15") return;
+	        if (!(0, _features.shouldTransform)(path, file)) return;
+	        const pathIsClassDeclaration = path.isClassDeclaration();
+	        if (pathIsClassDeclaration) (0, _typescript.assertFieldTransformed)(path);
+	        const loose = (0, _features.isLoose)(file, feature);
+	        let constructor;
+	        const isDecorated = (0, _decorators.hasDecorators)(path.node);
+	        const props = [];
+	        const elements = [];
+	        const computedPaths = [];
+	        const privateNames = new Set();
+	        const body = path.get("body");
+	        for (const path of body.get("body")) {
+	          if ((path.isClassProperty() || path.isClassMethod()) && path.node.computed) {
+	            computedPaths.push(path);
+	          }
+	          if (path.isPrivate()) {
+	            const {
+	              name
+	            } = path.node.key.id;
+	            const getName = `get ${name}`;
+	            const setName = `set ${name}`;
+	            if (path.isClassPrivateMethod()) {
+	              if (path.node.kind === "get") {
+	                if (privateNames.has(getName) || privateNames.has(name) && !privateNames.has(setName)) {
+	                  throw path.buildCodeFrameError("Duplicate private field");
+	                }
+	                privateNames.add(getName).add(name);
+	              } else if (path.node.kind === "set") {
+	                if (privateNames.has(setName) || privateNames.has(name) && !privateNames.has(getName)) {
+	                  throw path.buildCodeFrameError("Duplicate private field");
+	                }
+	                privateNames.add(setName).add(name);
+	              }
+	            } else {
+	              if (privateNames.has(name) && !privateNames.has(getName) && !privateNames.has(setName) || privateNames.has(name) && (privateNames.has(getName) || privateNames.has(setName))) {
+	                throw path.buildCodeFrameError("Duplicate private field");
+	              }
+	              privateNames.add(name);
+	            }
+	          }
+	          if (path.isClassMethod({
+	            kind: "constructor"
+	          })) {
+	            constructor = path;
+	          } else {
+	            elements.push(path);
+	            if (path.isProperty() || path.isPrivate() || path.isStaticBlock != null && path.isStaticBlock()) {
+	              props.push(path);
+	            }
+	          }
+	        }
+	        {
+	          if (!props.length && !isDecorated) return;
+	        }
+	        const innerBinding = path.node.id;
+	        let ref;
+	        if (!innerBinding || !pathIsClassDeclaration) {
+	          (0, _helperFunctionName.default)(path);
+	          ref = path.scope.generateUidIdentifier("class");
+	        }
+	        const classRefForDefine = (_ref = ref) != null ? _ref : _core.types.cloneNode(innerBinding);
+	        const privateNamesMap = (0, _fields.buildPrivateNamesMap)(props);
+	        const privateNamesNodes = (0, _fields.buildPrivateNamesNodes)(privateNamesMap, privateFieldsAsProperties != null ? privateFieldsAsProperties : loose, privateFieldsAsSymbols != null ? privateFieldsAsSymbols : false, file);
+	        (0, _fields.transformPrivateNamesUsage)(classRefForDefine, path, privateNamesMap, {
+	          privateFieldsAsProperties: privateFieldsAsSymbolsOrProperties != null ? privateFieldsAsSymbolsOrProperties : loose,
+	          noDocumentAll,
+	          innerBinding
+	        }, file);
+	        let keysNodes, staticNodes, instanceNodes, pureStaticNodes, classBindingNode, wrapClass;
+	        {
+	          if (isDecorated) {
+	            staticNodes = pureStaticNodes = keysNodes = [];
+	            ({
+	              instanceNodes,
+	              wrapClass
+	            } = (0, _decorators.buildDecoratedClass)(classRefForDefine, path, elements, file));
+	          } else {
+	            keysNodes = (0, _misc.extractComputedKeys)(path, computedPaths, file);
+	            ({
+	              staticNodes,
+	              pureStaticNodes,
+	              instanceNodes,
+	              classBindingNode,
+	              wrapClass
+	            } = (0, _fields.buildFieldsInitNodes)(ref, path.node.superClass, props, privateNamesMap, file, setPublicClassFields != null ? setPublicClassFields : loose, privateFieldsAsSymbolsOrProperties != null ? privateFieldsAsSymbolsOrProperties : loose, constantSuper != null ? constantSuper : loose, innerBinding));
+	          }
+	        }
+	        if (instanceNodes.length > 0) {
+	          (0, _misc.injectInitialization)(path, constructor, instanceNodes, (referenceVisitor, state) => {
+	            {
+	              if (isDecorated) return;
+	            }
+	            for (const prop of props) {
+	              if (_core.types.isStaticBlock != null && _core.types.isStaticBlock(prop.node) || prop.node.static) continue;
+	              prop.traverse(referenceVisitor, state);
+	            }
+	          });
+	        }
+	        const wrappedPath = wrapClass(path);
+	        wrappedPath.insertBefore([...privateNamesNodes, ...keysNodes]);
+	        if (staticNodes.length > 0) {
+	          wrappedPath.insertAfter(staticNodes);
+	        }
+	        if (pureStaticNodes.length > 0) {
+	          wrappedPath.find(parent => parent.isStatement() || parent.isDeclaration()).insertAfter(pureStaticNodes);
+	        }
+	        if (classBindingNode != null && pathIsClassDeclaration) {
+	          wrappedPath.insertAfter(classBindingNode);
+	        }
+	      },
+	      ExportDefaultDeclaration(path, {
+	        file
+	      }) {
+	        {
+	          if (file.get(versionKey) !== "7.22.15") return;
+	          const decl = path.get("declaration");
+	          if (decl.isClassDeclaration() && (0, _decorators.hasDecorators)(decl.node)) {
+	            if (decl.node.id) {
+	              (0, _helperSplitExportDeclaration.default)(path);
+	            } else {
+	              decl.node.type = "ClassExpression";
+	            }
+	          }
+	        }
+	      }
+	    }
+	  };
+	}
+
+	
+} (lib$5));var constEnum = {};var _enum$2 = {};Object.defineProperty(_enum$2, "__esModule", {
+  value: true
+});
+_enum$2.default = transpileEnum;
+_enum$2.translateEnumValues = translateEnumValues;
+var _core$3 = requireLib();
+var _assert = require$$1;
+var _helperAnnotateAsPure = lib$c;
+const ENUMS = new WeakMap();
+const buildEnumWrapper = _core$3.template.expression(`
+    (function (ID) {
+      ASSIGNMENTS;
+      return ID;
+    })(INIT)
+  `);
+function transpileEnum(path, t) {
+  const {
+    node,
+    parentPath
+  } = path;
+  if (node.declare) {
+    path.remove();
+    return;
+  }
+  const name = node.id.name;
+  const {
+    fill,
+    data,
+    isPure
+  } = enumFill(path, t, node.id);
+  switch (parentPath.type) {
+    case "BlockStatement":
+    case "ExportNamedDeclaration":
+    case "Program":
+      {
+        const isGlobal = t.isProgram(path.parent);
+        const isSeen = seen(parentPath);
+        let init = t.objectExpression([]);
+        if (isSeen || isGlobal) {
+          init = t.logicalExpression("||", t.cloneNode(fill.ID), init);
+        }
+        const enumIIFE = buildEnumWrapper(Object.assign({}, fill, {
+          INIT: init
+        }));
+        if (isPure) (0, _helperAnnotateAsPure.default)(enumIIFE);
+        if (isSeen) {
+          const toReplace = parentPath.isExportDeclaration() ? parentPath : path;
+          toReplace.replaceWith(t.expressionStatement(t.assignmentExpression("=", t.cloneNode(node.id), enumIIFE)));
+        } else {
+          path.scope.registerDeclaration(path.replaceWith(t.variableDeclaration(isGlobal ? "var" : "let", [t.variableDeclarator(node.id, enumIIFE)]))[0]);
+        }
+        ENUMS.set(path.scope.getBindingIdentifier(name), data);
+        break;
+      }
+    default:
+      throw new Error(`Unexpected enum parent '${path.parent.type}`);
+  }
+  function seen(parentPath) {
+    if (parentPath.isExportDeclaration()) {
+      return seen(parentPath.parentPath);
+    }
+    if (parentPath.getData(name)) {
+      return true;
+    } else {
+      parentPath.setData(name, true);
+      return false;
+    }
+  }
+}
+const buildStringAssignment = (0, _core$3.template)(`
+  ENUM["NAME"] = VALUE;
+`);
+const buildNumericAssignment = (0, _core$3.template)(`
+  ENUM[ENUM["NAME"] = VALUE] = "NAME";
+`);
+const buildEnumMember = (isString, options) => (isString ? buildStringAssignment : buildNumericAssignment)(options);
+function enumFill(path, t, id) {
+  const {
+    enumValues: x,
+    data,
+    isPure
+  } = translateEnumValues(path, t);
+  const assignments = x.map(([memberName, memberValue]) => buildEnumMember(t.isStringLiteral(memberValue), {
+    ENUM: t.cloneNode(id),
+    NAME: memberName,
+    VALUE: memberValue
+  }));
+  return {
+    fill: {
+      ID: t.cloneNode(id),
+      ASSIGNMENTS: assignments
+    },
+    data,
+    isPure
+  };
+}
+function ReferencedIdentifier(expr, state) {
+  const {
+    seen,
+    path,
+    t
+  } = state;
+  const name = expr.node.name;
+  if (seen.has(name) && !expr.scope.hasOwnBinding(name)) {
+    expr.replaceWith(t.memberExpression(t.cloneNode(path.node.id), t.cloneNode(expr.node)));
+    expr.skip();
+  }
+}
+const enumSelfReferenceVisitor = {
+  ReferencedIdentifier
+};
+function translateEnumValues(path, t) {
+  const seen = new Map();
+  let constValue = -1;
+  let lastName;
+  let isPure = true;
+  const enumValues = path.get("members").map(memberPath => {
+    const member = memberPath.node;
+    const name = t.isIdentifier(member.id) ? member.id.name : member.id.value;
+    const initializerPath = memberPath.get("initializer");
+    const initializer = member.initializer;
+    let value;
+    if (initializer) {
+      constValue = computeConstantValue(initializerPath, seen);
+      if (constValue !== undefined) {
+        seen.set(name, constValue);
+        _assert(typeof constValue === "number" || typeof constValue === "string");
+        if (constValue === Infinity || Number.isNaN(constValue)) {
+          value = t.identifier(String(constValue));
+        } else if (constValue === -Infinity) {
+          value = t.unaryExpression("-", t.identifier("Infinity"));
+        } else {
+          value = t.valueToNode(constValue);
+        }
+      } else {
+        isPure && (isPure = initializerPath.isPure());
+        if (initializerPath.isReferencedIdentifier()) {
+          ReferencedIdentifier(initializerPath, {
+            t,
+            seen,
+            path
+          });
+        } else {
+          initializerPath.traverse(enumSelfReferenceVisitor, {
+            t,
+            seen,
+            path
+          });
+        }
+        value = initializerPath.node;
+        seen.set(name, undefined);
+      }
+    } else if (typeof constValue === "number") {
+      constValue += 1;
+      value = t.numericLiteral(constValue);
+      seen.set(name, constValue);
+    } else if (typeof constValue === "string") {
+      throw path.buildCodeFrameError("Enum member must have initializer.");
+    } else {
+      const lastRef = t.memberExpression(t.cloneNode(path.node.id), t.stringLiteral(lastName), true);
+      value = t.binaryExpression("+", t.numericLiteral(1), lastRef);
+      seen.set(name, undefined);
+    }
+    lastName = name;
+    return [name, value];
+  });
+  return {
+    isPure,
+    data: seen,
+    enumValues
+  };
+}
+function computeConstantValue(path, prevMembers, seen = new Set()) {
+  return evaluate(path);
+  function evaluate(path) {
+    const expr = path.node;
+    switch (expr.type) {
+      case "MemberExpression":
+        return evaluateRef(path, prevMembers, seen);
+      case "StringLiteral":
+        return expr.value;
+      case "UnaryExpression":
+        return evalUnaryExpression(path);
+      case "BinaryExpression":
+        return evalBinaryExpression(path);
+      case "NumericLiteral":
+        return expr.value;
+      case "ParenthesizedExpression":
+        return evaluate(path.get("expression"));
+      case "Identifier":
+        return evaluateRef(path, prevMembers, seen);
+      case "TemplateLiteral":
+        {
+          if (expr.quasis.length === 1) {
+            return expr.quasis[0].value.cooked;
+          }
+          const paths = path.get("expressions");
+          const quasis = expr.quasis;
+          let str = "";
+          for (let i = 0; i < quasis.length; i++) {
+            str += quasis[i].value.cooked;
+            if (i + 1 < quasis.length) {
+              const value = evaluateRef(paths[i], prevMembers, seen);
+              if (value === undefined) return undefined;
+              str += value;
+            }
+          }
+          return str;
+        }
+      default:
+        return undefined;
+    }
+  }
+  function evaluateRef(path, prevMembers, seen) {
+    if (path.isMemberExpression()) {
+      const expr = path.node;
+      const obj = expr.object;
+      const prop = expr.property;
+      if (!_core$3.types.isIdentifier(obj) || (expr.computed ? !_core$3.types.isStringLiteral(prop) : !_core$3.types.isIdentifier(prop))) {
+        return;
+      }
+      const bindingIdentifier = path.scope.getBindingIdentifier(obj.name);
+      const data = ENUMS.get(bindingIdentifier);
+      if (!data) return;
+      return data.get(prop.computed ? prop.value : prop.name);
+    } else if (path.isIdentifier()) {
+      const name = path.node.name;
+      if (["Infinity", "NaN"].includes(name)) {
+        return Number(name);
+      }
+      let value = prevMembers == null ? void 0 : prevMembers.get(name);
+      if (value !== undefined) {
+        return value;
+      }
+      if (seen.has(path.node)) return;
+      const bindingInitPath = path.resolve();
+      if (bindingInitPath) {
+        seen.add(path.node);
+        value = computeConstantValue(bindingInitPath, undefined, seen);
+        prevMembers == null ? void 0 : prevMembers.set(name, value);
+        return value;
+      }
+    }
+  }
+  function evalUnaryExpression(path) {
+    const value = evaluate(path.get("argument"));
+    if (value === undefined) {
+      return undefined;
+    }
+    switch (path.node.operator) {
+      case "+":
+        return value;
+      case "-":
+        return -value;
+      case "~":
+        return ~value;
+      default:
+        return undefined;
+    }
+  }
+  function evalBinaryExpression(path) {
+    const left = evaluate(path.get("left"));
+    if (left === undefined) {
+      return undefined;
+    }
+    const right = evaluate(path.get("right"));
+    if (right === undefined) {
+      return undefined;
+    }
+    switch (path.node.operator) {
+      case "|":
+        return left | right;
+      case "&":
+        return left & right;
+      case ">>":
+        return left >> right;
+      case ">>>":
+        return left >>> right;
+      case "<<":
+        return left << right;
+      case "^":
+        return left ^ right;
+      case "*":
+        return left * right;
+      case "/":
+        return left / right;
+      case "+":
+        return left + right;
+      case "-":
+        return left - right;
+      case "%":
+        return left % right;
+      case "**":
+        return Math.pow(left, right);
+      default:
+        return undefined;
+    }
+  }
+}Object.defineProperty(constEnum, "__esModule", {
+  value: true
+});
+constEnum.default = transpileConstEnum;
+var _enum$1 = _enum$2;
+function transpileConstEnum(path, t) {
+  const {
+    name
+  } = path.node.id;
+  const parentIsExport = path.parentPath.isExportNamedDeclaration();
+  let isExported = parentIsExport;
+  if (!isExported && t.isProgram(path.parent)) {
+    isExported = path.parent.body.some(stmt => t.isExportNamedDeclaration(stmt) && stmt.exportKind !== "type" && !stmt.source && stmt.specifiers.some(spec => t.isExportSpecifier(spec) && spec.exportKind !== "type" && spec.local.name === name));
+  }
+  const {
+    enumValues: entries
+  } = (0, _enum$1.translateEnumValues)(path, t);
+  if (isExported) {
+    const obj = t.objectExpression(entries.map(([name, value]) => t.objectProperty(t.isValidIdentifier(name) ? t.identifier(name) : t.stringLiteral(name), value)));
+    if (path.scope.hasOwnBinding(name)) {
+      (parentIsExport ? path.parentPath : path).replaceWith(t.expressionStatement(t.callExpression(t.memberExpression(t.identifier("Object"), t.identifier("assign")), [path.node.id, obj])));
+    } else {
+      path.replaceWith(t.variableDeclaration("var", [t.variableDeclarator(path.node.id, obj)]));
+      path.scope.registerDeclaration(path);
+    }
+    return;
+  }
+  const entriesMap = new Map(entries);
+  path.scope.path.traverse({
+    Scope(path) {
+      if (path.scope.hasOwnBinding(name)) path.skip();
+    },
+    MemberExpression(path) {
+      if (!t.isIdentifier(path.node.object, {
+        name
+      })) return;
+      let key;
+      if (path.node.computed) {
+        if (t.isStringLiteral(path.node.property)) {
+          key = path.node.property.value;
+        } else {
+          return;
+        }
+      } else if (t.isIdentifier(path.node.property)) {
+        key = path.node.property.name;
+      } else {
+        return;
+      }
+      if (!entriesMap.has(key)) return;
+      path.replaceWith(t.cloneNode(entriesMap.get(key)));
+    }
+  });
+  path.remove();
+}var namespace = {};Object.defineProperty(namespace, "__esModule", {
+  value: true
+});
+namespace.default = transpileNamespace;
+var _core$2 = requireLib();
+function transpileNamespace(path, allowNamespaces) {
+  if (path.node.declare || path.node.id.type === "StringLiteral") {
+    path.remove();
+    return;
+  }
+  if (!allowNamespaces) {
+    throw path.get("id").buildCodeFrameError("Namespace not marked type-only declare." + " Non-declarative namespaces are only supported experimentally in Babel." + " To enable and review caveats see:" + " https://babeljs.io/docs/en/babel-plugin-transform-typescript");
+  }
+  const name = path.node.id.name;
+  const value = handleNested(path, _core$2.types.cloneNode(path.node, true));
+  if (value === null) {
+    path.remove();
+  } else if (path.scope.hasOwnBinding(name)) {
+    path.replaceWith(value);
+  } else {
+    path.scope.registerDeclaration(path.replaceWithMultiple([getDeclaration(name), value])[0]);
+  }
+}
+function getDeclaration(name) {
+  return _core$2.types.variableDeclaration("let", [_core$2.types.variableDeclarator(_core$2.types.identifier(name))]);
+}
+function getMemberExpression(name, itemName) {
+  return _core$2.types.memberExpression(_core$2.types.identifier(name), _core$2.types.identifier(itemName));
+}
+function handleVariableDeclaration(node, name, hub) {
+  if (node.kind !== "const") {
+    throw hub.file.buildCodeFrameError(node, "Namespaces exporting non-const are not supported by Babel." + " Change to const or see:" + " https://babeljs.io/docs/en/babel-plugin-transform-typescript");
+  }
+  const {
+    declarations
+  } = node;
+  if (declarations.every(declarator => _core$2.types.isIdentifier(declarator.id))) {
+    for (const declarator of declarations) {
+      declarator.init = _core$2.types.assignmentExpression("=", getMemberExpression(name, declarator.id.name), declarator.init);
+    }
+    return [node];
+  }
+  const bindingIdentifiers = _core$2.types.getBindingIdentifiers(node);
+  const assignments = [];
+  for (const idName in bindingIdentifiers) {
+    assignments.push(_core$2.types.assignmentExpression("=", getMemberExpression(name, idName), _core$2.types.cloneNode(bindingIdentifiers[idName])));
+  }
+  return [node, _core$2.types.expressionStatement(_core$2.types.sequenceExpression(assignments))];
+}
+function buildNestedAmbientModuleError(path, node) {
+  return path.hub.buildError(node, "Ambient modules cannot be nested in other modules or namespaces.", Error);
+}
+function handleNested(path, node, parentExport) {
+  const names = new Set();
+  const realName = node.id;
+  _core$2.types.assertIdentifier(realName);
+  const name = path.scope.generateUid(realName.name);
+  const namespaceTopLevel = _core$2.types.isTSModuleBlock(node.body) ? node.body.body : [_core$2.types.exportNamedDeclaration(node.body)];
+  let isEmpty = true;
+  for (let i = 0; i < namespaceTopLevel.length; i++) {
+    const subNode = namespaceTopLevel[i];
+    switch (subNode.type) {
+      case "TSModuleDeclaration":
+        {
+          if (!_core$2.types.isIdentifier(subNode.id)) {
+            throw buildNestedAmbientModuleError(path, subNode);
+          }
+          const transformed = handleNested(path, subNode);
+          if (transformed !== null) {
+            isEmpty = false;
+            const moduleName = subNode.id.name;
+            if (names.has(moduleName)) {
+              namespaceTopLevel[i] = transformed;
+            } else {
+              names.add(moduleName);
+              namespaceTopLevel.splice(i++, 1, getDeclaration(moduleName), transformed);
+            }
+          }
+          continue;
+        }
+      case "TSEnumDeclaration":
+      case "FunctionDeclaration":
+      case "ClassDeclaration":
+        isEmpty = false;
+        names.add(subNode.id.name);
+        continue;
+      case "VariableDeclaration":
+        {
+          isEmpty = false;
+          for (const name in _core$2.types.getBindingIdentifiers(subNode)) {
+            names.add(name);
+          }
+          continue;
+        }
+      default:
+        isEmpty && (isEmpty = _core$2.types.isTypeScript(subNode));
+        continue;
+      case "ExportNamedDeclaration":
+    }
+    if ("declare" in subNode.declaration && subNode.declaration.declare) {
+      continue;
+    }
+    switch (subNode.declaration.type) {
+      case "TSEnumDeclaration":
+      case "FunctionDeclaration":
+      case "ClassDeclaration":
+        {
+          isEmpty = false;
+          const itemName = subNode.declaration.id.name;
+          names.add(itemName);
+          namespaceTopLevel.splice(i++, 1, subNode.declaration, _core$2.types.expressionStatement(_core$2.types.assignmentExpression("=", getMemberExpression(name, itemName), _core$2.types.identifier(itemName))));
+          break;
+        }
+      case "VariableDeclaration":
+        {
+          isEmpty = false;
+          const nodes = handleVariableDeclaration(subNode.declaration, name, path.hub);
+          namespaceTopLevel.splice(i, nodes.length, ...nodes);
+          i += nodes.length - 1;
+          break;
+        }
+      case "TSModuleDeclaration":
+        {
+          if (!_core$2.types.isIdentifier(subNode.declaration.id)) {
+            throw buildNestedAmbientModuleError(path, subNode.declaration);
+          }
+          const transformed = handleNested(path, subNode.declaration, _core$2.types.identifier(name));
+          if (transformed !== null) {
+            isEmpty = false;
+            const moduleName = subNode.declaration.id.name;
+            if (names.has(moduleName)) {
+              namespaceTopLevel[i] = transformed;
+            } else {
+              names.add(moduleName);
+              namespaceTopLevel.splice(i++, 1, getDeclaration(moduleName), transformed);
+            }
+          } else {
+            namespaceTopLevel.splice(i, 1);
+            i--;
+          }
+        }
+    }
+  }
+  if (isEmpty) return null;
+  let fallthroughValue = _core$2.types.objectExpression([]);
+  if (parentExport) {
+    const memberExpr = _core$2.types.memberExpression(parentExport, realName);
+    fallthroughValue = _core$2.template.expression.ast`
+      ${_core$2.types.cloneNode(memberExpr)} ||
+        (${_core$2.types.cloneNode(memberExpr)} = ${fallthroughValue})
+    `;
+  }
+  return _core$2.template.statement.ast`
+    (function (${_core$2.types.identifier(name)}) {
+      ${namespaceTopLevel}
+    })(${realName} || (${_core$2.types.cloneNode(realName)} = ${fallthroughValue}));
+  `;
+}Object.defineProperty(lib$7, "__esModule", {
+  value: true
+});
+lib$7.default = void 0;
+var _helperPluginUtils$1 = lib$f;
+var _pluginSyntaxTypescript = lib$6;
+var _helperCreateClassFeaturesPlugin = lib$5;
+var _constEnum = constEnum;
+var _enum = _enum$2;
+var _namespace = namespace;
+function isInType(path) {
+  switch (path.parent.type) {
+    case "TSTypeReference":
+    case "TSExpressionWithTypeArguments":
+    case "TSTypeQuery":
+      return true;
+    case "TSQualifiedName":
+      return path.parentPath.findParent(path => path.type !== "TSQualifiedName").type !== "TSImportEqualsDeclaration";
+    case "ExportSpecifier":
+      return path.parent.exportKind === "type" || path.parentPath.parent.exportKind === "type";
+    default:
+      return false;
+  }
+}
+const GLOBAL_TYPES = new WeakMap();
+const NEEDS_EXPLICIT_ESM = new WeakMap();
+const PARSED_PARAMS = new WeakSet();
+function isGlobalType({
+  scope
+}, name) {
+  if (scope.hasBinding(name)) return false;
+  if (GLOBAL_TYPES.get(scope).has(name)) return true;
+  console.warn(`The exported identifier "${name}" is not declared in Babel's scope tracker\n` + `as a JavaScript value binding, and "@babel/plugin-transform-typescript"\n` + `never encountered it as a TypeScript type declaration.\n` + `It will be treated as a JavaScript value.\n\n` + `This problem is likely caused by another plugin injecting\n` + `"${name}" without registering it in the scope tracker. If you are the author\n` + ` of that plugin, please use "scope.registerDeclaration(declarationPath)".`);
+  return false;
+}
+function registerGlobalType(programScope, name) {
+  GLOBAL_TYPES.get(programScope).add(name);
+}
+function safeRemove(path) {
+  const ids = path.getBindingIdentifiers();
+  for (const name of Object.keys(ids)) {
+    const binding = path.scope.getBinding(name);
+    if (binding && binding.identifier === ids[name]) {
+      binding.scope.removeBinding(name);
+    }
+  }
+  path.opts.noScope = true;
+  path.remove();
+  path.opts.noScope = false;
+}
+function assertCjsTransformEnabled(path, pass, wrong, suggestion, extra = "") {
+  if (pass.file.get("@babel/plugin-transform-modules-*") !== "commonjs") {
+    throw path.buildCodeFrameError(`\`${wrong}\` is only supported when compiling modules to CommonJS.\n` + `Please consider using \`${suggestion}\`${extra}, or add ` + `@babel/plugin-transform-modules-commonjs to your Babel config.`);
+  }
+}
+var _default$1 = (0, _helperPluginUtils$1.declare)((api, opts) => {
+  const {
+    types: t,
+    template
+  } = api;
+  api.assertVersion(7);
+  const JSX_PRAGMA_REGEX = /\*?\s*@jsx((?:Frag)?)\s+([^\s]+)/;
+  const {
+    allowNamespaces = true,
+    jsxPragma = "React.createElement",
+    jsxPragmaFrag = "React.Fragment",
+    onlyRemoveTypeImports = false,
+    optimizeConstEnums = false
+  } = opts;
+  {
+    var {
+      allowDeclareFields = false
+    } = opts;
+  }
+  const classMemberVisitors = {
+    field(path) {
+      const {
+        node
+      } = path;
+      {
+        if (!allowDeclareFields && node.declare) {
+          throw path.buildCodeFrameError(`The 'declare' modifier is only allowed when the 'allowDeclareFields' option of ` + `@babel/plugin-transform-typescript or @babel/preset-typescript is enabled.`);
+        }
+      }
+      if (node.declare) {
+        if (node.value) {
+          throw path.buildCodeFrameError(`Fields with the 'declare' modifier cannot be initialized here, but only in the constructor`);
+        }
+        if (!node.decorators) {
+          path.remove();
+        }
+      } else if (node.definite) {
+        if (node.value) {
+          throw path.buildCodeFrameError(`Definitely assigned fields cannot be initialized here, but only in the constructor`);
+        }
+        {
+          if (!allowDeclareFields && !node.decorators && !t.isClassPrivateProperty(node)) {
+            path.remove();
+          }
+        }
+      } else if (node.abstract) {
+        path.remove();
+      } else {
+        if (!allowDeclareFields && !node.value && !node.decorators && !t.isClassPrivateProperty(node)) {
+          path.remove();
+        }
+      }
+      if (node.accessibility) node.accessibility = null;
+      if (node.abstract) node.abstract = null;
+      if (node.readonly) node.readonly = null;
+      if (node.optional) node.optional = null;
+      if (node.typeAnnotation) node.typeAnnotation = null;
+      if (node.definite) node.definite = null;
+      if (node.declare) node.declare = null;
+      if (node.override) node.override = null;
+    },
+    method({
+      node
+    }) {
+      if (node.accessibility) node.accessibility = null;
+      if (node.abstract) node.abstract = null;
+      if (node.optional) node.optional = null;
+      if (node.override) node.override = null;
+    },
+    constructor(path, classPath) {
+      if (path.node.accessibility) path.node.accessibility = null;
+      const assigns = [];
+      const {
+        scope
+      } = path;
+      for (const paramPath of path.get("params")) {
+        const param = paramPath.node;
+        if (param.type === "TSParameterProperty") {
+          const parameter = param.parameter;
+          if (PARSED_PARAMS.has(parameter)) continue;
+          PARSED_PARAMS.add(parameter);
+          let id;
+          if (t.isIdentifier(parameter)) {
+            id = parameter;
+          } else if (t.isAssignmentPattern(parameter) && t.isIdentifier(parameter.left)) {
+            id = parameter.left;
+          } else {
+            throw paramPath.buildCodeFrameError("Parameter properties can not be destructuring patterns.");
+          }
+          assigns.push(template.statement.ast`
+          this.${t.cloneNode(id)} = ${t.cloneNode(id)}`);
+          paramPath.replaceWith(paramPath.get("parameter"));
+          scope.registerBinding("param", paramPath);
+        }
+      }
+      (0, _helperCreateClassFeaturesPlugin.injectInitialization)(classPath, path, assigns);
+    }
+  };
+  return {
+    name: "transform-typescript",
+    inherits: _pluginSyntaxTypescript.default,
+    visitor: {
+      Pattern: visitPattern,
+      Identifier: visitPattern,
+      RestElement: visitPattern,
+      Program: {
+        enter(path, state) {
+          const {
+            file
+          } = state;
+          let fileJsxPragma = null;
+          let fileJsxPragmaFrag = null;
+          const programScope = path.scope;
+          if (!GLOBAL_TYPES.has(programScope)) {
+            GLOBAL_TYPES.set(programScope, new Set());
+          }
+          if (file.ast.comments) {
+            for (const comment of file.ast.comments) {
+              const jsxMatches = JSX_PRAGMA_REGEX.exec(comment.value);
+              if (jsxMatches) {
+                if (jsxMatches[1]) {
+                  fileJsxPragmaFrag = jsxMatches[2];
+                } else {
+                  fileJsxPragma = jsxMatches[2];
+                }
+              }
+            }
+          }
+          let pragmaImportName = fileJsxPragma || jsxPragma;
+          if (pragmaImportName) {
+            [pragmaImportName] = pragmaImportName.split(".");
+          }
+          let pragmaFragImportName = fileJsxPragmaFrag || jsxPragmaFrag;
+          if (pragmaFragImportName) {
+            [pragmaFragImportName] = pragmaFragImportName.split(".");
+          }
+          for (let stmt of path.get("body")) {
+            if (stmt.isImportDeclaration()) {
+              if (!NEEDS_EXPLICIT_ESM.has(state.file.ast.program)) {
+                NEEDS_EXPLICIT_ESM.set(state.file.ast.program, true);
+              }
+              if (stmt.node.importKind === "type") {
+                for (const specifier of stmt.node.specifiers) {
+                  registerGlobalType(programScope, specifier.local.name);
+                }
+                stmt.remove();
+                continue;
+              }
+              const importsToRemove = new Set();
+              const specifiersLength = stmt.node.specifiers.length;
+              const isAllSpecifiersElided = () => specifiersLength > 0 && specifiersLength === importsToRemove.size;
+              for (const specifier of stmt.node.specifiers) {
+                if (specifier.type === "ImportSpecifier" && specifier.importKind === "type") {
+                  registerGlobalType(programScope, specifier.local.name);
+                  const binding = stmt.scope.getBinding(specifier.local.name);
+                  if (binding) {
+                    importsToRemove.add(binding.path);
+                  }
+                }
+              }
+              if (onlyRemoveTypeImports) {
+                NEEDS_EXPLICIT_ESM.set(path.node, false);
+              } else {
+                if (stmt.node.specifiers.length === 0) {
+                  NEEDS_EXPLICIT_ESM.set(path.node, false);
+                  continue;
+                }
+                for (const specifier of stmt.node.specifiers) {
+                  const binding = stmt.scope.getBinding(specifier.local.name);
+                  if (binding && !importsToRemove.has(binding.path)) {
+                    if (isImportTypeOnly({
+                      binding,
+                      programPath: path,
+                      pragmaImportName,
+                      pragmaFragImportName
+                    })) {
+                      importsToRemove.add(binding.path);
+                    } else {
+                      NEEDS_EXPLICIT_ESM.set(path.node, false);
+                    }
+                  }
+                }
+              }
+              if (isAllSpecifiersElided() && !onlyRemoveTypeImports) {
+                stmt.remove();
+              } else {
+                for (const importPath of importsToRemove) {
+                  importPath.remove();
+                }
+              }
+              continue;
+            }
+            if (stmt.isExportDeclaration()) {
+              stmt = stmt.get("declaration");
+            }
+            if (stmt.isVariableDeclaration({
+              declare: true
+            })) {
+              for (const name of Object.keys(stmt.getBindingIdentifiers())) {
+                registerGlobalType(programScope, name);
+              }
+            } else if (stmt.isTSTypeAliasDeclaration() || stmt.isTSDeclareFunction() && stmt.get("id").isIdentifier() || stmt.isTSInterfaceDeclaration() || stmt.isClassDeclaration({
+              declare: true
+            }) || stmt.isTSEnumDeclaration({
+              declare: true
+            }) || stmt.isTSModuleDeclaration({
+              declare: true
+            }) && stmt.get("id").isIdentifier()) {
+              registerGlobalType(programScope, stmt.node.id.name);
+            }
+          }
+        },
+        exit(path) {
+          if (path.node.sourceType === "module" && NEEDS_EXPLICIT_ESM.get(path.node)) {
+            path.pushContainer("body", t.exportNamedDeclaration());
+          }
+        }
+      },
+      ExportNamedDeclaration(path, state) {
+        if (!NEEDS_EXPLICIT_ESM.has(state.file.ast.program)) {
+          NEEDS_EXPLICIT_ESM.set(state.file.ast.program, true);
+        }
+        if (path.node.exportKind === "type") {
+          path.remove();
+          return;
+        }
+        if (path.node.source && path.node.specifiers.length > 0 && path.node.specifiers.every(specifier => specifier.type === "ExportSpecifier" && specifier.exportKind === "type")) {
+          path.remove();
+          return;
+        }
+        if (!path.node.source && path.node.specifiers.length > 0 && path.node.specifiers.every(specifier => t.isExportSpecifier(specifier) && isGlobalType(path, specifier.local.name))) {
+          path.remove();
+          return;
+        }
+        if (t.isTSModuleDeclaration(path.node.declaration)) {
+          const namespace = path.node.declaration;
+          const {
+            id
+          } = namespace;
+          if (t.isIdentifier(id)) {
+            if (path.scope.hasOwnBinding(id.name)) {
+              path.replaceWith(namespace);
+            } else {
+              const [newExport] = path.replaceWithMultiple([t.exportNamedDeclaration(t.variableDeclaration("let", [t.variableDeclarator(t.cloneNode(id))])), namespace]);
+              path.scope.registerDeclaration(newExport);
+            }
+          }
+        }
+        NEEDS_EXPLICIT_ESM.set(state.file.ast.program, false);
+      },
+      ExportAllDeclaration(path) {
+        if (path.node.exportKind === "type") path.remove();
+      },
+      ExportSpecifier(path) {
+        const parent = path.parent;
+        if (!parent.source && isGlobalType(path, path.node.local.name) || path.node.exportKind === "type") {
+          path.remove();
+        }
+      },
+      ExportDefaultDeclaration(path, state) {
+        if (!NEEDS_EXPLICIT_ESM.has(state.file.ast.program)) {
+          NEEDS_EXPLICIT_ESM.set(state.file.ast.program, true);
+        }
+        if (t.isIdentifier(path.node.declaration) && isGlobalType(path, path.node.declaration.name)) {
+          path.remove();
+          return;
+        }
+        NEEDS_EXPLICIT_ESM.set(state.file.ast.program, false);
+      },
+      TSDeclareFunction(path) {
+        safeRemove(path);
+      },
+      TSDeclareMethod(path) {
+        safeRemove(path);
+      },
+      VariableDeclaration(path) {
+        if (path.node.declare) {
+          safeRemove(path);
+        }
+      },
+      VariableDeclarator({
+        node
+      }) {
+        if (node.definite) node.definite = null;
+      },
+      TSIndexSignature(path) {
+        path.remove();
+      },
+      ClassDeclaration(path) {
+        const {
+          node
+        } = path;
+        if (node.declare) {
+          safeRemove(path);
+        }
+      },
+      Class(path) {
+        const {
+          node
+        } = path;
+        if (node.typeParameters) node.typeParameters = null;
+        if (node.superTypeParameters) node.superTypeParameters = null;
+        if (node.implements) node.implements = null;
+        if (node.abstract) node.abstract = null;
+        path.get("body.body").forEach(child => {
+          if (child.isClassMethod() || child.isClassPrivateMethod()) {
+            if (child.node.kind === "constructor") {
+              classMemberVisitors.constructor(child, path);
+            } else {
+              classMemberVisitors.method(child);
+            }
+          } else if (child.isClassProperty() || child.isClassPrivateProperty() || child.isClassAccessorProperty()) {
+            classMemberVisitors.field(child);
+          }
+        });
+      },
+      Function(path) {
+        const {
+          node
+        } = path;
+        if (node.typeParameters) node.typeParameters = null;
+        if (node.returnType) node.returnType = null;
+        const params = node.params;
+        if (params.length > 0 && t.isIdentifier(params[0], {
+          name: "this"
+        })) {
+          params.shift();
+        }
+      },
+      TSModuleDeclaration(path) {
+        (0, _namespace.default)(path, allowNamespaces);
+      },
+      TSInterfaceDeclaration(path) {
+        path.remove();
+      },
+      TSTypeAliasDeclaration(path) {
+        path.remove();
+      },
+      TSEnumDeclaration(path) {
+        if (optimizeConstEnums && path.node.const) {
+          (0, _constEnum.default)(path, t);
+        } else {
+          (0, _enum.default)(path, t);
+        }
+      },
+      TSImportEqualsDeclaration(path, pass) {
+        const {
+          id,
+          moduleReference
+        } = path.node;
+        let init;
+        let varKind;
+        if (t.isTSExternalModuleReference(moduleReference)) {
+          assertCjsTransformEnabled(path, pass, `import ${id.name} = require(...);`, `import ${id.name} from '...';`, " alongside Typescript's --allowSyntheticDefaultImports option");
+          init = t.callExpression(t.identifier("require"), [moduleReference.expression]);
+          varKind = "const";
+        } else {
+          init = entityNameToExpr(moduleReference);
+          varKind = "var";
+        }
+        path.replaceWith(t.variableDeclaration(varKind, [t.variableDeclarator(id, init)]));
+        path.scope.registerDeclaration(path);
+      },
+      TSExportAssignment(path, pass) {
+        assertCjsTransformEnabled(path, pass, `export = <value>;`, `export default <value>;`);
+        path.replaceWith(template.statement.ast`module.exports = ${path.node.expression}`);
+      },
+      TSTypeAssertion(path) {
+        path.replaceWith(path.node.expression);
+      },
+      [`TSAsExpression${t.tsSatisfiesExpression ? "|TSSatisfiesExpression" : ""}`](path) {
+        let {
+          node
+        } = path;
+        do {
+          node = node.expression;
+        } while (t.isTSAsExpression(node) || t.isTSSatisfiesExpression != null && t.isTSSatisfiesExpression(node));
+        path.replaceWith(node);
+      },
+      [api.types.tsInstantiationExpression ? "TSNonNullExpression|TSInstantiationExpression" : "TSNonNullExpression"](path) {
+        path.replaceWith(path.node.expression);
+      },
+      CallExpression(path) {
+        path.node.typeParameters = null;
+      },
+      OptionalCallExpression(path) {
+        path.node.typeParameters = null;
+      },
+      NewExpression(path) {
+        path.node.typeParameters = null;
+      },
+      JSXOpeningElement(path) {
+        path.node.typeParameters = null;
+      },
+      TaggedTemplateExpression(path) {
+        path.node.typeParameters = null;
+      }
+    }
+  };
+  function entityNameToExpr(node) {
+    if (t.isTSQualifiedName(node)) {
+      return t.memberExpression(entityNameToExpr(node.left), node.right);
+    }
+    return node;
+  }
+  function visitPattern({
+    node
+  }) {
+    if (node.typeAnnotation) node.typeAnnotation = null;
+    if (t.isIdentifier(node) && node.optional) node.optional = null;
+  }
+  function isImportTypeOnly({
+    binding,
+    programPath,
+    pragmaImportName,
+    pragmaFragImportName
+  }) {
+    for (const path of binding.referencePaths) {
+      if (!isInType(path)) {
+        return false;
+      }
+    }
+    if (binding.identifier.name !== pragmaImportName && binding.identifier.name !== pragmaFragImportName) {
+      return true;
+    }
+    let sourceFileHasJsx = false;
+    programPath.traverse({
+      "JSXElement|JSXFragment"(path) {
+        sourceFileHasJsx = true;
+        path.stop();
+      }
+    });
+    return !sourceFileHasJsx;
+  }
+});
+lib$7.default = _default$1;var lib = {};var dynamicImport = {};Object.defineProperty(dynamicImport, "__esModule", {
+  value: true
+});
+dynamicImport.transformDynamicImport = transformDynamicImport;
+var _core$1 = requireLib();
+var _helperModuleTransforms$1 = requireLib$2();
+const requireNoInterop = source => _core$1.template.expression.ast`require(${source})`;
+const requireInterop = (source, file) => _core$1.types.callExpression(file.addHelper("interopRequireWildcard"), [requireNoInterop(source)]);
+function transformDynamicImport(path, noInterop, file) {
+  const buildRequire = noInterop ? requireNoInterop : requireInterop;
+  path.replaceWith((0, _helperModuleTransforms$1.buildDynamicImport)(path.node, true, false, specifier => buildRequire(specifier, file)));
+}Object.defineProperty(lib, "__esModule", {
+  value: true
+});
+lib.default = void 0;
+var _helperPluginUtils = lib$f;
+var _helperModuleTransforms = requireLib$2();
+var _helperSimpleAccess = lib$j;
+var _core = requireLib();
+var _dynamicImport = dynamicImport;
+var _default = (0, _helperPluginUtils.declare)((api, options) => {
+  var _api$assumption, _api$assumption2, _api$assumption3;
+  api.assertVersion(7);
+  const {
+    strictNamespace = false,
+    mjsStrictNamespace = strictNamespace,
+    allowTopLevelThis,
+    strict,
+    strictMode,
+    noInterop,
+    importInterop,
+    lazy = false,
+    allowCommonJSExports = true,
+    loose = false
+  } = options;
+  const constantReexports = (_api$assumption = api.assumption("constantReexports")) != null ? _api$assumption : loose;
+  const enumerableModuleMeta = (_api$assumption2 = api.assumption("enumerableModuleMeta")) != null ? _api$assumption2 : loose;
+  const noIncompleteNsImportDetection = (_api$assumption3 = api.assumption("noIncompleteNsImportDetection")) != null ? _api$assumption3 : false;
+  if (typeof lazy !== "boolean" && typeof lazy !== "function" && (!Array.isArray(lazy) || !lazy.every(item => typeof item === "string"))) {
+    throw new Error(`.lazy must be a boolean, array of strings, or a function`);
+  }
+  if (typeof strictNamespace !== "boolean") {
+    throw new Error(`.strictNamespace must be a boolean, or undefined`);
+  }
+  if (typeof mjsStrictNamespace !== "boolean") {
+    throw new Error(`.mjsStrictNamespace must be a boolean, or undefined`);
+  }
+  const getAssertion = localName => _core.template.expression.ast`
+    (function(){
+      throw new Error(
+        "The CommonJS '" + "${localName}" + "' variable is not available in ES6 modules." +
+        "Consider setting setting sourceType:script or sourceType:unambiguous in your " +
+        "Babel config for this file.");
+    })()
+  `;
+  const moduleExportsVisitor = {
+    ReferencedIdentifier(path) {
+      const localName = path.node.name;
+      if (localName !== "module" && localName !== "exports") return;
+      const localBinding = path.scope.getBinding(localName);
+      const rootBinding = this.scope.getBinding(localName);
+      if (rootBinding !== localBinding || path.parentPath.isObjectProperty({
+        value: path.node
+      }) && path.parentPath.parentPath.isObjectPattern() || path.parentPath.isAssignmentExpression({
+        left: path.node
+      }) || path.isAssignmentExpression({
+        left: path.node
+      })) {
+        return;
+      }
+      path.replaceWith(getAssertion(localName));
+    },
+    UpdateExpression(path) {
+      const arg = path.get("argument");
+      if (!arg.isIdentifier()) return;
+      const localName = arg.node.name;
+      if (localName !== "module" && localName !== "exports") return;
+      const localBinding = path.scope.getBinding(localName);
+      const rootBinding = this.scope.getBinding(localName);
+      if (rootBinding !== localBinding) return;
+      path.replaceWith(_core.types.assignmentExpression(path.node.operator[0] + "=", arg.node, getAssertion(localName)));
+    },
+    AssignmentExpression(path) {
+      const left = path.get("left");
+      if (left.isIdentifier()) {
+        const localName = left.node.name;
+        if (localName !== "module" && localName !== "exports") return;
+        const localBinding = path.scope.getBinding(localName);
+        const rootBinding = this.scope.getBinding(localName);
+        if (rootBinding !== localBinding) return;
+        const right = path.get("right");
+        right.replaceWith(_core.types.sequenceExpression([right.node, getAssertion(localName)]));
+      } else if (left.isPattern()) {
+        const ids = left.getOuterBindingIdentifiers();
+        const localName = Object.keys(ids).filter(localName => {
+          if (localName !== "module" && localName !== "exports") return false;
+          return this.scope.getBinding(localName) === path.scope.getBinding(localName);
+        })[0];
+        if (localName) {
+          const right = path.get("right");
+          right.replaceWith(_core.types.sequenceExpression([right.node, getAssertion(localName)]));
+        }
+      }
+    }
+  };
+  return {
+    name: "transform-modules-commonjs",
+    pre() {
+      this.file.set("@babel/plugin-transform-modules-*", "commonjs");
+    },
+    visitor: {
+      CallExpression(path) {
+        if (!this.file.has("@babel/plugin-proposal-dynamic-import")) return;
+        if (!_core.types.isImport(path.node.callee)) return;
+        let {
+          scope
+        } = path;
+        do {
+          scope.rename("require");
+        } while (scope = scope.parent);
+        (0, _dynamicImport.transformDynamicImport)(path, noInterop, this.file);
+      },
+      Program: {
+        exit(path, state) {
+          if (!(0, _helperModuleTransforms.isModule)(path)) return;
+          path.scope.rename("exports");
+          path.scope.rename("module");
+          path.scope.rename("require");
+          path.scope.rename("__filename");
+          path.scope.rename("__dirname");
+          if (!allowCommonJSExports) {
+            {
+              (0, _helperSimpleAccess.default)(path, new Set(["module", "exports"]), false);
+            }
+            path.traverse(moduleExportsVisitor, {
+              scope: path.scope
+            });
+          }
+          let moduleName = (0, _helperModuleTransforms.getModuleName)(this.file.opts, options);
+          if (moduleName) moduleName = _core.types.stringLiteral(moduleName);
+          const {
+            meta,
+            headers
+          } = (0, _helperModuleTransforms.rewriteModuleStatementsAndPrepareHeader)(path, {
+            exportName: "exports",
+            constantReexports,
+            enumerableModuleMeta,
+            strict,
+            strictMode,
+            allowTopLevelThis,
+            noInterop,
+            importInterop,
+            lazy,
+            esNamespaceOnly: typeof state.filename === "string" && /\.mjs$/.test(state.filename) ? mjsStrictNamespace : strictNamespace,
+            noIncompleteNsImportDetection,
+            filename: this.file.opts.filename
+          });
+          for (const [source, metadata] of meta.source) {
+            const loadExpr = _core.types.callExpression(_core.types.identifier("require"), [_core.types.stringLiteral(source)]);
+            let header;
+            if ((0, _helperModuleTransforms.isSideEffectImport)(metadata)) {
+              if (metadata.lazy) throw new Error("Assertion failure");
+              header = _core.types.expressionStatement(loadExpr);
+            } else {
+              if (metadata.lazy && !metadata.referenced) {
+                continue;
+              }
+              const init = (0, _helperModuleTransforms.wrapInterop)(path, loadExpr, metadata.interop) || loadExpr;
+              if (metadata.lazy) {
+                header = _core.template.statement.ast`
+                  function ${metadata.name}() {
+                    const data = ${init};
+                    ${metadata.name} = function(){ return data; };
+                    return data;
+                  }
+                `;
+              } else {
+                header = _core.template.statement.ast`
+                  var ${metadata.name} = ${init};
+                `;
+              }
+            }
+            header.loc = metadata.loc;
+            headers.push(header);
+            headers.push(...(0, _helperModuleTransforms.buildNamespaceInitStatements)(meta, metadata, constantReexports));
+          }
+          (0, _helperModuleTransforms.ensureStatementsHoisted)(headers);
+          path.unshiftContainer("body", headers);
+          path.get("body").forEach(path => {
+            if (headers.indexOf(path.node) === -1) return;
+            if (path.isVariableDeclaration()) {
+              path.scope.registerDeclaration(path);
+            }
+          });
+        }
+      }
+    }
+  };
+});
+lib.default = _default;Object.defineProperty(lib$8, '__esModule', { value: true });
+
+var helperPluginUtils = lib$f;
+var transformTypeScript = lib$7;
+
+var transformModulesCommonJS = lib;
+var helperValidatorOption = lib$h;
+
+function _interopDefault$1 (e) { return e && e.__esModule ? e : { default: e }; }
+
+var transformTypeScript__default = /*#__PURE__*/_interopDefault$1(transformTypeScript);
+var transformModulesCommonJS__default = /*#__PURE__*/_interopDefault$1(transformModulesCommonJS);
+
+const v = new helperValidatorOption.OptionValidator("@babel/preset-typescript");
+function normalizeOptions(options = {}) {
+  let {
+    allowNamespaces = true,
+    jsxPragma,
+    onlyRemoveTypeImports
+  } = options;
+  const TopLevelOptions = {
+    ignoreExtensions: "ignoreExtensions",
+    allowNamespaces: "allowNamespaces",
+    disallowAmbiguousJSXLike: "disallowAmbiguousJSXLike",
+    jsxPragma: "jsxPragma",
+    jsxPragmaFrag: "jsxPragmaFrag",
+    onlyRemoveTypeImports: "onlyRemoveTypeImports",
+    optimizeConstEnums: "optimizeConstEnums",
+    allExtensions: "allExtensions",
+    isTSX: "isTSX"
+  };
+  const jsxPragmaFrag = v.validateStringOption(TopLevelOptions.jsxPragmaFrag, options.jsxPragmaFrag, "React.Fragment");
+  {
+    var allExtensions = v.validateBooleanOption(TopLevelOptions.allExtensions, options.allExtensions, false);
+    var isTSX = v.validateBooleanOption(TopLevelOptions.isTSX, options.isTSX, false);
+    if (isTSX) {
+      v.invariant(allExtensions, "isTSX:true requires allExtensions:true");
+    }
+  }
+  const ignoreExtensions = v.validateBooleanOption(TopLevelOptions.ignoreExtensions, options.ignoreExtensions, false);
+  const disallowAmbiguousJSXLike = v.validateBooleanOption(TopLevelOptions.disallowAmbiguousJSXLike, options.disallowAmbiguousJSXLike, false);
+  if (disallowAmbiguousJSXLike) {
+    {
+      v.invariant(allExtensions, "disallowAmbiguousJSXLike:true requires allExtensions:true");
+    }
+  }
+  const optimizeConstEnums = v.validateBooleanOption(TopLevelOptions.optimizeConstEnums, options.optimizeConstEnums, false);
+  const normalized = {
+    ignoreExtensions,
+    allowNamespaces,
+    disallowAmbiguousJSXLike,
+    jsxPragma,
+    jsxPragmaFrag,
+    onlyRemoveTypeImports,
+    optimizeConstEnums
+  };
+  {
+    normalized.allExtensions = allExtensions;
+    normalized.isTSX = isTSX;
+  }
+  return normalized;
+}
+
+var index = helperPluginUtils.declarePreset((api, opts) => {
+  api.assertVersion(7);
+  const {
+    allExtensions,
+    ignoreExtensions,
+    allowNamespaces,
+    disallowAmbiguousJSXLike,
+    isTSX,
+    jsxPragma,
+    jsxPragmaFrag,
+    onlyRemoveTypeImports,
+    optimizeConstEnums
+  } = normalizeOptions(opts);
+  const pluginOptions = disallowAmbiguousJSXLike => ({
+    allowDeclareFields: opts.allowDeclareFields,
+    allowNamespaces,
+    disallowAmbiguousJSXLike,
+    jsxPragma,
+    jsxPragmaFrag,
+    onlyRemoveTypeImports,
+    optimizeConstEnums
+  });
+  const getPlugins = (isTSX, disallowAmbiguousJSXLike) => {
+    {
+      return [[transformTypeScript__default.default, Object.assign({
+        isTSX
+      }, pluginOptions(disallowAmbiguousJSXLike))]];
+    }
+  };
+  const disableExtensionDetect = allExtensions || ignoreExtensions;
+  return {
+    overrides: disableExtensionDetect ? [{
+      plugins: getPlugins(isTSX, disallowAmbiguousJSXLike)
+    }] : [{
+      test: /\.ts$/,
+      plugins: getPlugins(false, false)
+    }, {
+      test: /\.mts$/,
+      sourceType: "module",
+      plugins: getPlugins(false, true)
+    }, {
+      test: /\.cts$/,
+      sourceType: "unambiguous",
+      plugins: [[transformModulesCommonJS__default.default, {
+        allowTopLevelThis: true
+      }], [transformTypeScript__default.default, pluginOptions(true)]]
+    }, {
+      test: /\.tsx$/,
+      plugins: getPlugins(true, false)
+    }]
+  };
+});
+
+lib$8.default = index;const { transform } = requireLib();
+const presetReact = lib$g;
+const presetTypescript = lib$8;
+const path = require$$3;
 
 async function compile(url, source) {
+  // Extract filename from the URL
+  const filenameFromUrl = path.basename(new URL(url).pathname);
+
+  // Check if the filename matches the .tsx or .ts extension
+  const hasValidExtension = ['.tsx', '.ts'].some(ext => filenameFromUrl.endsWith(ext));
+
+  const filename = hasValidExtension ? filenameFromUrl : 'file.tsx'; // Default to .tsx if no valid extension is found
+
   const transformed = transform(source, {
-    presets: [presetReact],
+    filename: filename,
+    presets: [presetReact, presetTypescript],
+    // Add any additional plugins or options here if needed for Angular
   });
+
   return transformed.code
 }
 

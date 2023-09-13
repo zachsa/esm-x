@@ -1,16 +1,10 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { CssVarsProvider } from '@mui/joy/styles'
 import { Container, Sheet, Typography } from '@mui/joy'
 import { createRoot } from 'react-dom/client'
+import { TEST_TYPESCRIPT_C } from './constants.ts'
 
 function App() {
-  useEffect(() => {
-    const el = document.getElementById('loading-placeholder')
-    if (el) {
-      el.remove()
-    }
-  }, [])
-
   return (
     <CssVarsProvider defaultMode="dark">
       <Sheet
@@ -25,7 +19,7 @@ function App() {
           mt: 2,
         }}
       >
-        <Typography variant="body1">I am content</Typography>
+        <Typography variant="body1">I am content {TEST_TYPESCRIPT_C}</Typography>
       </Container>
     </CssVarsProvider>
   )

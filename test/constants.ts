@@ -1,0 +1,1 @@
+export const TEST_TYPESCRIPT_C: number = 5

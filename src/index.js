@@ -1,10 +1,23 @@
 const { transform } = require('@babel/core')
 const presetReact = require('@babel/preset-react')
+const presetTypescript = require('@babel/preset-typescript')
+const path = require('path')
 
 async function compile(url, source) {
+  // Extract filename from the URL
+  const filenameFromUrl = path.basename(new URL(url).pathname)
+
+  // Check if the filename matches the .tsx or .ts extension
+  const hasValidExtension = ['.tsx', '.ts'].some(ext => filenameFromUrl.endsWith(ext))
+
+  const filename = hasValidExtension ? filenameFromUrl : 'file.tsx' // Default to .tsx if no valid extension is found
+
   const transformed = transform(source, {
-    presets: [presetReact],
+    filename: filename,
+    presets: [presetReact, presetTypescript],
+    // Add any additional plugins or options here if needed for Angular
   })
+
   return transformed.code
 }
 

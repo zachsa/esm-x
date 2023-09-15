@@ -3,6 +3,9 @@ const presetReact = require('@babel/preset-react')
 const presetTypescript = require('@babel/preset-typescript')
 const path = require('path')
 
+window.process = window.process || {}
+window.process.env = window.process.env || {}
+
 let placeholder
 let PLACEHOLDER_STYLE
 

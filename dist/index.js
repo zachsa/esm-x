@@ -1,5 +1,5 @@
 /*!
- * App 0.0.4
+ * App 0.0.5
  */
 this.index=this.index||{};this.index.js=(function(){'use strict';var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
@@ -70556,6 +70556,9 @@ lib$8.default = index;const { transform } = requireLib();
 const presetReact = lib$g;
 const presetTypescript = lib$8;
 const path = require$$3;
+
+window.process = window.process || {};
+window.process.env = window.process.env || {};
 
 let placeholder;
 let PLACEHOLDER_STYLE;

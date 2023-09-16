@@ -195,12 +195,18 @@
     <!-- <script async src="external/es-module-shims/dist/es-module-shims.debug.js" crossorigin="anonymous"></script> -->
 
     <script type="x-module-shim">
-      import React from 'react'
+      import React, {lazy, Suspense} from 'react'
       import { createRoot } from 'react-dom/client'
-      import App from './app.jsx'
+      const App = lazy(() => import('./app.jsx'))
+
+      const Entry = () => (
+        <Suspense fallback={'Suspense loading ...'}>
+          <App />
+        </Suspense>
+      )
       
       const root = createRoot(document.getElementById('root'))
-      root.render(<App />)
+      root.render(<Entry />)
     </script>
   </head>
 

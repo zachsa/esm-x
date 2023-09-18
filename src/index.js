@@ -88,7 +88,7 @@ function fadeOutAndRemove(element) {
 }
 
 async function transpileXModule() {
-  const script = document.querySelector('script[type="x-module-shim"]')
+  const script = document.querySelector('script[type="esm-x"]')
   if (script) {
     const transpiledCode = await transpile({ filename: 'script.tsx', source: script.innerHTML })
     script.innerHTML = transpiledCode

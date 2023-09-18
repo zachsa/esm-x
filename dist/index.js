@@ -1,5 +1,5 @@
 /*!
- * App 0.0.5
+ * App 0.0.1
  */
 this.index=this.index||{};this.index.js=(function(){'use strict';var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
@@ -70642,7 +70642,7 @@ function fadeOutAndRemove(element) {
 }
 
 async function transpileXModule() {
-  const script = document.querySelector('script[type="x-module-shim"]');
+  const script = document.querySelector('script[type="esm-x"]');
   if (script) {
     const transpiledCode = await transpile({ filename: 'script.tsx', source: script.innerHTML });
     script.innerHTML = transpiledCode;

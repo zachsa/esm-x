@@ -28,3 +28,5 @@ package = '@rollup/plugin-json'
 package = '@rollup/plugin-commonjs'
 [[task.template-options.plugin]]
 package = 'rollup-plugin-polyfill-node'
+# [[task.template-options.plugin]]
+# package = '@rollup/plugin-terser'

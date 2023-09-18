@@ -1,5 +1,5 @@
 /*!
- * App 0.0.4
+ * App 0.0.5
  */
 this.index=this.index||{};this.index.js=(function(){'use strict';var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
@@ -70557,8 +70557,11 @@ const presetReact = lib$g;
 const presetTypescript = lib$8;
 const path = require$$3;
 
-let placeholder;
-let PLACEHOLDER_STYLE;
+window.process = window.process || {};
+window.process.env = window.process.env || {};
+
+let placeholderElement;
+let placeholderStyleElement;
 
 function transpile({ url, source, filename = undefined }) {
   filename = filename || path.basename(new URL(url).pathname);
@@ -70572,9 +70575,17 @@ function transpile({ url, source, filename = undefined }) {
 }
 
 function initializeESModulesShim() {
-  const { fetch: _, shimMode: __, ...otherOptions } = globalThis.esmsInitOptions || {};
+  const {
+    fetch: _,
+    shimMode: __,
+    resolve: ___,
+    skip: ____,
+    ...otherOptions
+  } = globalThis.esmsInitOptions || {};
+
   globalThis.esmsInitOptions = {
     shimMode: true,
+    skip: ['https://ga.jspm.io/'], // TODO should match everything NOT from origin
     async fetch(url, options) {
       const res = await fetch(url, options);
       if (!res.ok) return res
@@ -70590,12 +70601,36 @@ function initializeESModulesShim() {
 }
 
 function normalizeImportmap() {
-  const importmap = document.querySelector('script[type="importmap"]');
-  const importmapShim = document.querySelector('script[type="importmap-shim"]');
-  if (importmap) {
-    importmap.setAttribute('type', 'importmap-shim');
-  } else if (!importmapShim) {
-    console.error('importmap not detected');
+  const importmap =
+    document.querySelector('script[type="importmap"]') ||
+    document.querySelector('script[type="importmap-shim"]');
+
+  if (!importmap) {
+    throw new Error('importmap not detected')
+  }
+
+  const content = importmap.innerHTML;
+
+  // Ensure there's a script type="importmap"
+  let importmapScript = document.querySelector('script[type="importmap"]');
+  if (!importmapScript) {
+    importmapScript = document.createElement('script');
+    importmapScript.setAttribute('type', 'importmap');
+    importmapScript.innerHTML = content;
+    importmap.parentNode.insertBefore(importmapScript, importmap);
+  } else {
+    importmapScript.innerHTML = content;
+  }
+
+  // Ensure there's a script type="importmap-shim"
+  let importmapShimScript = document.querySelector('script[type="importmap-shim"]');
+  if (!importmapShimScript) {
+    importmapShimScript = document.createElement('script');
+    importmapShimScript.setAttribute('type', 'importmap-shim');
+    importmapShimScript.innerHTML = content;
+    importmap.parentNode.insertBefore(importmapShimScript, importmap);
+  } else {
+    importmapShimScript.innerHTML = content;
   }
 }
 
@@ -70613,15 +70648,15 @@ async function transpileXModule() {
     script.innerHTML = transpiledCode;
     script.setAttribute('type', 'module-shim');
     script.addEventListener('load', () => {
-      fadeOutAndRemove(placeholder);
+      fadeOutAndRemove(placeholderElement);
     });
   }
 }
 
 function initializePage() {
-  if (!PLACEHOLDER_STYLE) {
-    PLACEHOLDER_STYLE = document.createElement('style');
-    PLACEHOLDER_STYLE.textContent = `
+  if (!placeholderStyleElement) {
+    placeholderStyleElement = document.createElement('style');
+    placeholderStyleElement.textContent = `
       @keyframes spin {
         0% { transform: rotate(0deg); }
         100% { transform: rotate(360deg); }
@@ -70677,25 +70712,25 @@ function initializePage() {
         font-size: 16px;
       }`;
 
-    document.head.appendChild(PLACEHOLDER_STYLE);
+    document.head.appendChild(placeholderStyleElement);
   }
   document.addEventListener('DOMContentLoaded', async () => {
-    if (!placeholder) {
-      placeholder = document.createElement('div');
+    if (!placeholderElement) {
+      placeholderElement = document.createElement('div');
       const spinnerContainer = document.createElement('div');
       const spinner = document.createElement('div');
       const title = document.createElement('div');
 
-      placeholder.className = 'es-module-shims-jsx-placeholder';
+      placeholderElement.className = 'es-module-shims-jsx-placeholder';
       spinnerContainer.className = 'es-module-shims-jsx-spinner-container';
       spinner.className = 'es-module-shims-jsx-spinner';
       title.className = 'es-module-shims-jsx-title';
       title.textContent = 'Loading Application';
 
-      placeholder.appendChild(spinnerContainer);
+      placeholderElement.appendChild(spinnerContainer);
       spinnerContainer.appendChild(spinner);
       spinnerContainer.appendChild(title);
-      document.body.appendChild(placeholder);
+      document.body.appendChild(placeholderElement);
     }
     normalizeImportmap();
     await transpileXModule();

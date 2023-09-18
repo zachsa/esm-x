@@ -1,6 +1,7 @@
-# es-module-shims-x
+# esm-x
+EcmaScript modules Transpiler plugin
 
-Browser-native module loading of non-standard JavaScript (Typescript and JSX)
+Browser-native module loading of non-standard JavaScript (Typescript and JSX) via importmaps 
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->

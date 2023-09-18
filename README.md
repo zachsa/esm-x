@@ -1,6 +1,6 @@
-# es-module-shims-jsx-plugin
+# es-module-shims-x
 
-Load modules containing (React.js) JSX syntax directly in the browser
+Browser-native module loading of non-standard JavaScript (Typescript and JSX)
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->

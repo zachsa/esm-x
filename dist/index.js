@@ -1,7 +1,11 @@
 /*!
  * App 0.0.1
  */
-this.index=this.index||{};this.index.js=(function(){'use strict';var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
+(function(){'use strict';var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
+
+function getDefaultExportFromCjs (x) {
+	return x && x.__esModule && Object.prototype.hasOwnProperty.call(x, 'default') ? x['default'] : x;
+}
 
 function getAugmentedNamespace(n) {
   if (n.__esModule) return n;
@@ -26,7 +30,7 @@ function getAugmentedNamespace(n) {
 		});
 	});
 	return a;
-}var src = {};var lib$A = {};var file = {};var lib$z = {};var lib$y = {};var visitors = {};var virtualTypes = {};var hasRequiredVirtualTypes;
+}var lib$A = {};var file = {};var lib$z = {};var lib$y = {};var visitors = {};var virtualTypes = {};var hasRequiredVirtualTypes;
 
 function requireVirtualTypes () {
 	if (hasRequiredVirtualTypes) return virtualTypes;
@@ -210,7 +214,7 @@ function Item(fun, array) {
 Item.prototype.run = function () {
     this.fun.apply(null, this.array);
 };
-var title = 'browser';
+var title$1 = 'browser';
 var platform = 'browser';
 var browser$4 = true;
 var env = {};
@@ -275,7 +279,7 @@ function uptime() {
 
 var browser$1$1 = {
   nextTick: nextTick,
-  title: title,
+  title: title$1,
   browser: browser$4,
   env: env,
   argv: argv,
@@ -15690,8 +15694,8 @@ const visitor$2 = {
     requeueComputedKeyAndDecorators(path);
   }
 };
-var _default$b = visitor$2;
-lib$t.default = _default$b;var hasRequiredRenamer;
+var _default$c = visitor$2;
+lib$t.default = _default$c;var hasRequiredRenamer;
 
 function requireRenamer () {
 	if (hasRequiredRenamer) return renamer;
@@ -45542,7 +45546,7 @@ function requireLib$5 () {
 }Object.defineProperty(lib$n, "__esModule", {
   value: true
 });
-lib$n.default = _default$a;
+lib$n.default = _default$b;
 var _template = requireLib$5();
 var _t$7 = requireLib$b();
 const {
@@ -45659,7 +45663,7 @@ function visit(node, name, scope) {
   }
   return state;
 }
-function _default$a({
+function _default$b({
   node,
   parent,
   scope,
@@ -51317,11 +51321,11 @@ function doesNotThrow(block, /*optional*/error, /*optional*/message) {
 assert.ifError = ifError;
 function ifError(err) {
   if (err) throw err;
-}var _polyfillNode_assert=/*#__PURE__*/Object.freeze({__proto__:null,AssertionError:AssertionError,assert:ok,deepEqual:deepEqual,deepStrictEqual:deepStrictEqual,default:assert,doesNotThrow:doesNotThrow,equal:equal,fail:fail,ifError:ifError,notDeepEqual:notDeepEqual,notDeepStrictEqual:notDeepStrictEqual,notEqual:notEqual,notStrictEqual:notStrictEqual,ok:ok,strictEqual:strictEqual,throws:throws});var require$$1 = /*@__PURE__*/getAugmentedNamespace(_polyfillNode_assert);var lib$k = {};var importInjector = {};var importBuilder = {};Object.defineProperty(importBuilder, "__esModule", {
+}var _polyfillNode_assert=/*#__PURE__*/Object.freeze({__proto__:null,AssertionError:AssertionError,assert:ok,deepEqual:deepEqual,deepStrictEqual:deepStrictEqual,default:assert,doesNotThrow:doesNotThrow,equal:equal,fail:fail,ifError:ifError,notDeepEqual:notDeepEqual,notDeepStrictEqual:notDeepStrictEqual,notEqual:notEqual,notStrictEqual:notStrictEqual,ok:ok,strictEqual:strictEqual,throws:throws});var require$$1$1 = /*@__PURE__*/getAugmentedNamespace(_polyfillNode_assert);var lib$k = {};var importInjector = {};var importBuilder = {};Object.defineProperty(importBuilder, "__esModule", {
   value: true
 });
 importBuilder.default = void 0;
-var _assert$2 = require$$1;
+var _assert$2 = require$$1$1;
 var _t$6 = requireLib$b();
 const {
   callExpression: callExpression$3,
@@ -51444,7 +51448,7 @@ function isModule(path) {
   value: true
 });
 importInjector.default = void 0;
-var _assert$1 = require$$1;
+var _assert$1 = require$$1$1;
 var _t$5 = requireLib$b();
 var _importBuilder = importBuilder;
 var _isModule = isModule$1;
@@ -51837,7 +51841,7 @@ function requireRewriteLiveReferences () {
 	  value: true
 	});
 	rewriteLiveReferences.default = rewriteLiveReferences$1;
-	var _assert = require$$1;
+	var _assert = require$$1$1;
 	var _core = requireLib();
 	var _helperSimpleAccess = lib$j;
 	const {
@@ -52384,7 +52388,7 @@ function basename(path, ext) {
 function extname(path) {
   return splitPath(path)[3];
 }
-var _polyfillNode_path = {
+var path = {
   extname: extname,
   basename: basename,
   dirname: dirname,
@@ -52412,14 +52416,14 @@ var substr = 'ab'.substr(-1) === 'b' ?
         if (start < 0) start = str.length + start;
         return str.substr(start, len);
     }
-;var _polyfillNode_path$1=/*#__PURE__*/Object.freeze({__proto__:null,basename:basename,default:_polyfillNode_path,delimiter:delimiter,dirname:dirname,extname:extname,isAbsolute:isAbsolute,join:join,normalize:normalize,relative:relative,resolve:resolve,sep:sep$1});var require$$3 = /*@__PURE__*/getAugmentedNamespace(_polyfillNode_path$1);Object.defineProperty(normalizeAndLoadMetadata, "__esModule", {
+;var _polyfillNode_path=/*#__PURE__*/Object.freeze({__proto__:null,basename:basename,default:path,delimiter:delimiter,dirname:dirname,extname:extname,isAbsolute:isAbsolute,join:join,normalize:normalize,relative:relative,resolve:resolve,sep:sep$1});var require$$1 = /*@__PURE__*/getAugmentedNamespace(_polyfillNode_path);Object.defineProperty(normalizeAndLoadMetadata, "__esModule", {
   value: true
 });
 normalizeAndLoadMetadata.default = normalizeModuleAndLoadMetadata;
 normalizeAndLoadMetadata.hasExports = hasExports;
 normalizeAndLoadMetadata.isSideEffectImport = isSideEffectImport;
 normalizeAndLoadMetadata.validateImportInteropOption = validateImportInteropOption;
-var _path$5 = require$$3;
+var _path$5 = require$$1;
 var _helperValidatorIdentifier = requireLib$d();
 var _helperSplitExportDeclaration = lib$u;
 function hasExports(metadata) {
@@ -52911,7 +52915,7 @@ function requireLib$2 () {
 		  }
 		});
 		exports.wrapInterop = wrapInterop;
-		var _assert = require$$1;
+		var _assert = require$$1$1;
 		var _core = requireLib();
 		var _helperModuleImports = lib$k;
 		var _rewriteThis = requireRewriteThis();
@@ -58839,7 +58843,7 @@ function requireBrowserslist () {
 	var jsReleases = require$$0$3;
 	var agents = requireAgents().agents;
 	var jsEOL = require$$2;
-	var path = require$$3;
+	var path = require$$1;
 	var e2c = requireVersions();
 
 	var BrowserslistError = requireError();
@@ -62463,7 +62467,7 @@ function requireItem () {
 	item.createItemFromDescriptor = createItemFromDescriptor;
 	item.getItemDescriptor = getItemDescriptor;
 	function _path() {
-	  const data = require$$3;
+	  const data = require$$1;
 	  _path = function () {
 	    return data;
 	  };
@@ -62525,7 +62529,7 @@ function requireItem () {
   value: true
 });
 removed.default = void 0;
-var _default$9 = {
+var _default$a = {
   auxiliaryComment: {
     message: "Use `auxiliaryCommentBefore` or `auxiliaryCommentAfter`"
   },
@@ -62584,7 +62588,7 @@ var _default$9 = {
     message: "The `sourceMapTarget` option has been removed because it makes more sense for the tooling " + "that calls Babel to assign `map.file` themselves."
   }
 };
-removed.default = _default$9;var optionAssertions = {};var hasRequiredOptionAssertions;
+removed.default = _default$a;var optionAssertions = {};var hasRequiredOptionAssertions;
 
 function requireOptionAssertions () {
 	if (hasRequiredOptionAssertions) return optionAssertions;
@@ -63171,7 +63175,7 @@ function requireOptions () {
 });
 patternToRegex.default = pathToPattern;
 function _path$4() {
-  const data = require$$3;
+  const data = require$$1;
   _path$4 = function () {
     return data;
   };
@@ -63313,7 +63317,7 @@ configChain.buildPresetChain = buildPresetChain;
 configChain.buildPresetChainWalker = void 0;
 configChain.buildRootChain = buildRootChain;
 function _path$3() {
-  const data = require$$3;
+  const data = require$$1;
   _path$3 = function () {
     return data;
   };
@@ -63925,7 +63929,7 @@ function requireConfigApi () {
 partial.default = loadPrivatePartialConfig;
 partial.loadPartialConfig = loadPartialConfig;
 function _path$2() {
-  const data = require$$3;
+  const data = require$$1;
   _path$2 = function () {
     return data;
   };
@@ -64484,7 +64488,7 @@ function requireConfig () {
 		
 	} (config));
 	return config;
-}var transform$1 = {};var transformation = {};var pluginPass = {};Object.defineProperty(pluginPass, "__esModule", {
+}var transform = {};var transformation = {};var pluginPass = {};Object.defineProperty(pluginPass, "__esModule", {
   value: true
 });
 pluginPass.default = void 0;
@@ -64602,7 +64606,7 @@ function stableSort(body) {
 });
 normalizeOpts.default = normalizeOptions$1;
 function _path$1() {
-  const data = require$$3;
+  const data = require$$1;
   _path$1 = function () {
     return data;
   };
@@ -64657,7 +64661,7 @@ function requireConvertSourceMap () {
 	hasRequiredConvertSourceMap = 1;
 	(function (exports) {
 		var fs = require$$0;
-		var path = require$$3;
+		var path = require$$1;
 
 		Object.defineProperty(exports, 'commentRegex', {
 		  get: function getCommentRegex () {
@@ -65235,7 +65239,7 @@ function* parser(pluginPasses, {
 }var cloneDeep = {};Object.defineProperty(cloneDeep, "__esModule", {
   value: true
 });
-cloneDeep.default = _default$8;
+cloneDeep.default = _default$9;
 function deepClone(value, cache) {
   if (value !== null) {
     if (cache.has(value)) return cache.get(value);
@@ -65259,7 +65263,7 @@ function deepClone(value, cache) {
   }
   return value;
 }
-function _default$8(value) {
+function _default$9(value) {
   if (typeof value !== "object") return value;
   return deepClone(value, new Map());
 }var hasRequiredNormalizeFile;
@@ -65280,7 +65284,7 @@ function requireNormalizeFile () {
 	  return data;
 	}
 	function _path() {
-	  const data = require$$3;
+	  const data = require$$1;
 	  _path = function () {
 	    return data;
 	  };
@@ -65811,15 +65815,15 @@ function requireTransformation () {
 }var hasRequiredTransform;
 
 function requireTransform () {
-	if (hasRequiredTransform) return transform$1;
+	if (hasRequiredTransform) return transform;
 	hasRequiredTransform = 1;
 
-	Object.defineProperty(transform$1, "__esModule", {
+	Object.defineProperty(transform, "__esModule", {
 	  value: true
 	});
-	transform$1.transform = void 0;
-	transform$1.transformAsync = transformAsync;
-	transform$1.transformSync = transformSync;
+	transform.transform = void 0;
+	transform.transformAsync = transformAsync;
+	transform.transformSync = transformSync;
 	function _gensync() {
 	  const data = requireGensync();
 	  _gensync = function () {
@@ -65835,7 +65839,7 @@ function requireTransform () {
 	  if (config === null) return null;
 	  return yield* (0, _transformation.run)(config, code);
 	});
-	const transform = function transform(code, optsOrCallback, maybeCallback) {
+	const transform$1 = function transform(code, optsOrCallback, maybeCallback) {
 	  let opts;
 	  let callback;
 	  if (typeof optsOrCallback === "function") {
@@ -65852,7 +65856,7 @@ function requireTransform () {
 	  }
 	  (0, _rewriteStackTrace.beginHiddenCallStack)(transformRunner.errback)(code, opts, callback);
 	};
-	transform$1.transform = transform;
+	transform.transform = transform$1;
 	function transformSync(...args) {
 	  return (0, _rewriteStackTrace.beginHiddenCallStack)(transformRunner.sync)(...args);
 	}
@@ -65861,7 +65865,7 @@ function requireTransform () {
 	}
 
 	
-	return transform$1;
+	return transform;
 }var transformFileBrowser = {};Object.defineProperty(transformFileBrowser, "__esModule", {
   value: true
 });
@@ -66237,7 +66241,7 @@ function requireLib () {
 		
 	} (lib$A));
 	return lib$A;
-}var lib$g = {};var lib$f = {};Object.defineProperty(lib$f, "__esModule", {
+}var libExports = requireLib();var lib$g = {};var lib$f = {};Object.defineProperty(lib$f, "__esModule", {
   value: true
 });
 lib$f.declare = declare;
@@ -66318,7 +66322,7 @@ function throwVersionError(range, version) {
 });
 lib$d.default = void 0;
 var _helperPluginUtils$6 = lib$f;
-var _default$7 = (0, _helperPluginUtils$6.declare)(api => {
+var _default$8 = (0, _helperPluginUtils$6.declare)(api => {
   api.assertVersion(7);
   return {
     name: "syntax-jsx",
@@ -66332,7 +66336,7 @@ var _default$7 = (0, _helperPluginUtils$6.declare)(api => {
     }
   };
 });
-lib$d.default = _default$7;var lib$c = {};Object.defineProperty(lib$c, "__esModule", {
+lib$d.default = _default$8;var lib$c = {};Object.defineProperty(lib$c, "__esModule", {
   value: true
 });
 lib$c.default = annotateAsPure;
@@ -66855,20 +66859,20 @@ function sourceSelfError(path, name) {
 });
 lib$e.default = void 0;
 var _createPlugin$1 = createPlugin$1;
-var _default$6 = (0, _createPlugin$1.default)({
+var _default$7 = (0, _createPlugin$1.default)({
   name: "transform-react-jsx",
   development: false
 });
-lib$e.default = _default$6;var lib$b = {};var development = {};Object.defineProperty(development, "__esModule", {
+lib$e.default = _default$7;var lib$b = {};var development = {};Object.defineProperty(development, "__esModule", {
   value: true
 });
 development.default = void 0;
 var _createPlugin = createPlugin$1;
-var _default$5 = (0, _createPlugin.default)({
+var _default$6 = (0, _createPlugin.default)({
   name: "transform-react-jsx/development",
   development: true
 });
-development.default = _default$5;(function (exports) {
+development.default = _default$6;(function (exports) {
 
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
@@ -66887,9 +66891,9 @@ development.default = _default$5;(function (exports) {
 });
 lib$a.default = void 0;
 var _helperPluginUtils$4 = lib$f;
-var _path = require$$3;
+var _path = require$$1;
 var _core$9 = requireLib();
-var _default$4 = (0, _helperPluginUtils$4.declare)(api => {
+var _default$5 = (0, _helperPluginUtils$4.declare)(api => {
   api.assertVersion(7);
   function addDisplayName(id, call) {
     const props = call.arguments[0].properties;
@@ -66970,7 +66974,7 @@ var _default$4 = (0, _helperPluginUtils$4.declare)(api => {
     }
   };
 });
-lib$a.default = _default$4;var lib$9 = {};Object.defineProperty(lib$9, "__esModule", {
+lib$a.default = _default$5;var lib$9 = {};Object.defineProperty(lib$9, "__esModule", {
   value: true
 });
 lib$9.default = void 0;
@@ -66978,7 +66982,7 @@ var _helperPluginUtils$3 = lib$f;
 var _helperAnnotateAsPure$2 = lib$c;
 var _core$8 = requireLib();
 const PURE_CALLS = [["react", new Set(["cloneElement", "createContext", "createElement", "createFactory", "createRef", "forwardRef", "isValidElement", "memo", "lazy"])], ["react-dom", new Set(["createPortal"])]];
-var _default$3 = (0, _helperPluginUtils$3.declare)(api => {
+var _default$4 = (0, _helperPluginUtils$3.declare)(api => {
   api.assertVersion(7);
   return {
     name: "transform-react-pure-annotations",
@@ -66991,7 +66995,7 @@ var _default$3 = (0, _helperPluginUtils$3.declare)(api => {
     }
   };
 });
-lib$9.default = _default$3;
+lib$9.default = _default$4;
 function isReactCall(path) {
   const calleePath = path.get("callee");
   if (!calleePath.isMemberExpression()) {
@@ -67094,7 +67098,9 @@ function isReactCall(path) {
 
 	exports["default"] = index;
 	
-} (lib$g));var lib$8 = {};var lib$7 = {};var lib$6 = {};Object.defineProperty(lib$6, "__esModule", {
+} (lib$g));
+
+var presetReact = /*@__PURE__*/getDefaultExportFromCjs(lib$g);var lib$8 = {};var lib$7 = {};var lib$6 = {};Object.defineProperty(lib$6, "__esModule", {
   value: true
 });
 lib$6.default = void 0;
@@ -67113,7 +67119,7 @@ var _helperPluginUtils$2 = lib$f;
     }
   };
 }
-var _default$2 = (0, _helperPluginUtils$2.declare)((api, opts) => {
+var _default$3 = (0, _helperPluginUtils$2.declare)((api, opts) => {
   api.assertVersion(7);
   const {
     disallowAmbiguousJSXLike,
@@ -67145,7 +67151,7 @@ var _default$2 = (0, _helperPluginUtils$2.declare)((api, opts) => {
     }
   };
 });
-lib$6.default = _default$2;var lib$5 = {};var fields = {};var lib$4 = {};var lib$3 = {};Object.defineProperty(lib$3, '__esModule', { value: true });
+lib$6.default = _default$3;var lib$5 = {};var fields = {};var lib$4 = {};var lib$3 = {};Object.defineProperty(lib$3, '__esModule', { value: true });
 
 var _t$2 = requireLib$b();
 
@@ -69245,7 +69251,7 @@ function shouldTransform(path, file) {
 _enum$2.default = transpileEnum;
 _enum$2.translateEnumValues = translateEnumValues;
 var _core$3 = requireLib();
-var _assert = require$$1;
+var _assert = require$$1$1;
 var _helperAnnotateAsPure = lib$c;
 const ENUMS = new WeakMap();
 const buildEnumWrapper = _core$3.template.expression(`
@@ -69802,7 +69808,7 @@ function assertCjsTransformEnabled(path, pass, wrong, suggestion, extra = "") {
     throw path.buildCodeFrameError(`\`${wrong}\` is only supported when compiling modules to CommonJS.\n` + `Please consider using \`${suggestion}\`${extra}, or add ` + `@babel/plugin-transform-modules-commonjs to your Babel config.`);
   }
 }
-var _default$1 = (0, _helperPluginUtils$1.declare)((api, opts) => {
+var _default$2 = (0, _helperPluginUtils$1.declare)((api, opts) => {
   const {
     types: t,
     template
@@ -70237,7 +70243,7 @@ var _default$1 = (0, _helperPluginUtils$1.declare)((api, opts) => {
     return !sourceFileHasJsx;
   }
 });
-lib$7.default = _default$1;var lib = {};var dynamicImport = {};Object.defineProperty(dynamicImport, "__esModule", {
+lib$7.default = _default$2;var lib = {};var dynamicImport = {};Object.defineProperty(dynamicImport, "__esModule", {
   value: true
 });
 dynamicImport.transformDynamicImport = transformDynamicImport;
@@ -70257,7 +70263,7 @@ var _helperModuleTransforms = requireLib$2();
 var _helperSimpleAccess = lib$j;
 var _core = requireLib();
 var _dynamicImport = dynamicImport;
-var _default = (0, _helperPluginUtils.declare)((api, options) => {
+var _default$1 = (0, _helperPluginUtils.declare)((api, options) => {
   var _api$assumption, _api$assumption2, _api$assumption3;
   api.assertVersion(7);
   const {
@@ -70436,7 +70442,7 @@ var _default = (0, _helperPluginUtils.declare)((api, options) => {
     }
   };
 });
-lib.default = _default;Object.defineProperty(lib$8, '__esModule', { value: true });
+lib.default = _default$1;Object.defineProperty(lib$8, '__esModule', { value: true });
 
 var helperPluginUtils = lib$f;
 var transformTypeScript = lib$7;
@@ -70552,25 +70558,107 @@ var index = helperPluginUtils.declarePreset((api, opts) => {
   };
 });
 
-lib$8.default = index;const { transform } = requireLib();
-const presetReact = lib$g;
-const presetTypescript = lib$8;
-const path = require$$3;
+var _default = lib$8.default = index;const loadingStyleTag = document.createElement('style');
+loadingStyleTag.id = 'esm-x-loading-style';
+loadingStyleTag.textContent = `
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
 
-window.process = window.process || {};
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  @keyframes fadeOut {
+    from { opacity: 1; }
+    to   { opacity: 0; }
+  }
+
+  .esm-x-placeholder {
+    display: none;
+  }
+
+  .esm-x-active.esm-x-placeholder {
+    display: flex;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    animation: fadeIn 0.3s ease-out;
+  }
+
+  .esm-x-active .esm-x-spinner-container {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    background-color: rgba(0,0,0,0.7);
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  }
+
+  .esm-x-active .esm-x-spinner {
+    width: 50px;
+    height: 50px;
+    border: 4px solid rgba(255, 255, 255, 0.3);
+    border-top-color: #FFF;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 20px;
+  }
+
+  .esm-x-active .esm-x-title {
+    font-family: 'monospace';
+    color: #FFF;
+    font-size: 16px;
+  }`;
+
+const loadingTag = document.createElement('div');
+loadingTag.id = 'esm-x-loading';
+const spinnerContainer = document.createElement('div');
+const spinner = document.createElement('div');
+const title = document.createElement('div');
+loadingTag.className = 'esm-x-placeholder';
+spinnerContainer.className = 'esm-x-spinner-container';
+spinner.className = 'esm-x-spinner';
+title.className = 'esm-x-title';
+title.textContent = 'Loading Application';
+loadingTag.appendChild(spinnerContainer);
+spinnerContainer.appendChild(spinner);
+spinnerContainer.appendChild(title);window.process = window.process || {};
 window.process.env = window.process.env || {};
 
-let placeholderElement;
-let placeholderStyleElement;
+const debounce = (cb, duration = 0) => {
+  let timer;
+  return (...args) => {
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      cb(...args);
+    }, duration);
+  }
+};
+
+const addLoading = () => loadingTag.classList.add('esm-x-active');
+const removeLoading = debounce(() => loadingTag.classList.remove('esm-x-active'), 500);
 
 function transpile({ url, source, filename = undefined }) {
   filename = filename || path.basename(new URL(url).pathname);
-  const transformed = transform(source, {
+  console.info('Transpiling', filename);
+  addLoading();
+  const transformed = libExports.transform(source, {
     filename: ['.tsx', '.ts', '.js', '.jsx'].some(ext => filename.endsWith(ext))
       ? filename
       : undefined,
-    presets: [presetReact, presetTypescript],
+    presets: [presetReact, _default],
   });
+  removeLoading();
   return transformed.code
 }
 
@@ -70634,103 +70722,22 @@ function normalizeImportmap() {
   }
 }
 
-function fadeOutAndRemove(element) {
-  element.style.animation = 'fadeOut 0.3s ease-out';
-  element.addEventListener('animationend', () => {
-    element.remove();
-  });
-}
-
 async function transpileXModule() {
   const script = document.querySelector('script[type="esm-x"]');
   if (script) {
     const transpiledCode = await transpile({ filename: 'script.tsx', source: script.innerHTML });
     script.innerHTML = transpiledCode;
     script.setAttribute('type', 'module-shim');
-    script.addEventListener('load', () => {
-      fadeOutAndRemove(placeholderElement);
-    });
   }
 }
 
 function initializePage() {
-  if (!placeholderStyleElement) {
-    placeholderStyleElement = document.createElement('style');
-    placeholderStyleElement.textContent = `
-      @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
-      }
-    
-      @keyframes fadeIn {
-        from { opacity: 0; }
-        to   { opacity: 1; }
-      }
-
-      @keyframes fadeOut {
-        from { opacity: 1; }
-        to   { opacity: 0; }
-      }
-    
-      .es-module-shims-jsx-placeholder {
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column;
-        animation: fadeIn 0.3s ease-out;
-      }
-
-      .es-module-shims-jsx-spinner-container {
-        padding: 24px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        border-radius: 10px;
-        background-color: rgba(0,0,0,0.7);
-        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-      }
-    
-      .es-module-shims-jsx-spinner {
-        width: 50px;
-        height: 50px;
-        border: 4px solid rgba(255, 255, 255, 0.3);
-        border-top-color: #FFF;
-        border-radius: 50%;
-        animation: spin 1s linear infinite;
-        margin-bottom: 20px;
-      }
-    
-      .es-module-shims-jsx-title {
-        font-family: 'monospace';
-        color: #FFF;
-        font-size: 16px;
-      }`;
-
-    document.head.appendChild(placeholderStyleElement);
-  }
   document.addEventListener('DOMContentLoaded', async () => {
-    if (!placeholderElement) {
-      placeholderElement = document.createElement('div');
-      const spinnerContainer = document.createElement('div');
-      const spinner = document.createElement('div');
-      const title = document.createElement('div');
-
-      placeholderElement.className = 'es-module-shims-jsx-placeholder';
-      spinnerContainer.className = 'es-module-shims-jsx-spinner-container';
-      spinner.className = 'es-module-shims-jsx-spinner';
-      title.className = 'es-module-shims-jsx-title';
-      title.textContent = 'Loading Application';
-
-      placeholderElement.appendChild(spinnerContainer);
-      spinnerContainer.appendChild(spinner);
-      spinnerContainer.appendChild(title);
-      document.body.appendChild(placeholderElement);
+    if (!document.getElementById('esm-x-loading-style')) {
+      document.head.appendChild(loadingStyleTag);
+    }
+    if (!document.getElementById('esm-x-loading')) {
+      document.body.appendChild(loadingTag);
     }
     normalizeImportmap();
     await transpileXModule();
@@ -70739,4 +70746,4 @@ function initializePage() {
 
 // Initial setup
 initializeESModulesShim();
-initializePage();return src;})();
+initializePage();})();

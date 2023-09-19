@@ -1,22 +1,36 @@
-const { transform } = require('@babel/core')
-const presetReact = require('@babel/preset-react')
-const presetTypescript = require('@babel/preset-typescript')
-const path = require('path')
+import { transform } from '@babel/core'
+import presetReact from '@babel/preset-react'
+import presetTypescript from '@babel/preset-typescript'
+import path from 'path'
+import { loadingStyleTag, loadingTag } from './loading.js'
 
 window.process = window.process || {}
 window.process.env = window.process.env || {}
 
-let placeholderElement
-let placeholderStyleElement
+const debounce = (cb, duration = 0) => {
+  let timer
+  return (...args) => {
+    clearTimeout(timer)
+    timer = setTimeout(() => {
+      cb(...args)
+    }, duration)
+  }
+}
+
+const addLoading = () => loadingTag.classList.add('esm-x-active')
+const removeLoading = debounce(() => loadingTag.classList.remove('esm-x-active'), 500)
 
 function transpile({ url, source, filename = undefined }) {
   filename = filename || path.basename(new URL(url).pathname)
+  console.info('Transpiling', filename)
+  addLoading()
   const transformed = transform(source, {
     filename: ['.tsx', '.ts', '.js', '.jsx'].some(ext => filename.endsWith(ext))
       ? filename
       : undefined,
     presets: [presetReact, presetTypescript],
   })
+  removeLoading()
   return transformed.code
 }
 
@@ -80,103 +94,22 @@ function normalizeImportmap() {
   }
 }
 
-function fadeOutAndRemove(element) {
-  element.style.animation = 'fadeOut 0.3s ease-out'
-  element.addEventListener('animationend', () => {
-    element.remove()
-  })
-}
-
 async function transpileXModule() {
   const script = document.querySelector('script[type="esm-x"]')
   if (script) {
     const transpiledCode = await transpile({ filename: 'script.tsx', source: script.innerHTML })
     script.innerHTML = transpiledCode
     script.setAttribute('type', 'module-shim')
-    script.addEventListener('load', () => {
-      fadeOutAndRemove(placeholderElement)
-    })
   }
 }
 
 function initializePage() {
-  if (!placeholderStyleElement) {
-    placeholderStyleElement = document.createElement('style')
-    placeholderStyleElement.textContent = `
-      @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
-      }
-    
-      @keyframes fadeIn {
-        from { opacity: 0; }
-        to   { opacity: 1; }
-      }
-
-      @keyframes fadeOut {
-        from { opacity: 1; }
-        to   { opacity: 0; }
-      }
-    
-      .es-module-shims-jsx-placeholder {
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column;
-        animation: fadeIn 0.3s ease-out;
-      }
-
-      .es-module-shims-jsx-spinner-container {
-        padding: 24px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        border-radius: 10px;
-        background-color: rgba(0,0,0,0.7);
-        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-      }
-    
-      .es-module-shims-jsx-spinner {
-        width: 50px;
-        height: 50px;
-        border: 4px solid rgba(255, 255, 255, 0.3);
-        border-top-color: #FFF;
-        border-radius: 50%;
-        animation: spin 1s linear infinite;
-        margin-bottom: 20px;
-      }
-    
-      .es-module-shims-jsx-title {
-        font-family: 'monospace';
-        color: #FFF;
-        font-size: 16px;
-      }`
-
-    document.head.appendChild(placeholderStyleElement)
-  }
   document.addEventListener('DOMContentLoaded', async () => {
-    if (!placeholderElement) {
-      placeholderElement = document.createElement('div')
-      const spinnerContainer = document.createElement('div')
-      const spinner = document.createElement('div')
-      const title = document.createElement('div')
-
-      placeholderElement.className = 'es-module-shims-jsx-placeholder'
-      spinnerContainer.className = 'es-module-shims-jsx-spinner-container'
-      spinner.className = 'es-module-shims-jsx-spinner'
-      title.className = 'es-module-shims-jsx-title'
-      title.textContent = 'Loading Application'
-
-      placeholderElement.appendChild(spinnerContainer)
-      spinnerContainer.appendChild(spinner)
-      spinnerContainer.appendChild(title)
-      document.body.appendChild(placeholderElement)
+    if (!document.getElementById('esm-x-loading-style')) {
+      document.head.appendChild(loadingStyleTag)
+    }
+    if (!document.getElementById('esm-x-loading')) {
+      document.body.appendChild(loadingTag)
     }
     normalizeImportmap()
     await transpileXModule()
@@ -186,4 +119,3 @@ function initializePage() {
 // Initial setup
 initializeESModulesShim()
 initializePage()
-

@@ -1,7 +1,10 @@
-import React from 'react'
+import React, { lazy, Suspense } from 'react'
 import { CssVarsProvider } from '@mui/joy/styles'
 import { Container, Sheet, Typography } from '@mui/joy'
 import { TEST_TYPESCRIPT_C } from './constants.ts'
+import ButtonNonLazy from './button-non-lazy.jsx'
+
+const Button = lazy(() => import('./button.jsx'))
 
 export default function App() {
   return (
@@ -19,6 +22,10 @@ export default function App() {
         }}
       >
         <Typography variant="body1">I am content {TEST_TYPESCRIPT_C}</Typography>
+        <ButtonNonLazy />
+        {/* <Suspense fallback="Loading component ...">
+          <Button />
+        </Suspense> */}
       </Container>
     </CssVarsProvider>
   )

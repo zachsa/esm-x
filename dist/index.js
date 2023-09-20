@@ -70629,7 +70629,7 @@ loadingTag.className = 'esm-x-placeholder';
 spinnerContainer.className = 'esm-x-spinner-container';
 spinner.className = 'esm-x-spinner';
 title.className = 'esm-x-title';
-title.textContent = 'Loading Application';
+title.textContent = 'Compiling JavaScript';
 loadingTag.appendChild(spinnerContainer);
 spinnerContainer.appendChild(spinner);
 spinnerContainer.appendChild(title);window.process = window.process || {};
@@ -70683,6 +70683,14 @@ function initializeESModulesShim() {
         return new Response(new Blob([transformed], { type: 'application/javascript' }))
       }
       return res
+    },
+    resolve(id, parentUrl, resolve) {
+      if (id.startsWith('./') && !parentUrl) {
+        const url = window.location.href;
+        const newUrl = url.substring(0, url.lastIndexOf('/') + 1) + id.replace('./', '');
+        return newUrl
+      }
+      return resolve(id, parentUrl, resolve)
     },
     ...otherOptions,
   };

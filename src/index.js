@@ -56,6 +56,14 @@ function initializeESModulesShim() {
       }
       return res
     },
+    resolve(id, parentUrl, resolve) {
+      if (id.startsWith('./') && !parentUrl) {
+        const url = window.location.href
+        const newUrl = url.substring(0, url.lastIndexOf('/') + 1) + id.replace('./', '')
+        return newUrl
+      }
+      return resolve(id, parentUrl, resolve)
+    },
     ...otherOptions,
   }
 }

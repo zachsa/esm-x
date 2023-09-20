@@ -11,7 +11,7 @@
       href="https://fonts.googleapis.com/css?family=Public+Sans&display=swap"
     />
 
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="assets/style.css" />
 
     <!-- The plugin as published to NPM -->
     <script src="../dist/index.js"></script>
@@ -195,9 +195,9 @@
     <!-- <script async src="external/es-module-shims/dist/es-module-shims.debug.js" crossorigin="anonymous"></script> -->
 
     <script type="esm-x">
-      import React, {lazy, Suspense} from 'react'
+      import React, { lazy, Suspense } from 'react'
       import { createRoot } from 'react-dom/client'
-      const App = lazy(() => import('./app.jsx'))
+      const App = lazy(() => import('./src/app.jsx'))
 
       const Entry = () => (
         <Suspense fallback={'Suspense loading ...'}>

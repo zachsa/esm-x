@@ -69,7 +69,7 @@ loadingTag.className = 'esm-x-placeholder'
 spinnerContainer.className = 'esm-x-spinner-container'
 spinner.className = 'esm-x-spinner'
 title.className = 'esm-x-title'
-title.textContent = 'Loading Application'
+title.textContent = 'Compiling JavaScript'
 loadingTag.appendChild(spinnerContainer)
 spinnerContainer.appendChild(spinner)
 spinnerContainer.appendChild(title)

@@ -12,6 +12,7 @@
     "@babel/core": "^7.22.11",
     "@babel/preset-react": "^7.22.5",
     "@babel/preset-typescript": "^7.22.15",
+    "@jspm/generator": "^1.1.11",
     "@rollup/plugin-commonjs": "^25.0.4",
     "@rollup/plugin-json": "^6.0.0",
     "@rollup/plugin-node-resolve": "^15.2.1",

@@ -1,7 +1,7 @@
 /*!
  * App 0.0.1
  */
-(function(){'use strict';var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
+'use strict';function _mergeNamespaces(n, m){m.forEach(function(e){e&&typeof e!=='string'&&!Array.isArray(e)&&Object.keys(e).forEach(function(k){if(k!=='default'&&!(k in n)){var d=Object.getOwnPropertyDescriptor(e,k);Object.defineProperty(n,k,d.get?d:{enumerable:true,get:function(){return e[k]}});}})});return Object.freeze(n);}var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
 function getDefaultExportFromCjs (x) {
 	return x && x.__esModule && Object.prototype.hasOwnProperty.call(x, 'default') ? x['default'] : x;
@@ -16906,7 +16906,7 @@ var worker = {
 	WorkerGlobalScope: false,
 	XMLHttpRequest: false
 };
-var node$1 = {
+var node$2 = {
 	__dirname: false,
 	__filename: false,
 	Buffer: false,
@@ -17460,7 +17460,7 @@ var require$$0$4 = {
 	es2017: es2017,
 	browser: browser$2,
 	worker: worker,
-	node: node$1,
+	node: node$2,
 	commonjs: commonjs,
 	amd: amd,
 	mocha: mocha,
@@ -22261,7 +22261,7 @@ function requireBuffer () {
 
 	
 	return buffer;
-}var node = {};var whitespace = {};var hasRequiredWhitespace;
+}var node$1 = {};var whitespace = {};var hasRequiredWhitespace;
 
 function requireWhitespace () {
 	if (hasRequiredWhitespace) return whitespace;
@@ -22725,16 +22725,16 @@ function requireParentheses () {
 }var hasRequiredNode;
 
 function requireNode () {
-	if (hasRequiredNode) return node;
+	if (hasRequiredNode) return node$1;
 	hasRequiredNode = 1;
 
-	Object.defineProperty(node, "__esModule", {
+	Object.defineProperty(node$1, "__esModule", {
 	  value: true
 	});
-	node.needsParens = needsParens;
-	node.needsWhitespace = needsWhitespace;
-	node.needsWhitespaceAfter = needsWhitespaceAfter;
-	node.needsWhitespaceBefore = needsWhitespaceBefore;
+	node$1.needsParens = needsParens;
+	node$1.needsWhitespace = needsWhitespace;
+	node$1.needsWhitespaceAfter = needsWhitespaceAfter;
+	node$1.needsWhitespaceBefore = needsWhitespaceBefore;
 	var whitespace = requireWhitespace();
 	var parens = requireParentheses();
 	var _t = requireLib$b();
@@ -22804,7 +22804,7 @@ function requireNode () {
 	}
 
 	
-	return node;
+	return node$1;
 }var generators = {};var templateLiterals = {};var hasRequiredTemplateLiterals;
 
 function requireTemplateLiterals () {
@@ -45044,16 +45044,16 @@ function requireOptions$2 () {
 
 	
 	return options$2;
-}var string = {};var parse$2 = {};var hasRequiredParse$2;
+}var string = {};var parse$3 = {};var hasRequiredParse$2;
 
 function requireParse$2 () {
-	if (hasRequiredParse$2) return parse$2;
+	if (hasRequiredParse$2) return parse$3;
 	hasRequiredParse$2 = 1;
 
-	Object.defineProperty(parse$2, "__esModule", {
+	Object.defineProperty(parse$3, "__esModule", {
 	  value: true
 	});
-	parse$2.default = parseAndBuildMetadata;
+	parse$3.default = parseAndBuildMetadata;
 	var _t = requireLib$b();
 	var _parser = requireLib$7();
 	var _codeFrame = requireLib$8();
@@ -45208,7 +45208,7 @@ function requireParse$2 () {
 	}
 
 	
-	return parse$2;
+	return parse$3;
 }var populate = {};var hasRequiredPopulate;
 
 function requirePopulate () {
@@ -50805,6 +50805,10 @@ function isNull(arg) {
   return arg === null;
 }
 
+function isNullOrUndefined(arg) {
+  return arg == null;
+}
+
 function isNumber(arg) {
   return typeof arg === 'number';
 }
@@ -52246,7 +52250,7 @@ var splitPath = function(filename) {
 
 // path.resolve([from ...], to)
 // posix version
-function resolve() {
+function resolve$1() {
   var resolvedPath = '',
       resolvedAbsolute = false;
 
@@ -52313,9 +52317,9 @@ function join() {
 
 // path.relative(from, to)
 // posix version
-function relative(from, to) {
-  from = resolve(from).substr(1);
-  to = resolve(to).substr(1);
+function relative$1(from, to) {
+  from = resolve$1(from).substr(1);
+  to = resolve$1(to).substr(1);
 
   function trim(arr) {
     var start = 0;
@@ -52394,11 +52398,11 @@ var path = {
   dirname: dirname,
   sep: sep$1,
   delimiter: delimiter,
-  relative: relative,
+  relative: relative$1,
   join: join,
   isAbsolute: isAbsolute,
   normalize: normalize,
-  resolve: resolve
+  resolve: resolve$1
 };
 function filter (xs, f) {
     if (xs.filter) return xs.filter(f);
@@ -52416,7 +52420,7 @@ var substr = 'ab'.substr(-1) === 'b' ?
         if (start < 0) start = str.length + start;
         return str.substr(start, len);
     }
-;var _polyfillNode_path=/*#__PURE__*/Object.freeze({__proto__:null,basename:basename,default:path,delimiter:delimiter,dirname:dirname,extname:extname,isAbsolute:isAbsolute,join:join,normalize:normalize,relative:relative,resolve:resolve,sep:sep$1});var require$$1 = /*@__PURE__*/getAugmentedNamespace(_polyfillNode_path);Object.defineProperty(normalizeAndLoadMetadata, "__esModule", {
+;var _polyfillNode_path=/*#__PURE__*/Object.freeze({__proto__:null,basename:basename,default:path,delimiter:delimiter,dirname:dirname,extname:extname,isAbsolute:isAbsolute,join:join,normalize:normalize,relative:relative$1,resolve:resolve$1,sep:sep$1});var require$$1 = /*@__PURE__*/getAugmentedNamespace(_polyfillNode_path);Object.defineProperty(normalizeAndLoadMetadata, "__esModule", {
   value: true
 });
 normalizeAndLoadMetadata.default = normalizeModuleAndLoadMetadata;
@@ -53247,1658 +53251,1653 @@ function requireLib$2 () {
 		
 	} (lib$l));
 	return lib$l;
-}var semver = {exports: {}};var hasRequiredSemver;
-
-function requireSemver () {
-	if (hasRequiredSemver) return semver.exports;
-	hasRequiredSemver = 1;
-	(function (module, exports) {
-		exports = module.exports = SemVer;
-
-		var debug;
-		/* istanbul ignore next */
-		if (typeof browser$1$1 === 'object' &&
-		    browser$1$1.env &&
-		    browser$1$1.env.NODE_DEBUG &&
-		    /\bsemver\b/i.test(browser$1$1.env.NODE_DEBUG)) {
-		  debug = function () {
-		    var args = Array.prototype.slice.call(arguments, 0);
-		    args.unshift('SEMVER');
-		    console.log.apply(console, args);
-		  };
-		} else {
-		  debug = function () {};
-		}
-
-		// Note: this is the semver.org version of the spec that it implements
-		// Not necessarily the package version of this code.
-		exports.SEMVER_SPEC_VERSION = '2.0.0';
-
-		var MAX_LENGTH = 256;
-		var MAX_SAFE_INTEGER = Number.MAX_SAFE_INTEGER ||
-		  /* istanbul ignore next */ 9007199254740991;
-
-		// Max safe segment length for coercion.
-		var MAX_SAFE_COMPONENT_LENGTH = 16;
-
-		var MAX_SAFE_BUILD_LENGTH = MAX_LENGTH - 6;
-
-		// The actual regexps go on exports.re
-		var re = exports.re = [];
-		var safeRe = exports.safeRe = [];
-		var src = exports.src = [];
-		var t = exports.tokens = {};
-		var R = 0;
-
-		function tok (n) {
-		  t[n] = R++;
-		}
-
-		var LETTERDASHNUMBER = '[a-zA-Z0-9-]';
-
-		// Replace some greedy regex tokens to prevent regex dos issues. These regex are
-		// used internally via the safeRe object since all inputs in this library get
-		// normalized first to trim and collapse all extra whitespace. The original
-		// regexes are exported for userland consumption and lower level usage. A
-		// future breaking change could export the safer regex only with a note that
-		// all input should have extra whitespace removed.
-		var safeRegexReplacements = [
-		  ['\\s', 1],
-		  ['\\d', MAX_LENGTH],
-		  [LETTERDASHNUMBER, MAX_SAFE_BUILD_LENGTH],
-		];
-
-		function makeSafeRe (value) {
-		  for (var i = 0; i < safeRegexReplacements.length; i++) {
-		    var token = safeRegexReplacements[i][0];
-		    var max = safeRegexReplacements[i][1];
-		    value = value
-		      .split(token + '*').join(token + '{0,' + max + '}')
-		      .split(token + '+').join(token + '{1,' + max + '}');
-		  }
-		  return value
-		}
-
-		// The following Regular Expressions can be used for tokenizing,
-		// validating, and parsing SemVer version strings.
-
-		// ## Numeric Identifier
-		// A single `0`, or a non-zero digit followed by zero or more digits.
-
-		tok('NUMERICIDENTIFIER');
-		src[t.NUMERICIDENTIFIER] = '0|[1-9]\\d*';
-		tok('NUMERICIDENTIFIERLOOSE');
-		src[t.NUMERICIDENTIFIERLOOSE] = '\\d+';
-
-		// ## Non-numeric Identifier
-		// Zero or more digits, followed by a letter or hyphen, and then zero or
-		// more letters, digits, or hyphens.
-
-		tok('NONNUMERICIDENTIFIER');
-		src[t.NONNUMERICIDENTIFIER] = '\\d*[a-zA-Z-]' + LETTERDASHNUMBER + '*';
-
-		// ## Main Version
-		// Three dot-separated numeric identifiers.
-
-		tok('MAINVERSION');
-		src[t.MAINVERSION] = '(' + src[t.NUMERICIDENTIFIER] + ')\\.' +
-		                   '(' + src[t.NUMERICIDENTIFIER] + ')\\.' +
-		                   '(' + src[t.NUMERICIDENTIFIER] + ')';
-
-		tok('MAINVERSIONLOOSE');
-		src[t.MAINVERSIONLOOSE] = '(' + src[t.NUMERICIDENTIFIERLOOSE] + ')\\.' +
-		                        '(' + src[t.NUMERICIDENTIFIERLOOSE] + ')\\.' +
-		                        '(' + src[t.NUMERICIDENTIFIERLOOSE] + ')';
-
-		// ## Pre-release Version Identifier
-		// A numeric identifier, or a non-numeric identifier.
-
-		tok('PRERELEASEIDENTIFIER');
-		src[t.PRERELEASEIDENTIFIER] = '(?:' + src[t.NUMERICIDENTIFIER] +
-		                            '|' + src[t.NONNUMERICIDENTIFIER] + ')';
-
-		tok('PRERELEASEIDENTIFIERLOOSE');
-		src[t.PRERELEASEIDENTIFIERLOOSE] = '(?:' + src[t.NUMERICIDENTIFIERLOOSE] +
-		                                 '|' + src[t.NONNUMERICIDENTIFIER] + ')';
-
-		// ## Pre-release Version
-		// Hyphen, followed by one or more dot-separated pre-release version
-		// identifiers.
-
-		tok('PRERELEASE');
-		src[t.PRERELEASE] = '(?:-(' + src[t.PRERELEASEIDENTIFIER] +
-		                  '(?:\\.' + src[t.PRERELEASEIDENTIFIER] + ')*))';
-
-		tok('PRERELEASELOOSE');
-		src[t.PRERELEASELOOSE] = '(?:-?(' + src[t.PRERELEASEIDENTIFIERLOOSE] +
-		                       '(?:\\.' + src[t.PRERELEASEIDENTIFIERLOOSE] + ')*))';
-
-		// ## Build Metadata Identifier
-		// Any combination of digits, letters, or hyphens.
-
-		tok('BUILDIDENTIFIER');
-		src[t.BUILDIDENTIFIER] = LETTERDASHNUMBER + '+';
-
-		// ## Build Metadata
-		// Plus sign, followed by one or more period-separated build metadata
-		// identifiers.
-
-		tok('BUILD');
-		src[t.BUILD] = '(?:\\+(' + src[t.BUILDIDENTIFIER] +
-		             '(?:\\.' + src[t.BUILDIDENTIFIER] + ')*))';
-
-		// ## Full Version String
-		// A main version, followed optionally by a pre-release version and
-		// build metadata.
-
-		// Note that the only major, minor, patch, and pre-release sections of
-		// the version string are capturing groups.  The build metadata is not a
-		// capturing group, because it should not ever be used in version
-		// comparison.
-
-		tok('FULL');
-		tok('FULLPLAIN');
-		src[t.FULLPLAIN] = 'v?' + src[t.MAINVERSION] +
-		                  src[t.PRERELEASE] + '?' +
-		                  src[t.BUILD] + '?';
-
-		src[t.FULL] = '^' + src[t.FULLPLAIN] + '$';
-
-		// like full, but allows v1.2.3 and =1.2.3, which people do sometimes.
-		// also, 1.0.0alpha1 (prerelease without the hyphen) which is pretty
-		// common in the npm registry.
-		tok('LOOSEPLAIN');
-		src[t.LOOSEPLAIN] = '[v=\\s]*' + src[t.MAINVERSIONLOOSE] +
-		                  src[t.PRERELEASELOOSE] + '?' +
-		                  src[t.BUILD] + '?';
-
-		tok('LOOSE');
-		src[t.LOOSE] = '^' + src[t.LOOSEPLAIN] + '$';
-
-		tok('GTLT');
-		src[t.GTLT] = '((?:<|>)?=?)';
-
-		// Something like "2.*" or "1.2.x".
-		// Note that "x.x" is a valid xRange identifer, meaning "any version"
-		// Only the first item is strictly required.
-		tok('XRANGEIDENTIFIERLOOSE');
-		src[t.XRANGEIDENTIFIERLOOSE] = src[t.NUMERICIDENTIFIERLOOSE] + '|x|X|\\*';
-		tok('XRANGEIDENTIFIER');
-		src[t.XRANGEIDENTIFIER] = src[t.NUMERICIDENTIFIER] + '|x|X|\\*';
-
-		tok('XRANGEPLAIN');
-		src[t.XRANGEPLAIN] = '[v=\\s]*(' + src[t.XRANGEIDENTIFIER] + ')' +
-		                   '(?:\\.(' + src[t.XRANGEIDENTIFIER] + ')' +
-		                   '(?:\\.(' + src[t.XRANGEIDENTIFIER] + ')' +
-		                   '(?:' + src[t.PRERELEASE] + ')?' +
-		                   src[t.BUILD] + '?' +
-		                   ')?)?';
-
-		tok('XRANGEPLAINLOOSE');
-		src[t.XRANGEPLAINLOOSE] = '[v=\\s]*(' + src[t.XRANGEIDENTIFIERLOOSE] + ')' +
-		                        '(?:\\.(' + src[t.XRANGEIDENTIFIERLOOSE] + ')' +
-		                        '(?:\\.(' + src[t.XRANGEIDENTIFIERLOOSE] + ')' +
-		                        '(?:' + src[t.PRERELEASELOOSE] + ')?' +
-		                        src[t.BUILD] + '?' +
-		                        ')?)?';
-
-		tok('XRANGE');
-		src[t.XRANGE] = '^' + src[t.GTLT] + '\\s*' + src[t.XRANGEPLAIN] + '$';
-		tok('XRANGELOOSE');
-		src[t.XRANGELOOSE] = '^' + src[t.GTLT] + '\\s*' + src[t.XRANGEPLAINLOOSE] + '$';
-
-		// Coercion.
-		// Extract anything that could conceivably be a part of a valid semver
-		tok('COERCE');
-		src[t.COERCE] = '(^|[^\\d])' +
-		              '(\\d{1,' + MAX_SAFE_COMPONENT_LENGTH + '})' +
-		              '(?:\\.(\\d{1,' + MAX_SAFE_COMPONENT_LENGTH + '}))?' +
-		              '(?:\\.(\\d{1,' + MAX_SAFE_COMPONENT_LENGTH + '}))?' +
-		              '(?:$|[^\\d])';
-		tok('COERCERTL');
-		re[t.COERCERTL] = new RegExp(src[t.COERCE], 'g');
-		safeRe[t.COERCERTL] = new RegExp(makeSafeRe(src[t.COERCE]), 'g');
-
-		// Tilde ranges.
-		// Meaning is "reasonably at or greater than"
-		tok('LONETILDE');
-		src[t.LONETILDE] = '(?:~>?)';
-
-		tok('TILDETRIM');
-		src[t.TILDETRIM] = '(\\s*)' + src[t.LONETILDE] + '\\s+';
-		re[t.TILDETRIM] = new RegExp(src[t.TILDETRIM], 'g');
-		safeRe[t.TILDETRIM] = new RegExp(makeSafeRe(src[t.TILDETRIM]), 'g');
-		var tildeTrimReplace = '$1~';
-
-		tok('TILDE');
-		src[t.TILDE] = '^' + src[t.LONETILDE] + src[t.XRANGEPLAIN] + '$';
-		tok('TILDELOOSE');
-		src[t.TILDELOOSE] = '^' + src[t.LONETILDE] + src[t.XRANGEPLAINLOOSE] + '$';
-
-		// Caret ranges.
-		// Meaning is "at least and backwards compatible with"
-		tok('LONECARET');
-		src[t.LONECARET] = '(?:\\^)';
-
-		tok('CARETTRIM');
-		src[t.CARETTRIM] = '(\\s*)' + src[t.LONECARET] + '\\s+';
-		re[t.CARETTRIM] = new RegExp(src[t.CARETTRIM], 'g');
-		safeRe[t.CARETTRIM] = new RegExp(makeSafeRe(src[t.CARETTRIM]), 'g');
-		var caretTrimReplace = '$1^';
-
-		tok('CARET');
-		src[t.CARET] = '^' + src[t.LONECARET] + src[t.XRANGEPLAIN] + '$';
-		tok('CARETLOOSE');
-		src[t.CARETLOOSE] = '^' + src[t.LONECARET] + src[t.XRANGEPLAINLOOSE] + '$';
-
-		// A simple gt/lt/eq thing, or just "" to indicate "any version"
-		tok('COMPARATORLOOSE');
-		src[t.COMPARATORLOOSE] = '^' + src[t.GTLT] + '\\s*(' + src[t.LOOSEPLAIN] + ')$|^$';
-		tok('COMPARATOR');
-		src[t.COMPARATOR] = '^' + src[t.GTLT] + '\\s*(' + src[t.FULLPLAIN] + ')$|^$';
-
-		// An expression to strip any whitespace between the gtlt and the thing
-		// it modifies, so that `> 1.2.3` ==> `>1.2.3`
-		tok('COMPARATORTRIM');
-		src[t.COMPARATORTRIM] = '(\\s*)' + src[t.GTLT] +
-		                      '\\s*(' + src[t.LOOSEPLAIN] + '|' + src[t.XRANGEPLAIN] + ')';
-
-		// this one has to use the /g flag
-		re[t.COMPARATORTRIM] = new RegExp(src[t.COMPARATORTRIM], 'g');
-		safeRe[t.COMPARATORTRIM] = new RegExp(makeSafeRe(src[t.COMPARATORTRIM]), 'g');
-		var comparatorTrimReplace = '$1$2$3';
-
-		// Something like `1.2.3 - 1.2.4`
-		// Note that these all use the loose form, because they'll be
-		// checked against either the strict or loose comparator form
-		// later.
-		tok('HYPHENRANGE');
-		src[t.HYPHENRANGE] = '^\\s*(' + src[t.XRANGEPLAIN] + ')' +
-		                   '\\s+-\\s+' +
-		                   '(' + src[t.XRANGEPLAIN] + ')' +
-		                   '\\s*$';
-
-		tok('HYPHENRANGELOOSE');
-		src[t.HYPHENRANGELOOSE] = '^\\s*(' + src[t.XRANGEPLAINLOOSE] + ')' +
-		                        '\\s+-\\s+' +
-		                        '(' + src[t.XRANGEPLAINLOOSE] + ')' +
-		                        '\\s*$';
-
-		// Star ranges basically just allow anything at all.
-		tok('STAR');
-		src[t.STAR] = '(<|>)?=?\\s*\\*';
-
-		// Compile to actual regexp objects.
-		// All are flag-free, unless they were created above with a flag.
-		for (var i = 0; i < R; i++) {
-		  debug(i, src[i]);
-		  if (!re[i]) {
-		    re[i] = new RegExp(src[i]);
-
-		    // Replace all greedy whitespace to prevent regex dos issues. These regex are
-		    // used internally via the safeRe object since all inputs in this library get
-		    // normalized first to trim and collapse all extra whitespace. The original
-		    // regexes are exported for userland consumption and lower level usage. A
-		    // future breaking change could export the safer regex only with a note that
-		    // all input should have extra whitespace removed.
-		    safeRe[i] = new RegExp(makeSafeRe(src[i]));
-		  }
-		}
-
-		exports.parse = parse;
-		function parse (version, options) {
-		  if (!options || typeof options !== 'object') {
-		    options = {
-		      loose: !!options,
-		      includePrerelease: false
-		    };
-		  }
-
-		  if (version instanceof SemVer) {
-		    return version
-		  }
-
-		  if (typeof version !== 'string') {
-		    return null
-		  }
-
-		  if (version.length > MAX_LENGTH) {
-		    return null
-		  }
-
-		  var r = options.loose ? safeRe[t.LOOSE] : safeRe[t.FULL];
-		  if (!r.test(version)) {
-		    return null
-		  }
-
-		  try {
-		    return new SemVer(version, options)
-		  } catch (er) {
-		    return null
-		  }
-		}
-
-		exports.valid = valid;
-		function valid (version, options) {
-		  var v = parse(version, options);
-		  return v ? v.version : null
-		}
-
-		exports.clean = clean;
-		function clean (version, options) {
-		  var s = parse(version.trim().replace(/^[=v]+/, ''), options);
-		  return s ? s.version : null
-		}
-
-		exports.SemVer = SemVer;
-
-		function SemVer (version, options) {
-		  if (!options || typeof options !== 'object') {
-		    options = {
-		      loose: !!options,
-		      includePrerelease: false
-		    };
-		  }
-		  if (version instanceof SemVer) {
-		    if (version.loose === options.loose) {
-		      return version
-		    } else {
-		      version = version.version;
-		    }
-		  } else if (typeof version !== 'string') {
-		    throw new TypeError('Invalid Version: ' + version)
-		  }
-
-		  if (version.length > MAX_LENGTH) {
-		    throw new TypeError('version is longer than ' + MAX_LENGTH + ' characters')
-		  }
-
-		  if (!(this instanceof SemVer)) {
-		    return new SemVer(version, options)
-		  }
-
-		  debug('SemVer', version, options);
-		  this.options = options;
-		  this.loose = !!options.loose;
-
-		  var m = version.trim().match(options.loose ? safeRe[t.LOOSE] : safeRe[t.FULL]);
-
-		  if (!m) {
-		    throw new TypeError('Invalid Version: ' + version)
-		  }
-
-		  this.raw = version;
-
-		  // these are actually numbers
-		  this.major = +m[1];
-		  this.minor = +m[2];
-		  this.patch = +m[3];
-
-		  if (this.major > MAX_SAFE_INTEGER || this.major < 0) {
-		    throw new TypeError('Invalid major version')
-		  }
-
-		  if (this.minor > MAX_SAFE_INTEGER || this.minor < 0) {
-		    throw new TypeError('Invalid minor version')
-		  }
-
-		  if (this.patch > MAX_SAFE_INTEGER || this.patch < 0) {
-		    throw new TypeError('Invalid patch version')
-		  }
-
-		  // numberify any prerelease numeric ids
-		  if (!m[4]) {
-		    this.prerelease = [];
-		  } else {
-		    this.prerelease = m[4].split('.').map(function (id) {
-		      if (/^[0-9]+$/.test(id)) {
-		        var num = +id;
-		        if (num >= 0 && num < MAX_SAFE_INTEGER) {
-		          return num
-		        }
-		      }
-		      return id
-		    });
-		  }
-
-		  this.build = m[5] ? m[5].split('.') : [];
-		  this.format();
-		}
-
-		SemVer.prototype.format = function () {
-		  this.version = this.major + '.' + this.minor + '.' + this.patch;
-		  if (this.prerelease.length) {
-		    this.version += '-' + this.prerelease.join('.');
-		  }
-		  return this.version
-		};
-
-		SemVer.prototype.toString = function () {
-		  return this.version
-		};
-
-		SemVer.prototype.compare = function (other) {
-		  debug('SemVer.compare', this.version, this.options, other);
-		  if (!(other instanceof SemVer)) {
-		    other = new SemVer(other, this.options);
-		  }
-
-		  return this.compareMain(other) || this.comparePre(other)
-		};
-
-		SemVer.prototype.compareMain = function (other) {
-		  if (!(other instanceof SemVer)) {
-		    other = new SemVer(other, this.options);
-		  }
-
-		  return compareIdentifiers(this.major, other.major) ||
-		         compareIdentifiers(this.minor, other.minor) ||
-		         compareIdentifiers(this.patch, other.patch)
-		};
-
-		SemVer.prototype.comparePre = function (other) {
-		  if (!(other instanceof SemVer)) {
-		    other = new SemVer(other, this.options);
-		  }
-
-		  // NOT having a prerelease is > having one
-		  if (this.prerelease.length && !other.prerelease.length) {
-		    return -1
-		  } else if (!this.prerelease.length && other.prerelease.length) {
-		    return 1
-		  } else if (!this.prerelease.length && !other.prerelease.length) {
-		    return 0
-		  }
-
-		  var i = 0;
-		  do {
-		    var a = this.prerelease[i];
-		    var b = other.prerelease[i];
-		    debug('prerelease compare', i, a, b);
-		    if (a === undefined && b === undefined) {
-		      return 0
-		    } else if (b === undefined) {
-		      return 1
-		    } else if (a === undefined) {
-		      return -1
-		    } else if (a === b) {
-		      continue
-		    } else {
-		      return compareIdentifiers(a, b)
-		    }
-		  } while (++i)
-		};
-
-		SemVer.prototype.compareBuild = function (other) {
-		  if (!(other instanceof SemVer)) {
-		    other = new SemVer(other, this.options);
-		  }
-
-		  var i = 0;
-		  do {
-		    var a = this.build[i];
-		    var b = other.build[i];
-		    debug('prerelease compare', i, a, b);
-		    if (a === undefined && b === undefined) {
-		      return 0
-		    } else if (b === undefined) {
-		      return 1
-		    } else if (a === undefined) {
-		      return -1
-		    } else if (a === b) {
-		      continue
-		    } else {
-		      return compareIdentifiers(a, b)
-		    }
-		  } while (++i)
-		};
-
-		// preminor will bump the version up to the next minor release, and immediately
-		// down to pre-release. premajor and prepatch work the same way.
-		SemVer.prototype.inc = function (release, identifier) {
-		  switch (release) {
-		    case 'premajor':
-		      this.prerelease.length = 0;
-		      this.patch = 0;
-		      this.minor = 0;
-		      this.major++;
-		      this.inc('pre', identifier);
-		      break
-		    case 'preminor':
-		      this.prerelease.length = 0;
-		      this.patch = 0;
-		      this.minor++;
-		      this.inc('pre', identifier);
-		      break
-		    case 'prepatch':
-		      // If this is already a prerelease, it will bump to the next version
-		      // drop any prereleases that might already exist, since they are not
-		      // relevant at this point.
-		      this.prerelease.length = 0;
-		      this.inc('patch', identifier);
-		      this.inc('pre', identifier);
-		      break
-		    // If the input is a non-prerelease version, this acts the same as
-		    // prepatch.
-		    case 'prerelease':
-		      if (this.prerelease.length === 0) {
-		        this.inc('patch', identifier);
-		      }
-		      this.inc('pre', identifier);
-		      break
-
-		    case 'major':
-		      // If this is a pre-major version, bump up to the same major version.
-		      // Otherwise increment major.
-		      // 1.0.0-5 bumps to 1.0.0
-		      // 1.1.0 bumps to 2.0.0
-		      if (this.minor !== 0 ||
-		          this.patch !== 0 ||
-		          this.prerelease.length === 0) {
-		        this.major++;
-		      }
-		      this.minor = 0;
-		      this.patch = 0;
-		      this.prerelease = [];
-		      break
-		    case 'minor':
-		      // If this is a pre-minor version, bump up to the same minor version.
-		      // Otherwise increment minor.
-		      // 1.2.0-5 bumps to 1.2.0
-		      // 1.2.1 bumps to 1.3.0
-		      if (this.patch !== 0 || this.prerelease.length === 0) {
-		        this.minor++;
-		      }
-		      this.patch = 0;
-		      this.prerelease = [];
-		      break
-		    case 'patch':
-		      // If this is not a pre-release version, it will increment the patch.
-		      // If it is a pre-release it will bump up to the same patch version.
-		      // 1.2.0-5 patches to 1.2.0
-		      // 1.2.0 patches to 1.2.1
-		      if (this.prerelease.length === 0) {
-		        this.patch++;
-		      }
-		      this.prerelease = [];
-		      break
-		    // This probably shouldn't be used publicly.
-		    // 1.0.0 "pre" would become 1.0.0-0 which is the wrong direction.
-		    case 'pre':
-		      if (this.prerelease.length === 0) {
-		        this.prerelease = [0];
-		      } else {
-		        var i = this.prerelease.length;
-		        while (--i >= 0) {
-		          if (typeof this.prerelease[i] === 'number') {
-		            this.prerelease[i]++;
-		            i = -2;
-		          }
-		        }
-		        if (i === -1) {
-		          // didn't increment anything
-		          this.prerelease.push(0);
-		        }
-		      }
-		      if (identifier) {
-		        // 1.2.0-beta.1 bumps to 1.2.0-beta.2,
-		        // 1.2.0-beta.fooblz or 1.2.0-beta bumps to 1.2.0-beta.0
-		        if (this.prerelease[0] === identifier) {
-		          if (isNaN(this.prerelease[1])) {
-		            this.prerelease = [identifier, 0];
-		          }
-		        } else {
-		          this.prerelease = [identifier, 0];
-		        }
-		      }
-		      break
-
-		    default:
-		      throw new Error('invalid increment argument: ' + release)
-		  }
-		  this.format();
-		  this.raw = this.version;
-		  return this
-		};
-
-		exports.inc = inc;
-		function inc (version, release, loose, identifier) {
-		  if (typeof (loose) === 'string') {
-		    identifier = loose;
-		    loose = undefined;
-		  }
-
-		  try {
-		    return new SemVer(version, loose).inc(release, identifier).version
-		  } catch (er) {
-		    return null
-		  }
-		}
-
-		exports.diff = diff;
-		function diff (version1, version2) {
-		  if (eq(version1, version2)) {
-		    return null
-		  } else {
-		    var v1 = parse(version1);
-		    var v2 = parse(version2);
-		    var prefix = '';
-		    if (v1.prerelease.length || v2.prerelease.length) {
-		      prefix = 'pre';
-		      var defaultResult = 'prerelease';
-		    }
-		    for (var key in v1) {
-		      if (key === 'major' || key === 'minor' || key === 'patch') {
-		        if (v1[key] !== v2[key]) {
-		          return prefix + key
-		        }
-		      }
-		    }
-		    return defaultResult // may be undefined
-		  }
-		}
-
-		exports.compareIdentifiers = compareIdentifiers;
-
-		var numeric = /^[0-9]+$/;
-		function compareIdentifiers (a, b) {
-		  var anum = numeric.test(a);
-		  var bnum = numeric.test(b);
-
-		  if (anum && bnum) {
-		    a = +a;
-		    b = +b;
-		  }
-
-		  return a === b ? 0
-		    : (anum && !bnum) ? -1
-		    : (bnum && !anum) ? 1
-		    : a < b ? -1
-		    : 1
-		}
-
-		exports.rcompareIdentifiers = rcompareIdentifiers;
-		function rcompareIdentifiers (a, b) {
-		  return compareIdentifiers(b, a)
-		}
-
-		exports.major = major;
-		function major (a, loose) {
-		  return new SemVer(a, loose).major
-		}
-
-		exports.minor = minor;
-		function minor (a, loose) {
-		  return new SemVer(a, loose).minor
-		}
-
-		exports.patch = patch;
-		function patch (a, loose) {
-		  return new SemVer(a, loose).patch
-		}
-
-		exports.compare = compare;
-		function compare (a, b, loose) {
-		  return new SemVer(a, loose).compare(new SemVer(b, loose))
-		}
-
-		exports.compareLoose = compareLoose;
-		function compareLoose (a, b) {
-		  return compare(a, b, true)
-		}
-
-		exports.compareBuild = compareBuild;
-		function compareBuild (a, b, loose) {
-		  var versionA = new SemVer(a, loose);
-		  var versionB = new SemVer(b, loose);
-		  return versionA.compare(versionB) || versionA.compareBuild(versionB)
-		}
-
-		exports.rcompare = rcompare;
-		function rcompare (a, b, loose) {
-		  return compare(b, a, loose)
-		}
-
-		exports.sort = sort;
-		function sort (list, loose) {
-		  return list.sort(function (a, b) {
-		    return exports.compareBuild(a, b, loose)
-		  })
-		}
-
-		exports.rsort = rsort;
-		function rsort (list, loose) {
-		  return list.sort(function (a, b) {
-		    return exports.compareBuild(b, a, loose)
-		  })
-		}
-
-		exports.gt = gt;
-		function gt (a, b, loose) {
-		  return compare(a, b, loose) > 0
-		}
-
-		exports.lt = lt;
-		function lt (a, b, loose) {
-		  return compare(a, b, loose) < 0
-		}
-
-		exports.eq = eq;
-		function eq (a, b, loose) {
-		  return compare(a, b, loose) === 0
-		}
-
-		exports.neq = neq;
-		function neq (a, b, loose) {
-		  return compare(a, b, loose) !== 0
-		}
-
-		exports.gte = gte;
-		function gte (a, b, loose) {
-		  return compare(a, b, loose) >= 0
-		}
-
-		exports.lte = lte;
-		function lte (a, b, loose) {
-		  return compare(a, b, loose) <= 0
-		}
-
-		exports.cmp = cmp;
-		function cmp (a, op, b, loose) {
-		  switch (op) {
-		    case '===':
-		      if (typeof a === 'object')
-		        a = a.version;
-		      if (typeof b === 'object')
-		        b = b.version;
-		      return a === b
-
-		    case '!==':
-		      if (typeof a === 'object')
-		        a = a.version;
-		      if (typeof b === 'object')
-		        b = b.version;
-		      return a !== b
-
-		    case '':
-		    case '=':
-		    case '==':
-		      return eq(a, b, loose)
-
-		    case '!=':
-		      return neq(a, b, loose)
-
-		    case '>':
-		      return gt(a, b, loose)
-
-		    case '>=':
-		      return gte(a, b, loose)
-
-		    case '<':
-		      return lt(a, b, loose)
-
-		    case '<=':
-		      return lte(a, b, loose)
-
-		    default:
-		      throw new TypeError('Invalid operator: ' + op)
-		  }
-		}
-
-		exports.Comparator = Comparator;
-		function Comparator (comp, options) {
-		  if (!options || typeof options !== 'object') {
-		    options = {
-		      loose: !!options,
-		      includePrerelease: false
-		    };
-		  }
-
-		  if (comp instanceof Comparator) {
-		    if (comp.loose === !!options.loose) {
-		      return comp
-		    } else {
-		      comp = comp.value;
-		    }
-		  }
-
-		  if (!(this instanceof Comparator)) {
-		    return new Comparator(comp, options)
-		  }
-
-		  comp = comp.trim().split(/\s+/).join(' ');
-		  debug('comparator', comp, options);
-		  this.options = options;
-		  this.loose = !!options.loose;
-		  this.parse(comp);
-
-		  if (this.semver === ANY) {
-		    this.value = '';
-		  } else {
-		    this.value = this.operator + this.semver.version;
-		  }
-
-		  debug('comp', this);
-		}
-
-		var ANY = {};
-		Comparator.prototype.parse = function (comp) {
-		  var r = this.options.loose ? safeRe[t.COMPARATORLOOSE] : safeRe[t.COMPARATOR];
-		  var m = comp.match(r);
-
-		  if (!m) {
-		    throw new TypeError('Invalid comparator: ' + comp)
-		  }
-
-		  this.operator = m[1] !== undefined ? m[1] : '';
-		  if (this.operator === '=') {
-		    this.operator = '';
-		  }
-
-		  // if it literally is just '>' or '' then allow anything.
-		  if (!m[2]) {
-		    this.semver = ANY;
-		  } else {
-		    this.semver = new SemVer(m[2], this.options.loose);
-		  }
-		};
-
-		Comparator.prototype.toString = function () {
-		  return this.value
-		};
-
-		Comparator.prototype.test = function (version) {
-		  debug('Comparator.test', version, this.options.loose);
-
-		  if (this.semver === ANY || version === ANY) {
-		    return true
-		  }
-
-		  if (typeof version === 'string') {
-		    try {
-		      version = new SemVer(version, this.options);
-		    } catch (er) {
-		      return false
-		    }
-		  }
-
-		  return cmp(version, this.operator, this.semver, this.options)
-		};
-
-		Comparator.prototype.intersects = function (comp, options) {
-		  if (!(comp instanceof Comparator)) {
-		    throw new TypeError('a Comparator is required')
-		  }
-
-		  if (!options || typeof options !== 'object') {
-		    options = {
-		      loose: !!options,
-		      includePrerelease: false
-		    };
-		  }
-
-		  var rangeTmp;
-
-		  if (this.operator === '') {
-		    if (this.value === '') {
-		      return true
-		    }
-		    rangeTmp = new Range(comp.value, options);
-		    return satisfies(this.value, rangeTmp, options)
-		  } else if (comp.operator === '') {
-		    if (comp.value === '') {
-		      return true
-		    }
-		    rangeTmp = new Range(this.value, options);
-		    return satisfies(comp.semver, rangeTmp, options)
-		  }
-
-		  var sameDirectionIncreasing =
-		    (this.operator === '>=' || this.operator === '>') &&
-		    (comp.operator === '>=' || comp.operator === '>');
-		  var sameDirectionDecreasing =
-		    (this.operator === '<=' || this.operator === '<') &&
-		    (comp.operator === '<=' || comp.operator === '<');
-		  var sameSemVer = this.semver.version === comp.semver.version;
-		  var differentDirectionsInclusive =
-		    (this.operator === '>=' || this.operator === '<=') &&
-		    (comp.operator === '>=' || comp.operator === '<=');
-		  var oppositeDirectionsLessThan =
-		    cmp(this.semver, '<', comp.semver, options) &&
-		    ((this.operator === '>=' || this.operator === '>') &&
-		    (comp.operator === '<=' || comp.operator === '<'));
-		  var oppositeDirectionsGreaterThan =
-		    cmp(this.semver, '>', comp.semver, options) &&
-		    ((this.operator === '<=' || this.operator === '<') &&
-		    (comp.operator === '>=' || comp.operator === '>'));
-
-		  return sameDirectionIncreasing || sameDirectionDecreasing ||
-		    (sameSemVer && differentDirectionsInclusive) ||
-		    oppositeDirectionsLessThan || oppositeDirectionsGreaterThan
-		};
-
-		exports.Range = Range;
-		function Range (range, options) {
-		  if (!options || typeof options !== 'object') {
-		    options = {
-		      loose: !!options,
-		      includePrerelease: false
-		    };
-		  }
-
-		  if (range instanceof Range) {
-		    if (range.loose === !!options.loose &&
-		        range.includePrerelease === !!options.includePrerelease) {
-		      return range
-		    } else {
-		      return new Range(range.raw, options)
-		    }
-		  }
-
-		  if (range instanceof Comparator) {
-		    return new Range(range.value, options)
-		  }
-
-		  if (!(this instanceof Range)) {
-		    return new Range(range, options)
-		  }
-
-		  this.options = options;
-		  this.loose = !!options.loose;
-		  this.includePrerelease = !!options.includePrerelease;
-
-		  // First reduce all whitespace as much as possible so we do not have to rely
-		  // on potentially slow regexes like \s*. This is then stored and used for
-		  // future error messages as well.
-		  this.raw = range
-		    .trim()
-		    .split(/\s+/)
-		    .join(' ');
-
-		  // First, split based on boolean or ||
-		  this.set = this.raw.split('||').map(function (range) {
-		    return this.parseRange(range.trim())
-		  }, this).filter(function (c) {
-		    // throw out any that are not relevant for whatever reason
-		    return c.length
-		  });
-
-		  if (!this.set.length) {
-		    throw new TypeError('Invalid SemVer Range: ' + this.raw)
-		  }
-
-		  this.format();
-		}
-
-		Range.prototype.format = function () {
-		  this.range = this.set.map(function (comps) {
-		    return comps.join(' ').trim()
-		  }).join('||').trim();
-		  return this.range
-		};
-
-		Range.prototype.toString = function () {
-		  return this.range
-		};
-
-		Range.prototype.parseRange = function (range) {
-		  var loose = this.options.loose;
-		  // `1.2.3 - 1.2.4` => `>=1.2.3 <=1.2.4`
-		  var hr = loose ? safeRe[t.HYPHENRANGELOOSE] : safeRe[t.HYPHENRANGE];
-		  range = range.replace(hr, hyphenReplace);
-		  debug('hyphen replace', range);
-		  // `> 1.2.3 < 1.2.5` => `>1.2.3 <1.2.5`
-		  range = range.replace(safeRe[t.COMPARATORTRIM], comparatorTrimReplace);
-		  debug('comparator trim', range, safeRe[t.COMPARATORTRIM]);
-
-		  // `~ 1.2.3` => `~1.2.3`
-		  range = range.replace(safeRe[t.TILDETRIM], tildeTrimReplace);
-
-		  // `^ 1.2.3` => `^1.2.3`
-		  range = range.replace(safeRe[t.CARETTRIM], caretTrimReplace);
-
-		  // normalize spaces
-		  range = range.split(/\s+/).join(' ');
-
-		  // At this point, the range is completely trimmed and
-		  // ready to be split into comparators.
-
-		  var compRe = loose ? safeRe[t.COMPARATORLOOSE] : safeRe[t.COMPARATOR];
-		  var set = range.split(' ').map(function (comp) {
-		    return parseComparator(comp, this.options)
-		  }, this).join(' ').split(/\s+/);
-		  if (this.options.loose) {
-		    // in loose mode, throw out any that are not valid comparators
-		    set = set.filter(function (comp) {
-		      return !!comp.match(compRe)
-		    });
-		  }
-		  set = set.map(function (comp) {
-		    return new Comparator(comp, this.options)
-		  }, this);
-
-		  return set
-		};
-
-		Range.prototype.intersects = function (range, options) {
-		  if (!(range instanceof Range)) {
-		    throw new TypeError('a Range is required')
-		  }
-
-		  return this.set.some(function (thisComparators) {
-		    return (
-		      isSatisfiable(thisComparators, options) &&
-		      range.set.some(function (rangeComparators) {
-		        return (
-		          isSatisfiable(rangeComparators, options) &&
-		          thisComparators.every(function (thisComparator) {
-		            return rangeComparators.every(function (rangeComparator) {
-		              return thisComparator.intersects(rangeComparator, options)
-		            })
-		          })
-		        )
-		      })
-		    )
-		  })
-		};
-
-		// take a set of comparators and determine whether there
-		// exists a version which can satisfy it
-		function isSatisfiable (comparators, options) {
-		  var result = true;
-		  var remainingComparators = comparators.slice();
-		  var testComparator = remainingComparators.pop();
-
-		  while (result && remainingComparators.length) {
-		    result = remainingComparators.every(function (otherComparator) {
-		      return testComparator.intersects(otherComparator, options)
-		    });
-
-		    testComparator = remainingComparators.pop();
-		  }
-
-		  return result
-		}
-
-		// Mostly just for testing and legacy API reasons
-		exports.toComparators = toComparators;
-		function toComparators (range, options) {
-		  return new Range(range, options).set.map(function (comp) {
-		    return comp.map(function (c) {
-		      return c.value
-		    }).join(' ').trim().split(' ')
-		  })
-		}
-
-		// comprised of xranges, tildes, stars, and gtlt's at this point.
-		// already replaced the hyphen ranges
-		// turn into a set of JUST comparators.
-		function parseComparator (comp, options) {
-		  debug('comp', comp, options);
-		  comp = replaceCarets(comp, options);
-		  debug('caret', comp);
-		  comp = replaceTildes(comp, options);
-		  debug('tildes', comp);
-		  comp = replaceXRanges(comp, options);
-		  debug('xrange', comp);
-		  comp = replaceStars(comp, options);
-		  debug('stars', comp);
-		  return comp
-		}
-
-		function isX (id) {
-		  return !id || id.toLowerCase() === 'x' || id === '*'
-		}
-
-		// ~, ~> --> * (any, kinda silly)
-		// ~2, ~2.x, ~2.x.x, ~>2, ~>2.x ~>2.x.x --> >=2.0.0 <3.0.0
-		// ~2.0, ~2.0.x, ~>2.0, ~>2.0.x --> >=2.0.0 <2.1.0
-		// ~1.2, ~1.2.x, ~>1.2, ~>1.2.x --> >=1.2.0 <1.3.0
-		// ~1.2.3, ~>1.2.3 --> >=1.2.3 <1.3.0
-		// ~1.2.0, ~>1.2.0 --> >=1.2.0 <1.3.0
-		function replaceTildes (comp, options) {
-		  return comp.trim().split(/\s+/).map(function (comp) {
-		    return replaceTilde(comp, options)
-		  }).join(' ')
-		}
-
-		function replaceTilde (comp, options) {
-		  var r = options.loose ? safeRe[t.TILDELOOSE] : safeRe[t.TILDE];
-		  return comp.replace(r, function (_, M, m, p, pr) {
-		    debug('tilde', comp, _, M, m, p, pr);
-		    var ret;
-
-		    if (isX(M)) {
-		      ret = '';
-		    } else if (isX(m)) {
-		      ret = '>=' + M + '.0.0 <' + (+M + 1) + '.0.0';
-		    } else if (isX(p)) {
-		      // ~1.2 == >=1.2.0 <1.3.0
-		      ret = '>=' + M + '.' + m + '.0 <' + M + '.' + (+m + 1) + '.0';
-		    } else if (pr) {
-		      debug('replaceTilde pr', pr);
-		      ret = '>=' + M + '.' + m + '.' + p + '-' + pr +
-		            ' <' + M + '.' + (+m + 1) + '.0';
-		    } else {
-		      // ~1.2.3 == >=1.2.3 <1.3.0
-		      ret = '>=' + M + '.' + m + '.' + p +
-		            ' <' + M + '.' + (+m + 1) + '.0';
-		    }
-
-		    debug('tilde return', ret);
-		    return ret
-		  })
-		}
-
-		// ^ --> * (any, kinda silly)
-		// ^2, ^2.x, ^2.x.x --> >=2.0.0 <3.0.0
-		// ^2.0, ^2.0.x --> >=2.0.0 <3.0.0
-		// ^1.2, ^1.2.x --> >=1.2.0 <2.0.0
-		// ^1.2.3 --> >=1.2.3 <2.0.0
-		// ^1.2.0 --> >=1.2.0 <2.0.0
-		function replaceCarets (comp, options) {
-		  return comp.trim().split(/\s+/).map(function (comp) {
-		    return replaceCaret(comp, options)
-		  }).join(' ')
-		}
-
-		function replaceCaret (comp, options) {
-		  debug('caret', comp, options);
-		  var r = options.loose ? safeRe[t.CARETLOOSE] : safeRe[t.CARET];
-		  return comp.replace(r, function (_, M, m, p, pr) {
-		    debug('caret', comp, _, M, m, p, pr);
-		    var ret;
-
-		    if (isX(M)) {
-		      ret = '';
-		    } else if (isX(m)) {
-		      ret = '>=' + M + '.0.0 <' + (+M + 1) + '.0.0';
-		    } else if (isX(p)) {
-		      if (M === '0') {
-		        ret = '>=' + M + '.' + m + '.0 <' + M + '.' + (+m + 1) + '.0';
-		      } else {
-		        ret = '>=' + M + '.' + m + '.0 <' + (+M + 1) + '.0.0';
-		      }
-		    } else if (pr) {
-		      debug('replaceCaret pr', pr);
-		      if (M === '0') {
-		        if (m === '0') {
-		          ret = '>=' + M + '.' + m + '.' + p + '-' + pr +
-		                ' <' + M + '.' + m + '.' + (+p + 1);
-		        } else {
-		          ret = '>=' + M + '.' + m + '.' + p + '-' + pr +
-		                ' <' + M + '.' + (+m + 1) + '.0';
-		        }
-		      } else {
-		        ret = '>=' + M + '.' + m + '.' + p + '-' + pr +
-		              ' <' + (+M + 1) + '.0.0';
-		      }
-		    } else {
-		      debug('no pr');
-		      if (M === '0') {
-		        if (m === '0') {
-		          ret = '>=' + M + '.' + m + '.' + p +
-		                ' <' + M + '.' + m + '.' + (+p + 1);
-		        } else {
-		          ret = '>=' + M + '.' + m + '.' + p +
-		                ' <' + M + '.' + (+m + 1) + '.0';
-		        }
-		      } else {
-		        ret = '>=' + M + '.' + m + '.' + p +
-		              ' <' + (+M + 1) + '.0.0';
-		      }
-		    }
-
-		    debug('caret return', ret);
-		    return ret
-		  })
-		}
-
-		function replaceXRanges (comp, options) {
-		  debug('replaceXRanges', comp, options);
-		  return comp.split(/\s+/).map(function (comp) {
-		    return replaceXRange(comp, options)
-		  }).join(' ')
-		}
-
-		function replaceXRange (comp, options) {
-		  comp = comp.trim();
-		  var r = options.loose ? safeRe[t.XRANGELOOSE] : safeRe[t.XRANGE];
-		  return comp.replace(r, function (ret, gtlt, M, m, p, pr) {
-		    debug('xRange', comp, ret, gtlt, M, m, p, pr);
-		    var xM = isX(M);
-		    var xm = xM || isX(m);
-		    var xp = xm || isX(p);
-		    var anyX = xp;
-
-		    if (gtlt === '=' && anyX) {
-		      gtlt = '';
-		    }
-
-		    // if we're including prereleases in the match, then we need
-		    // to fix this to -0, the lowest possible prerelease value
-		    pr = options.includePrerelease ? '-0' : '';
-
-		    if (xM) {
-		      if (gtlt === '>' || gtlt === '<') {
-		        // nothing is allowed
-		        ret = '<0.0.0-0';
-		      } else {
-		        // nothing is forbidden
-		        ret = '*';
-		      }
-		    } else if (gtlt && anyX) {
-		      // we know patch is an x, because we have any x at all.
-		      // replace X with 0
-		      if (xm) {
-		        m = 0;
-		      }
-		      p = 0;
-
-		      if (gtlt === '>') {
-		        // >1 => >=2.0.0
-		        // >1.2 => >=1.3.0
-		        // >1.2.3 => >= 1.2.4
-		        gtlt = '>=';
-		        if (xm) {
-		          M = +M + 1;
-		          m = 0;
-		          p = 0;
-		        } else {
-		          m = +m + 1;
-		          p = 0;
-		        }
-		      } else if (gtlt === '<=') {
-		        // <=0.7.x is actually <0.8.0, since any 0.7.x should
-		        // pass.  Similarly, <=7.x is actually <8.0.0, etc.
-		        gtlt = '<';
-		        if (xm) {
-		          M = +M + 1;
-		        } else {
-		          m = +m + 1;
-		        }
-		      }
-
-		      ret = gtlt + M + '.' + m + '.' + p + pr;
-		    } else if (xm) {
-		      ret = '>=' + M + '.0.0' + pr + ' <' + (+M + 1) + '.0.0' + pr;
-		    } else if (xp) {
-		      ret = '>=' + M + '.' + m + '.0' + pr +
-		        ' <' + M + '.' + (+m + 1) + '.0' + pr;
-		    }
-
-		    debug('xRange return', ret);
-
-		    return ret
-		  })
-		}
-
-		// Because * is AND-ed with everything else in the comparator,
-		// and '' means "any version", just remove the *s entirely.
-		function replaceStars (comp, options) {
-		  debug('replaceStars', comp, options);
-		  // Looseness is ignored here.  star is always as loose as it gets!
-		  return comp.trim().replace(safeRe[t.STAR], '')
-		}
-
-		// This function is passed to string.replace(re[t.HYPHENRANGE])
-		// M, m, patch, prerelease, build
-		// 1.2 - 3.4.5 => >=1.2.0 <=3.4.5
-		// 1.2.3 - 3.4 => >=1.2.0 <3.5.0 Any 3.4.x will do
-		// 1.2 - 3.4 => >=1.2.0 <3.5.0
-		function hyphenReplace ($0,
-		  from, fM, fm, fp, fpr, fb,
-		  to, tM, tm, tp, tpr, tb) {
-		  if (isX(fM)) {
-		    from = '';
-		  } else if (isX(fm)) {
-		    from = '>=' + fM + '.0.0';
-		  } else if (isX(fp)) {
-		    from = '>=' + fM + '.' + fm + '.0';
-		  } else {
-		    from = '>=' + from;
-		  }
-
-		  if (isX(tM)) {
-		    to = '';
-		  } else if (isX(tm)) {
-		    to = '<' + (+tM + 1) + '.0.0';
-		  } else if (isX(tp)) {
-		    to = '<' + tM + '.' + (+tm + 1) + '.0';
-		  } else if (tpr) {
-		    to = '<=' + tM + '.' + tm + '.' + tp + '-' + tpr;
-		  } else {
-		    to = '<=' + to;
-		  }
-
-		  return (from + ' ' + to).trim()
-		}
-
-		// if ANY of the sets match ALL of its comparators, then pass
-		Range.prototype.test = function (version) {
-		  if (!version) {
-		    return false
-		  }
-
-		  if (typeof version === 'string') {
-		    try {
-		      version = new SemVer(version, this.options);
-		    } catch (er) {
-		      return false
-		    }
-		  }
-
-		  for (var i = 0; i < this.set.length; i++) {
-		    if (testSet(this.set[i], version, this.options)) {
-		      return true
-		    }
-		  }
-		  return false
-		};
-
-		function testSet (set, version, options) {
-		  for (var i = 0; i < set.length; i++) {
-		    if (!set[i].test(version)) {
-		      return false
-		    }
-		  }
-
-		  if (version.prerelease.length && !options.includePrerelease) {
-		    // Find the set of versions that are allowed to have prereleases
-		    // For example, ^1.2.3-pr.1 desugars to >=1.2.3-pr.1 <2.0.0
-		    // That should allow `1.2.3-pr.2` to pass.
-		    // However, `1.2.4-alpha.notready` should NOT be allowed,
-		    // even though it's within the range set by the comparators.
-		    for (i = 0; i < set.length; i++) {
-		      debug(set[i].semver);
-		      if (set[i].semver === ANY) {
-		        continue
-		      }
-
-		      if (set[i].semver.prerelease.length > 0) {
-		        var allowed = set[i].semver;
-		        if (allowed.major === version.major &&
-		            allowed.minor === version.minor &&
-		            allowed.patch === version.patch) {
-		          return true
-		        }
-		      }
-		    }
-
-		    // Version has a -pre, but it's not one of the ones we like.
-		    return false
-		  }
-
-		  return true
-		}
-
-		exports.satisfies = satisfies;
-		function satisfies (version, range, options) {
-		  try {
-		    range = new Range(range, options);
-		  } catch (er) {
-		    return false
-		  }
-		  return range.test(version)
-		}
-
-		exports.maxSatisfying = maxSatisfying;
-		function maxSatisfying (versions, range, options) {
-		  var max = null;
-		  var maxSV = null;
-		  try {
-		    var rangeObj = new Range(range, options);
-		  } catch (er) {
-		    return null
-		  }
-		  versions.forEach(function (v) {
-		    if (rangeObj.test(v)) {
-		      // satisfies(v, range, options)
-		      if (!max || maxSV.compare(v) === -1) {
-		        // compare(max, v, true)
-		        max = v;
-		        maxSV = new SemVer(max, options);
-		      }
-		    }
-		  });
-		  return max
-		}
-
-		exports.minSatisfying = minSatisfying;
-		function minSatisfying (versions, range, options) {
-		  var min = null;
-		  var minSV = null;
-		  try {
-		    var rangeObj = new Range(range, options);
-		  } catch (er) {
-		    return null
-		  }
-		  versions.forEach(function (v) {
-		    if (rangeObj.test(v)) {
-		      // satisfies(v, range, options)
-		      if (!min || minSV.compare(v) === 1) {
-		        // compare(min, v, true)
-		        min = v;
-		        minSV = new SemVer(min, options);
-		      }
-		    }
-		  });
-		  return min
-		}
-
-		exports.minVersion = minVersion;
-		function minVersion (range, loose) {
-		  range = new Range(range, loose);
-
-		  var minver = new SemVer('0.0.0');
-		  if (range.test(minver)) {
-		    return minver
-		  }
-
-		  minver = new SemVer('0.0.0-0');
-		  if (range.test(minver)) {
-		    return minver
-		  }
-
-		  minver = null;
-		  for (var i = 0; i < range.set.length; ++i) {
-		    var comparators = range.set[i];
-
-		    comparators.forEach(function (comparator) {
-		      // Clone to avoid manipulating the comparator's semver object.
-		      var compver = new SemVer(comparator.semver.version);
-		      switch (comparator.operator) {
-		        case '>':
-		          if (compver.prerelease.length === 0) {
-		            compver.patch++;
-		          } else {
-		            compver.prerelease.push(0);
-		          }
-		          compver.raw = compver.format();
-		          /* fallthrough */
-		        case '':
-		        case '>=':
-		          if (!minver || gt(minver, compver)) {
-		            minver = compver;
-		          }
-		          break
-		        case '<':
-		        case '<=':
-		          /* Ignore maximum versions */
-		          break
-		        /* istanbul ignore next */
-		        default:
-		          throw new Error('Unexpected operation: ' + comparator.operator)
-		      }
-		    });
-		  }
-
-		  if (minver && range.test(minver)) {
-		    return minver
-		  }
-
-		  return null
-		}
-
-		exports.validRange = validRange;
-		function validRange (range, options) {
-		  try {
-		    // Return '*' instead of '' so that truthiness works.
-		    // This will throw if it's invalid anyway
-		    return new Range(range, options).range || '*'
-		  } catch (er) {
-		    return null
-		  }
-		}
-
-		// Determine if version is less than all the versions possible in the range
-		exports.ltr = ltr;
-		function ltr (version, range, options) {
-		  return outside(version, range, '<', options)
-		}
-
-		// Determine if version is greater than all the versions possible in the range.
-		exports.gtr = gtr;
-		function gtr (version, range, options) {
-		  return outside(version, range, '>', options)
-		}
-
-		exports.outside = outside;
-		function outside (version, range, hilo, options) {
-		  version = new SemVer(version, options);
-		  range = new Range(range, options);
-
-		  var gtfn, ltefn, ltfn, comp, ecomp;
-		  switch (hilo) {
-		    case '>':
-		      gtfn = gt;
-		      ltefn = lte;
-		      ltfn = lt;
-		      comp = '>';
-		      ecomp = '>=';
-		      break
-		    case '<':
-		      gtfn = lt;
-		      ltefn = gte;
-		      ltfn = gt;
-		      comp = '<';
-		      ecomp = '<=';
-		      break
-		    default:
-		      throw new TypeError('Must provide a hilo val of "<" or ">"')
-		  }
-
-		  // If it satisifes the range it is not outside
-		  if (satisfies(version, range, options)) {
-		    return false
-		  }
-
-		  // From now on, variable terms are as if we're in "gtr" mode.
-		  // but note that everything is flipped for the "ltr" function.
-
-		  for (var i = 0; i < range.set.length; ++i) {
-		    var comparators = range.set[i];
-
-		    var high = null;
-		    var low = null;
-
-		    comparators.forEach(function (comparator) {
-		      if (comparator.semver === ANY) {
-		        comparator = new Comparator('>=0.0.0');
-		      }
-		      high = high || comparator;
-		      low = low || comparator;
-		      if (gtfn(comparator.semver, high.semver, options)) {
-		        high = comparator;
-		      } else if (ltfn(comparator.semver, low.semver, options)) {
-		        low = comparator;
-		      }
-		    });
-
-		    // If the edge version comparator has a operator then our version
-		    // isn't outside it
-		    if (high.operator === comp || high.operator === ecomp) {
-		      return false
-		    }
-
-		    // If the lowest version comparator has an operator and our version
-		    // is less than it then it isn't higher than the range
-		    if ((!low.operator || low.operator === comp) &&
-		        ltefn(version, low.semver)) {
-		      return false
-		    } else if (low.operator === ecomp && ltfn(version, low.semver)) {
-		      return false
-		    }
-		  }
-		  return true
-		}
-
-		exports.prerelease = prerelease;
-		function prerelease (version, options) {
-		  var parsed = parse(version, options);
-		  return (parsed && parsed.prerelease.length) ? parsed.prerelease : null
-		}
-
-		exports.intersects = intersects;
-		function intersects (r1, r2, options) {
-		  r1 = new Range(r1, options);
-		  r2 = new Range(r2, options);
-		  return r1.intersects(r2)
-		}
-
-		exports.coerce = coerce;
-		function coerce (version, options) {
-		  if (version instanceof SemVer) {
-		    return version
-		  }
-
-		  if (typeof version === 'number') {
-		    version = String(version);
-		  }
-
-		  if (typeof version !== 'string') {
-		    return null
-		  }
-
-		  options = options || {};
-
-		  var match = null;
-		  if (!options.rtl) {
-		    match = version.match(safeRe[t.COERCE]);
-		  } else {
-		    // Find the right-most coercible string that does not share
-		    // a terminus with a more left-ward coercible string.
-		    // Eg, '1.2.3.4' wants to coerce '2.3.4', not '3.4' or '4'
-		    //
-		    // Walk through the string checking with a /g regexp
-		    // Manually set the index so as to pick up overlapping matches.
-		    // Stop when we get a match that ends at the string end, since no
-		    // coercible string can be more right-ward without the same terminus.
-		    var next;
-		    while ((next = safeRe[t.COERCERTL].exec(version)) &&
-		      (!match || match.index + match[0].length !== version.length)
-		    ) {
-		      if (!match ||
-		          next.index + next[0].length !== match.index + match[0].length) {
-		        match = next;
-		      }
-		      safeRe[t.COERCERTL].lastIndex = next.index + next[1].length + next[2].length;
-		    }
-		    // leave it in a clean state
-		    safeRe[t.COERCERTL].lastIndex = -1;
-		  }
-
-		  if (match === null) {
-		    return null
-		  }
-
-		  return parse(match[2] +
-		    '.' + (match[3] || '0') +
-		    '.' + (match[4] || '0'), options)
-		} 
-	} (semver, semver.exports));
-	return semver.exports;
-}var hasRequiredFile;
+}var semver = {exports: {}};(function (module, exports) {
+	exports = module.exports = SemVer;
+
+	var debug;
+	/* istanbul ignore next */
+	if (typeof browser$1$1 === 'object' &&
+	    browser$1$1.env &&
+	    browser$1$1.env.NODE_DEBUG &&
+	    /\bsemver\b/i.test(browser$1$1.env.NODE_DEBUG)) {
+	  debug = function () {
+	    var args = Array.prototype.slice.call(arguments, 0);
+	    args.unshift('SEMVER');
+	    console.log.apply(console, args);
+	  };
+	} else {
+	  debug = function () {};
+	}
+
+	// Note: this is the semver.org version of the spec that it implements
+	// Not necessarily the package version of this code.
+	exports.SEMVER_SPEC_VERSION = '2.0.0';
+
+	var MAX_LENGTH = 256;
+	var MAX_SAFE_INTEGER = Number.MAX_SAFE_INTEGER ||
+	  /* istanbul ignore next */ 9007199254740991;
+
+	// Max safe segment length for coercion.
+	var MAX_SAFE_COMPONENT_LENGTH = 16;
+
+	var MAX_SAFE_BUILD_LENGTH = MAX_LENGTH - 6;
+
+	// The actual regexps go on exports.re
+	var re = exports.re = [];
+	var safeRe = exports.safeRe = [];
+	var src = exports.src = [];
+	var t = exports.tokens = {};
+	var R = 0;
+
+	function tok (n) {
+	  t[n] = R++;
+	}
+
+	var LETTERDASHNUMBER = '[a-zA-Z0-9-]';
+
+	// Replace some greedy regex tokens to prevent regex dos issues. These regex are
+	// used internally via the safeRe object since all inputs in this library get
+	// normalized first to trim and collapse all extra whitespace. The original
+	// regexes are exported for userland consumption and lower level usage. A
+	// future breaking change could export the safer regex only with a note that
+	// all input should have extra whitespace removed.
+	var safeRegexReplacements = [
+	  ['\\s', 1],
+	  ['\\d', MAX_LENGTH],
+	  [LETTERDASHNUMBER, MAX_SAFE_BUILD_LENGTH],
+	];
+
+	function makeSafeRe (value) {
+	  for (var i = 0; i < safeRegexReplacements.length; i++) {
+	    var token = safeRegexReplacements[i][0];
+	    var max = safeRegexReplacements[i][1];
+	    value = value
+	      .split(token + '*').join(token + '{0,' + max + '}')
+	      .split(token + '+').join(token + '{1,' + max + '}');
+	  }
+	  return value
+	}
+
+	// The following Regular Expressions can be used for tokenizing,
+	// validating, and parsing SemVer version strings.
+
+	// ## Numeric Identifier
+	// A single `0`, or a non-zero digit followed by zero or more digits.
+
+	tok('NUMERICIDENTIFIER');
+	src[t.NUMERICIDENTIFIER] = '0|[1-9]\\d*';
+	tok('NUMERICIDENTIFIERLOOSE');
+	src[t.NUMERICIDENTIFIERLOOSE] = '\\d+';
+
+	// ## Non-numeric Identifier
+	// Zero or more digits, followed by a letter or hyphen, and then zero or
+	// more letters, digits, or hyphens.
+
+	tok('NONNUMERICIDENTIFIER');
+	src[t.NONNUMERICIDENTIFIER] = '\\d*[a-zA-Z-]' + LETTERDASHNUMBER + '*';
+
+	// ## Main Version
+	// Three dot-separated numeric identifiers.
+
+	tok('MAINVERSION');
+	src[t.MAINVERSION] = '(' + src[t.NUMERICIDENTIFIER] + ')\\.' +
+	                   '(' + src[t.NUMERICIDENTIFIER] + ')\\.' +
+	                   '(' + src[t.NUMERICIDENTIFIER] + ')';
+
+	tok('MAINVERSIONLOOSE');
+	src[t.MAINVERSIONLOOSE] = '(' + src[t.NUMERICIDENTIFIERLOOSE] + ')\\.' +
+	                        '(' + src[t.NUMERICIDENTIFIERLOOSE] + ')\\.' +
+	                        '(' + src[t.NUMERICIDENTIFIERLOOSE] + ')';
+
+	// ## Pre-release Version Identifier
+	// A numeric identifier, or a non-numeric identifier.
+
+	tok('PRERELEASEIDENTIFIER');
+	src[t.PRERELEASEIDENTIFIER] = '(?:' + src[t.NUMERICIDENTIFIER] +
+	                            '|' + src[t.NONNUMERICIDENTIFIER] + ')';
+
+	tok('PRERELEASEIDENTIFIERLOOSE');
+	src[t.PRERELEASEIDENTIFIERLOOSE] = '(?:' + src[t.NUMERICIDENTIFIERLOOSE] +
+	                                 '|' + src[t.NONNUMERICIDENTIFIER] + ')';
+
+	// ## Pre-release Version
+	// Hyphen, followed by one or more dot-separated pre-release version
+	// identifiers.
+
+	tok('PRERELEASE');
+	src[t.PRERELEASE] = '(?:-(' + src[t.PRERELEASEIDENTIFIER] +
+	                  '(?:\\.' + src[t.PRERELEASEIDENTIFIER] + ')*))';
+
+	tok('PRERELEASELOOSE');
+	src[t.PRERELEASELOOSE] = '(?:-?(' + src[t.PRERELEASEIDENTIFIERLOOSE] +
+	                       '(?:\\.' + src[t.PRERELEASEIDENTIFIERLOOSE] + ')*))';
+
+	// ## Build Metadata Identifier
+	// Any combination of digits, letters, or hyphens.
+
+	tok('BUILDIDENTIFIER');
+	src[t.BUILDIDENTIFIER] = LETTERDASHNUMBER + '+';
+
+	// ## Build Metadata
+	// Plus sign, followed by one or more period-separated build metadata
+	// identifiers.
+
+	tok('BUILD');
+	src[t.BUILD] = '(?:\\+(' + src[t.BUILDIDENTIFIER] +
+	             '(?:\\.' + src[t.BUILDIDENTIFIER] + ')*))';
+
+	// ## Full Version String
+	// A main version, followed optionally by a pre-release version and
+	// build metadata.
+
+	// Note that the only major, minor, patch, and pre-release sections of
+	// the version string are capturing groups.  The build metadata is not a
+	// capturing group, because it should not ever be used in version
+	// comparison.
+
+	tok('FULL');
+	tok('FULLPLAIN');
+	src[t.FULLPLAIN] = 'v?' + src[t.MAINVERSION] +
+	                  src[t.PRERELEASE] + '?' +
+	                  src[t.BUILD] + '?';
+
+	src[t.FULL] = '^' + src[t.FULLPLAIN] + '$';
+
+	// like full, but allows v1.2.3 and =1.2.3, which people do sometimes.
+	// also, 1.0.0alpha1 (prerelease without the hyphen) which is pretty
+	// common in the npm registry.
+	tok('LOOSEPLAIN');
+	src[t.LOOSEPLAIN] = '[v=\\s]*' + src[t.MAINVERSIONLOOSE] +
+	                  src[t.PRERELEASELOOSE] + '?' +
+	                  src[t.BUILD] + '?';
+
+	tok('LOOSE');
+	src[t.LOOSE] = '^' + src[t.LOOSEPLAIN] + '$';
+
+	tok('GTLT');
+	src[t.GTLT] = '((?:<|>)?=?)';
+
+	// Something like "2.*" or "1.2.x".
+	// Note that "x.x" is a valid xRange identifer, meaning "any version"
+	// Only the first item is strictly required.
+	tok('XRANGEIDENTIFIERLOOSE');
+	src[t.XRANGEIDENTIFIERLOOSE] = src[t.NUMERICIDENTIFIERLOOSE] + '|x|X|\\*';
+	tok('XRANGEIDENTIFIER');
+	src[t.XRANGEIDENTIFIER] = src[t.NUMERICIDENTIFIER] + '|x|X|\\*';
+
+	tok('XRANGEPLAIN');
+	src[t.XRANGEPLAIN] = '[v=\\s]*(' + src[t.XRANGEIDENTIFIER] + ')' +
+	                   '(?:\\.(' + src[t.XRANGEIDENTIFIER] + ')' +
+	                   '(?:\\.(' + src[t.XRANGEIDENTIFIER] + ')' +
+	                   '(?:' + src[t.PRERELEASE] + ')?' +
+	                   src[t.BUILD] + '?' +
+	                   ')?)?';
+
+	tok('XRANGEPLAINLOOSE');
+	src[t.XRANGEPLAINLOOSE] = '[v=\\s]*(' + src[t.XRANGEIDENTIFIERLOOSE] + ')' +
+	                        '(?:\\.(' + src[t.XRANGEIDENTIFIERLOOSE] + ')' +
+	                        '(?:\\.(' + src[t.XRANGEIDENTIFIERLOOSE] + ')' +
+	                        '(?:' + src[t.PRERELEASELOOSE] + ')?' +
+	                        src[t.BUILD] + '?' +
+	                        ')?)?';
+
+	tok('XRANGE');
+	src[t.XRANGE] = '^' + src[t.GTLT] + '\\s*' + src[t.XRANGEPLAIN] + '$';
+	tok('XRANGELOOSE');
+	src[t.XRANGELOOSE] = '^' + src[t.GTLT] + '\\s*' + src[t.XRANGEPLAINLOOSE] + '$';
+
+	// Coercion.
+	// Extract anything that could conceivably be a part of a valid semver
+	tok('COERCE');
+	src[t.COERCE] = '(^|[^\\d])' +
+	              '(\\d{1,' + MAX_SAFE_COMPONENT_LENGTH + '})' +
+	              '(?:\\.(\\d{1,' + MAX_SAFE_COMPONENT_LENGTH + '}))?' +
+	              '(?:\\.(\\d{1,' + MAX_SAFE_COMPONENT_LENGTH + '}))?' +
+	              '(?:$|[^\\d])';
+	tok('COERCERTL');
+	re[t.COERCERTL] = new RegExp(src[t.COERCE], 'g');
+	safeRe[t.COERCERTL] = new RegExp(makeSafeRe(src[t.COERCE]), 'g');
+
+	// Tilde ranges.
+	// Meaning is "reasonably at or greater than"
+	tok('LONETILDE');
+	src[t.LONETILDE] = '(?:~>?)';
+
+	tok('TILDETRIM');
+	src[t.TILDETRIM] = '(\\s*)' + src[t.LONETILDE] + '\\s+';
+	re[t.TILDETRIM] = new RegExp(src[t.TILDETRIM], 'g');
+	safeRe[t.TILDETRIM] = new RegExp(makeSafeRe(src[t.TILDETRIM]), 'g');
+	var tildeTrimReplace = '$1~';
+
+	tok('TILDE');
+	src[t.TILDE] = '^' + src[t.LONETILDE] + src[t.XRANGEPLAIN] + '$';
+	tok('TILDELOOSE');
+	src[t.TILDELOOSE] = '^' + src[t.LONETILDE] + src[t.XRANGEPLAINLOOSE] + '$';
+
+	// Caret ranges.
+	// Meaning is "at least and backwards compatible with"
+	tok('LONECARET');
+	src[t.LONECARET] = '(?:\\^)';
+
+	tok('CARETTRIM');
+	src[t.CARETTRIM] = '(\\s*)' + src[t.LONECARET] + '\\s+';
+	re[t.CARETTRIM] = new RegExp(src[t.CARETTRIM], 'g');
+	safeRe[t.CARETTRIM] = new RegExp(makeSafeRe(src[t.CARETTRIM]), 'g');
+	var caretTrimReplace = '$1^';
+
+	tok('CARET');
+	src[t.CARET] = '^' + src[t.LONECARET] + src[t.XRANGEPLAIN] + '$';
+	tok('CARETLOOSE');
+	src[t.CARETLOOSE] = '^' + src[t.LONECARET] + src[t.XRANGEPLAINLOOSE] + '$';
+
+	// A simple gt/lt/eq thing, or just "" to indicate "any version"
+	tok('COMPARATORLOOSE');
+	src[t.COMPARATORLOOSE] = '^' + src[t.GTLT] + '\\s*(' + src[t.LOOSEPLAIN] + ')$|^$';
+	tok('COMPARATOR');
+	src[t.COMPARATOR] = '^' + src[t.GTLT] + '\\s*(' + src[t.FULLPLAIN] + ')$|^$';
+
+	// An expression to strip any whitespace between the gtlt and the thing
+	// it modifies, so that `> 1.2.3` ==> `>1.2.3`
+	tok('COMPARATORTRIM');
+	src[t.COMPARATORTRIM] = '(\\s*)' + src[t.GTLT] +
+	                      '\\s*(' + src[t.LOOSEPLAIN] + '|' + src[t.XRANGEPLAIN] + ')';
+
+	// this one has to use the /g flag
+	re[t.COMPARATORTRIM] = new RegExp(src[t.COMPARATORTRIM], 'g');
+	safeRe[t.COMPARATORTRIM] = new RegExp(makeSafeRe(src[t.COMPARATORTRIM]), 'g');
+	var comparatorTrimReplace = '$1$2$3';
+
+	// Something like `1.2.3 - 1.2.4`
+	// Note that these all use the loose form, because they'll be
+	// checked against either the strict or loose comparator form
+	// later.
+	tok('HYPHENRANGE');
+	src[t.HYPHENRANGE] = '^\\s*(' + src[t.XRANGEPLAIN] + ')' +
+	                   '\\s+-\\s+' +
+	                   '(' + src[t.XRANGEPLAIN] + ')' +
+	                   '\\s*$';
+
+	tok('HYPHENRANGELOOSE');
+	src[t.HYPHENRANGELOOSE] = '^\\s*(' + src[t.XRANGEPLAINLOOSE] + ')' +
+	                        '\\s+-\\s+' +
+	                        '(' + src[t.XRANGEPLAINLOOSE] + ')' +
+	                        '\\s*$';
+
+	// Star ranges basically just allow anything at all.
+	tok('STAR');
+	src[t.STAR] = '(<|>)?=?\\s*\\*';
+
+	// Compile to actual regexp objects.
+	// All are flag-free, unless they were created above with a flag.
+	for (var i = 0; i < R; i++) {
+	  debug(i, src[i]);
+	  if (!re[i]) {
+	    re[i] = new RegExp(src[i]);
+
+	    // Replace all greedy whitespace to prevent regex dos issues. These regex are
+	    // used internally via the safeRe object since all inputs in this library get
+	    // normalized first to trim and collapse all extra whitespace. The original
+	    // regexes are exported for userland consumption and lower level usage. A
+	    // future breaking change could export the safer regex only with a note that
+	    // all input should have extra whitespace removed.
+	    safeRe[i] = new RegExp(makeSafeRe(src[i]));
+	  }
+	}
+
+	exports.parse = parse;
+	function parse (version, options) {
+	  if (!options || typeof options !== 'object') {
+	    options = {
+	      loose: !!options,
+	      includePrerelease: false
+	    };
+	  }
+
+	  if (version instanceof SemVer) {
+	    return version
+	  }
+
+	  if (typeof version !== 'string') {
+	    return null
+	  }
+
+	  if (version.length > MAX_LENGTH) {
+	    return null
+	  }
+
+	  var r = options.loose ? safeRe[t.LOOSE] : safeRe[t.FULL];
+	  if (!r.test(version)) {
+	    return null
+	  }
+
+	  try {
+	    return new SemVer(version, options)
+	  } catch (er) {
+	    return null
+	  }
+	}
+
+	exports.valid = valid;
+	function valid (version, options) {
+	  var v = parse(version, options);
+	  return v ? v.version : null
+	}
+
+	exports.clean = clean;
+	function clean (version, options) {
+	  var s = parse(version.trim().replace(/^[=v]+/, ''), options);
+	  return s ? s.version : null
+	}
+
+	exports.SemVer = SemVer;
+
+	function SemVer (version, options) {
+	  if (!options || typeof options !== 'object') {
+	    options = {
+	      loose: !!options,
+	      includePrerelease: false
+	    };
+	  }
+	  if (version instanceof SemVer) {
+	    if (version.loose === options.loose) {
+	      return version
+	    } else {
+	      version = version.version;
+	    }
+	  } else if (typeof version !== 'string') {
+	    throw new TypeError('Invalid Version: ' + version)
+	  }
+
+	  if (version.length > MAX_LENGTH) {
+	    throw new TypeError('version is longer than ' + MAX_LENGTH + ' characters')
+	  }
+
+	  if (!(this instanceof SemVer)) {
+	    return new SemVer(version, options)
+	  }
+
+	  debug('SemVer', version, options);
+	  this.options = options;
+	  this.loose = !!options.loose;
+
+	  var m = version.trim().match(options.loose ? safeRe[t.LOOSE] : safeRe[t.FULL]);
+
+	  if (!m) {
+	    throw new TypeError('Invalid Version: ' + version)
+	  }
+
+	  this.raw = version;
+
+	  // these are actually numbers
+	  this.major = +m[1];
+	  this.minor = +m[2];
+	  this.patch = +m[3];
+
+	  if (this.major > MAX_SAFE_INTEGER || this.major < 0) {
+	    throw new TypeError('Invalid major version')
+	  }
+
+	  if (this.minor > MAX_SAFE_INTEGER || this.minor < 0) {
+	    throw new TypeError('Invalid minor version')
+	  }
+
+	  if (this.patch > MAX_SAFE_INTEGER || this.patch < 0) {
+	    throw new TypeError('Invalid patch version')
+	  }
+
+	  // numberify any prerelease numeric ids
+	  if (!m[4]) {
+	    this.prerelease = [];
+	  } else {
+	    this.prerelease = m[4].split('.').map(function (id) {
+	      if (/^[0-9]+$/.test(id)) {
+	        var num = +id;
+	        if (num >= 0 && num < MAX_SAFE_INTEGER) {
+	          return num
+	        }
+	      }
+	      return id
+	    });
+	  }
+
+	  this.build = m[5] ? m[5].split('.') : [];
+	  this.format();
+	}
+
+	SemVer.prototype.format = function () {
+	  this.version = this.major + '.' + this.minor + '.' + this.patch;
+	  if (this.prerelease.length) {
+	    this.version += '-' + this.prerelease.join('.');
+	  }
+	  return this.version
+	};
+
+	SemVer.prototype.toString = function () {
+	  return this.version
+	};
+
+	SemVer.prototype.compare = function (other) {
+	  debug('SemVer.compare', this.version, this.options, other);
+	  if (!(other instanceof SemVer)) {
+	    other = new SemVer(other, this.options);
+	  }
+
+	  return this.compareMain(other) || this.comparePre(other)
+	};
+
+	SemVer.prototype.compareMain = function (other) {
+	  if (!(other instanceof SemVer)) {
+	    other = new SemVer(other, this.options);
+	  }
+
+	  return compareIdentifiers(this.major, other.major) ||
+	         compareIdentifiers(this.minor, other.minor) ||
+	         compareIdentifiers(this.patch, other.patch)
+	};
+
+	SemVer.prototype.comparePre = function (other) {
+	  if (!(other instanceof SemVer)) {
+	    other = new SemVer(other, this.options);
+	  }
+
+	  // NOT having a prerelease is > having one
+	  if (this.prerelease.length && !other.prerelease.length) {
+	    return -1
+	  } else if (!this.prerelease.length && other.prerelease.length) {
+	    return 1
+	  } else if (!this.prerelease.length && !other.prerelease.length) {
+	    return 0
+	  }
+
+	  var i = 0;
+	  do {
+	    var a = this.prerelease[i];
+	    var b = other.prerelease[i];
+	    debug('prerelease compare', i, a, b);
+	    if (a === undefined && b === undefined) {
+	      return 0
+	    } else if (b === undefined) {
+	      return 1
+	    } else if (a === undefined) {
+	      return -1
+	    } else if (a === b) {
+	      continue
+	    } else {
+	      return compareIdentifiers(a, b)
+	    }
+	  } while (++i)
+	};
+
+	SemVer.prototype.compareBuild = function (other) {
+	  if (!(other instanceof SemVer)) {
+	    other = new SemVer(other, this.options);
+	  }
+
+	  var i = 0;
+	  do {
+	    var a = this.build[i];
+	    var b = other.build[i];
+	    debug('prerelease compare', i, a, b);
+	    if (a === undefined && b === undefined) {
+	      return 0
+	    } else if (b === undefined) {
+	      return 1
+	    } else if (a === undefined) {
+	      return -1
+	    } else if (a === b) {
+	      continue
+	    } else {
+	      return compareIdentifiers(a, b)
+	    }
+	  } while (++i)
+	};
+
+	// preminor will bump the version up to the next minor release, and immediately
+	// down to pre-release. premajor and prepatch work the same way.
+	SemVer.prototype.inc = function (release, identifier) {
+	  switch (release) {
+	    case 'premajor':
+	      this.prerelease.length = 0;
+	      this.patch = 0;
+	      this.minor = 0;
+	      this.major++;
+	      this.inc('pre', identifier);
+	      break
+	    case 'preminor':
+	      this.prerelease.length = 0;
+	      this.patch = 0;
+	      this.minor++;
+	      this.inc('pre', identifier);
+	      break
+	    case 'prepatch':
+	      // If this is already a prerelease, it will bump to the next version
+	      // drop any prereleases that might already exist, since they are not
+	      // relevant at this point.
+	      this.prerelease.length = 0;
+	      this.inc('patch', identifier);
+	      this.inc('pre', identifier);
+	      break
+	    // If the input is a non-prerelease version, this acts the same as
+	    // prepatch.
+	    case 'prerelease':
+	      if (this.prerelease.length === 0) {
+	        this.inc('patch', identifier);
+	      }
+	      this.inc('pre', identifier);
+	      break
+
+	    case 'major':
+	      // If this is a pre-major version, bump up to the same major version.
+	      // Otherwise increment major.
+	      // 1.0.0-5 bumps to 1.0.0
+	      // 1.1.0 bumps to 2.0.0
+	      if (this.minor !== 0 ||
+	          this.patch !== 0 ||
+	          this.prerelease.length === 0) {
+	        this.major++;
+	      }
+	      this.minor = 0;
+	      this.patch = 0;
+	      this.prerelease = [];
+	      break
+	    case 'minor':
+	      // If this is a pre-minor version, bump up to the same minor version.
+	      // Otherwise increment minor.
+	      // 1.2.0-5 bumps to 1.2.0
+	      // 1.2.1 bumps to 1.3.0
+	      if (this.patch !== 0 || this.prerelease.length === 0) {
+	        this.minor++;
+	      }
+	      this.patch = 0;
+	      this.prerelease = [];
+	      break
+	    case 'patch':
+	      // If this is not a pre-release version, it will increment the patch.
+	      // If it is a pre-release it will bump up to the same patch version.
+	      // 1.2.0-5 patches to 1.2.0
+	      // 1.2.0 patches to 1.2.1
+	      if (this.prerelease.length === 0) {
+	        this.patch++;
+	      }
+	      this.prerelease = [];
+	      break
+	    // This probably shouldn't be used publicly.
+	    // 1.0.0 "pre" would become 1.0.0-0 which is the wrong direction.
+	    case 'pre':
+	      if (this.prerelease.length === 0) {
+	        this.prerelease = [0];
+	      } else {
+	        var i = this.prerelease.length;
+	        while (--i >= 0) {
+	          if (typeof this.prerelease[i] === 'number') {
+	            this.prerelease[i]++;
+	            i = -2;
+	          }
+	        }
+	        if (i === -1) {
+	          // didn't increment anything
+	          this.prerelease.push(0);
+	        }
+	      }
+	      if (identifier) {
+	        // 1.2.0-beta.1 bumps to 1.2.0-beta.2,
+	        // 1.2.0-beta.fooblz or 1.2.0-beta bumps to 1.2.0-beta.0
+	        if (this.prerelease[0] === identifier) {
+	          if (isNaN(this.prerelease[1])) {
+	            this.prerelease = [identifier, 0];
+	          }
+	        } else {
+	          this.prerelease = [identifier, 0];
+	        }
+	      }
+	      break
+
+	    default:
+	      throw new Error('invalid increment argument: ' + release)
+	  }
+	  this.format();
+	  this.raw = this.version;
+	  return this
+	};
+
+	exports.inc = inc;
+	function inc (version, release, loose, identifier) {
+	  if (typeof (loose) === 'string') {
+	    identifier = loose;
+	    loose = undefined;
+	  }
+
+	  try {
+	    return new SemVer(version, loose).inc(release, identifier).version
+	  } catch (er) {
+	    return null
+	  }
+	}
+
+	exports.diff = diff;
+	function diff (version1, version2) {
+	  if (eq(version1, version2)) {
+	    return null
+	  } else {
+	    var v1 = parse(version1);
+	    var v2 = parse(version2);
+	    var prefix = '';
+	    if (v1.prerelease.length || v2.prerelease.length) {
+	      prefix = 'pre';
+	      var defaultResult = 'prerelease';
+	    }
+	    for (var key in v1) {
+	      if (key === 'major' || key === 'minor' || key === 'patch') {
+	        if (v1[key] !== v2[key]) {
+	          return prefix + key
+	        }
+	      }
+	    }
+	    return defaultResult // may be undefined
+	  }
+	}
+
+	exports.compareIdentifiers = compareIdentifiers;
+
+	var numeric = /^[0-9]+$/;
+	function compareIdentifiers (a, b) {
+	  var anum = numeric.test(a);
+	  var bnum = numeric.test(b);
+
+	  if (anum && bnum) {
+	    a = +a;
+	    b = +b;
+	  }
+
+	  return a === b ? 0
+	    : (anum && !bnum) ? -1
+	    : (bnum && !anum) ? 1
+	    : a < b ? -1
+	    : 1
+	}
+
+	exports.rcompareIdentifiers = rcompareIdentifiers;
+	function rcompareIdentifiers (a, b) {
+	  return compareIdentifiers(b, a)
+	}
+
+	exports.major = major;
+	function major (a, loose) {
+	  return new SemVer(a, loose).major
+	}
+
+	exports.minor = minor;
+	function minor (a, loose) {
+	  return new SemVer(a, loose).minor
+	}
+
+	exports.patch = patch;
+	function patch (a, loose) {
+	  return new SemVer(a, loose).patch
+	}
+
+	exports.compare = compare;
+	function compare (a, b, loose) {
+	  return new SemVer(a, loose).compare(new SemVer(b, loose))
+	}
+
+	exports.compareLoose = compareLoose;
+	function compareLoose (a, b) {
+	  return compare(a, b, true)
+	}
+
+	exports.compareBuild = compareBuild;
+	function compareBuild (a, b, loose) {
+	  var versionA = new SemVer(a, loose);
+	  var versionB = new SemVer(b, loose);
+	  return versionA.compare(versionB) || versionA.compareBuild(versionB)
+	}
+
+	exports.rcompare = rcompare;
+	function rcompare (a, b, loose) {
+	  return compare(b, a, loose)
+	}
+
+	exports.sort = sort;
+	function sort (list, loose) {
+	  return list.sort(function (a, b) {
+	    return exports.compareBuild(a, b, loose)
+	  })
+	}
+
+	exports.rsort = rsort;
+	function rsort (list, loose) {
+	  return list.sort(function (a, b) {
+	    return exports.compareBuild(b, a, loose)
+	  })
+	}
+
+	exports.gt = gt;
+	function gt (a, b, loose) {
+	  return compare(a, b, loose) > 0
+	}
+
+	exports.lt = lt;
+	function lt (a, b, loose) {
+	  return compare(a, b, loose) < 0
+	}
+
+	exports.eq = eq;
+	function eq (a, b, loose) {
+	  return compare(a, b, loose) === 0
+	}
+
+	exports.neq = neq;
+	function neq (a, b, loose) {
+	  return compare(a, b, loose) !== 0
+	}
+
+	exports.gte = gte;
+	function gte (a, b, loose) {
+	  return compare(a, b, loose) >= 0
+	}
+
+	exports.lte = lte;
+	function lte (a, b, loose) {
+	  return compare(a, b, loose) <= 0
+	}
+
+	exports.cmp = cmp;
+	function cmp (a, op, b, loose) {
+	  switch (op) {
+	    case '===':
+	      if (typeof a === 'object')
+	        a = a.version;
+	      if (typeof b === 'object')
+	        b = b.version;
+	      return a === b
+
+	    case '!==':
+	      if (typeof a === 'object')
+	        a = a.version;
+	      if (typeof b === 'object')
+	        b = b.version;
+	      return a !== b
+
+	    case '':
+	    case '=':
+	    case '==':
+	      return eq(a, b, loose)
+
+	    case '!=':
+	      return neq(a, b, loose)
+
+	    case '>':
+	      return gt(a, b, loose)
+
+	    case '>=':
+	      return gte(a, b, loose)
+
+	    case '<':
+	      return lt(a, b, loose)
+
+	    case '<=':
+	      return lte(a, b, loose)
+
+	    default:
+	      throw new TypeError('Invalid operator: ' + op)
+	  }
+	}
+
+	exports.Comparator = Comparator;
+	function Comparator (comp, options) {
+	  if (!options || typeof options !== 'object') {
+	    options = {
+	      loose: !!options,
+	      includePrerelease: false
+	    };
+	  }
+
+	  if (comp instanceof Comparator) {
+	    if (comp.loose === !!options.loose) {
+	      return comp
+	    } else {
+	      comp = comp.value;
+	    }
+	  }
+
+	  if (!(this instanceof Comparator)) {
+	    return new Comparator(comp, options)
+	  }
+
+	  comp = comp.trim().split(/\s+/).join(' ');
+	  debug('comparator', comp, options);
+	  this.options = options;
+	  this.loose = !!options.loose;
+	  this.parse(comp);
+
+	  if (this.semver === ANY) {
+	    this.value = '';
+	  } else {
+	    this.value = this.operator + this.semver.version;
+	  }
+
+	  debug('comp', this);
+	}
+
+	var ANY = {};
+	Comparator.prototype.parse = function (comp) {
+	  var r = this.options.loose ? safeRe[t.COMPARATORLOOSE] : safeRe[t.COMPARATOR];
+	  var m = comp.match(r);
+
+	  if (!m) {
+	    throw new TypeError('Invalid comparator: ' + comp)
+	  }
+
+	  this.operator = m[1] !== undefined ? m[1] : '';
+	  if (this.operator === '=') {
+	    this.operator = '';
+	  }
+
+	  // if it literally is just '>' or '' then allow anything.
+	  if (!m[2]) {
+	    this.semver = ANY;
+	  } else {
+	    this.semver = new SemVer(m[2], this.options.loose);
+	  }
+	};
+
+	Comparator.prototype.toString = function () {
+	  return this.value
+	};
+
+	Comparator.prototype.test = function (version) {
+	  debug('Comparator.test', version, this.options.loose);
+
+	  if (this.semver === ANY || version === ANY) {
+	    return true
+	  }
+
+	  if (typeof version === 'string') {
+	    try {
+	      version = new SemVer(version, this.options);
+	    } catch (er) {
+	      return false
+	    }
+	  }
+
+	  return cmp(version, this.operator, this.semver, this.options)
+	};
+
+	Comparator.prototype.intersects = function (comp, options) {
+	  if (!(comp instanceof Comparator)) {
+	    throw new TypeError('a Comparator is required')
+	  }
+
+	  if (!options || typeof options !== 'object') {
+	    options = {
+	      loose: !!options,
+	      includePrerelease: false
+	    };
+	  }
+
+	  var rangeTmp;
+
+	  if (this.operator === '') {
+	    if (this.value === '') {
+	      return true
+	    }
+	    rangeTmp = new Range(comp.value, options);
+	    return satisfies(this.value, rangeTmp, options)
+	  } else if (comp.operator === '') {
+	    if (comp.value === '') {
+	      return true
+	    }
+	    rangeTmp = new Range(this.value, options);
+	    return satisfies(comp.semver, rangeTmp, options)
+	  }
+
+	  var sameDirectionIncreasing =
+	    (this.operator === '>=' || this.operator === '>') &&
+	    (comp.operator === '>=' || comp.operator === '>');
+	  var sameDirectionDecreasing =
+	    (this.operator === '<=' || this.operator === '<') &&
+	    (comp.operator === '<=' || comp.operator === '<');
+	  var sameSemVer = this.semver.version === comp.semver.version;
+	  var differentDirectionsInclusive =
+	    (this.operator === '>=' || this.operator === '<=') &&
+	    (comp.operator === '>=' || comp.operator === '<=');
+	  var oppositeDirectionsLessThan =
+	    cmp(this.semver, '<', comp.semver, options) &&
+	    ((this.operator === '>=' || this.operator === '>') &&
+	    (comp.operator === '<=' || comp.operator === '<'));
+	  var oppositeDirectionsGreaterThan =
+	    cmp(this.semver, '>', comp.semver, options) &&
+	    ((this.operator === '<=' || this.operator === '<') &&
+	    (comp.operator === '>=' || comp.operator === '>'));
+
+	  return sameDirectionIncreasing || sameDirectionDecreasing ||
+	    (sameSemVer && differentDirectionsInclusive) ||
+	    oppositeDirectionsLessThan || oppositeDirectionsGreaterThan
+	};
+
+	exports.Range = Range;
+	function Range (range, options) {
+	  if (!options || typeof options !== 'object') {
+	    options = {
+	      loose: !!options,
+	      includePrerelease: false
+	    };
+	  }
+
+	  if (range instanceof Range) {
+	    if (range.loose === !!options.loose &&
+	        range.includePrerelease === !!options.includePrerelease) {
+	      return range
+	    } else {
+	      return new Range(range.raw, options)
+	    }
+	  }
+
+	  if (range instanceof Comparator) {
+	    return new Range(range.value, options)
+	  }
+
+	  if (!(this instanceof Range)) {
+	    return new Range(range, options)
+	  }
+
+	  this.options = options;
+	  this.loose = !!options.loose;
+	  this.includePrerelease = !!options.includePrerelease;
+
+	  // First reduce all whitespace as much as possible so we do not have to rely
+	  // on potentially slow regexes like \s*. This is then stored and used for
+	  // future error messages as well.
+	  this.raw = range
+	    .trim()
+	    .split(/\s+/)
+	    .join(' ');
+
+	  // First, split based on boolean or ||
+	  this.set = this.raw.split('||').map(function (range) {
+	    return this.parseRange(range.trim())
+	  }, this).filter(function (c) {
+	    // throw out any that are not relevant for whatever reason
+	    return c.length
+	  });
+
+	  if (!this.set.length) {
+	    throw new TypeError('Invalid SemVer Range: ' + this.raw)
+	  }
+
+	  this.format();
+	}
+
+	Range.prototype.format = function () {
+	  this.range = this.set.map(function (comps) {
+	    return comps.join(' ').trim()
+	  }).join('||').trim();
+	  return this.range
+	};
+
+	Range.prototype.toString = function () {
+	  return this.range
+	};
+
+	Range.prototype.parseRange = function (range) {
+	  var loose = this.options.loose;
+	  // `1.2.3 - 1.2.4` => `>=1.2.3 <=1.2.4`
+	  var hr = loose ? safeRe[t.HYPHENRANGELOOSE] : safeRe[t.HYPHENRANGE];
+	  range = range.replace(hr, hyphenReplace);
+	  debug('hyphen replace', range);
+	  // `> 1.2.3 < 1.2.5` => `>1.2.3 <1.2.5`
+	  range = range.replace(safeRe[t.COMPARATORTRIM], comparatorTrimReplace);
+	  debug('comparator trim', range, safeRe[t.COMPARATORTRIM]);
+
+	  // `~ 1.2.3` => `~1.2.3`
+	  range = range.replace(safeRe[t.TILDETRIM], tildeTrimReplace);
+
+	  // `^ 1.2.3` => `^1.2.3`
+	  range = range.replace(safeRe[t.CARETTRIM], caretTrimReplace);
+
+	  // normalize spaces
+	  range = range.split(/\s+/).join(' ');
+
+	  // At this point, the range is completely trimmed and
+	  // ready to be split into comparators.
+
+	  var compRe = loose ? safeRe[t.COMPARATORLOOSE] : safeRe[t.COMPARATOR];
+	  var set = range.split(' ').map(function (comp) {
+	    return parseComparator(comp, this.options)
+	  }, this).join(' ').split(/\s+/);
+	  if (this.options.loose) {
+	    // in loose mode, throw out any that are not valid comparators
+	    set = set.filter(function (comp) {
+	      return !!comp.match(compRe)
+	    });
+	  }
+	  set = set.map(function (comp) {
+	    return new Comparator(comp, this.options)
+	  }, this);
+
+	  return set
+	};
+
+	Range.prototype.intersects = function (range, options) {
+	  if (!(range instanceof Range)) {
+	    throw new TypeError('a Range is required')
+	  }
+
+	  return this.set.some(function (thisComparators) {
+	    return (
+	      isSatisfiable(thisComparators, options) &&
+	      range.set.some(function (rangeComparators) {
+	        return (
+	          isSatisfiable(rangeComparators, options) &&
+	          thisComparators.every(function (thisComparator) {
+	            return rangeComparators.every(function (rangeComparator) {
+	              return thisComparator.intersects(rangeComparator, options)
+	            })
+	          })
+	        )
+	      })
+	    )
+	  })
+	};
+
+	// take a set of comparators and determine whether there
+	// exists a version which can satisfy it
+	function isSatisfiable (comparators, options) {
+	  var result = true;
+	  var remainingComparators = comparators.slice();
+	  var testComparator = remainingComparators.pop();
+
+	  while (result && remainingComparators.length) {
+	    result = remainingComparators.every(function (otherComparator) {
+	      return testComparator.intersects(otherComparator, options)
+	    });
+
+	    testComparator = remainingComparators.pop();
+	  }
+
+	  return result
+	}
+
+	// Mostly just for testing and legacy API reasons
+	exports.toComparators = toComparators;
+	function toComparators (range, options) {
+	  return new Range(range, options).set.map(function (comp) {
+	    return comp.map(function (c) {
+	      return c.value
+	    }).join(' ').trim().split(' ')
+	  })
+	}
+
+	// comprised of xranges, tildes, stars, and gtlt's at this point.
+	// already replaced the hyphen ranges
+	// turn into a set of JUST comparators.
+	function parseComparator (comp, options) {
+	  debug('comp', comp, options);
+	  comp = replaceCarets(comp, options);
+	  debug('caret', comp);
+	  comp = replaceTildes(comp, options);
+	  debug('tildes', comp);
+	  comp = replaceXRanges(comp, options);
+	  debug('xrange', comp);
+	  comp = replaceStars(comp, options);
+	  debug('stars', comp);
+	  return comp
+	}
+
+	function isX (id) {
+	  return !id || id.toLowerCase() === 'x' || id === '*'
+	}
+
+	// ~, ~> --> * (any, kinda silly)
+	// ~2, ~2.x, ~2.x.x, ~>2, ~>2.x ~>2.x.x --> >=2.0.0 <3.0.0
+	// ~2.0, ~2.0.x, ~>2.0, ~>2.0.x --> >=2.0.0 <2.1.0
+	// ~1.2, ~1.2.x, ~>1.2, ~>1.2.x --> >=1.2.0 <1.3.0
+	// ~1.2.3, ~>1.2.3 --> >=1.2.3 <1.3.0
+	// ~1.2.0, ~>1.2.0 --> >=1.2.0 <1.3.0
+	function replaceTildes (comp, options) {
+	  return comp.trim().split(/\s+/).map(function (comp) {
+	    return replaceTilde(comp, options)
+	  }).join(' ')
+	}
+
+	function replaceTilde (comp, options) {
+	  var r = options.loose ? safeRe[t.TILDELOOSE] : safeRe[t.TILDE];
+	  return comp.replace(r, function (_, M, m, p, pr) {
+	    debug('tilde', comp, _, M, m, p, pr);
+	    var ret;
+
+	    if (isX(M)) {
+	      ret = '';
+	    } else if (isX(m)) {
+	      ret = '>=' + M + '.0.0 <' + (+M + 1) + '.0.0';
+	    } else if (isX(p)) {
+	      // ~1.2 == >=1.2.0 <1.3.0
+	      ret = '>=' + M + '.' + m + '.0 <' + M + '.' + (+m + 1) + '.0';
+	    } else if (pr) {
+	      debug('replaceTilde pr', pr);
+	      ret = '>=' + M + '.' + m + '.' + p + '-' + pr +
+	            ' <' + M + '.' + (+m + 1) + '.0';
+	    } else {
+	      // ~1.2.3 == >=1.2.3 <1.3.0
+	      ret = '>=' + M + '.' + m + '.' + p +
+	            ' <' + M + '.' + (+m + 1) + '.0';
+	    }
+
+	    debug('tilde return', ret);
+	    return ret
+	  })
+	}
+
+	// ^ --> * (any, kinda silly)
+	// ^2, ^2.x, ^2.x.x --> >=2.0.0 <3.0.0
+	// ^2.0, ^2.0.x --> >=2.0.0 <3.0.0
+	// ^1.2, ^1.2.x --> >=1.2.0 <2.0.0
+	// ^1.2.3 --> >=1.2.3 <2.0.0
+	// ^1.2.0 --> >=1.2.0 <2.0.0
+	function replaceCarets (comp, options) {
+	  return comp.trim().split(/\s+/).map(function (comp) {
+	    return replaceCaret(comp, options)
+	  }).join(' ')
+	}
+
+	function replaceCaret (comp, options) {
+	  debug('caret', comp, options);
+	  var r = options.loose ? safeRe[t.CARETLOOSE] : safeRe[t.CARET];
+	  return comp.replace(r, function (_, M, m, p, pr) {
+	    debug('caret', comp, _, M, m, p, pr);
+	    var ret;
+
+	    if (isX(M)) {
+	      ret = '';
+	    } else if (isX(m)) {
+	      ret = '>=' + M + '.0.0 <' + (+M + 1) + '.0.0';
+	    } else if (isX(p)) {
+	      if (M === '0') {
+	        ret = '>=' + M + '.' + m + '.0 <' + M + '.' + (+m + 1) + '.0';
+	      } else {
+	        ret = '>=' + M + '.' + m + '.0 <' + (+M + 1) + '.0.0';
+	      }
+	    } else if (pr) {
+	      debug('replaceCaret pr', pr);
+	      if (M === '0') {
+	        if (m === '0') {
+	          ret = '>=' + M + '.' + m + '.' + p + '-' + pr +
+	                ' <' + M + '.' + m + '.' + (+p + 1);
+	        } else {
+	          ret = '>=' + M + '.' + m + '.' + p + '-' + pr +
+	                ' <' + M + '.' + (+m + 1) + '.0';
+	        }
+	      } else {
+	        ret = '>=' + M + '.' + m + '.' + p + '-' + pr +
+	              ' <' + (+M + 1) + '.0.0';
+	      }
+	    } else {
+	      debug('no pr');
+	      if (M === '0') {
+	        if (m === '0') {
+	          ret = '>=' + M + '.' + m + '.' + p +
+	                ' <' + M + '.' + m + '.' + (+p + 1);
+	        } else {
+	          ret = '>=' + M + '.' + m + '.' + p +
+	                ' <' + M + '.' + (+m + 1) + '.0';
+	        }
+	      } else {
+	        ret = '>=' + M + '.' + m + '.' + p +
+	              ' <' + (+M + 1) + '.0.0';
+	      }
+	    }
+
+	    debug('caret return', ret);
+	    return ret
+	  })
+	}
+
+	function replaceXRanges (comp, options) {
+	  debug('replaceXRanges', comp, options);
+	  return comp.split(/\s+/).map(function (comp) {
+	    return replaceXRange(comp, options)
+	  }).join(' ')
+	}
+
+	function replaceXRange (comp, options) {
+	  comp = comp.trim();
+	  var r = options.loose ? safeRe[t.XRANGELOOSE] : safeRe[t.XRANGE];
+	  return comp.replace(r, function (ret, gtlt, M, m, p, pr) {
+	    debug('xRange', comp, ret, gtlt, M, m, p, pr);
+	    var xM = isX(M);
+	    var xm = xM || isX(m);
+	    var xp = xm || isX(p);
+	    var anyX = xp;
+
+	    if (gtlt === '=' && anyX) {
+	      gtlt = '';
+	    }
+
+	    // if we're including prereleases in the match, then we need
+	    // to fix this to -0, the lowest possible prerelease value
+	    pr = options.includePrerelease ? '-0' : '';
+
+	    if (xM) {
+	      if (gtlt === '>' || gtlt === '<') {
+	        // nothing is allowed
+	        ret = '<0.0.0-0';
+	      } else {
+	        // nothing is forbidden
+	        ret = '*';
+	      }
+	    } else if (gtlt && anyX) {
+	      // we know patch is an x, because we have any x at all.
+	      // replace X with 0
+	      if (xm) {
+	        m = 0;
+	      }
+	      p = 0;
+
+	      if (gtlt === '>') {
+	        // >1 => >=2.0.0
+	        // >1.2 => >=1.3.0
+	        // >1.2.3 => >= 1.2.4
+	        gtlt = '>=';
+	        if (xm) {
+	          M = +M + 1;
+	          m = 0;
+	          p = 0;
+	        } else {
+	          m = +m + 1;
+	          p = 0;
+	        }
+	      } else if (gtlt === '<=') {
+	        // <=0.7.x is actually <0.8.0, since any 0.7.x should
+	        // pass.  Similarly, <=7.x is actually <8.0.0, etc.
+	        gtlt = '<';
+	        if (xm) {
+	          M = +M + 1;
+	        } else {
+	          m = +m + 1;
+	        }
+	      }
+
+	      ret = gtlt + M + '.' + m + '.' + p + pr;
+	    } else if (xm) {
+	      ret = '>=' + M + '.0.0' + pr + ' <' + (+M + 1) + '.0.0' + pr;
+	    } else if (xp) {
+	      ret = '>=' + M + '.' + m + '.0' + pr +
+	        ' <' + M + '.' + (+m + 1) + '.0' + pr;
+	    }
+
+	    debug('xRange return', ret);
+
+	    return ret
+	  })
+	}
+
+	// Because * is AND-ed with everything else in the comparator,
+	// and '' means "any version", just remove the *s entirely.
+	function replaceStars (comp, options) {
+	  debug('replaceStars', comp, options);
+	  // Looseness is ignored here.  star is always as loose as it gets!
+	  return comp.trim().replace(safeRe[t.STAR], '')
+	}
+
+	// This function is passed to string.replace(re[t.HYPHENRANGE])
+	// M, m, patch, prerelease, build
+	// 1.2 - 3.4.5 => >=1.2.0 <=3.4.5
+	// 1.2.3 - 3.4 => >=1.2.0 <3.5.0 Any 3.4.x will do
+	// 1.2 - 3.4 => >=1.2.0 <3.5.0
+	function hyphenReplace ($0,
+	  from, fM, fm, fp, fpr, fb,
+	  to, tM, tm, tp, tpr, tb) {
+	  if (isX(fM)) {
+	    from = '';
+	  } else if (isX(fm)) {
+	    from = '>=' + fM + '.0.0';
+	  } else if (isX(fp)) {
+	    from = '>=' + fM + '.' + fm + '.0';
+	  } else {
+	    from = '>=' + from;
+	  }
+
+	  if (isX(tM)) {
+	    to = '';
+	  } else if (isX(tm)) {
+	    to = '<' + (+tM + 1) + '.0.0';
+	  } else if (isX(tp)) {
+	    to = '<' + tM + '.' + (+tm + 1) + '.0';
+	  } else if (tpr) {
+	    to = '<=' + tM + '.' + tm + '.' + tp + '-' + tpr;
+	  } else {
+	    to = '<=' + to;
+	  }
+
+	  return (from + ' ' + to).trim()
+	}
+
+	// if ANY of the sets match ALL of its comparators, then pass
+	Range.prototype.test = function (version) {
+	  if (!version) {
+	    return false
+	  }
+
+	  if (typeof version === 'string') {
+	    try {
+	      version = new SemVer(version, this.options);
+	    } catch (er) {
+	      return false
+	    }
+	  }
+
+	  for (var i = 0; i < this.set.length; i++) {
+	    if (testSet(this.set[i], version, this.options)) {
+	      return true
+	    }
+	  }
+	  return false
+	};
+
+	function testSet (set, version, options) {
+	  for (var i = 0; i < set.length; i++) {
+	    if (!set[i].test(version)) {
+	      return false
+	    }
+	  }
+
+	  if (version.prerelease.length && !options.includePrerelease) {
+	    // Find the set of versions that are allowed to have prereleases
+	    // For example, ^1.2.3-pr.1 desugars to >=1.2.3-pr.1 <2.0.0
+	    // That should allow `1.2.3-pr.2` to pass.
+	    // However, `1.2.4-alpha.notready` should NOT be allowed,
+	    // even though it's within the range set by the comparators.
+	    for (i = 0; i < set.length; i++) {
+	      debug(set[i].semver);
+	      if (set[i].semver === ANY) {
+	        continue
+	      }
+
+	      if (set[i].semver.prerelease.length > 0) {
+	        var allowed = set[i].semver;
+	        if (allowed.major === version.major &&
+	            allowed.minor === version.minor &&
+	            allowed.patch === version.patch) {
+	          return true
+	        }
+	      }
+	    }
+
+	    // Version has a -pre, but it's not one of the ones we like.
+	    return false
+	  }
+
+	  return true
+	}
+
+	exports.satisfies = satisfies;
+	function satisfies (version, range, options) {
+	  try {
+	    range = new Range(range, options);
+	  } catch (er) {
+	    return false
+	  }
+	  return range.test(version)
+	}
+
+	exports.maxSatisfying = maxSatisfying;
+	function maxSatisfying (versions, range, options) {
+	  var max = null;
+	  var maxSV = null;
+	  try {
+	    var rangeObj = new Range(range, options);
+	  } catch (er) {
+	    return null
+	  }
+	  versions.forEach(function (v) {
+	    if (rangeObj.test(v)) {
+	      // satisfies(v, range, options)
+	      if (!max || maxSV.compare(v) === -1) {
+	        // compare(max, v, true)
+	        max = v;
+	        maxSV = new SemVer(max, options);
+	      }
+	    }
+	  });
+	  return max
+	}
+
+	exports.minSatisfying = minSatisfying;
+	function minSatisfying (versions, range, options) {
+	  var min = null;
+	  var minSV = null;
+	  try {
+	    var rangeObj = new Range(range, options);
+	  } catch (er) {
+	    return null
+	  }
+	  versions.forEach(function (v) {
+	    if (rangeObj.test(v)) {
+	      // satisfies(v, range, options)
+	      if (!min || minSV.compare(v) === 1) {
+	        // compare(min, v, true)
+	        min = v;
+	        minSV = new SemVer(min, options);
+	      }
+	    }
+	  });
+	  return min
+	}
+
+	exports.minVersion = minVersion;
+	function minVersion (range, loose) {
+	  range = new Range(range, loose);
+
+	  var minver = new SemVer('0.0.0');
+	  if (range.test(minver)) {
+	    return minver
+	  }
+
+	  minver = new SemVer('0.0.0-0');
+	  if (range.test(minver)) {
+	    return minver
+	  }
+
+	  minver = null;
+	  for (var i = 0; i < range.set.length; ++i) {
+	    var comparators = range.set[i];
+
+	    comparators.forEach(function (comparator) {
+	      // Clone to avoid manipulating the comparator's semver object.
+	      var compver = new SemVer(comparator.semver.version);
+	      switch (comparator.operator) {
+	        case '>':
+	          if (compver.prerelease.length === 0) {
+	            compver.patch++;
+	          } else {
+	            compver.prerelease.push(0);
+	          }
+	          compver.raw = compver.format();
+	          /* fallthrough */
+	        case '':
+	        case '>=':
+	          if (!minver || gt(minver, compver)) {
+	            minver = compver;
+	          }
+	          break
+	        case '<':
+	        case '<=':
+	          /* Ignore maximum versions */
+	          break
+	        /* istanbul ignore next */
+	        default:
+	          throw new Error('Unexpected operation: ' + comparator.operator)
+	      }
+	    });
+	  }
+
+	  if (minver && range.test(minver)) {
+	    return minver
+	  }
+
+	  return null
+	}
+
+	exports.validRange = validRange;
+	function validRange (range, options) {
+	  try {
+	    // Return '*' instead of '' so that truthiness works.
+	    // This will throw if it's invalid anyway
+	    return new Range(range, options).range || '*'
+	  } catch (er) {
+	    return null
+	  }
+	}
+
+	// Determine if version is less than all the versions possible in the range
+	exports.ltr = ltr;
+	function ltr (version, range, options) {
+	  return outside(version, range, '<', options)
+	}
+
+	// Determine if version is greater than all the versions possible in the range.
+	exports.gtr = gtr;
+	function gtr (version, range, options) {
+	  return outside(version, range, '>', options)
+	}
+
+	exports.outside = outside;
+	function outside (version, range, hilo, options) {
+	  version = new SemVer(version, options);
+	  range = new Range(range, options);
+
+	  var gtfn, ltefn, ltfn, comp, ecomp;
+	  switch (hilo) {
+	    case '>':
+	      gtfn = gt;
+	      ltefn = lte;
+	      ltfn = lt;
+	      comp = '>';
+	      ecomp = '>=';
+	      break
+	    case '<':
+	      gtfn = lt;
+	      ltefn = gte;
+	      ltfn = gt;
+	      comp = '<';
+	      ecomp = '<=';
+	      break
+	    default:
+	      throw new TypeError('Must provide a hilo val of "<" or ">"')
+	  }
+
+	  // If it satisifes the range it is not outside
+	  if (satisfies(version, range, options)) {
+	    return false
+	  }
+
+	  // From now on, variable terms are as if we're in "gtr" mode.
+	  // but note that everything is flipped for the "ltr" function.
+
+	  for (var i = 0; i < range.set.length; ++i) {
+	    var comparators = range.set[i];
+
+	    var high = null;
+	    var low = null;
+
+	    comparators.forEach(function (comparator) {
+	      if (comparator.semver === ANY) {
+	        comparator = new Comparator('>=0.0.0');
+	      }
+	      high = high || comparator;
+	      low = low || comparator;
+	      if (gtfn(comparator.semver, high.semver, options)) {
+	        high = comparator;
+	      } else if (ltfn(comparator.semver, low.semver, options)) {
+	        low = comparator;
+	      }
+	    });
+
+	    // If the edge version comparator has a operator then our version
+	    // isn't outside it
+	    if (high.operator === comp || high.operator === ecomp) {
+	      return false
+	    }
+
+	    // If the lowest version comparator has an operator and our version
+	    // is less than it then it isn't higher than the range
+	    if ((!low.operator || low.operator === comp) &&
+	        ltefn(version, low.semver)) {
+	      return false
+	    } else if (low.operator === ecomp && ltfn(version, low.semver)) {
+	      return false
+	    }
+	  }
+	  return true
+	}
+
+	exports.prerelease = prerelease;
+	function prerelease (version, options) {
+	  var parsed = parse(version, options);
+	  return (parsed && parsed.prerelease.length) ? parsed.prerelease : null
+	}
+
+	exports.intersects = intersects;
+	function intersects (r1, r2, options) {
+	  r1 = new Range(r1, options);
+	  r2 = new Range(r2, options);
+	  return r1.intersects(r2)
+	}
+
+	exports.coerce = coerce;
+	function coerce (version, options) {
+	  if (version instanceof SemVer) {
+	    return version
+	  }
+
+	  if (typeof version === 'number') {
+	    version = String(version);
+	  }
+
+	  if (typeof version !== 'string') {
+	    return null
+	  }
+
+	  options = options || {};
+
+	  var match = null;
+	  if (!options.rtl) {
+	    match = version.match(safeRe[t.COERCE]);
+	  } else {
+	    // Find the right-most coercible string that does not share
+	    // a terminus with a more left-ward coercible string.
+	    // Eg, '1.2.3.4' wants to coerce '2.3.4', not '3.4' or '4'
+	    //
+	    // Walk through the string checking with a /g regexp
+	    // Manually set the index so as to pick up overlapping matches.
+	    // Stop when we get a match that ends at the string end, since no
+	    // coercible string can be more right-ward without the same terminus.
+	    var next;
+	    while ((next = safeRe[t.COERCERTL].exec(version)) &&
+	      (!match || match.index + match[0].length !== version.length)
+	    ) {
+	      if (!match ||
+	          next.index + next[0].length !== match.index + match[0].length) {
+	        match = next;
+	      }
+	      safeRe[t.COERCERTL].lastIndex = next.index + next[1].length + next[2].length;
+	    }
+	    // leave it in a clean state
+	    safeRe[t.COERCERTL].lastIndex = -1;
+	  }
+
+	  if (match === null) {
+	    return null
+	  }
+
+	  return parse(match[2] +
+	    '.' + (match[3] || '0') +
+	    '.' + (match[4] || '0'), options)
+	} 
+} (semver, semver.exports));
+
+var semverExports = semver.exports;var hasRequiredFile;
 
 function requireFile () {
 	if (hasRequiredFile) return file;
@@ -54944,7 +54943,7 @@ function requireFile () {
 	  return data;
 	}
 	function _semver() {
-	  const data = requireSemver();
+	  const data = semverExports;
 	  _semver = function () {
 	    return data;
 	  };
@@ -58690,11 +58689,11 @@ function requireError () {
 
 	error = BrowserslistError;
 	return error;
-}var parse$1;
+}var parse$2;
 var hasRequiredParse$1;
 
 function requireParse$1 () {
-	if (hasRequiredParse$1) return parse$1;
+	if (hasRequiredParse$1) return parse$2;
 	hasRequiredParse$1 = 1;
 	var AND_REGEXP = /^\s+and\s+(.*)/i;
 	var OR_REGEXP = /^(?:,\s*|\s+or\s+)(.*)/i;
@@ -58762,7 +58761,7 @@ function requireParse$1 () {
 	  })
 	}
 
-	parse$1 = function parse(all, queries) {
+	parse$2 = function parse(all, queries) {
 	  if (!Array.isArray(queries)) queries = [queries];
 	  return flatten(
 	    queries.map(function (block) {
@@ -58774,7 +58773,7 @@ function requireParse$1 () {
 	    })
 	  )
 	};
-	return parse$1;
+	return parse$2;
 }var browser;
 var hasRequiredBrowser;
 
@@ -60996,7 +60995,7 @@ function requireUtils () {
 	utils.isUnreleasedVersion = isUnreleasedVersion;
 	utils.semverMin = semverMin;
 	utils.semverify = semverify;
-	var _semver = requireSemver();
+	var _semver = semverExports;
 	var _helperValidatorOption = lib$h;
 	var _targets = requireTargets();
 	const versionRegExp = /^(\d+|\d+.\d+)$/;
@@ -61085,7 +61084,7 @@ function requirePretty () {
 	});
 	pretty.prettifyTargets = prettifyTargets;
 	pretty.prettifyVersion = prettifyVersion;
-	var _semver = requireSemver();
+	var _semver = semverExports;
 	var _targets = requireTargets();
 	function prettifyVersion(version) {
 	  if (typeof version !== "string") {
@@ -61129,7 +61128,7 @@ function requireDebug () {
 	  value: true
 	});
 	debug$1.getInclusionReasons = getInclusionReasons;
-	var _semver = requireSemver();
+	var _semver = semverExports;
 	var _pretty = requirePretty();
 	var _utils = requireUtils();
 	function getInclusionReasons(item, targetVersions, list) {
@@ -61934,7 +61933,7 @@ function requireFilterItems () {
 	filterItems.default = filterItems$1;
 	filterItems.isRequired = isRequired;
 	filterItems.targetsSupported = targetsSupported;
-	var _semver = requireSemver();
+	var _semver = semverExports;
 	var _plugins = requirePlugins();
 	var _utils = requireUtils();
 	function targetsSupported(target, support) {
@@ -63848,7 +63847,7 @@ function requireConfigApi () {
 	configApi.makePluginAPI = makePluginAPI;
 	configApi.makePresetAPI = makePresetAPI;
 	function _semver() {
-	  const data = requireSemver();
+	  const data = semverExports;
 	  _semver = function () {
 	    return data;
 	  };
@@ -65939,18 +65938,18 @@ function requireTransformAst () {
 
 	
 	return transformAst;
-}var parse = {};var hasRequiredParse;
+}var parse$1 = {};var hasRequiredParse;
 
 function requireParse () {
-	if (hasRequiredParse) return parse;
+	if (hasRequiredParse) return parse$1;
 	hasRequiredParse = 1;
 
-	Object.defineProperty(parse, "__esModule", {
+	Object.defineProperty(parse$1, "__esModule", {
 	  value: true
 	});
-	parse.parse = void 0;
-	parse.parseAsync = parseAsync;
-	parse.parseSync = parseSync;
+	parse$1.parse = void 0;
+	parse$1.parseAsync = parseAsync;
+	parse$1.parseSync = parseSync;
 	function _gensync() {
 	  const data = requireGensync();
 	  _gensync = function () {
@@ -65969,7 +65968,7 @@ function requireParse () {
 	  }
 	  return yield* (0, _parser.default)(config.passes, (0, _normalizeOpts.default)(config), code);
 	});
-	const parse$1 = function parse(code, opts, callback) {
+	const parse = function parse(code, opts, callback) {
 	  if (typeof opts === "function") {
 	    callback = opts;
 	    opts = undefined;
@@ -65981,7 +65980,7 @@ function requireParse () {
 	  }
 	  (0, _rewriteStackTrace.beginHiddenCallStack)(parseRunner.errback)(code, opts, callback);
 	};
-	parse.parse = parse$1;
+	parse$1.parse = parse;
 	function parseSync(...args) {
 	  return (0, _rewriteStackTrace.beginHiddenCallStack)(parseRunner.sync)(...args);
 	}
@@ -65990,7 +65989,7 @@ function requireParse () {
 	}
 
 	
-	return parse;
+	return parse$1;
 }var hasRequiredLib;
 
 function requireLib () {
@@ -66241,7 +66240,8 @@ function requireLib () {
 		
 	} (lib$A));
 	return lib$A;
-}var libExports = requireLib();var lib$g = {};var lib$f = {};Object.defineProperty(lib$f, "__esModule", {
+}var libExports = requireLib();
+var index$2 = /*@__PURE__*/getDefaultExportFromCjs(libExports);var index$3=/*#__PURE__*/_mergeNamespaces({__proto__:null,default:index$2},[libExports]);var lib$g = {};var lib$f = {};Object.defineProperty(lib$f, "__esModule", {
   value: true
 });
 lib$f.declare = declare;
@@ -69048,7 +69048,7 @@ function shouldTransform(path, file) {
 	var _core = requireLib();
 	var _helperFunctionName = lib$n;
 	var _helperSplitExportDeclaration = lib$u;
-	var _semver = requireSemver();
+	var _semver = semverExports;
 	var _fields = fields;
 	var _decorators = decorators;
 	var _misc = misc;
@@ -70558,7 +70558,7 @@ var index = helperPluginUtils.declarePreset((api, opts) => {
   };
 });
 
-var _default = lib$8.default = index;const loadingStyleTag = document.createElement('style');
+var _default = lib$8.default = index;var index$1=/*#__PURE__*/_mergeNamespaces({__proto__:null,default:_default},[lib$8]);const loadingStyleTag = document.createElement('style');
 loadingStyleTag.id = 'esm-x-loading-style';
 loadingStyleTag.textContent = `
   @keyframes spin {
@@ -70632,8 +70632,5427 @@ title.className = 'esm-x-title';
 title.textContent = 'Compiling JavaScript';
 loadingTag.appendChild(spinnerContainer);
 spinnerContainer.appendChild(spinner);
-spinnerContainer.appendChild(title);window.process = window.process || {};
+spinnerContainer.appendChild(title);var sver = {};const shortSemverRegEx = /^([~\^])?(0|[1-9]\d*)(?:\.(0|[1-9]\d*))?$/;
+const semverRegEx = /^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-([\da-z-]+(?:\.[\da-z-]+)*))?(\+[\da-z-]+)?$/i;
+sver.semverRegEx = semverRegEx;
+sver.shortSemverRegEx = shortSemverRegEx;
+
+const MAJOR = Symbol('major');
+const MINOR = Symbol('minor');
+const PATCH = Symbol('patch');
+const PRE = Symbol('pre');
+const BUILD = Symbol('build');
+const TAG = Symbol('tag');
+
+let numRegEx = /^\d+$/;
+let Semver$2=class Semver {
+  constructor (version) {
+    let semver = version.match(semverRegEx);
+    if (!semver) {
+      this[TAG] = version;
+      return;
+    }
+    this[MAJOR] = parseInt(semver[1], 10);
+    this[MINOR] = parseInt(semver[2], 10);
+    this[PATCH] = parseInt(semver[3], 10);
+    this[PRE] = semver[4] && semver[4].split('.');
+    this[BUILD] = semver[5];
+  }
+  get major () {
+    return this[MAJOR];
+  }
+  get minor () {
+    return this[MINOR];
+  }
+  get patch () {
+    return this[PATCH];
+  }
+  get pre () {
+    return this[PRE];
+  }
+  get build () {
+    return this[BUILD];
+  }
+  get tag () {
+    return this[TAG];
+  }
+  gt (version) {
+    return Semver.compare(this, version) === 1;
+  }
+  lt (version) {
+    return Semver.compare(this, version) === -1;
+  }
+  eq (version) {
+    if (!(version instanceof Semver))
+      version = new Semver(version);
+
+    if (this[TAG] && version[TAG])
+      return this[TAG] === version[TAG];
+    if (this[TAG] || version[TAG])
+      return false;
+    if (this[MAJOR] !== version[MAJOR])
+      return false;
+    if (this[MINOR] !== version[MINOR])
+      return false;
+    if (this[PATCH] !== version[PATCH])
+      return false;
+    if (this[PRE] === undefined && version[PRE] === undefined)
+      return true;
+    if (this[PRE] === undefined || version[PRE] === undefined)
+      return false;
+    if (this[PRE].length !== version[PRE].length)
+      return false;
+    for (let i = 0; i < this[PRE].length; i++) {
+      if (this[PRE][i] !== version[PRE][i])
+        return false;
+    }
+    return this[BUILD] === version[BUILD];
+  }
+  matches (range, unstable = false) {
+    if (!(range instanceof SemverRange$3))
+      range = new SemverRange$3(range);
+    return range.has(this, unstable);
+  }
+  toString () {
+    if (this[TAG])
+      return this[TAG];
+    return this[MAJOR] + '.' + this[MINOR] + '.' + this[PATCH] + (this[PRE] ? '-' + this[PRE].join('.') : '') + (this[BUILD] ? this[BUILD] : '');
+  }
+  toJSON() {
+    return this.toString();
+  }
+  static isValid (version) {
+    let semver = version.match(semverRegEx);
+    return semver && semver[2] !== undefined && semver[3] !== undefined;
+  }
+  static compare (v1, v2) {
+    if (!(v1 instanceof Semver))
+      v1 = new Semver(v1);
+    if (!(v2 instanceof Semver))
+      v2 = new Semver(v2);
+
+    // not semvers - tags have equal precedence
+    if (v1[TAG] && v2[TAG])
+      return 0;
+    // semver beats tag version
+    if (v1[TAG])
+      return -1;
+    if (v2[TAG])
+      return 1;
+    // compare version numbers
+    if (v1[MAJOR] !== v2[MAJOR])
+      return v1[MAJOR] > v2[MAJOR] ? 1 : -1;
+    if (v1[MINOR] !== v2[MINOR])
+      return v1[MINOR] > v2[MINOR] ? 1 : -1;
+    if (v1[PATCH] !== v2[PATCH])
+      return v1[PATCH] > v2[PATCH] ? 1 : -1;
+    if (!v1[PRE] && !v2[PRE])
+      return 0;
+    if (!v1[PRE])
+      return 1;
+    if (!v2[PRE])
+      return -1;
+    // prerelease comparison
+    return prereleaseCompare(v1[PRE], v2[PRE]);
+  }
+};
+var Semver_1 = sver.Semver = Semver$2;
+
+function prereleaseCompare (v1Pre, v2Pre) {
+  for (let i = 0, l = Math.min(v1Pre.length, v2Pre.length); i < l; i++) {
+    if (v1Pre[i] !== v2Pre[i]) {
+      let isNum1 = v1Pre[i].match(numRegEx);
+      let isNum2 = v2Pre[i].match(numRegEx);
+      // numeric has lower precedence
+      if (isNum1 && !isNum2)
+        return -1;
+      if (isNum2 && !isNum1)
+        return 1;
+      // compare parts
+      if (isNum1 && isNum2)
+        return parseInt(v1Pre[i], 10) > parseInt(v2Pre[i], 10) ? 1 : -1;
+      else
+        return v1Pre[i] > v2Pre[i] ? 1 : -1;
+    }
+  }
+  if (v1Pre.length === v2Pre.length)
+    return 0;
+  // more pre-release fields win if equal
+  return v1Pre.length > v2Pre.length ? 1 : -1;
+
+}
+
+const WILDCARD_RANGE = 0;
+const MAJOR_RANGE = 1;
+const STABLE_RANGE = 2;
+const EXACT_RANGE = 3;
+
+const TYPE = Symbol('type');
+const VERSION = Symbol('version');
+
+let SemverRange$3=class SemverRange {
+  constructor (versionRange) {
+    if (versionRange === '*' || versionRange === '') {
+      this[TYPE] = WILDCARD_RANGE;
+      return;
+    }
+    let shortSemver = versionRange.match(shortSemverRegEx);
+    if (shortSemver) {
+      if (shortSemver[1])
+        versionRange = versionRange.substr(1);
+      if (shortSemver[3] === undefined) {
+        // ^, ~ mean the same thing for a single major
+        this[VERSION] = new Semver$2(versionRange + '.0.0');
+        this[TYPE] = MAJOR_RANGE;
+      }
+      else {
+        this[VERSION] = new Semver$2(versionRange + '.0');
+        // ^ only becomes major range for major > 0
+        if (shortSemver[1] === '^' && shortSemver[2] !== '0')
+          this[TYPE] = MAJOR_RANGE;
+        else
+          this[TYPE] = STABLE_RANGE;
+      }
+      // empty pre array === support prerelease ranges
+      this[VERSION][PRE] = this[VERSION][PRE] || [];
+    }
+    // forces hat on 0.x versions
+    else if (versionRange.startsWith('^^')) {
+      this[VERSION] = new Semver$2(versionRange.substr(2));
+      this[TYPE] = MAJOR_RANGE;
+    }
+    else if (versionRange[0] === '^') {
+      this[VERSION] = new Semver$2(versionRange.substr(1));
+      if (this[VERSION][MAJOR] === 0) {
+        if (this[VERSION][MINOR] === 0)
+          this[TYPE] = EXACT_RANGE;
+        else
+          this[TYPE] = STABLE_RANGE;
+      }
+      else {
+        this[TYPE] = MAJOR_RANGE;
+      }
+    }
+    else if (versionRange[0] === '~') {
+      this[VERSION] = new Semver$2(versionRange.substr(1));
+      this[TYPE] = STABLE_RANGE;
+    }
+    else {
+      this[VERSION] = new Semver$2(versionRange);
+      this[TYPE] = EXACT_RANGE;
+    }
+    if (this[VERSION][TAG] && this[TYPE] !== EXACT_RANGE)
+      this[TYPE] = EXACT_RANGE;
+  }
+  get isExact () {
+    return this[TYPE] === EXACT_RANGE;
+  }
+  get isExactSemver () {
+    return this[TYPE] === EXACT_RANGE && this.version[TAG] === undefined;
+  }
+  get isExactTag () {
+    return this[TYPE] === EXACT_RANGE && this.version[TAG] !== undefined;
+  }
+  get isStable () {
+    return this[TYPE] === STABLE_RANGE;
+  }
+  get isMajor () {
+    return this[TYPE] === MAJOR_RANGE;
+  }
+  get isWildcard () {
+    return this[TYPE] === WILDCARD_RANGE;
+  }
+  get type () {
+    switch (this[TYPE]) {
+      case WILDCARD_RANGE:
+        return 'wildcard';
+      case MAJOR_RANGE:
+        return 'major';
+      case STABLE_RANGE:
+        return 'stable';
+      case EXACT_RANGE:
+        return 'exact';
+    }
+  }
+  get version () {
+    return this[VERSION];
+  }
+  gt (range) {
+    return SemverRange.compare(this, range) === 1;
+  }
+  lt (range) {
+    return SemverRange.compare(this, range) === -1;
+  }
+  eq (range) {
+    return SemverRange.compare(this, range) === 0;
+  }
+  has (version, unstable = false) {
+    if (!(version instanceof Semver$2))
+      version = new Semver$2(version);
+    if (this[TYPE] === WILDCARD_RANGE)
+      return unstable || (!version[PRE] && !version[TAG]);
+    if (this[TYPE] === EXACT_RANGE)
+      return this[VERSION].eq(version);
+    if (version[TAG])
+      return false;
+    if (this[VERSION][MAJOR] !== version[MAJOR])
+      return false;
+    if (this[TYPE] === MAJOR_RANGE ? this[VERSION][MINOR] > version[MINOR] : this[VERSION][MINOR] !== version[MINOR])
+      return false;
+    if ((this[TYPE] === MAJOR_RANGE ? this[VERSION][MINOR] === version[MINOR] : true) && this[VERSION][PATCH] > version[PATCH])
+      return false;
+    if (version[PRE] === undefined || version[PRE].length === 0)
+      return true;
+    if (this[VERSION][PRE] === undefined || this[VERSION][PRE].length === 0)
+      return unstable;
+    if (unstable === false && (this[VERSION][MINOR] !== version[MINOR] || this[VERSION][PATCH] !== version[PATCH]))
+      return false;
+    return prereleaseCompare(this[VERSION][PRE], version[PRE]) !== 1;
+  }
+  contains (range) {
+    if (!(range instanceof SemverRange))
+      range = new SemverRange(range);
+    if (this[TYPE] === WILDCARD_RANGE)
+      return true;
+    if (range[TYPE] === WILDCARD_RANGE)
+      return false;
+    return range[TYPE] >= this[TYPE] && this.has(range[VERSION], true);
+  }
+  intersect (range) {
+    if (!(range instanceof SemverRange))
+      range = new SemverRange(range);
+
+    if (this[TYPE] === WILDCARD_RANGE && range[TYPE] === WILDCARD_RANGE)
+      return this;
+    if (this[TYPE] === WILDCARD_RANGE)
+      return range;
+    if (range[TYPE] === WILDCARD_RANGE)
+      return this;
+
+    if (this[TYPE] === EXACT_RANGE)
+      return range.has(this[VERSION], true) ? this : undefined;
+    if (range[TYPE] === EXACT_RANGE)
+      return this.has(range[VERSION], true) ? range : undefined;
+
+    let higherRange, lowerRange, polarity;
+    if (range[VERSION].gt(this[VERSION])) {
+      higherRange = range;
+      lowerRange = this;
+      polarity = true;
+    }
+    else {
+      higherRange = this;
+      lowerRange = range;
+      polarity = false;
+    }
+
+    if (!lowerRange.has(higherRange[VERSION], true))
+      return;
+
+    if (lowerRange[TYPE] === MAJOR_RANGE)
+      return polarity ? range : this;
+
+    let intersection = new SemverRange(higherRange[VERSION].toString());
+    intersection[TYPE] = STABLE_RANGE;
+    return intersection;
+  }
+  bestMatch (versions, unstable = false) {
+    let maxSemver;
+    versions.forEach(version => {
+      if (!(version instanceof Semver$2))
+        version = new Semver$2(version);
+      if (!this.has(version, unstable))
+        return;
+      if (!maxSemver)
+        maxSemver = version;
+      else if (Semver$2.compare(version, maxSemver) === 1)
+        maxSemver = version;
+    });
+    return maxSemver;
+  }
+  toString () {
+    let version = this[VERSION];
+    switch (this[TYPE]) {
+      case WILDCARD_RANGE:
+        return '*';
+      case MAJOR_RANGE:
+        if (version[MAJOR] === 0 && version[MINOR] === 0 && version[PATCH] === 0)
+           return '0';
+        if (version[PRE] && version[PRE].length === 0 && version[PATCH] === 0)
+           return '^' + version[MAJOR] + '.' + version[MINOR];
+        return '^' + version.toString();
+      case STABLE_RANGE:
+        if (version[PRE] && version[PRE].length === 0 && version[PATCH] === 0 || version[MAJOR] === 0 && version[MINOR] === 0)
+          return version[MAJOR] + '.' + version[MINOR];
+        return '~' + version.toString();
+      case EXACT_RANGE:
+        return version.toString();
+    }
+  }
+  toJSON() {
+    return this.toString();
+  }
+  static match (range, version, unstable = false) {
+    if (!(version instanceof Semver$2))
+      version = new Semver$2(version);
+    return version.matches(range, unstable);
+  }
+  static isValid (range) {
+    let semverRange = new SemverRange(range);
+    return semverRange[TYPE] !== EXACT_RANGE || semverRange[VERSION][TAG] === undefined;
+  }
+  static compare (r1, r2) {
+    if (!(r1 instanceof SemverRange))
+      r1 = new SemverRange(r1);
+    if (!(r2 instanceof SemverRange))
+      r2 = new SemverRange(r2);
+    if (r1[TYPE] === WILDCARD_RANGE && r2[TYPE] === WILDCARD_RANGE)
+      return 0;
+    if (r1[TYPE] === WILDCARD_RANGE)
+      return 1;
+    if (r2[TYPE] === WILDCARD_RANGE)
+      return -1;
+    let cmp = Semver$2.compare(r1[VERSION], r2[VERSION]);
+    if (cmp !== 0) {
+      return cmp;
+    }
+    if (r1[TYPE] === r2[TYPE])
+      return 0;
+    return r1[TYPE] > r2[TYPE] ? 1 : -1;
+  }
+};
+var SemverRange_1 = sver.SemverRange = SemverRange$3;const nodeSemver = semverExports;
+const { Semver: Semver$1, SemverRange: SemverRange$2 } = sver;
+
+var convertRange = function nodeRangeToSemverRange (range) {
+  let parsed = nodeSemver.validRange(range);
+
+  // tag version
+  if (!parsed)
+    return new SemverRange$2(range);
+
+  if (parsed === '*')
+    return new SemverRange$2(parsed);
+
+  try {
+    let semverRange = new SemverRange$2(range);
+    if (!semverRange.version.tag)
+      return semverRange;
+  }
+  catch (e) {
+    if (e.code !== 'ENOTSEMVER')
+      throw e;
+  }
+
+  let outRange;
+  for (let union of parsed.split('||')) {
+    // compute the intersection into a lowest upper bound and a highest lower bound
+    let upperBound, lowerBound, upperEq, lowerEq;
+    for (let intersection of union.split(' ')) {
+      let lt = intersection[0] === '<';
+      let gt = intersection[0] === '>';
+      if (!lt && !gt) {
+        upperBound = intersection;
+        upperEq = true;
+        break;
+      }
+      let eq = intersection[1] === '=';
+      if (!gt) {
+        let version = new Semver$1(intersection.substr(1 + eq));
+        if (!upperBound || upperBound.gt(version)) {
+          upperBound = version;
+          upperEq = eq;
+        }
+      }
+      else if (!lt) {
+        let eq = intersection[1] === '=';
+        let version = new Semver$1(intersection.substr(1 + eq));
+        if (!lowerBound || lowerBound.lt(version)) {
+          lowerBound = version;
+          lowerEq = eq;
+        }
+      }
+    }
+
+    // no upper bound -> wildcard
+    if (!upperBound) {
+      outRange = new SemverRange$2('*');
+      continue;
+    }
+
+    // if the lower bound is greater than the upper bound then just return the lower bound exactly
+    if (lowerBound && upperBound && lowerBound.gt(upperBound)) {
+      let curRange = new SemverRange$2(lowerBound.toString());
+      // the largest or highest union range wins
+      if (!outRange || !outRange.contains(curRange) && (curRange.gt(outRange) || curRange.contains(outRange)))
+        outRange = curRange;
+      continue;
+    }
+
+    // determine the largest semver range satisfying the upper bound
+    let upperRange;
+    if (upperBound) {
+      // if the upper bound has an equality then we return it directly
+      if (upperEq) {
+        let curRange = new SemverRange$2(upperBound.toString());
+        // the largest or highest union range wins
+        if (!outRange || !outRange.contains(curRange) && (curRange.gt(outRange) || curRange.contains(outRange)))
+          outRange = curRange;
+        continue;
+      }
+
+      let major = 0, minor = 0, patch = 0, rangeType = '';
+
+      // if an exact prerelease range, match the lower bound as a range
+      if (upperBound.pre && lowerBound.major === upperBound.major && lowerBound.minor === upperBound.minor && lowerBound.patch === upperBound.patch) {
+        outRange = new SemverRange$2('~' + lowerBound.toString());
+        continue;
+      }
+
+      // <2.0.0 -> ^1.0.0
+      else if (upperBound.patch === 0) {
+        if (upperBound.minor === 0) {
+          if (upperBound.major > 0) {
+            major = upperBound.major - 1;
+            rangeType = '^';
+          }
+        }
+        // <1.2.0 -> ~1.1.0
+        else {
+          major = upperBound.major;
+          minor = upperBound.minor - 1;
+          rangeType = '~';
+        }
+      }
+      // <1.2.3 -> ~1.2.0
+      else {
+        major = upperBound.major;
+        minor = upperBound.minor;
+        patch = 0;
+        rangeType = '~';
+      }
+
+      if (major === 0 && rangeType === '^')
+        upperRange = new SemverRange$2('0');
+      else
+        upperRange = new SemverRange$2(rangeType + major + '.' + minor + '.' + patch);
+    }
+
+    if (!lowerBound) {
+      outRange = upperRange;
+      continue;
+    }
+
+    // determine the lower range semver range
+    let lowerRange;
+    if (!lowerEq) {
+      if (lowerBound.pre)
+        lowerRange = new SemverRange$2('^^' + lowerBound.major + '.' + lowerBound.minor + '.' + lowerBound.patch + '-' + [...lowerBound.pre, 1].join('.'));
+      else
+        lowerRange = new SemverRange$2('^^' + lowerBound.major + '.' + lowerBound.minor + '.' + (lowerBound.patch + 1));
+    }
+    else {
+      lowerRange = new SemverRange$2('^^' + lowerBound.toString());
+    }
+
+    // we then intersect the upper semver range with the lower semver range
+    // if the intersection is empty, we return the upper range only
+    let curRange = upperRange ? lowerRange.intersect(upperRange) || upperRange : lowerRange;
+
+    // the largest or highest union range wins
+    if (!outRange || !outRange.contains(curRange) && (curRange.gt(outRange) || curRange.contains(outRange)))
+      outRange = curRange;
+  }
+  return outRange;
+};
+
+var convertRange$1 = /*@__PURE__*/getDefaultExportFromCjs(convertRange);/**
+ * Wraps a fetch request with retry logic on exceptions, which is useful for
+ * spotty connections that may fail intermittently.
+ */ function wrapWithRetry(fetch) {
+    return async function(url, ...args) {
+        let retries = 0;
+        while(true){
+            try {
+                return await fetch(url, ...args);
+            } catch (e) {
+                if (retries++ > 3) throw e;
+            }
+        }
+    };
+}// Browser native fetch doesn't deal well with high contention
+// restrict in-flight fetches to a pool of 100
+let p = [];
+let c$1 = 0;
+function pushFetchPool() {
+    if (++c$1 > 100) return new Promise((r)=>p.push(r));
+}
+function popFetchPool() {
+    c$1--;
+    if (p.length) p.shift()();
+}
+const fetch$1 = wrapWithRetry(async function fetch(url, opts) {
+    const poolQueue = pushFetchPool();
+    if (poolQueue) await poolQueue;
+    try {
+        return await globalThis.fetch(url, opts);
+    } catch (e) {
+        // CORS errors throw a fetch type error
+        // Instead, treat this as an actual unauthorized response
+        if (e instanceof TypeError) {
+            return {
+                status: 401,
+                async text () {
+                    return "";
+                },
+                async json () {
+                    throw new Error("Not JSON");
+                },
+                arrayBuffer () {
+                    return new ArrayBuffer(0);
+                }
+            };
+        }
+    } finally{
+        popFetchPool();
+    }
+});var ref;
+let baseUrl$1;
+// @ts-ignore
+if (typeof Deno !== "undefined") {
+    // @ts-ignore
+    baseUrl$1 = new URL("file://" + Deno.cwd() + "/");
+} else if (typeof browser$1$1 !== "undefined" && ((ref = browser$1$1.versions) === null || ref === void 0 ? void 0 : ref.node)) {
+    baseUrl$1 = new URL("file://" + browser$1$1.cwd() + "/");
+} else if (typeof document !== "undefined") {
+    const baseEl = document.querySelector("base[href]");
+    if (baseEl) baseUrl$1 = new URL(baseEl.href + (baseEl.href.endsWith("/") ? "" : "/"));
+    else if (typeof location !== "undefined") baseUrl$1 = new URL("../", new URL(location.href));
+}
+function getCommonBase(a, b) {
+    if (a.startsWith(b)) return b;
+    if (b.startsWith(a)) return a;
+    const aSegments = a.split("/");
+    const bSegments = b.split("/");
+    let i = 0;
+    while(aSegments[i] === bSegments[i])i++;
+    return aSegments.slice(0, i).join("/") + "/";
+}
+function sameOrigin(url, baseUrl) {
+    return url.protocol === baseUrl.protocol && url.host === baseUrl.host && url.port === baseUrl.port && url.username === baseUrl.username && url.password === baseUrl.password;
+}
+function resolve(url, mapUrl, rootUrl) {
+    if (url.startsWith("/")) return rootUrl ? new URL("." + url.slice(url[1] === "/" ? 1 : 0), rootUrl).href : url;
+    return new URL(url, mapUrl).href;
+}
+function rebase(url, baseUrl, rootUrl = null) {
+    let resolved;
+    if (url.startsWith("/") || url.startsWith("//")) {
+        if (rootUrl === null) return url;
+        resolved = new URL(url, rootUrl);
+    } else {
+        resolved = new URL(url, baseUrl);
+    }
+    if (rootUrl && resolved.href.startsWith(rootUrl.href)) return resolved.href.slice(rootUrl.href.length - 1);
+    if (rootUrl && rootUrl.href.startsWith(resolved.href)) {
+        // edge-case
+        return "/" + relative(resolved, rootUrl);
+    }
+    if (sameOrigin(resolved, baseUrl)) return relative(resolved, baseUrl);
+    return resolved.href;
+}
+function relative(url, baseUrl) {
+    const baseUrlPath = baseUrl.pathname;
+    const urlPath = url.pathname;
+    const minLen = Math.min(baseUrlPath.length, urlPath.length);
+    let sharedBaseIndex = -1;
+    for(let i = 0; i < minLen; i++){
+        if (baseUrlPath[i] !== urlPath[i]) break;
+        if (urlPath[i] === "/") sharedBaseIndex = i;
+    }
+    const backtracks = baseUrlPath.slice(sharedBaseIndex + 1).split("/").length - 1;
+    return (backtracks ? "../".repeat(backtracks) : "./") + urlPath.slice(sharedBaseIndex + 1) + url.search + url.hash;
+}
+function isURL$1(specifier) {
+    try {
+        if (specifier[0] === "#") return false;
+        new URL(specifier);
+    } catch (e) {
+        return false;
+    }
+    return true;
+}
+function isPlain$1(specifier) {
+    return !isRelative$1(specifier) && !isURL$1(specifier);
+}
+function isRelative$1(specifier) {
+    return specifier.startsWith("./") || specifier.startsWith("../") || specifier.startsWith("/");
+}
+
+function alphabetize(obj) {
+    const out = {};
+    for (const key of Object.keys(obj).sort())out[key] = obj[key];
+    return out;
+}
+
+class ImportMap {
+    /**
+   * Clones the import map
+   * @returns Cloned import map
+   */ clone() {
+        return new ImportMap({
+            mapUrl: this.mapUrl,
+            rootUrl: this.rootUrl
+        }).extend(this);
+    }
+    /**
+   * Extends the import map mappings
+   * @param map Import map to extend with
+   * @param overrideScopes Set to true to have scopes be replacing instead of extending
+   * @returns ImportMap for chaining
+   */ extend(map, overrideScopes = false) {
+        Object.assign(this.imports, map.imports);
+        if (overrideScopes) {
+            Object.assign(this.scopes, map.scopes);
+        } else if (map.scopes) {
+            for (const scope of Object.keys(map.scopes))Object.assign(this.scopes[scope] = this.scopes[scope] || Object.create(null), map.scopes[scope]);
+        }
+        this.rebase();
+        return this;
+    }
+    /**
+   * Performs an alphanumerical sort on the import map imports and scopes
+   * @returns ImportMap for chaining
+   */ sort() {
+        this.imports = alphabetize(this.imports);
+        this.scopes = alphabetize(this.scopes);
+        for (const scope of Object.keys(this.scopes))this.scopes[scope] = alphabetize(this.scopes[scope]);
+        return this;
+    }
+    /**
+   * Set a specific entry in the import map
+   *
+   * @param name Specifier to set
+   * @param target Target of the map
+   * @param parent Optional parent scope
+   * @returns ImportMap for chaining
+   */ set(name, target, parent) {
+        if (!parent) {
+            this.imports[name] = target;
+        } else {
+            this.scopes[parent] = this.scopes[parent] || Object.create(null);
+            this.scopes[parent][name] = target;
+        }
+        return this;
+    }
+    /**
+   * Bulk replace URLs in the import map
+   * Provide a URL ending in "/" to perform path replacements
+   *
+   * @param url {String} The URL to replace
+   * @param newUrl {String} The URL to replace it with
+   * @returns ImportMap for chaining
+   */ replace(url, newUrl) {
+        const replaceSubpaths = url.endsWith("/");
+        if (!isURL$1(url)) throw new Error("URL remapping only supports URLs");
+        const newRelPkgUrl = rebase(newUrl, this.mapUrl, this.rootUrl);
+        for (const impt of Object.keys(this.imports)){
+            const target = this.imports[impt];
+            if (replaceSubpaths && target.startsWith(url) || target === url) this.imports[impt] = newRelPkgUrl + target.slice(url.length);
+        }
+        for (const scope of Object.keys(this.scopes)){
+            const scopeImports = this.scopes[scope];
+            const scopeUrl = resolve(scope, this.mapUrl, this.rootUrl);
+            if (replaceSubpaths && scopeUrl.startsWith(url) || scopeUrl === url) {
+                const newScope = newRelPkgUrl + scopeUrl.slice(url.length);
+                delete this.scopes[scope];
+                this.scopes[newScope] = scopeImports;
+            }
+            for (const impt1 of Object.keys(scopeImports)){
+                const target1 = scopeImports[impt1];
+                if (replaceSubpaths && target1.startsWith(url) || target1 === url) scopeImports[impt1] = newRelPkgUrl + target1.slice(url.length);
+            }
+        }
+        return this;
+    }
+    /**
+   * Groups subpath mappings into path mappings when multiple exact subpaths
+   * exist under the same path.
+   *
+   * For two mappings like { "base/a.js": "/a.js", "base/b.js": "/b.js" },
+   * these will be replaced with a single path mapping { "base/": "/" }.
+   * Groupings are done throughout all import scopes individually.
+   *
+   * @returns ImportMap for chaining
+   */ combineSubpaths() {
+        // iterate possible bases and submappings, grouping bases greedily
+        const combineSubpathMappings = (mappings)=>{
+            let outMappings = Object.create(null);
+            for (let impt of Object.keys(mappings)){
+                const target = mappings[impt];
+                // Check if this import is already handled by an existing path mapping
+                // If so, either merge with it or continue on
+                let mapMatch;
+                if (isPlain$1(impt)) {
+                    mapMatch = getMapMatch$1(impt, outMappings);
+                } else {
+                    mapMatch = getMapMatch$1(impt = rebase(impt, this.mapUrl, this.rootUrl), outMappings) || this.rootUrl && getMapMatch$1(impt = rebase(impt, this.mapUrl, null), outMappings) || undefined;
+                }
+                if (mapMatch && impt.slice(mapMatch.length) === resolve(target, this.mapUrl, this.rootUrl).slice(resolve(outMappings[mapMatch], this.mapUrl, this.rootUrl).length)) {
+                    continue;
+                }
+                let newbase = false;
+                const targetParts = mappings[impt].split("/");
+                const imptParts = impt.split("/");
+                for(let j = imptParts.length - 1; j > 0; j--){
+                    const subpath = imptParts.slice(j).join("/");
+                    const subpathTarget = targetParts.slice(targetParts.length - (imptParts.length - j)).join("/");
+                    if (subpath !== subpathTarget) {
+                        outMappings[impt] = mappings[impt];
+                        break;
+                    }
+                    const base = imptParts.slice(0, j).join("/") + "/";
+                    if (outMappings[base]) continue;
+                    const baseTarget = targetParts.slice(0, targetParts.length - (imptParts.length - j)).join("/") + "/";
+                    // Dedupe existing mappings against the new base to remove them
+                    // And if we dont dedupe against anything then dont perform this basing
+                    for (let impt1 of Object.keys(outMappings)){
+                        const target1 = outMappings[impt1];
+                        let matches = false;
+                        if (isPlain$1(impt1)) {
+                            matches = impt1.startsWith(base);
+                        } else {
+                            matches = (impt1 = rebase(impt1, this.mapUrl, this.rootUrl)).startsWith(base) || (impt1 = rebase(impt1, this.mapUrl, this.rootUrl)).startsWith(base);
+                        }
+                        if (matches && impt1.slice(base.length) === resolve(target1, this.mapUrl, this.rootUrl).slice(resolve(baseTarget, this.mapUrl, this.rootUrl).length)) {
+                            newbase = true;
+                            delete outMappings[impt1];
+                        }
+                    }
+                    if (newbase) {
+                        outMappings[base] = baseTarget;
+                        break;
+                    }
+                }
+                if (!newbase) outMappings[impt] = target;
+            }
+            return outMappings;
+        };
+        // Only applies for scopes since "imports" are generally treated as
+        // an authoritative entry point list
+        for (const scope of Object.keys(this.scopes)){
+            this.scopes[scope] = combineSubpathMappings(this.scopes[scope]);
+        }
+        return this;
+    }
+    /**
+   * Groups the import map scopes to shared URLs to reduce duplicate mappings.
+   *
+   * For two given scopes, "https://site.com/x/" and "https://site.com/y/",
+   * a single scope will be constructed for "https://site.com/" including
+   * their shared mappings, only retaining the scopes if they have differences.
+   *
+   * In the case where the scope is on the same origin as the mapUrl, the grouped
+   * scope is determined based on determining the common baseline over all local scopes
+   *
+   * @returns ImportMap for chaining
+   */ flatten() {
+        // First, determine the common base for the local mappings if any
+        let localScopemapUrl = null;
+        for (const scope of Object.keys(this.scopes)){
+            const resolvedScope = resolve(scope, this.mapUrl, this.rootUrl);
+            if (isURL$1(resolvedScope)) {
+                const scopeUrl = new URL(resolvedScope);
+                if (sameOrigin(scopeUrl, this.mapUrl)) {
+                    if (!localScopemapUrl) localScopemapUrl = scopeUrl.href;
+                    else localScopemapUrl = getCommonBase(scopeUrl.href, localScopemapUrl);
+                }
+            } else {
+                if (!localScopemapUrl) localScopemapUrl = resolvedScope;
+                else localScopemapUrl = getCommonBase(resolvedScope, localScopemapUrl);
+            }
+        }
+        // for each scope, update its mappings to be in the shared base where possible
+        const relativeLocalScopemapUrl = localScopemapUrl ? rebase(localScopemapUrl, this.mapUrl, this.rootUrl) : null;
+        for (const scope1 of Object.keys(this.scopes)){
+            const scopeImports = this.scopes[scope1];
+            let scopemapUrl;
+            const resolvedScope1 = resolve(scope1, this.mapUrl, this.rootUrl);
+            if (isURL$1(resolvedScope1)) {
+                const scopeUrl1 = new URL(resolvedScope1);
+                if (sameOrigin(scopeUrl1, this.mapUrl)) {
+                    scopemapUrl = relativeLocalScopemapUrl;
+                } else {
+                    scopemapUrl = scopeUrl1.protocol + "//" + scopeUrl1.hostname + (scopeUrl1.port ? ":" + scopeUrl1.port : "") + "/";
+                }
+            } else {
+                scopemapUrl = relativeLocalScopemapUrl;
+            }
+            let scopeBase = this.scopes[scopemapUrl] || Object.create(null);
+            if (scopeBase === scopeImports) scopeBase = null;
+            let flattenedAll = true;
+            for (const name of Object.keys(scopeImports)){
+                const target = scopeImports[name];
+                if (this.imports[name] && resolve(this.imports[name], this.mapUrl, this.rootUrl) === resolve(target, this.mapUrl, this.rootUrl)) {
+                    delete scopeImports[name];
+                } else if (scopeBase && (!scopeBase[name] || resolve(scopeBase[name], this.mapUrl, this.rootUrl) === resolve(target, this.mapUrl, this.rootUrl))) {
+                    scopeBase[name] = rebase(target, this.mapUrl, this.rootUrl);
+                    delete scopeImports[name];
+                    this.scopes[scopemapUrl] = alphabetize(scopeBase);
+                } else {
+                    flattenedAll = false;
+                }
+            }
+            if (flattenedAll) delete this.scopes[scope1];
+        }
+        return this;
+    }
+    /**
+   * Rebase the entire import map to a new mapUrl and rootUrl
+   *
+   * If the rootUrl is not provided, it will remain null if it was
+   * already set to null.
+   *
+   * Otherwise, just like the constructor options, the rootUrl
+   * will default to the mapUrl base if it is an http: or https:
+   * scheme URL, and null otherwise keeping absolute URLs entirely
+   * in-tact.
+   *
+   * @param mapUrl The new map URL to use
+   * @param rootUrl The new root URL to use
+   * @returns ImportMap for chaining
+   */ rebase(mapUrl = this.mapUrl, rootUrl) {
+        if (typeof mapUrl === "string") mapUrl = new URL(mapUrl);
+        if (rootUrl === undefined) {
+            if (mapUrl.href === this.mapUrl.href) rootUrl = this.rootUrl;
+            else rootUrl = this.rootUrl === null || mapUrl.protocol !== "https:" && mapUrl.protocol !== "http:" ? null : new URL("/", mapUrl);
+        } else if (typeof rootUrl === "string") rootUrl = new URL(rootUrl);
+        let changedImportProps = false;
+        for (const impt of Object.keys(this.imports)){
+            const target = this.imports[impt];
+            this.imports[impt] = rebase(resolve(target, this.mapUrl, this.rootUrl), mapUrl, rootUrl);
+            if (!isPlain$1(impt)) {
+                const newImpt = rebase(resolve(impt, this.mapUrl, this.rootUrl), mapUrl, rootUrl);
+                if (newImpt !== impt) {
+                    changedImportProps = true;
+                    this.imports[newImpt] = this.imports[impt];
+                    delete this.imports[impt];
+                }
+            }
+        }
+        if (changedImportProps) this.imports = alphabetize(this.imports);
+        let changedScopeProps = false;
+        for (const scope of Object.keys(this.scopes)){
+            const scopeImports = this.scopes[scope];
+            let changedScopeImportProps = false;
+            for (const impt1 of Object.keys(scopeImports)){
+                const target1 = scopeImports[impt1];
+                scopeImports[impt1] = rebase(resolve(target1, this.mapUrl, this.rootUrl), mapUrl, rootUrl);
+                if (!isPlain$1(impt1)) {
+                    const newName = rebase(resolve(impt1, this.mapUrl, this.rootUrl), mapUrl, rootUrl);
+                    if (newName !== impt1) {
+                        changedScopeImportProps = true;
+                        scopeImports[newName] = scopeImports[impt1];
+                        delete scopeImports[impt1];
+                    }
+                }
+            }
+            if (changedScopeImportProps) this.scopes[scope] = alphabetize(scopeImports);
+            const newScope = rebase(resolve(scope, this.mapUrl, this.rootUrl), mapUrl, rootUrl);
+            if (scope !== newScope) {
+                changedScopeProps = true;
+                delete this.scopes[scope];
+                this.scopes[newScope] = scopeImports;
+            }
+        }
+        if (changedScopeProps) this.scopes = alphabetize(this.scopes);
+        this.mapUrl = mapUrl;
+        this.rootUrl = rootUrl;
+        return this;
+    }
+    /**
+   * Perform a module resolution against the import map
+   *
+   * @param specifier Specifier to resolve
+   * @param parentUrl Parent URL to resolve against
+   * @returns Resolved URL string
+   */ resolve(specifier, parentUrl = this.mapUrl) {
+        if (typeof parentUrl !== "string") parentUrl = parentUrl.toString();
+        parentUrl = resolve(parentUrl, this.mapUrl, this.rootUrl);
+        let specifierUrl;
+        if (!isPlain$1(specifier)) {
+            specifierUrl = new URL(specifier, parentUrl);
+            specifier = specifierUrl.href;
+        }
+        const scopeMatches = getScopeMatches(parentUrl, this.scopes, this.mapUrl, this.rootUrl);
+        for (const [scope] of scopeMatches){
+            let mapMatch = getMapMatch$1(specifier, this.scopes[scope]);
+            if (!mapMatch && specifierUrl) {
+                mapMatch = getMapMatch$1(specifier = rebase(specifier, this.mapUrl, this.rootUrl), this.scopes[scope]) || this.rootUrl && getMapMatch$1(specifier = rebase(specifier, this.mapUrl, null), this.scopes[scope]) || undefined;
+            }
+            if (mapMatch) {
+                const target = this.scopes[scope][mapMatch];
+                return resolve(target + specifier.slice(mapMatch.length), this.mapUrl, this.rootUrl);
+            }
+        }
+        let mapMatch1 = getMapMatch$1(specifier, this.imports);
+        if (!mapMatch1 && specifierUrl) {
+            mapMatch1 = getMapMatch$1(specifier = rebase(specifier, this.mapUrl, this.rootUrl), this.imports) || this.rootUrl && getMapMatch$1(specifier = rebase(specifier, this.mapUrl, null), this.imports) || undefined;
+        }
+        if (mapMatch1) {
+            const target1 = this.imports[mapMatch1];
+            return resolve(target1 + specifier.slice(mapMatch1.length), this.mapUrl, this.rootUrl);
+        }
+        if (specifierUrl) return specifierUrl.href;
+        throw new Error(`Unable to resolve ${specifier} in ${parentUrl}`);
+    }
+    /**
+   * Get the import map JSON data
+   *
+   * @returns Import map data
+   */ toJSON() {
+        const obj = {};
+        if (Object.keys(this.imports).length) obj.imports = this.imports;
+        if (Object.keys(this.scopes).length) obj.scopes = this.scopes;
+        return JSON.parse(JSON.stringify(obj));
+    }
+    /**
+   * Create a new import map instance
+   *
+   * @param opts import map options, can be an optional bag of { map?, mapUrl?, rootUrl? } or just a direct mapUrl
+   */ constructor(opts){
+        this.imports = Object.create(null);
+        this.scopes = Object.create(null);
+        let { map , mapUrl =baseUrl$1 , rootUrl ,  } = opts instanceof URL || typeof opts === "string" || typeof opts === "undefined" ? {
+            mapUrl: opts,
+            map: undefined,
+            rootUrl: undefined
+        } : opts;
+        if (typeof mapUrl === "string") mapUrl = new URL(mapUrl);
+        this.mapUrl = mapUrl;
+        if (rootUrl === undefined && (this.mapUrl.protocol === "http:" || this.mapUrl.protocol === "https:")) rootUrl = new URL("/", this.mapUrl);
+        else if (typeof rootUrl === "string") rootUrl = new URL(rootUrl);
+        this.rootUrl = rootUrl || null;
+        if (map) this.extend(map);
+    }
+}
+function getScopeMatches(parentUrl, scopes, mapUrl, rootUrl) {
+    let scopeCandidates = Object.keys(scopes).map((scope)=>[
+            scope,
+            resolve(scope, mapUrl, rootUrl), 
+        ]);
+    scopeCandidates = scopeCandidates.sort(([, matchA], [, matchB])=>matchA.length < matchB.length ? 1 : -1);
+    return scopeCandidates.filter(([, scopeUrl])=>{
+        return scopeUrl === parentUrl || scopeUrl.endsWith("/") && parentUrl.startsWith(scopeUrl);
+    });
+}
+function getMapMatch$1(specifier, map) {
+    if (specifier in map) return specifier;
+    let curMatch;
+    for (const match of Object.keys(map)){
+        const wildcard = match.endsWith("*");
+        if (!match.endsWith("/") && !wildcard) continue;
+        if (specifier.startsWith(wildcard ? match.slice(0, -1) : match)) {
+            if (!curMatch || match.length > curMatch.length) curMatch = match;
+        }
+    }
+    return curMatch;
+}/* es-module-lexer 1.3.1 */
+let e,a,r,i$1=2<<19;const s=1===new Uint8Array(new Uint16Array([1]).buffer)[0]?function(e,a){const r=e.length;let i=0;for(;i<r;)a[i]=e.charCodeAt(i++);}:function(e,a){const r=e.length;let i=0;for(;i<r;){const r=e.charCodeAt(i);a[i++]=(255&r)<<8|r>>>8;}},t="xportmportlassetaromsyncunctionssertvoyiedelecontininstantybreareturdebuggeawaithrwhileforifcatcfinallels";let f,c,n;function parse(l,k="@"){f=l,c=k;const u=2*f.length+(2<<18);if(u>i$1||!e){for(;u>i$1;)i$1*=2;a=new ArrayBuffer(i$1),s(t,new Uint16Array(a,16,105)),e=function(e,a,r){"use asm";var i=new e.Int8Array(r),s=new e.Int16Array(r),t=new e.Int32Array(r),f=new e.Uint8Array(r),c=new e.Uint16Array(r),n=1024;function b(){var e=0,a=0,r=0,f=0,b=0,u=0,w=0;w=n;n=n+10240|0;i[795]=1;s[395]=0;s[396]=0;t[67]=t[2];i[796]=0;t[66]=0;i[794]=0;t[68]=w+2048;t[69]=w;i[797]=0;e=(t[3]|0)+-2|0;t[70]=e;a=e+(t[64]<<1)|0;t[71]=a;e:while(1){r=e+2|0;t[70]=r;if(e>>>0>=a>>>0){u=18;break}a:do{switch(s[r>>1]|0){case 9:case 10:case 11:case 12:case 13:case 32:break;case 101:{if((((s[396]|0)==0?H(r)|0:0)?(m(e+4|0,16,10)|0)==0:0)?(l(),(i[795]|0)==0):0){u=9;break e}else u=17;break}case 105:{if(H(r)|0?(m(e+4|0,26,10)|0)==0:0){k();u=17;}else u=17;break}case 59:{u=17;break}case 47:switch(s[e+4>>1]|0){case 47:{P();break a}case 42:{y(1);break a}default:{u=16;break e}}default:{u=16;break e}}}while(0);if((u|0)==17){u=0;t[67]=t[70];}e=t[70]|0;a=t[71]|0;}if((u|0)==9){e=t[70]|0;t[67]=e;u=19;}else if((u|0)==16){i[795]=0;t[70]=e;u=19;}else if((u|0)==18)if(!(i[794]|0)){e=r;u=19;}else e=0;do{if((u|0)==19){e:while(1){a=e+2|0;t[70]=a;b=a;if(e>>>0>=(t[71]|0)>>>0){u=82;break}a:do{switch(s[a>>1]|0){case 9:case 10:case 11:case 12:case 13:case 32:break;case 101:{if(((s[396]|0)==0?H(a)|0:0)?(m(e+4|0,16,10)|0)==0:0){l();u=81;}else u=81;break}case 105:{if(H(a)|0?(m(e+4|0,26,10)|0)==0:0){k();u=81;}else u=81;break}case 99:{if((H(a)|0?(m(e+4|0,36,8)|0)==0:0)?V(s[e+12>>1]|0)|0:0){i[797]=1;u=81;}else u=81;break}case 40:{b=t[68]|0;r=s[396]|0;u=r&65535;t[b+(u<<3)>>2]=1;f=t[67]|0;s[396]=r+1<<16>>16;t[b+(u<<3)+4>>2]=f;u=81;break}case 41:{a=s[396]|0;if(!(a<<16>>16)){u=36;break e}u=a+-1<<16>>16;s[396]=u;f=s[395]|0;a=f&65535;if(f<<16>>16!=0?(t[(t[68]|0)+((u&65535)<<3)>>2]|0)==5:0){a=t[(t[69]|0)+(a+-1<<2)>>2]|0;r=a+4|0;if(!(t[r>>2]|0))t[r>>2]=b;t[a+12>>2]=e+4;s[395]=f+-1<<16>>16;u=81;}else u=81;break}case 123:{u=t[67]|0;b=t[61]|0;e=u;do{if((s[u>>1]|0)==41&(b|0)!=0?(t[b+4>>2]|0)==(u|0):0){a=t[62]|0;t[61]=a;if(!a){t[57]=0;break}else {t[a+28>>2]=0;break}}}while(0);b=t[68]|0;f=s[396]|0;u=f&65535;t[b+(u<<3)>>2]=(i[797]|0)==0?2:6;s[396]=f+1<<16>>16;t[b+(u<<3)+4>>2]=e;i[797]=0;u=81;break}case 125:{e=s[396]|0;if(!(e<<16>>16)){u=49;break e}b=t[68]|0;u=e+-1<<16>>16;s[396]=u;if((t[b+((u&65535)<<3)>>2]|0)==4){h();u=81;}else u=81;break}case 39:{d(39);u=81;break}case 34:{d(34);u=81;break}case 47:switch(s[e+4>>1]|0){case 47:{P();break a}case 42:{y(1);break a}default:{e=t[67]|0;f=s[e>>1]|0;r:do{if(!(U(f)|0)){switch(f<<16>>16){case 41:if(D(t[(t[68]|0)+(c[396]<<3)+4>>2]|0)|0){u=69;break r}else {u=66;break r}case 125:break;default:{u=66;break r}}a=t[68]|0;r=c[396]|0;if(!(p(t[a+(r<<3)+4>>2]|0)|0)?(t[a+(r<<3)>>2]|0)!=6:0)u=66;else u=69;}else switch(f<<16>>16){case 46:if(((s[e+-2>>1]|0)+-48&65535)<10){u=66;break r}else {u=69;break r}case 43:if((s[e+-2>>1]|0)==43){u=66;break r}else {u=69;break r}case 45:if((s[e+-2>>1]|0)==45){u=66;break r}else {u=69;break r}default:{u=69;break r}}}while(0);r:do{if((u|0)==66){u=0;if(!(o(e)|0)){switch(f<<16>>16){case 0:{u=69;break r}case 47:{if(i[796]|0){u=69;break r}break}default:{}}r=t[3]|0;a=f;do{if(e>>>0<=r>>>0)break;e=e+-2|0;t[67]=e;a=s[e>>1]|0;}while(!(E(a)|0));if(F(a)|0){do{if(e>>>0<=r>>>0)break;e=e+-2|0;t[67]=e;}while(F(s[e>>1]|0)|0);if(j(e)|0){g();i[796]=0;u=81;break a}else e=1;}else e=1;}else u=69;}}while(0);if((u|0)==69){g();e=0;}i[796]=e;u=81;break a}}case 96:{b=t[68]|0;f=s[396]|0;u=f&65535;t[b+(u<<3)+4>>2]=t[67];s[396]=f+1<<16>>16;t[b+(u<<3)>>2]=3;h();u=81;break}default:u=81;}}while(0);if((u|0)==81){u=0;t[67]=t[70];}e=t[70]|0;}if((u|0)==36){T();e=0;break}else if((u|0)==49){T();e=0;break}else if((u|0)==82){e=(i[794]|0)==0?(s[395]|s[396])<<16>>16==0:0;break}}}while(0);n=w;return e|0}function l(){var e=0,a=0,r=0,f=0,c=0,n=0,b=0,l=0,k=0,o=0,h=0,A=0,C=0,g=0;l=t[70]|0;k=t[63]|0;g=l+12|0;t[70]=g;r=w(1)|0;e=t[70]|0;if(!((e|0)==(g|0)?!(I(r)|0):0))C=3;e:do{if((C|0)==3){a:do{switch(r<<16>>16){case 123:{t[70]=e+2;e=w(1)|0;r=t[70]|0;while(1){if(W(e)|0){d(e);e=(t[70]|0)+2|0;t[70]=e;}else {q(e)|0;e=t[70]|0;}w(1)|0;e=v(r,e)|0;if(e<<16>>16==44){t[70]=(t[70]|0)+2;e=w(1)|0;}a=r;r=t[70]|0;if(e<<16>>16==125){C=15;break}if((r|0)==(a|0)){C=12;break}if(r>>>0>(t[71]|0)>>>0){C=14;break}}if((C|0)==12){T();break e}else if((C|0)==14){T();break e}else if((C|0)==15){t[70]=r+2;break a}break}case 42:{t[70]=e+2;w(1)|0;g=t[70]|0;v(g,g)|0;break}default:{i[795]=0;switch(r<<16>>16){case 100:{l=e+14|0;t[70]=l;switch((w(1)|0)<<16>>16){case 97:{a=t[70]|0;if((m(a+2|0,56,8)|0)==0?(c=a+10|0,F(s[c>>1]|0)|0):0){t[70]=c;w(0)|0;C=22;}break}case 102:{C=22;break}case 99:{a=t[70]|0;if(((m(a+2|0,36,8)|0)==0?(f=a+10|0,g=s[f>>1]|0,V(g)|0|g<<16>>16==123):0)?(t[70]=f,n=w(1)|0,n<<16>>16!=123):0){A=n;C=31;}break}default:{}}r:do{if((C|0)==22?(b=t[70]|0,(m(b+2|0,64,14)|0)==0):0){r=b+16|0;a=s[r>>1]|0;if(!(V(a)|0))switch(a<<16>>16){case 40:case 42:break;default:break r}t[70]=r;a=w(1)|0;if(a<<16>>16==42){t[70]=(t[70]|0)+2;a=w(1)|0;}if(a<<16>>16!=40){A=a;C=31;}}}while(0);if((C|0)==31?(o=t[70]|0,q(A)|0,h=t[70]|0,h>>>0>o>>>0):0){$(e,l,o,h);t[70]=(t[70]|0)+-2;break e}$(e,l,0,0);t[70]=e+12;break e}case 97:{t[70]=e+10;w(0)|0;e=t[70]|0;C=35;break}case 102:{C=35;break}case 99:{if((m(e+2|0,36,8)|0)==0?(a=e+10|0,E(s[a>>1]|0)|0):0){t[70]=a;g=w(1)|0;C=t[70]|0;q(g)|0;g=t[70]|0;$(C,g,C,g);t[70]=(t[70]|0)+-2;break e}e=e+4|0;t[70]=e;break}case 108:case 118:break;default:break e}if((C|0)==35){t[70]=e+16;e=w(1)|0;if(e<<16>>16==42){t[70]=(t[70]|0)+2;e=w(1)|0;}C=t[70]|0;q(e)|0;g=t[70]|0;$(C,g,C,g);t[70]=(t[70]|0)+-2;break e}t[70]=e+6;i[795]=0;r=w(1)|0;e=t[70]|0;r=(q(r)|0|32)<<16>>16==123;f=t[70]|0;if(r){t[70]=f+2;g=w(1)|0;e=t[70]|0;q(g)|0;}r:while(1){a=t[70]|0;if((a|0)==(e|0))break;$(e,a,e,a);a=w(1)|0;if(r)switch(a<<16>>16){case 93:case 125:break e;default:{}}e=t[70]|0;if(a<<16>>16!=44){C=51;break}t[70]=e+2;a=w(1)|0;e=t[70]|0;switch(a<<16>>16){case 91:case 123:{C=51;break r}default:{}}q(a)|0;}if((C|0)==51)t[70]=e+-2;if(!r)break e;t[70]=f+-2;break e}}}while(0);g=(w(1)|0)<<16>>16==102;e=t[70]|0;if(g?(m(e+2|0,50,6)|0)==0:0){t[70]=e+8;u(l,w(1)|0);e=(k|0)==0?232:k+16|0;while(1){e=t[e>>2]|0;if(!e)break e;t[e+12>>2]=0;t[e+8>>2]=0;e=e+16|0;}}t[70]=e+-2;}}while(0);return}function k(){var e=0,a=0,r=0,f=0,c=0,n=0;c=t[70]|0;e=c+12|0;t[70]=e;e:do{switch((w(1)|0)<<16>>16){case 40:{a=t[68]|0;n=s[396]|0;r=n&65535;t[a+(r<<3)>>2]=5;e=t[70]|0;s[396]=n+1<<16>>16;t[a+(r<<3)+4>>2]=e;if((s[t[67]>>1]|0)!=46){t[70]=e+2;n=w(1)|0;A(c,t[70]|0,0,e);a=t[61]|0;r=t[69]|0;c=s[395]|0;s[395]=c+1<<16>>16;t[r+((c&65535)<<2)>>2]=a;switch(n<<16>>16){case 39:{d(39);break}case 34:{d(34);break}default:{t[70]=(t[70]|0)+-2;break e}}e=(t[70]|0)+2|0;t[70]=e;switch((w(1)|0)<<16>>16){case 44:{t[70]=(t[70]|0)+2;w(1)|0;c=t[61]|0;t[c+4>>2]=e;n=t[70]|0;t[c+16>>2]=n;i[c+24>>0]=1;t[70]=n+-2;break e}case 41:{s[396]=(s[396]|0)+-1<<16>>16;n=t[61]|0;t[n+4>>2]=e;t[n+12>>2]=(t[70]|0)+2;i[n+24>>0]=1;s[395]=(s[395]|0)+-1<<16>>16;break e}default:{t[70]=(t[70]|0)+-2;break e}}}break}case 46:{t[70]=(t[70]|0)+2;if((w(1)|0)<<16>>16==109?(a=t[70]|0,(m(a+2|0,44,6)|0)==0):0){e=t[67]|0;if(!(G(e)|0)?(s[e>>1]|0)==46:0)break e;A(c,c,a+8|0,2);}break}case 42:case 39:case 34:{f=18;break}case 123:{e=t[70]|0;if(s[396]|0){t[70]=e+-2;break e}while(1){if(e>>>0>=(t[71]|0)>>>0)break;e=w(1)|0;if(!(W(e)|0)){if(e<<16>>16==125){f=33;break}}else d(e);e=(t[70]|0)+2|0;t[70]=e;}if((f|0)==33)t[70]=(t[70]|0)+2;n=(w(1)|0)<<16>>16==102;e=t[70]|0;if(n?m(e+2|0,50,6)|0:0){T();break e}t[70]=e+8;e=w(1)|0;if(W(e)|0){u(c,e);break e}else {T();break e}}default:if((t[70]|0)==(e|0))t[70]=c+10;else f=18;}}while(0);do{if((f|0)==18){if(s[396]|0){t[70]=(t[70]|0)+-2;break}e=t[71]|0;a=t[70]|0;while(1){if(a>>>0>=e>>>0){f=25;break}r=s[a>>1]|0;if(W(r)|0){f=23;break}n=a+2|0;t[70]=n;a=n;}if((f|0)==23){u(c,r);break}else if((f|0)==25){T();break}}}while(0);return}function u(e,a){e=e|0;a=a|0;var r=0,i=0;r=(t[70]|0)+2|0;switch(a<<16>>16){case 39:{d(39);i=5;break}case 34:{d(34);i=5;break}default:T();}do{if((i|0)==5){A(e,r,t[70]|0,1);t[70]=(t[70]|0)+2;a=w(0)|0;e=a<<16>>16==97;if(e){r=t[70]|0;if(m(r+2|0,78,10)|0)i=11;}else {r=t[70]|0;if(!(((a<<16>>16==119?(s[r+2>>1]|0)==105:0)?(s[r+4>>1]|0)==116:0)?(s[r+6>>1]|0)==104:0))i=11;}if((i|0)==11){t[70]=r+-2;break}t[70]=r+((e?6:4)<<1);if((w(1)|0)<<16>>16!=123){t[70]=r;break}e=t[70]|0;a=e;e:while(1){t[70]=a+2;a=w(1)|0;switch(a<<16>>16){case 39:{d(39);t[70]=(t[70]|0)+2;a=w(1)|0;break}case 34:{d(34);t[70]=(t[70]|0)+2;a=w(1)|0;break}default:a=q(a)|0;}if(a<<16>>16!=58){i=20;break}t[70]=(t[70]|0)+2;switch((w(1)|0)<<16>>16){case 39:{d(39);break}case 34:{d(34);break}default:{i=24;break e}}t[70]=(t[70]|0)+2;switch((w(1)|0)<<16>>16){case 125:{i=29;break e}case 44:break;default:{i=28;break e}}t[70]=(t[70]|0)+2;if((w(1)|0)<<16>>16==125){i=29;break}a=t[70]|0;}if((i|0)==20){t[70]=r;break}else if((i|0)==24){t[70]=r;break}else if((i|0)==28){t[70]=r;break}else if((i|0)==29){i=t[61]|0;t[i+16>>2]=e;t[i+12>>2]=(t[70]|0)+2;break}}}while(0);return}function o(e){e=e|0;e:do{switch(s[e>>1]|0){case 100:switch(s[e+-2>>1]|0){case 105:{e=O(e+-4|0,88,2)|0;break e}case 108:{e=O(e+-4|0,92,3)|0;break e}default:{e=0;break e}}case 101:switch(s[e+-2>>1]|0){case 115:switch(s[e+-4>>1]|0){case 108:{e=B(e+-6|0,101)|0;break e}case 97:{e=B(e+-6|0,99)|0;break e}default:{e=0;break e}}case 116:{e=O(e+-4|0,98,4)|0;break e}case 117:{e=O(e+-4|0,106,6)|0;break e}default:{e=0;break e}}case 102:{if((s[e+-2>>1]|0)==111?(s[e+-4>>1]|0)==101:0)switch(s[e+-6>>1]|0){case 99:{e=O(e+-8|0,118,6)|0;break e}case 112:{e=O(e+-8|0,130,2)|0;break e}default:{e=0;break e}}else e=0;break}case 107:{e=O(e+-2|0,134,4)|0;break}case 110:{e=e+-2|0;if(B(e,105)|0)e=1;else e=O(e,142,5)|0;break}case 111:{e=B(e+-2|0,100)|0;break}case 114:{e=O(e+-2|0,152,7)|0;break}case 116:{e=O(e+-2|0,166,4)|0;break}case 119:switch(s[e+-2>>1]|0){case 101:{e=B(e+-4|0,110)|0;break e}case 111:{e=O(e+-4|0,174,3)|0;break e}default:{e=0;break e}}default:e=0;}}while(0);return e|0}function h(){var e=0,a=0,r=0,i=0;a=t[71]|0;r=t[70]|0;e:while(1){e=r+2|0;if(r>>>0>=a>>>0){a=10;break}switch(s[e>>1]|0){case 96:{a=7;break e}case 36:{if((s[r+4>>1]|0)==123){a=6;break e}break}case 92:{e=r+4|0;break}default:{}}r=e;}if((a|0)==6){e=r+4|0;t[70]=e;a=t[68]|0;i=s[396]|0;r=i&65535;t[a+(r<<3)>>2]=4;s[396]=i+1<<16>>16;t[a+(r<<3)+4>>2]=e;}else if((a|0)==7){t[70]=e;r=t[68]|0;i=(s[396]|0)+-1<<16>>16;s[396]=i;if((t[r+((i&65535)<<3)>>2]|0)!=3)T();}else if((a|0)==10){t[70]=e;T();}return}function w(e){e=e|0;var a=0,r=0,i=0;r=t[70]|0;e:do{a=s[r>>1]|0;a:do{if(a<<16>>16!=47)if(e)if(V(a)|0)break;else break e;else if(F(a)|0)break;else break e;else switch(s[r+2>>1]|0){case 47:{P();break a}case 42:{y(e);break a}default:{a=47;break e}}}while(0);i=t[70]|0;r=i+2|0;t[70]=r;}while(i>>>0<(t[71]|0)>>>0);return a|0}function d(e){e=e|0;var a=0,r=0,i=0,f=0;f=t[71]|0;a=t[70]|0;while(1){i=a+2|0;if(a>>>0>=f>>>0){a=9;break}r=s[i>>1]|0;if(r<<16>>16==e<<16>>16){a=10;break}if(r<<16>>16==92){r=a+4|0;if((s[r>>1]|0)==13){a=a+6|0;a=(s[a>>1]|0)==10?a:r;}else a=r;}else if(Z(r)|0){a=9;break}else a=i;}if((a|0)==9){t[70]=i;T();}else if((a|0)==10)t[70]=i;return}function v(e,a){e=e|0;a=a|0;var r=0,i=0,f=0,c=0;r=t[70]|0;i=s[r>>1]|0;c=(e|0)==(a|0);f=c?0:e;c=c?0:a;if(i<<16>>16==97){t[70]=r+4;r=w(1)|0;e=t[70]|0;if(W(r)|0){d(r);a=(t[70]|0)+2|0;t[70]=a;}else {q(r)|0;a=t[70]|0;}i=w(1)|0;r=t[70]|0;}if((r|0)!=(e|0))$(e,a,f,c);return i|0}function A(e,a,r,s){e=e|0;a=a|0;r=r|0;s=s|0;var f=0,c=0;f=t[65]|0;t[65]=f+32;c=t[61]|0;t[((c|0)==0?228:c+28|0)>>2]=f;t[62]=c;t[61]=f;t[f+8>>2]=e;if(2==(s|0))e=r;else e=1==(s|0)?r+2|0:0;t[f+12>>2]=e;t[f>>2]=a;t[f+4>>2]=r;t[f+16>>2]=0;t[f+20>>2]=s;i[f+24>>0]=1==(s|0)&1;t[f+28>>2]=0;return}function C(){var e=0,a=0,r=0;r=t[71]|0;a=t[70]|0;e:while(1){e=a+2|0;if(a>>>0>=r>>>0){a=6;break}switch(s[e>>1]|0){case 13:case 10:{a=6;break e}case 93:{a=7;break e}case 92:{e=a+4|0;break}default:{}}a=e;}if((a|0)==6){t[70]=e;T();e=0;}else if((a|0)==7){t[70]=e;e=93;}return e|0}function g(){var e=0,a=0,r=0;e:while(1){e=t[70]|0;a=e+2|0;t[70]=a;if(e>>>0>=(t[71]|0)>>>0){r=7;break}switch(s[a>>1]|0){case 13:case 10:{r=7;break e}case 47:break e;case 91:{C()|0;break}case 92:{t[70]=e+4;break}default:{}}}if((r|0)==7)T();return}function p(e){e=e|0;switch(s[e>>1]|0){case 62:{e=(s[e+-2>>1]|0)==61;break}case 41:case 59:{e=1;break}case 104:{e=O(e+-2|0,200,4)|0;break}case 121:{e=O(e+-2|0,208,6)|0;break}case 101:{e=O(e+-2|0,220,3)|0;break}default:e=0;}return e|0}function y(e){e=e|0;var a=0,r=0,i=0,f=0,c=0;f=(t[70]|0)+2|0;t[70]=f;r=t[71]|0;while(1){a=f+2|0;if(f>>>0>=r>>>0)break;i=s[a>>1]|0;if(!e?Z(i)|0:0)break;if(i<<16>>16==42?(s[f+4>>1]|0)==47:0){c=8;break}f=a;}if((c|0)==8){t[70]=a;a=f+4|0;}t[70]=a;return}function m(e,a,r){e=e|0;a=a|0;r=r|0;var s=0,t=0;e:do{if(!r)e=0;else {while(1){s=i[e>>0]|0;t=i[a>>0]|0;if(s<<24>>24!=t<<24>>24)break;r=r+-1|0;if(!r){e=0;break e}else {e=e+1|0;a=a+1|0;}}e=(s&255)-(t&255)|0;}}while(0);return e|0}function I(e){e=e|0;e:do{switch(e<<16>>16){case 38:case 37:case 33:{e=1;break}default:if((e&-8)<<16>>16==40|(e+-58&65535)<6)e=1;else {switch(e<<16>>16){case 91:case 93:case 94:{e=1;break e}default:{}}e=(e+-123&65535)<4;}}}while(0);return e|0}function U(e){e=e|0;e:do{switch(e<<16>>16){case 38:case 37:case 33:break;default:if(!((e+-58&65535)<6|(e+-40&65535)<7&e<<16>>16!=41)){switch(e<<16>>16){case 91:case 94:break e;default:{}}return e<<16>>16!=125&(e+-123&65535)<4|0}}}while(0);return 1}function x(e){e=e|0;var a=0;a=s[e>>1]|0;e:do{if((a+-9&65535)>=5){switch(a<<16>>16){case 160:case 32:{a=1;break e}default:{}}if(I(a)|0)return a<<16>>16!=46|(G(e)|0)|0;else a=0;}else a=1;}while(0);return a|0}function S(e){e=e|0;var a=0,r=0,i=0,f=0;r=n;n=n+16|0;i=r;t[i>>2]=0;t[64]=e;a=t[3]|0;f=a+(e<<1)|0;e=f+2|0;s[f>>1]=0;t[i>>2]=e;t[65]=e;t[57]=0;t[61]=0;t[59]=0;t[58]=0;t[63]=0;t[60]=0;n=r;return a|0}function O(e,a,r){e=e|0;a=a|0;r=r|0;var i=0,s=0;i=e+(0-r<<1)|0;s=i+2|0;e=t[3]|0;if(s>>>0>=e>>>0?(m(s,a,r<<1)|0)==0:0)if((s|0)==(e|0))e=1;else e=x(i)|0;else e=0;return e|0}function $(e,a,r,i){e=e|0;a=a|0;r=r|0;i=i|0;var s=0,f=0;s=t[65]|0;t[65]=s+20;f=t[63]|0;t[((f|0)==0?232:f+16|0)>>2]=s;t[63]=s;t[s>>2]=e;t[s+4>>2]=a;t[s+8>>2]=r;t[s+12>>2]=i;t[s+16>>2]=0;return}function j(e){e=e|0;switch(s[e>>1]|0){case 107:{e=O(e+-2|0,134,4)|0;break}case 101:{if((s[e+-2>>1]|0)==117)e=O(e+-4|0,106,6)|0;else e=0;break}default:e=0;}return e|0}function B(e,a){e=e|0;a=a|0;var r=0;r=t[3]|0;if(r>>>0<=e>>>0?(s[e>>1]|0)==a<<16>>16:0)if((r|0)==(e|0))r=1;else r=E(s[e+-2>>1]|0)|0;else r=0;return r|0}function E(e){e=e|0;e:do{if((e+-9&65535)<5)e=1;else {switch(e<<16>>16){case 32:case 160:{e=1;break e}default:{}}e=e<<16>>16!=46&(I(e)|0);}}while(0);return e|0}function P(){var e=0,a=0,r=0;e=t[71]|0;r=t[70]|0;e:while(1){a=r+2|0;if(r>>>0>=e>>>0)break;switch(s[a>>1]|0){case 13:case 10:break e;default:r=a;}}t[70]=a;return}function q(e){e=e|0;while(1){if(V(e)|0)break;if(I(e)|0)break;e=(t[70]|0)+2|0;t[70]=e;e=s[e>>1]|0;if(!(e<<16>>16)){e=0;break}}return e|0}function z(){var e=0;e=t[(t[59]|0)+20>>2]|0;switch(e|0){case 1:{e=-1;break}case 2:{e=-2;break}default:e=e-(t[3]|0)>>1;}return e|0}function D(e){e=e|0;if(!(O(e,180,5)|0)?!(O(e,190,3)|0):0)e=O(e,196,2)|0;else e=1;return e|0}function F(e){e=e|0;switch(e<<16>>16){case 160:case 32:case 12:case 11:case 9:{e=1;break}default:e=0;}return e|0}function G(e){e=e|0;if((s[e>>1]|0)==46?(s[e+-2>>1]|0)==46:0)e=(s[e+-4>>1]|0)==46;else e=0;return e|0}function H(e){e=e|0;if((t[3]|0)==(e|0))e=1;else e=x(e+-2|0)|0;return e|0}function J(){var e=0;e=t[(t[60]|0)+12>>2]|0;if(!e)e=-1;else e=e-(t[3]|0)>>1;return e|0}function K(){var e=0;e=t[(t[59]|0)+12>>2]|0;if(!e)e=-1;else e=e-(t[3]|0)>>1;return e|0}function L(){var e=0;e=t[(t[60]|0)+8>>2]|0;if(!e)e=-1;else e=e-(t[3]|0)>>1;return e|0}function M(){var e=0;e=t[(t[59]|0)+16>>2]|0;if(!e)e=-1;else e=e-(t[3]|0)>>1;return e|0}function N(){var e=0;e=t[(t[59]|0)+4>>2]|0;if(!e)e=-1;else e=e-(t[3]|0)>>1;return e|0}function Q(){var e=0;e=t[59]|0;e=t[((e|0)==0?228:e+28|0)>>2]|0;t[59]=e;return (e|0)!=0|0}function R(){var e=0;e=t[60]|0;e=t[((e|0)==0?232:e+16|0)>>2]|0;t[60]=e;return (e|0)!=0|0}function T(){i[794]=1;t[66]=(t[70]|0)-(t[3]|0)>>1;t[70]=(t[71]|0)+2;return}function V(e){e=e|0;return (e|128)<<16>>16==160|(e+-9&65535)<5|0}function W(e){e=e|0;return e<<16>>16==39|e<<16>>16==34|0}function X(){return (t[(t[59]|0)+8>>2]|0)-(t[3]|0)>>1|0}function Y(){return (t[(t[60]|0)+4>>2]|0)-(t[3]|0)>>1|0}function Z(e){e=e|0;return e<<16>>16==13|e<<16>>16==10|0}function _(){return (t[t[59]>>2]|0)-(t[3]|0)>>1|0}function ee(){return (t[t[60]>>2]|0)-(t[3]|0)>>1|0}function ae(){return f[(t[59]|0)+24>>0]|0|0}function re(e){e=e|0;t[3]=e;return}function ie(){return (i[795]|0)!=0|0}function se(){return t[66]|0}function te(e){e=e|0;n=e+992+15&-16;return 992}return {su:te,ai:M,e:se,ee:Y,ele:J,els:L,es:ee,f:ie,id:z,ie:N,ip:ae,is:_,p:b,re:R,ri:Q,sa:S,se:K,ses:re,ss:X}}("undefined"!=typeof self?self:global$1,{},a),r=e.su(i$1-(2<<17));}const h=f.length+1;e.ses(r),e.sa(h-1),s(f,new Uint16Array(a,r,h)),e.p()||(n=e.e(),o());const w=[],d=[];for(;e.ri();){const a=e.is(),r=e.ie(),i=e.ai(),s=e.id(),t=e.ss(),c=e.se();let n;e.ip()&&(n=b(-1===s?a:a+1,f.charCodeAt(-1===s?a-1:a))),w.push({n:n,s:a,e:r,ss:t,se:c,d:s,a:i});}for(;e.re();){const a=e.es(),r=e.ee(),i=e.els(),s=e.ele(),t=f.charCodeAt(a),c=i>=0?f.charCodeAt(i):-1;d.push({s:a,e:r,ls:i,le:s,n:34===t||39===t?b(a+1,t):f.slice(a,r),ln:i<0?void 0:34===c||39===c?b(i+1,c):f.slice(i,s)});}return [w,d,!!e.f()]}function b(e,a){n=e;let r="",i=n;for(;;){n>=f.length&&o();const e=f.charCodeAt(n);if(e===a)break;92===e?(r+=f.slice(i,n),r+=l(),i=n):(8232===e||8233===e||u(e)&&o(),++n);}return r+=f.slice(i,n++),r}function l(){let e=f.charCodeAt(++n);switch(++n,e){case 110:return "\n";case 114:return "\r";case 120:return String.fromCharCode(k(2));case 117:return function(){const e=f.charCodeAt(n);let a;123===e?(++n,a=k(f.indexOf("}",n)-n),++n,a>1114111&&o()):a=k(4);return a<=65535?String.fromCharCode(a):(a-=65536,String.fromCharCode(55296+(a>>10),56320+(1023&a)))}();case 116:return "\t";case 98:return "\b";case 118:return "\v";case 102:return "\f";case 13:10===f.charCodeAt(n)&&++n;case 10:return "";case 56:case 57:o();default:if(e>=48&&e<=55){let a=f.substr(n-1,3).match(/^[0-7]+/)[0],r=parseInt(a,8);return r>255&&(a=a.slice(0,-1),r=parseInt(a,8)),n+=a.length-1,e=f.charCodeAt(n),"0"===a&&56!==e&&57!==e||o(),String.fromCharCode(r)}return u(e)?"":String.fromCharCode(e)}}function k(e){const a=n;let r=0,i=0;for(let a=0;a<e;++a,++n){let e,s=f.charCodeAt(n);if(95!==s){if(s>=97)e=s-97+10;else if(s>=65)e=s-65+10;else {if(!(s>=48&&s<=57))break;e=s-48;}if(e>=16)break;i=s,r=16*r+e;}else 95!==i&&0!==a||o(),i=s;}return 95!==i&&n-a===e||o(),r}function u(e){return 13===e||10===e}function o(){throw Object.assign(Error(`Parse error ${c}:${f.slice(0,n).split("\n").length}:${n-f.lastIndexOf("\n",n-1)}`),{idx:n})}// See: https://nodejs.org/docs/latest/api/modules.html#the-module-scope
+const cjsGlobals = [
+    "__dirname",
+    "__filename",
+    "exports",
+    "module",
+    "require"
+];
+let babel$1;
+async function createCjsAnalysis(imports, source, url) {
+    if (!babel$1) ({ default: babel$1  } = await Promise.resolve().then(function(){return index$3}));
+    const requires = new Set();
+    const lazy = new Set();
+    const unboundGlobals = new Set();
+    babel$1.transform(source, {
+        ast: false,
+        sourceMaps: false,
+        inputSourceMap: false,
+        babelrc: false,
+        babelrcRoots: false,
+        configFile: false,
+        highlightCode: false,
+        compact: false,
+        sourceType: "script",
+        parserOpts: {
+            allowReturnOutsideFunction: true,
+            // plugins: stage3Syntax,
+            errorRecovery: true
+        },
+        plugins: [
+            ({ types: t  })=>{
+                return {
+                    visitor: {
+                        Program (path, state) {
+                            state.functionDepth = 0;
+                        },
+                        CallExpression (path, state) {
+                            if (t.isIdentifier(path.node.callee, {
+                                name: "require"
+                            }) || t.isIdentifier(path.node.callee.object, {
+                                name: "require"
+                            }) && t.isIdentifier(path.node.callee.property, {
+                                name: "resolve"
+                            }) || t.isMemberExpression(path.node.callee) && t.isIdentifier(path.node.callee.object, {
+                                name: "module"
+                            }) && t.isIdentifier(path.node.callee.property, {
+                                name: "require"
+                            })) {
+                                const req = buildDynamicString$1(path.get("arguments.0").node, url);
+                                requires.add(req);
+                                if (state.functionDepth > 0) lazy.add(req);
+                            }
+                        },
+                        ReferencedIdentifier (path) {
+                            let identifierName = path.node.name;
+                            if (!path.scope.hasBinding(identifierName)) {
+                                unboundGlobals.add(identifierName);
+                            }
+                        },
+                        Scope: {
+                            enter (path, state) {
+                                if (t.isFunction(path.scope.block)) state.functionDepth++;
+                            },
+                            exit (path, state) {
+                                if (t.isFunction(path.scope.block)) state.functionDepth--;
+                            }
+                        }
+                    }
+                };
+            }
+        ]
+    });
+    // Check if the module actually uses any CJS-specific globals, as otherwise
+    // other host runtimes like browser/deno can run this module anyway:
+    let usesCjs = false;
+    for (let g of cjsGlobals){
+        if (unboundGlobals.has(g)) {
+            usesCjs = true;
+            break;
+        }
+    }
+    return {
+        deps: [
+            ...requires
+        ],
+        dynamicDeps: imports.filter((impt)=>impt.n).map((impt)=>impt.n),
+        cjsLazyDeps: [
+            ...lazy
+        ],
+        size: source.length,
+        format: "commonjs",
+        usesCjs
+    };
+}
+function buildDynamicString$1(node, fileName, isEsm = false, lastIsWildcard = false) {
+    if (node.type === "StringLiteral") {
+        return node.value;
+    }
+    if (node.type === "TemplateLiteral") {
+        let str = "";
+        for(let i = 0; i < node.quasis.length; i++){
+            const quasiStr = node.quasis[i].value.cooked;
+            if (quasiStr.length) {
+                str += quasiStr;
+                lastIsWildcard = false;
+            }
+            const nextNode = node.expressions[i];
+            if (nextNode) {
+                const nextStr = buildDynamicString$1(nextNode, fileName, isEsm, lastIsWildcard);
+                if (nextStr.length) {
+                    lastIsWildcard = nextStr.endsWith("*");
+                    str += nextStr;
+                }
+            }
+        }
+        return str;
+    }
+    if (node.type === "BinaryExpression" && node.operator === "+") {
+        const leftResolved = buildDynamicString$1(node.left, fileName, isEsm, lastIsWildcard);
+        if (leftResolved.length) lastIsWildcard = leftResolved.endsWith("*");
+        const rightResolved = buildDynamicString$1(node.right, fileName, isEsm, lastIsWildcard);
+        return leftResolved + rightResolved;
+    }
+    if (node.type === "Identifier") {
+        if (node.name === "__dirname") return ".";
+        if (node.name === "__filename") return "./" + fileName;
+    }
+    // TODO: proper expression support
+    // new URL('...', import.meta.url).href | new URL('...', import.meta.url).toString() | new URL('...', import.meta.url).pathname
+    // import.meta.X
+    /*if (isEsm && node.type === 'MemberExpression' && node.object.type === 'MetaProperty' &&
+      node.object.meta.type === 'Identifier' && node.object.meta.name === 'import' &&
+      node.object.property.type === 'Identifier' && node.object.property.name === 'meta') {
+    if (node.property.type === 'Identifier' && node.property.name === 'url') {
+      return './' + fileName;
+    }
+  }*/ return lastIsWildcard ? "" : "*";
+}
+
+let babel, babelPresetTs, babelPluginImportAssertions;
+const globalConsole = globalThis.console;
+const dummyConsole = {
+    log () {},
+    warn () {},
+    memory () {},
+    assert () {},
+    clear () {},
+    count () {},
+    countReset () {},
+    debug () {},
+    dir () {},
+    dirxml () {},
+    error () {},
+    exception () {},
+    group () {},
+    groupCollapsed () {},
+    groupEnd () {},
+    info () {},
+    table () {},
+    time () {},
+    timeEnd () {},
+    timeLog () {},
+    timeStamp () {},
+    trace () {}
+};
+async function createTsAnalysis(source, url) {
+    if (!babel) [{ default: babel  }, { default: { default: babelPresetTs  }  }, { default: babelPluginImportAssertions  }] = await Promise.all([
+        Promise.resolve().then(function(){return index$3}),
+        Promise.resolve().then(function(){return index$1}),
+        Promise.resolve().then(function(){return require('./index-4cad12f5.js')}).then(function(n){return n.i})
+    ]);
+    const imports = new Set();
+    const dynamicImports = new Set();
+    let importMeta = false;
+    // @ts-ignore
+    globalThis.console = dummyConsole;
+    try {
+        babel.transform(source, {
+            filename: "/" + url,
+            ast: false,
+            sourceMaps: false,
+            inputSourceMap: false,
+            babelrc: false,
+            babelrcRoots: false,
+            configFile: false,
+            highlightCode: false,
+            compact: false,
+            sourceType: "module",
+            parserOpts: {
+                plugins: [
+                    "jsx"
+                ],
+                errorRecovery: true
+            },
+            presets: [
+                [
+                    babelPresetTs,
+                    {
+                        onlyRemoveTypeImports: true
+                    }
+                ]
+            ],
+            plugins: [
+                babelPluginImportAssertions,
+                ({ types: t  })=>{
+                    return {
+                        visitor: {
+                            ExportAllDeclaration (path) {
+                                imports.add(path.node.source.value);
+                            },
+                            ExportNamedDeclaration (path) {
+                                if (path.node.source) imports.add(path.node.source.value);
+                            },
+                            ImportDeclaration (path) {
+                                imports.add(path.node.source.value);
+                            },
+                            Import (path) {
+                                dynamicImports.add(buildDynamicString(path.parentPath.get("arguments.0").node, url, true));
+                            },
+                            MetaProperty (path) {
+                                if (t.isIdentifier(path.node.meta, {
+                                    name: "import"
+                                }) && t.isIdentifier(path.node.property, {
+                                    name: "meta"
+                                })) {
+                                    importMeta = true;
+                                }
+                            }
+                        }
+                    };
+                }
+            ]
+        });
+    } finally{
+        globalThis.console = globalConsole;
+    }
+    return {
+        deps: [
+            ...imports
+        ],
+        dynamicDeps: [
+            ...dynamicImports
+        ],
+        cjsLazyDeps: null,
+        size: source.length,
+        format: "typescript"
+    };
+}
+function buildDynamicString(node, fileName, isEsm = false, lastIsWildcard = false) {
+    if (node.type === "StringLiteral") {
+        return node.value;
+    }
+    if (node.type === "TemplateLiteral") {
+        let str = "";
+        for(let i = 0; i < node.quasis.length; i++){
+            const quasiStr = node.quasis[i].value.cooked;
+            if (quasiStr.length) {
+                str += quasiStr;
+                lastIsWildcard = false;
+            }
+            const nextNode = node.expressions[i];
+            if (nextNode) {
+                const nextStr = buildDynamicString(nextNode, fileName, isEsm, lastIsWildcard);
+                if (nextStr.length) {
+                    lastIsWildcard = nextStr.endsWith("*");
+                    str += nextStr;
+                }
+            }
+        }
+        return str;
+    }
+    if (node.type === "BinaryExpression" && node.operator === "+") {
+        const leftResolved = buildDynamicString(node.left, fileName, isEsm, lastIsWildcard);
+        if (leftResolved.length) lastIsWildcard = leftResolved.endsWith("*");
+        const rightResolved = buildDynamicString(node.right, fileName, isEsm, lastIsWildcard);
+        return leftResolved + rightResolved;
+    }
+    if (isEsm && node.type === "Identifier") {
+        if (node.name === "__dirname") return ".";
+        if (node.name === "__filename") return "./" + fileName;
+    }
+    // TODO: proper expression support
+    // new URL('...', import.meta.url).href | new URL('...', import.meta.url).toString() | new URL('...', import.meta.url).pathname
+    // import.meta.X
+    /*if (isEsm && node.type === 'MemberExpression' && node.object.type === 'MetaProperty' &&
+      node.object.meta.type === 'Identifier' && node.object.meta.name === 'import' &&
+      node.object.property.type === 'Identifier' && node.object.property.name === 'meta') {
+    if (node.property.type === 'Identifier' && node.property.name === 'url') {
+      return './' + fileName;
+    }
+  }*/ return lastIsWildcard ? "" : "*";
+}
+
+class JspmError extends Error {
+    constructor(msg, code){
+        super(msg);
+        this.jspmError = true;
+        this.code = code;
+    }
+}
+function throwInternalError(...args) {
+    throw new Error("Internal Error" + (args.length ? " " + args.join(", ") : ""));
+}
+
+function isFetchProtocol(protocol) {
+    return protocol === "file:" || protocol === "https:" || protocol === "http:" || protocol === "data:";
+}
+let baseUrl;
+// @ts-ignore
+if (typeof Deno !== "undefined") {
+    // @ts-ignore
+    const denoCwd = Deno.cwd();
+    baseUrl = new URL("file://" + (denoCwd[0] === "/" ? "" : "/") + denoCwd + "/");
+} else if (typeof browser$1$1 !== "undefined" && browser$1$1.versions.node) {
+    baseUrl = new URL("file://" + browser$1$1.cwd() + "/");
+} else if (typeof document !== "undefined") {
+    baseUrl = new URL(document.baseURI);
+}
+if (!baseUrl && typeof location !== "undefined") {
+    baseUrl = new URL(location.href);
+}
+baseUrl.search = baseUrl.hash = "";
+function resolveUrl(url, mapUrl, rootUrl) {
+    if (url.startsWith("/")) return rootUrl ? new URL("." + url.slice(url[1] === "/" ? 1 : 0), rootUrl).href : url;
+    return new URL(url, mapUrl).href;
+}
+function importedFrom(parentUrl) {
+    if (!parentUrl) return "";
+    return ` imported from ${parentUrl}`;
+}
+function matchesRoot(url, baseUrl) {
+    return url.protocol === baseUrl.protocol && url.host === baseUrl.host && url.port === baseUrl.port && url.username === baseUrl.username && url.password === baseUrl.password;
+}
+function relativeUrl(url, baseUrl, absolute = false) {
+    const href = url.href;
+    let baseUrlHref = baseUrl.href;
+    if (!baseUrlHref.endsWith("/")) baseUrlHref += "/";
+    if (href.startsWith(baseUrlHref)) return (absolute ? "/" : "./") + href.slice(baseUrlHref.length);
+    if (!matchesRoot(url, baseUrl)) return url.href;
+    if (absolute) return url.href;
+    const baseUrlPath = baseUrl.pathname;
+    const urlPath = url.pathname;
+    const minLen = Math.min(baseUrlPath.length, urlPath.length);
+    let sharedBaseIndex = -1;
+    for(let i = 0; i < minLen; i++){
+        if (baseUrlPath[i] !== urlPath[i]) break;
+        if (urlPath[i] === "/") sharedBaseIndex = i;
+    }
+    return "../".repeat(baseUrlPath.slice(sharedBaseIndex + 1).split("/").length - 1) + urlPath.slice(sharedBaseIndex + 1) + url.search + url.hash;
+}
+function isURL(specifier) {
+    try {
+        if (specifier[0] === "#") return false;
+        new URL(specifier);
+    } catch  {
+        return false;
+    }
+    return true;
+}
+function isPlain(specifier) {
+    return !isRelative(specifier) && !isURL(specifier);
+}
+function isRelative(specifier) {
+    return specifier.startsWith("./") || specifier.startsWith("../") || specifier.startsWith("/");
+}
+
+const cdnUrl$5 = "https://deno.land/x/";
+const stdlibUrl = "https://deno.land/std";
+let denoStdVersion;
+function resolveBuiltin$1(specifier, env) {
+    // Bare npm:XXX imports are supported by Deno:
+    if (env.includes("deno") && specifier.startsWith("npm:")) return specifier;
+    if (specifier.startsWith("deno:")) {
+        let name = specifier.slice(5);
+        if (name.endsWith(".ts")) name = name.slice(0, -3);
+        let alias = name, subpath = ".";
+        const slashIndex = name.indexOf("/");
+        if (slashIndex !== -1) {
+            alias = name.slice(0, slashIndex);
+            subpath = `./${name.slice(slashIndex + 1)}`;
+        }
+        return {
+            alias,
+            subpath,
+            target: {
+                pkgTarget: {
+                    registry: "deno",
+                    name: "std",
+                    ranges: [
+                        new SemverRange_1("*")
+                    ],
+                    unstable: true
+                },
+                installSubpath: `./${slashIndex === -1 ? name : name.slice(0, slashIndex)}`
+            }
+        };
+    }
+}
+async function pkgToUrl$6(pkg) {
+    if (pkg.registry === "deno") return `${stdlibUrl}@${pkg.version}/`;
+    if (pkg.registry === "denoland") return `${cdnUrl$5}${pkg.name}@${vCache[pkg.name] ? "v" : ""}${pkg.version}/`;
+    throw new Error(`Deno provider does not support the ${pkg.registry} registry for package "${pkg.name}" - perhaps you mean to install "denoland:${pkg.name}"?`);
+}
+async function getPackageConfig$3(pkgUrl) {
+    if (pkgUrl.startsWith("https://deno.land/std@")) {
+        return {
+            exports: {
+                "./archive": "./archive/mod.ts",
+                "./archive/*.ts": "./archive/*.ts",
+                "./archive/*": "./archive/*.ts",
+                "./async": "./async/mod.ts",
+                "./async/*.ts": "./async/*.ts",
+                "./async/*": "./async/*.ts",
+                "./bytes": "./bytes/mod.ts",
+                "./bytes/*.ts": "./bytes/*.ts",
+                "./bytes/*": "./bytes/*.ts",
+                "./collection": "./collection/mod.ts",
+                "./collection/*.ts": "./collection/*.ts",
+                "./collection/*": "./collection/*.ts",
+                "./crypto": "./crypto/mod.ts",
+                "./crypto/*.ts": "./crypto/*.ts",
+                "./crypto/*": "./crypto/*.ts",
+                "./datetime": "./datetime/mod.ts",
+                "./datetime/*.ts": "./datetime/*.ts",
+                "./datetime/*": "./datetime/*.ts",
+                "./dotenv": "./dotenv/mod.ts",
+                "./dotenv/*.ts": "./dotenv/*.ts",
+                "./dotenv/*": "./dotenv/*.ts",
+                "./encoding": "./encoding/mod.ts",
+                "./encoding/*.ts": "./encoding/*.ts",
+                "./encoding/*": "./encoding/*.ts",
+                "./examples": "./examples/mod.ts",
+                "./examples/*.ts": "./examples/*.ts",
+                "./examples/*": "./examples/*.ts",
+                "./flags": "./flags/mod.ts",
+                "./flags/*.ts": "./flags/*.ts",
+                "./flags/*": "./flags/*.ts",
+                "./fmt": "./fmt/mod.ts",
+                "./fmt/*.ts": "./fmt/*.ts",
+                "./fmt/*": "./fmt/*.ts",
+                "./fs": "./fs/mod.ts",
+                "./fs/*.ts": "./fs/*.ts",
+                "./fs/*": "./fs/*.ts",
+                "./hash": "./hash/mod.ts",
+                "./hash/*.ts": "./hash/*.ts",
+                "./hash/*": "./hash/*.ts",
+                "./http": "./http/mod.ts",
+                "./http/*.ts": "./http/*.ts",
+                "./http/*": "./http/*.ts",
+                "./io": "./io/mod.ts",
+                "./io/*.ts": "./io/*.ts",
+                "./io/*": "./io/*.ts",
+                "./log": "./log/mod.ts",
+                "./log/*.ts": "./log/*.ts",
+                "./log/*": "./log/*.ts",
+                "./media_types": "./media_types/mod.ts",
+                "./media_types/*.ts": "./media_types/*.ts",
+                "./media_types/*": "./media_types/*.ts",
+                "./node": "./node/mod.ts",
+                "./node/*.ts": "./node/*.ts",
+                "./node/*": "./node/*.ts",
+                "./path": "./path/mod.ts",
+                "./path/*.ts": "./path/*.ts",
+                "./path/*": "./path/*.ts",
+                "./permissions": "./permissions/mod.ts",
+                "./permissions/*.ts": "./permissions/*.ts",
+                "./permissions/*": "./permissions/*.ts",
+                "./signal": "./signal/mod.ts",
+                "./signal/*.ts": "./signal/*.ts",
+                "./signal/*": "./signal/*.ts",
+                "./streams": "./streams/mod.ts",
+                "./streams/*.ts": "./streams/*.ts",
+                "./streams/*": "./streams/*.ts",
+                "./testing": "./testing/mod.ts",
+                "./testing/*.ts": "./testing/*.ts",
+                "./testing/*": "./testing/*.ts",
+                "./textproto": "./textproto/mod.ts",
+                "./textproto/*.ts": "./textproto/*.ts",
+                "./textproto/*": "./textproto/*.ts",
+                "./uuid": "./uuid/mod.ts",
+                "./uuid/*.ts": "./uuid/*.ts",
+                "./uuid/*": "./uuid/*.ts",
+                "./version": "./version.ts",
+                "./version.ts": "./version.ts",
+                "./wasi": "./wasi/mod.ts",
+                "./wasi/*.ts": "./wasi/*.ts",
+                "./wasi/*": "./wasi*.ts"
+            }
+        };
+    }
+    // If there's a package.json, return that:
+    const pkgJsonUrl = new URL("package.json", pkgUrl);
+    const pkgRes = await fetch$1(pkgJsonUrl.href, this.fetchOpts);
+    switch(pkgRes.status){
+        case 200:
+        case 304:
+            return await pkgRes.json();
+    }
+    return null;
+}
+const vCache = {};
+function parseUrlPkg$7(url) {
+    let subpath = null;
+    if (url.startsWith(stdlibUrl) && url[stdlibUrl.length] === "@") {
+        const version = url.slice(stdlibUrl.length + 1, url.indexOf("/", stdlibUrl.length + 1));
+        subpath = url.slice(stdlibUrl.length + version.length + 2);
+        if (subpath.endsWith("/mod.ts")) subpath = subpath.slice(0, -7);
+        else if (subpath.endsWith(".ts")) subpath = subpath.slice(0, -3);
+        const name = subpath.indexOf("/") === -1 ? subpath : subpath.slice(0, subpath.indexOf("/"));
+        return {
+            pkg: {
+                registry: "deno",
+                name: "std",
+                version
+            },
+            layer: "default",
+            subpath: `./${name}${subpath ? `./${subpath}/mod.ts` : ""}`
+        };
+    } else if (url.startsWith(cdnUrl$5)) {
+        const path = url.slice(cdnUrl$5.length);
+        const versionIndex = path.indexOf("@");
+        if (versionIndex === -1) return;
+        const sepIndex = path.indexOf("/", versionIndex);
+        const name = path.slice(0, versionIndex);
+        const version = path.slice(versionIndex + ((vCache[name] = path[versionIndex + 1] === "v") ? 2 : 1), sepIndex === -1 ? path.length : sepIndex);
+        return {
+            pkg: {
+                registry: "denoland",
+                name,
+                version
+            },
+            subpath: null,
+            layer: "default"
+        };
+    }
+}
+async function resolveLatestTarget$2(target, _layer, parentUrl) {
+    let { registry , name , range  } = target;
+    if (denoStdVersion && registry === "deno") return {
+        registry,
+        name,
+        version: denoStdVersion
+    };
+    if (range.isExact) return {
+        registry,
+        name,
+        version: range.version.toString()
+    };
+    // convert all Denoland ranges into wildcards
+    // since we don't have an actual semver lookup at the moment
+    if (!range.isWildcard) range = new SemverRange_1(range.version.toString());
+    const fetchOpts = {
+        ...this.fetchOpts,
+        headers: Object.assign({}, this.fetchOpts.headers || {}, {
+            // For some reason, Deno provides different redirect behaviour for the server
+            // Which requires us to use the text/html accept
+            accept: typeof document === "undefined" ? "text/html" : "text/javascript"
+        })
+    };
+    // "mod.ts" addition is necessary for the browser otherwise not resolving an exact module gives a CORS error
+    const fetchUrl = registry === "denoland" ? cdnUrl$5 + name + "/mod.ts" : stdlibUrl + "/version.ts";
+    const res = await fetch$1(fetchUrl, fetchOpts);
+    if (!res.ok) throw new Error(`Deno: Unable to lookup ${fetchUrl}`);
+    const { version  } = (await parseUrlPkg$7(res.url)).pkg;
+    if (registry === "deno") denoStdVersion = version;
+    return {
+        registry,
+        name,
+        version
+    };
+}
+
+var deno = /*#__PURE__*/Object.freeze({
+  __proto__: null,
+  resolveBuiltin: resolveBuiltin$1,
+  pkgToUrl: pkgToUrl$6,
+  getPackageConfig: getPackageConfig$3,
+  parseUrlPkg: parseUrlPkg$7,
+  resolveLatestTarget: resolveLatestTarget$2
+});
+
+const { SemverRange: SemverRange$1  } = sver;
+const supportedProtocols = [
+    "https",
+    "http",
+    "data",
+    "file",
+    "ipfs"
+];
+async function parseUrlOrBuiltinTarget(resolver, targetStr, parentUrl) {
+    const registryIndex = targetStr.indexOf(":");
+    if (isRelative(targetStr) || registryIndex !== -1 && supportedProtocols.includes(targetStr.slice(0, registryIndex)) || builtinSchemes.has(targetStr.slice(0, registryIndex))) {
+        let target;
+        let alias;
+        let subpath = ".";
+        const maybeBuiltin = builtinSchemes.has(targetStr.slice(0, registryIndex)) && resolver.resolveBuiltin(targetStr);
+        if (maybeBuiltin) {
+            if (typeof maybeBuiltin === "string") {
+                throw new Error(`Builtin "${targetStr}" was resolved to package specifier ${maybeBuiltin}, but JSPM does not currently support installing specifiers for builtins.`);
+            } else {
+                ({ alias , subpath ="." , target  } = maybeBuiltin);
+            }
+        } else {
+            var _ref;
+            const subpathIndex = targetStr.indexOf("|");
+            if (subpathIndex !== -1) {
+                subpath = `./${targetStr.slice(subpathIndex + 1)}`;
+                targetStr = targetStr.slice(0, subpathIndex);
+            }
+            target = {
+                pkgTarget: new URL(targetStr + (targetStr.endsWith("/") ? "" : "/"), parentUrl || baseUrl),
+                installSubpath: null
+            };
+            const pkgUrl = await resolver.getPackageBase(target.pkgTarget.href);
+            alias = ((_ref = pkgUrl ? await resolver.getPackageConfig(pkgUrl) : null) === null || _ref === void 0 ? void 0 : _ref.name) || target.pkgTarget.pathname.split("/").slice(0, -1).pop();
+        }
+        if (!alias) throw new JspmError(`Unable to determine an alias for target package ${targetStr}`);
+        return {
+            alias,
+            target,
+            subpath
+        };
+    }
+}
+async function parseTarget(resolver, targetStr, parentPkgUrl, defaultRegistry) {
+    const urlTarget = await parseUrlOrBuiltinTarget(resolver, targetStr, parentPkgUrl);
+    if (urlTarget) return urlTarget;
+    // TODO: package aliases support as per https://github.com/npm/rfcs/blob/latest/implemented/0001-package-aliases.md
+    const registryIndex = targetStr.indexOf(":");
+    const versionOrScopeIndex = targetStr.indexOf("@");
+    if (targetStr.indexOf(":") !== -1 && versionOrScopeIndex !== -1 && versionOrScopeIndex < registryIndex) throw new Error(`Package aliases not yet supported. PRs welcome.`);
+    const pkg = parsePkg(registryIndex === -1 ? targetStr : targetStr.slice(registryIndex + 1));
+    if (!pkg) throw new JspmError(`Invalid package name ${targetStr}`);
+    let registry = null;
+    if (registryIndex !== -1) registry = targetStr.slice(0, registryIndex);
+    let alias = pkg.pkgName;
+    const versionIndex = pkg.pkgName.indexOf("@", 1);
+    if (versionIndex !== -1) alias = pkg.pkgName.slice(0, versionIndex);
+    else alias = pkg.pkgName;
+    // If no version is specified, we fallback to the constraints in the parent
+    // package config if they exist:
+    const pcfg = await resolver.getPackageConfig(parentPkgUrl.href);
+    if (versionIndex === -1 && pcfg) {
+        var _pcfg_dependencies, _pcfg_peerDependencies, _pcfg_optionalDependencies, _pcfg_devDependencies;
+        const dep = ((_pcfg_dependencies = pcfg.dependencies) === null || _pcfg_dependencies === void 0 ? void 0 : _pcfg_dependencies[alias]) || ((_pcfg_peerDependencies = pcfg.peerDependencies) === null || _pcfg_peerDependencies === void 0 ? void 0 : _pcfg_peerDependencies[alias]) || ((_pcfg_optionalDependencies = pcfg.optionalDependencies) === null || _pcfg_optionalDependencies === void 0 ? void 0 : _pcfg_optionalDependencies[alias]) || ((_pcfg_devDependencies = pcfg.devDependencies) === null || _pcfg_devDependencies === void 0 ? void 0 : _pcfg_devDependencies[alias]);
+        if (dep) {
+            return {
+                target: newPackageTarget(dep, parentPkgUrl, registry || defaultRegistry, pkg.pkgName),
+                alias,
+                subpath: pkg.subpath
+            };
+        }
+    }
+    // Otherwise we construct a package target from what we were given:
+    return {
+        target: newPackageTarget(pkg.pkgName, parentPkgUrl, registry || defaultRegistry),
+        alias,
+        subpath: pkg.subpath
+    };
+}
+function newPackageTarget(target, parentPkgUrl, defaultRegistry, pkgName) {
+    if (target === ".") {
+        // useful shorthand
+        target = "./";
+    }
+    let registry, name, ranges;
+    const registryIndex = target.indexOf(":");
+    if (target.startsWith("./") || target.startsWith("../") || target.startsWith("/") || registryIndex === 1) return {
+        pkgTarget: new URL(target, parentPkgUrl),
+        installSubpath: null
+    };
+    registry = registryIndex < 1 ? defaultRegistry : target.slice(0, registryIndex);
+    if (registry === "file") return {
+        pkgTarget: new URL(target.slice(registry.length + 1), parentPkgUrl),
+        installSubpath: null
+    };
+    if (registry === "https" || registry === "http") return {
+        pkgTarget: new URL(target),
+        installSubpath: null
+    };
+    const versionIndex = target.lastIndexOf("@");
+    let unstable = false;
+    if (versionIndex > registryIndex + 1) {
+        name = target.slice(registryIndex + 1, versionIndex);
+        const version = target.slice(versionIndex + 1);
+        ranges = pkgName || SemverRange$1.isValid(version) ? [
+            new SemverRange$1(version)
+        ] : version.split("||").map((v)=>convertRange$1(v));
+        if (version === "") unstable = true;
+    } else if (registryIndex === -1 && pkgName) {
+        name = pkgName;
+        ranges = SemverRange$1.isValid(target) ? [
+            new SemverRange$1(target)
+        ] : target.split("||").map((v)=>convertRange$1(v));
+    } else {
+        name = target.slice(registryIndex + 1);
+        ranges = [
+            new SemverRange$1("*")
+        ];
+    }
+    if (registryIndex === -1 && name.indexOf("/") !== -1 && name[0] !== "@") registry = "github";
+    const targetNameLen = name.split("/").length;
+    if (targetNameLen > 2 || targetNameLen === 1 && name[0] === "@") throw new JspmError(`Invalid package target ${target}`);
+    return {
+        pkgTarget: {
+            registry,
+            name,
+            ranges,
+            unstable
+        },
+        installSubpath: null
+    };
+}
+function pkgToStr(pkg) {
+    return `${pkg.registry ? pkg.registry + ":" : ""}${pkg.name}${pkg.version ? "@" + pkg.version : ""}`;
+}
+/**
+ * Throws unless the given specifier is a valid npm-style package specifier.
+ *
+ * @param {string} specifier Specifier to validate.
+ */ function validatePkgName(specifier) {
+    const parsed = parsePkg(specifier);
+    if (!parsed || parsed.subpath !== ".") throw new Error(`"${specifier}" is not a valid npm-style package name. Subpaths must be provided separately to the installation package name.`);
+}
+/**
+ * Parses an npm-style module specifier, such as '@jspm/generator/index.js',
+ * and splits it into the package name ('@jspm/generator') and module subpath
+ * ('./index.js'). Returns undefined if the given specifier is invalid.
+ *
+ * @param {string} specifier Specifier to parse.
+ * @returns {{ pkgName: string, subpath: '.' | `./${string}` } | undefined}
+ */ function parsePkg(specifier) {
+    let sepIndex = specifier.indexOf("/");
+    if (specifier[0] === "@") {
+        if (sepIndex === -1) return;
+        sepIndex = specifier.indexOf("/", sepIndex + 1);
+    }
+    // TODO: Node.js validations like percent encodng checks
+    if (sepIndex === -1) return {
+        pkgName: specifier,
+        subpath: "."
+    };
+    return {
+        pkgName: specifier.slice(0, sepIndex),
+        subpath: `.${specifier.slice(sepIndex)}`
+    };
+}
+
+const cdnUrl$4 = "https://ga.jspm.io/";
+const systemCdnUrl = "https://ga.system.jspm.io/";
+const apiUrl = "https://api.jspm.io/";
+const BUILD_POLL_TIME = 5 * 60 * 1000;
+const BUILD_POLL_INTERVAL = 5 * 1000;
+const supportedLayers = [
+    "default",
+    "system"
+];
+async function pkgToUrl$5(pkg, layer) {
+    return `${layer === "system" ? systemCdnUrl : cdnUrl$4}${pkgToStr(pkg)}/`;
+}
+const exactPkgRegEx$4 = /^(([a-z]+):)?((?:@[^/\\%@]+\/)?[^./\\%@][^/\\%@]*)@([^\/]+)(\/.*)?$/;
+function parseUrlPkg$6(url) {
+    let subpath = null;
+    let layer;
+    if (url.startsWith(cdnUrl$4)) layer = "default";
+    else if (url.startsWith(systemCdnUrl)) layer = "system";
+    else return;
+    const [, , registry, name, version] = url.slice((layer === "default" ? cdnUrl$4 : systemCdnUrl).length).match(exactPkgRegEx$4) || [];
+    if (registry && name && version) {
+        if (registry === "npm" && name === "@jspm/core" && url.includes("/nodelibs/")) {
+            subpath = `./nodelibs/${url.slice(url.indexOf("/nodelibs/") + 10).split("/")[1]}`;
+            if (subpath && subpath.endsWith(".js")) subpath = subpath.slice(0, -3);
+            else subpath = null;
+        }
+        return {
+            pkg: {
+                registry,
+                name,
+                version
+            },
+            layer,
+            subpath
+        };
+    }
+}
+let resolveCache = {};
+function clearResolveCache() {
+    resolveCache = {};
+}
+async function checkBuildOrError(pkgUrl, fetchOpts) {
+    const pjsonRes = await fetch$1(`${pkgUrl}package.json`, fetchOpts);
+    if (pjsonRes.ok) return true;
+    // no package.json! Check if there's a build error:
+    const errLogRes = await fetch$1(`${pkgUrl}/_error.log`, fetchOpts);
+    if (errLogRes.ok) {
+        const errLog = await errLogRes.text();
+        throw new JspmError(`Resolved dependency ${pkgUrl} with error:\n\n${errLog}\nPlease post an issue at jspm/project on GitHub, or by following the link below:\n\nhttps://github.com/jspm/project/issues/new?title=CDN%20build%20error%20for%20${encodeURIComponent(pkgUrl)}&body=_Reporting%20CDN%20Build%20Error._%0A%0A%3C!--%20%20No%20further%20description%20necessary,%20just%20click%20%22Submit%20new%20issue%22%20--%3E`);
+    }
+    console.error(`Unable to request ${pkgUrl}package.json - ${pjsonRes.status} ${pjsonRes.statusText || "returned"}`);
+    return false;
+}
+async function ensureBuild(pkg, fetchOpts) {
+    if (await checkBuildOrError(await pkgToUrl$5(pkg, "default"), fetchOpts)) return;
+    const fullName = `${pkg.name}@${pkg.version}`;
+    // no package.json AND no build error -> post a build request
+    // once the build request has been posted, try polling for up to 2 mins
+    const buildRes = await fetch$1(`${apiUrl}build/${fullName}`, fetchOpts);
+    if (!buildRes.ok && buildRes.status !== 403) {
+        const err = (await buildRes.json()).error;
+        throw new JspmError(`Unable to request the JSPM API for a build of ${fullName}, with error: ${err}.`);
+    }
+    // build requested -> poll on that
+    let startTime = Date.now();
+    while(true){
+        await new Promise((resolve)=>setTimeout(resolve, BUILD_POLL_INTERVAL));
+        if (await checkBuildOrError(await pkgToUrl$5(pkg, "default"), fetchOpts)) return;
+        if (Date.now() - startTime >= BUILD_POLL_TIME) throw new JspmError(`Timed out waiting for the build of ${fullName} to be ready on the JSPM CDN. Try again later, or post a JSPM project issue if the issue persists.`);
+    }
+}
+async function resolveLatestTarget$1(target, layer, parentUrl) {
+    const { registry , name , range , unstable  } = target;
+    // exact version optimization
+    if (range.isExact && !range.version.tag) {
+        const pkg = {
+            registry,
+            name,
+            version: range.version.toString()
+        };
+        await ensureBuild(pkg, this.fetchOpts);
+        return pkg;
+    }
+    const cache = resolveCache[target.registry + ":" + target.name] = resolveCache[target.registry + ":" + target.name] || {
+        latest: null,
+        majors: Object.create(null),
+        minors: Object.create(null),
+        tags: Object.create(null)
+    };
+    if (range.isWildcard || range.isExact && range.version.tag === "latest") {
+        let lookup = await (cache.latest || (cache.latest = lookupRange.call(this, registry, name, "", unstable, parentUrl)));
+        // Deno wat?
+        if (lookup instanceof Promise) lookup = await lookup;
+        if (!lookup) return null;
+        this.log("jspm/resolveLatestTarget", `${target.registry}:${target.name}@${range} -> WILDCARD ${lookup.version}${parentUrl ? " [" + parentUrl + "]" : ""}`);
+        await ensureBuild(lookup, this.fetchOpts);
+        return lookup;
+    }
+    if (range.isExact && range.version.tag) {
+        const tag = range.version.tag;
+        let lookup = await (cache.tags[tag] || (cache.tags[tag] = lookupRange.call(this, registry, name, tag, unstable, parentUrl)));
+        // Deno wat?
+        if (lookup instanceof Promise) lookup = await lookup;
+        if (!lookup) return null;
+        this.log("jspm/resolveLatestTarget", `${target.registry}:${target.name}@${range} -> TAG ${tag}${parentUrl ? " [" + parentUrl + "]" : ""}`);
+        await ensureBuild(lookup, this.fetchOpts);
+        return lookup;
+    }
+    let stableFallback = false;
+    if (range.isMajor) {
+        const major = range.version.major;
+        let lookup = await (cache.majors[major] || (cache.majors[major] = lookupRange.call(this, registry, name, major, unstable, parentUrl)));
+        // Deno wat?
+        if (lookup instanceof Promise) lookup = await lookup;
+        if (!lookup) return null;
+        // if the latest major is actually a downgrade, use the latest minor version (fallthrough)
+        // note this might miss later major prerelease versions, which should strictly be supported via a pkg@X@ unstable major lookup
+        if (range.version.gt(lookup.version)) {
+            stableFallback = true;
+        } else {
+            this.log("jspm/resolveLatestTarget", `${target.registry}:${target.name}@${range} -> MAJOR ${lookup.version}${parentUrl ? " [" + parentUrl + "]" : ""}`);
+            await ensureBuild(lookup, this.fetchOpts);
+            return lookup;
+        }
+    }
+    if (stableFallback || range.isStable) {
+        const minor = `${range.version.major}.${range.version.minor}`;
+        let lookup = await (cache.minors[minor] || (cache.minors[minor] = lookupRange.call(this, registry, name, minor, unstable, parentUrl)));
+        // in theory a similar downgrade to the above can happen for stable prerelease ranges ~1.2.3-pre being downgraded to 1.2.2
+        // this will be solved by the pkg@X.Y@ unstable minor lookup
+        // Deno wat?
+        if (lookup instanceof Promise) lookup = await lookup;
+        if (!lookup) return null;
+        this.log("jspm/resolveLatestTarget", `${target.registry}:${target.name}@${range} -> MINOR ${lookup.version}${parentUrl ? " [" + parentUrl + "]" : ""}`);
+        await ensureBuild(lookup, this.fetchOpts);
+        return lookup;
+    }
+    return null;
+}
+function pkgToLookupUrl(pkg, edge = false) {
+    return `${cdnUrl$4}${pkg.registry}:${pkg.name}${pkg.version ? "@" + pkg.version : edge ? "@" : ""}`;
+}
+async function lookupRange(registry, name, range, unstable, parentUrl) {
+    const url = pkgToLookupUrl({
+        registry,
+        name,
+        version: range
+    }, unstable);
+    const res = await fetch$1(url, this.fetchOpts);
+    switch(res.status){
+        case 304:
+        case 200:
+            return {
+                registry,
+                name,
+                version: (await res.text()).trim()
+            };
+        case 404:
+            const versions = await fetchVersions(name);
+            const semverRange = new SemverRange_1(String(range) || "*", unstable);
+            const version = semverRange.bestMatch(versions, unstable);
+            if (version) {
+                return {
+                    registry,
+                    name,
+                    version
+                };
+            }
+            throw new JspmError(`Unable to resolve ${registry}:${name}@${range} to a valid version${importedFrom(parentUrl)}`);
+        default:
+            throw new JspmError(`Invalid status code ${res.status} looking up "${registry}:${name}" from ${url} - ${res.statusText}${importedFrom(parentUrl)}`);
+    }
+}
+const versionsCacheMap = new Map();
+async function fetchVersions(name) {
+    if (versionsCacheMap.has(name)) {
+        return versionsCacheMap.get(name);
+    }
+    const registryLookup = await (await fetch$1(`https://npmlookup.jspm.io/${encodeURI(name)}`, {})).json();
+    const versions = Object.keys(registryLookup.versions || {});
+    versionsCacheMap.set(name, versions);
+    return versions;
+}
+
+var jspm = /*#__PURE__*/Object.freeze({
+  __proto__: null,
+  supportedLayers: supportedLayers,
+  pkgToUrl: pkgToUrl$5,
+  parseUrlPkg: parseUrlPkg$6,
+  clearResolveCache: clearResolveCache,
+  resolveLatestTarget: resolveLatestTarget$1
+});
+
+const cdnUrl$3 = "https://cdn.skypack.dev/";
+async function pkgToUrl$4(pkg) {
+    return `${cdnUrl$3}${pkg.name}@${pkg.version}/`;
+}
+const exactPkgRegEx$3 = /^((?:@[^/\\%@]+\/)?[^./\\%@][^/\\%@]*)@([^\/]+)(\/.*)?$/;
+function parseUrlPkg$5(url) {
+    if (!url.startsWith(cdnUrl$3)) return;
+    const [, name, version] = url.slice(cdnUrl$3.length).match(exactPkgRegEx$3) || [];
+    if (!name || !version) return;
+    return {
+        registry: "npm",
+        name,
+        version
+    };
+}
+
+var skypack = /*#__PURE__*/Object.freeze({
+  __proto__: null,
+  pkgToUrl: pkgToUrl$4,
+  parseUrlPkg: parseUrlPkg$5,
+  resolveLatestTarget: resolveLatestTarget$1
+});
+
+const cdnUrl$2 = "https://cdn.jsdelivr.net/";
+async function pkgToUrl$3(pkg) {
+    return `${cdnUrl$2}${pkg.registry}/${pkg.name}@${pkg.version}/`;
+}
+const exactPkgRegEx$2 = /^([^\/]+)\/((?:@[^/\\%@]+\/)?[^./\\%@][^/\\%@]*)@([^\/]+)(\/.*)?$/;
+function parseUrlPkg$4(url) {
+    if (!url.startsWith(cdnUrl$2)) return;
+    const [, registry, name, version] = url.slice(cdnUrl$2.length).match(exactPkgRegEx$2) || [];
+    return {
+        registry,
+        name,
+        version
+    };
+}
+
+var jsdelivr = /*#__PURE__*/Object.freeze({
+  __proto__: null,
+  pkgToUrl: pkgToUrl$3,
+  parseUrlPkg: parseUrlPkg$4,
+  resolveLatestTarget: resolveLatestTarget$1
+});
+
+const cdnUrl$1 = "https://unpkg.com/";
+async function pkgToUrl$2(pkg) {
+    return `${cdnUrl$1}${pkg.name}@${pkg.version}/`;
+}
+const exactPkgRegEx$1 = /^((?:@[^/\\%@]+\/)?[^./\\%@][^/\\%@]*)@([^\/]+)(\/.*)?$/;
+function parseUrlPkg$3(url) {
+    if (!url.startsWith(cdnUrl$1)) return;
+    const [, name, version] = url.slice(cdnUrl$1.length).match(exactPkgRegEx$1) || [];
+    if (name && version) {
+        return {
+            registry: "npm",
+            name,
+            version
+        };
+    }
+}
+
+var unpkg = /*#__PURE__*/Object.freeze({
+  __proto__: null,
+  pkgToUrl: pkgToUrl$2,
+  parseUrlPkg: parseUrlPkg$3,
+  resolveLatestTarget: resolveLatestTarget$1
+});
+
+const nodeBuiltinSet = new Set([
+    "_http_agent",
+    "_http_client",
+    "_http_common",
+    "_http_incoming",
+    "_http_outgoing",
+    "_http_server",
+    "_stream_duplex",
+    "_stream_passthrough",
+    "_stream_readable",
+    "_stream_transform",
+    "_stream_wrap",
+    "_stream_writable",
+    "_tls_common",
+    "_tls_wrap",
+    "assert",
+    "assert/strict",
+    "async_hooks",
+    "buffer",
+    "child_process",
+    "cluster",
+    "console",
+    "constants",
+    "crypto",
+    "dgram",
+    "diagnostics_channel",
+    "dns",
+    "dns/promises",
+    "domain",
+    "events",
+    "fs",
+    "fs/promises",
+    "http",
+    "http2",
+    "https",
+    "inspector",
+    "module",
+    "net",
+    "os",
+    "path",
+    "path/posix",
+    "path/win32",
+    "perf_hooks",
+    "process",
+    "punycode",
+    "querystring",
+    "readline",
+    "repl",
+    "stream",
+    "stream/promises",
+    "string_decoder",
+    "sys",
+    "timers",
+    "timers/promises",
+    "tls",
+    "trace_events",
+    "tty",
+    "url",
+    "util",
+    "util/types",
+    "v8",
+    "vm",
+    "wasi",
+    "worker_threads",
+    "zlib"
+]);
+async function pkgToUrl$1(pkg, layer) {
+    if (pkg.registry !== "node") return pkgToUrl$5(pkg, layer);
+    return `node:${pkg.name}/`;
+}
+function resolveBuiltin(specifier, env) {
+    let builtin = specifier.startsWith("node:") ? specifier.slice(5) : nodeBuiltinSet.has(specifier) ? specifier : null;
+    if (!builtin) return;
+    // Deno supports all node builtins via bare "node:XXX" specifiers. As of
+    // std@0.178.0, the standard library no longer ships node polyfills, so we
+    // should always install builtins as base specifiers. This does mean that we
+    // no longer support old versions of deno unless they use --compat.
+    if (env.includes("deno") || env.includes("node")) {
+        return `node:${builtin}`;
+    }
+    // Strip the subpath for subpathed builtins
+    if (builtin.includes('/')) builtin = builtin.split('/')[0];
+    return {
+        target: {
+            pkgTarget: {
+                registry: "npm",
+                name: "@jspm/core",
+                ranges: [
+                    new SemverRange_1("*")
+                ],
+                unstable: true
+            },
+            installSubpath: `./nodelibs/${builtin}`
+        },
+        alias: builtin
+    };
+}
+// Special "." export means a file package (not a folder package)
+async function getPackageConfig$2() {
+    return {
+        exports: {
+            ".": "."
+        }
+    };
+}
+async function resolveLatestTarget(target, layer, parentUrl) {
+    if (target.registry !== "npm" || target.name !== "@jspm/core") return null;
+    return resolveLatestTarget$1.call(this, {
+        registry: "npm",
+        name: "@jspm/core",
+        range: new SemverRange_1("*"),
+        unstable: true
+    }, layer, parentUrl);
+}
+function parseUrlPkg$2(url) {
+    if (!url.startsWith("node:")) return;
+    let name = url.slice(5);
+    if (name.endsWith("/")) name = name.slice(0, -1);
+    return {
+        registry: "node",
+        name,
+        version: ""
+    };
+}
+
+var node = /*#__PURE__*/Object.freeze({
+  __proto__: null,
+  nodeBuiltinSet: nodeBuiltinSet,
+  pkgToUrl: pkgToUrl$1,
+  resolveBuiltin: resolveBuiltin,
+  getPackageConfig: getPackageConfig$2,
+  resolveLatestTarget: resolveLatestTarget,
+  parseUrlPkg: parseUrlPkg$2
+});
+
+// @ts-ignore
+const cdnUrl = "https://esm.sh/";
+async function pkgToUrl(pkg) {
+    // The wildcard '*' at the end tells the esm.sh CDN to externalise all
+    // dependencies instead of bundling them into the returned module file.
+    //   see https://esm.sh/#docs
+    return `${cdnUrl}*${pkg.name}@${pkg.version}/`;
+}
+const exactPkgRegEx = /^(?:v\d+\/)?\*?((?:@[^/\\%@]+\/)?[^./\\%@][^/\\%@]*)@([^\/]+)(\/.*)?$/;
+function parseUrlPkg$1(url) {
+    if (!url.startsWith(cdnUrl)) return;
+    const [, name, version] = url.slice(cdnUrl.length).match(exactPkgRegEx) || [];
+    if (!name || !version) return;
+    return {
+        registry: "npm",
+        name,
+        version
+    };
+}
+// esm.sh serves im/exports on their "exports" subpaths, whereas the generator
+// expects them to be served on their filesystem paths, so we have to rewrite
+// the package.json before doing anything with it:
+async function getPackageConfig$1(pkgUrl) {
+    const res = await fetch$1(`${pkgUrl}package.json`, this.fetchOpts);
+    switch(res.status){
+        case 200:
+        case 304:
+            break;
+        case 400:
+        case 401:
+        case 403:
+        case 404:
+        case 406:
+        case 500:
+            this.pcfgs[pkgUrl] = null;
+            return;
+        default:
+            throw new JspmError(`Invalid status code ${res.status} reading package config for ${pkgUrl}. ${res.statusText}`);
+    }
+    const pcfg = await res.json();
+    if (pcfg.exports) {
+        for (const key of Object.keys(pcfg.exports)){
+            pcfg.exports[key] = key;
+        }
+    }
+    if (pcfg.imports) {
+        for (const key of Object.keys(pcfg.imports)){
+            pcfg.imports[key] = key;
+        }
+    }
+    return pcfg;
+}
+
+var esmsh = /*#__PURE__*/Object.freeze({
+  __proto__: null,
+  pkgToUrl: pkgToUrl,
+  parseUrlPkg: parseUrlPkg$1,
+  getPackageConfig: getPackageConfig$1,
+  resolveLatestTarget: resolveLatestTarget$1
+});
+
+const defaultProviders = {
+    deno,
+    jsdelivr,
+    node,
+    skypack,
+    unpkg,
+    "esm.sh": esmsh,
+    "jspm.io": jspm,
+    // TODO: remove at some point, alias for backwards compatibility:
+    jspm
+};
+function getProvider(name, providers) {
+    const provider = providers[name];
+    if (provider) return provider;
+    throw new JspmError(`No provider named "${name}" has been defined.`);
+}
+const registryProviders = {
+    "denoland:": "deno",
+    "deno:": "deno"
+};
+const mappableSchemes = new Set([
+    "npm",
+    "deno",
+    "node"
+]);
+const builtinSchemes = new Set([
+    "node",
+    "deno"
+]);
+
+function createEsmAnalysis(imports, source, url) {
+    if (!imports.length && registerRegEx.test(source)) return createSystemAnalysis(source, imports, url);
+    const deps = [];
+    const dynamicDeps = [];
+    for (const impt of imports){
+        if (impt.d === -1) {
+            if (!deps.includes(impt.n)) deps.push(impt.n);
+            continue;
+        }
+        // dynamic import -> deoptimize trace all dependencies (and all their exports)
+        if (impt.d >= 0) {
+            if (impt.n) {
+                try {
+                    dynamicDeps.push(impt.n);
+                } catch (e) {
+                    console.warn(`TODO: Dynamic import custom expression tracing in ${url} for:\n\n${source.slice(impt.ss, impt.se)}\n`);
+                }
+            }
+        }
+    }
+    const size = source.length;
+    return {
+        deps,
+        dynamicDeps,
+        cjsLazyDeps: null,
+        size,
+        format: "esm"
+    };
+}
+const registerRegEx = /^\s*(\/\*[^\*]*(\*(?!\/)[^\*]*)*\*\/|\s*\/\/[^\n]*)*\s*System\s*\.\s*register\s*\(\s*(\[[^\]]*\])\s*,\s*\(?function\s*\(\s*([^\),\s]+\s*(,\s*([^\),\s]+)\s*)?\s*)?\)/;
+function createSystemAnalysis(source, imports, url) {
+    const [, , , rawDeps, , , contextId] = source.match(registerRegEx) || [];
+    if (!rawDeps) return createEsmAnalysis(imports, source, url);
+    const deps = JSON.parse(rawDeps.replace(/'/g, '"'));
+    const dynamicDeps = [];
+    if (contextId) {
+        const dynamicImport = `${contextId}.import(`;
+        let i = -1;
+        while((i = source.indexOf(dynamicImport, i + 1)) !== -1){
+            const importStart = i + dynamicImport.length + 1;
+            const quote = source[i + dynamicImport.length];
+            if (quote === '"' || quote === "'") {
+                const importEnd = source.indexOf(quote, i + dynamicImport.length + 1);
+                if (importEnd !== -1) {
+                    try {
+                        dynamicDeps.push(JSON.parse('"' + source.slice(importStart, importEnd) + '"'));
+                        continue;
+                    } catch (e) {}
+                }
+            }
+            console.warn("TODO: Dynamic import custom expression tracing.");
+        }
+    }
+    const size = source.length;
+    return {
+        deps,
+        dynamicDeps,
+        cjsLazyDeps: null,
+        size,
+        format: "system"
+    };
+}
+
+let realpath, pathToFileURL;
+function isBuiltinScheme(specifier) {
+    if (specifier.indexOf(":") === -1) return false;
+    return builtinSchemes.has(specifier.slice(0, specifier.indexOf(":")));
+}
+function isMappableScheme(specifier) {
+    if (specifier.indexOf(":") === -1) return false;
+    return mappableSchemes.has(specifier.slice(0, specifier.indexOf(":")));
+}
+class Resolver {
+    addCustomProvider(name, provider) {
+        if (!provider.pkgToUrl) throw new Error('Custom provider "' + name + '" must define a "pkgToUrl" method.');
+        if (!provider.parseUrlPkg) throw new Error('Custom provider "' + name + '" must define a "parseUrlPkg" method.');
+        if (!provider.resolveLatestTarget) throw new Error('Custom provider "' + name + '" must define a "resolveLatestTarget" method.');
+        this.providers = Object.assign({}, this.providers, {
+            [name]: provider
+        });
+    }
+    providerNameForUrl(url) {
+        for (const name of Object.keys(this.providers)){
+            const provider = this.providers[name];
+            if (provider.ownsUrl && provider.ownsUrl.call(this, url) || provider.parseUrlPkg.call(this, url)) {
+                return name;
+            }
+        }
+    }
+    providerForUrl(url) {
+        const name = this.providerNameForUrl(url);
+        return name ? this.providers[name] : null;
+    }
+    async parseUrlPkg(url) {
+        for (const provider of Object.keys(this.providers)){
+            const providerInstance = this.providers[provider];
+            const result = providerInstance.parseUrlPkg.call(this, url);
+            if (result) return {
+                pkg: "pkg" in result ? result.pkg : result,
+                source: {
+                    provider,
+                    layer: "layer" in result ? result.layer : "default"
+                },
+                subpath: "subpath" in result ? result.subpath : null
+            };
+        }
+        return null;
+    }
+    async pkgToUrl(pkg, { provider , layer  }) {
+        return getProvider(provider, this.providers).pkgToUrl.call(this, pkg, layer);
+    }
+    resolveBuiltin(specifier) {
+        for (const provider of Object.values(this.providers)){
+            if (!provider.resolveBuiltin) continue;
+            const builtin = provider.resolveBuiltin.call(this, specifier, this.env);
+            if (builtin) return builtin;
+        }
+    }
+    async getPackageBase(url) {
+        const pkg = await this.parseUrlPkg(url);
+        if (pkg) return this.pkgToUrl(pkg.pkg, pkg.source);
+        let testUrl;
+        try {
+            testUrl = new URL("./", url);
+        } catch  {
+            return url;
+        }
+        const rootUrl = new URL("/", testUrl).href;
+        do {
+            let responseUrl;
+            if (responseUrl = await this.checkPjson(testUrl.href)) return new URL(".", responseUrl).href;
+            // No package base -> use directory itself
+            if (testUrl.href === rootUrl) return new URL("./", url).href;
+        }while (testUrl = new URL("../", testUrl))
+    }
+    // TODO: there are actually two different kinds of "package" in the codebase.
+    // There's a registry package, which is something that can be pinned exactly
+    // by name and version against a registry like "npm" or "denoland". Then we
+    // have a resolver package, which is any URL that has a "package.json" as a
+    // child. We should only be doing providerForUrl checks for _registry_
+    // packages, and in resolution contexts we should skip straight to npm-style
+    // backtracking to find package bases.
+    async getPackageConfig(pkgUrl) {
+        if (!pkgUrl.startsWith("file:") && !pkgUrl.startsWith("http:") && !pkgUrl.startsWith("https:") && !pkgUrl.startsWith("ipfs:") && !pkgUrl.startsWith("node:")) return null;
+        if (!pkgUrl.endsWith("/")) throw new Error(`Internal Error: Package URL must end in "/". Got ${pkgUrl}`);
+        let cached = this.pcfgs[pkgUrl];
+        if (cached) return cached;
+        if (!this.pcfgPromises[pkgUrl]) this.pcfgPromises[pkgUrl] = (async ()=>{
+            var _res_headers_get;
+            const provider = this.providerForUrl(pkgUrl);
+            if (provider) {
+                var _provider_getPackageConfig;
+                const pcfg = await ((_provider_getPackageConfig = provider.getPackageConfig) === null || _provider_getPackageConfig === void 0 ? void 0 : _provider_getPackageConfig.call(this, pkgUrl));
+                if (pcfg !== undefined) {
+                    this.pcfgs[pkgUrl] = pcfg;
+                    return;
+                }
+            }
+            const res = await fetch$1(`${pkgUrl}package.json`, this.fetchOpts);
+            switch(res.status){
+                case 200:
+                case 304:
+                    break;
+                case 400:
+                case 401:
+                case 403:
+                case 404:
+                case 406:
+                case 500:
+                    this.pcfgs[pkgUrl] = null;
+                    return;
+                default:
+                    throw new JspmError(`Invalid status code ${res.status} reading package config for ${pkgUrl}. ${res.statusText}`);
+            }
+            if (res.headers && !((_res_headers_get = res.headers.get("Content-Type")) === null || _res_headers_get === void 0 ? void 0 : _res_headers_get.match(/^application\/json(;|$)/))) {
+                this.pcfgs[pkgUrl] = null;
+            } else try {
+                this.pcfgs[pkgUrl] = await res.json();
+            } catch (e) {
+                this.pcfgs[pkgUrl] = null;
+            }
+        })();
+        await this.pcfgPromises[pkgUrl];
+        return this.pcfgs[pkgUrl];
+    }
+    async getDepList(pkgUrl, dev = false) {
+        const pjson = await this.getPackageConfig(pkgUrl);
+        if (!pjson) return [];
+        return [
+            ...new Set([
+                Object.keys(pjson.dependencies || {}),
+                Object.keys(dev && pjson.devDependencies || {}),
+                Object.keys(pjson.peerDependencies || {}),
+                Object.keys(pjson.optionalDependencies || {}),
+                Object.keys(pjson.imports || {})
+            ].flat())
+        ];
+    }
+    async checkPjson(url) {
+        if (await this.getPackageConfig(url) === null) return false;
+        return url;
+    }
+    async exists(resolvedUrl) {
+        const res = await fetch$1(resolvedUrl, this.fetchOpts);
+        switch(res.status){
+            case 200:
+            case 304:
+                return true;
+            case 400:
+            case 401:
+            case 403:
+            case 404:
+            case 406:
+            case 500:
+                return false;
+            default:
+                throw new JspmError(`Invalid status code ${res.status} loading ${resolvedUrl}. ${res.statusText}`);
+        }
+    }
+    async resolveLatestTarget(target, { provider , layer  }, parentUrl) {
+        // find the range to resolve latest
+        let range;
+        for (const possibleRange of target.ranges.sort(target.ranges[0].constructor.compare)){
+            if (!range) {
+                range = possibleRange;
+            } else if (possibleRange.gt(range) && !range.contains(possibleRange)) {
+                range = possibleRange;
+            }
+        }
+        const latestTarget = {
+            registry: target.registry,
+            name: target.name,
+            range,
+            unstable: target.unstable
+        };
+        const resolveLatestTarget = getProvider(provider, this.providers).resolveLatestTarget.bind(this);
+        const pkg = await resolveLatestTarget(latestTarget, layer, parentUrl);
+        if (pkg) return pkg;
+        if (provider === "nodemodules") {
+            throw new JspmError(`${parentUrl}node_modules/${target.name} does not exist, try installing "${target.name}" with npm first via "npm install ${target.name}".`);
+        } else {
+            throw new JspmError(`Unable to resolve package ${latestTarget.registry}:${latestTarget.name} in range "${latestTarget.range}" from parent ${parentUrl}.`);
+        }
+    }
+    async wasCommonJS(url) {
+        var _pcfg_exports;
+        // TODO: make this a provider hook
+        const pkgUrl = await this.getPackageBase(url);
+        if (!pkgUrl) return false;
+        const pcfg = await this.getPackageConfig(pkgUrl);
+        if (!pcfg) return false;
+        const subpath = "./" + url.slice(pkgUrl.length);
+        return (pcfg === null || pcfg === void 0 ? void 0 : (_pcfg_exports = pcfg.exports) === null || _pcfg_exports === void 0 ? void 0 : _pcfg_exports[subpath + "!cjs"]) ? true : false;
+    }
+    async realPath(url) {
+        if (!url.startsWith("file:") || this.preserveSymlinks) return url;
+        let encodedColon = false;
+        url = url.replace(/%3a/i, ()=>{
+            encodedColon = true;
+            return ":";
+        });
+        if (!realpath) {
+            [{ realpath  }, { pathToFileURL  }] = await Promise.all([
+                Promise.resolve().then(function(){return _polyfillNode_fs$1}),
+                Promise.resolve().then(function(){return require('./_polyfill-node.url-0eefb1f4.js')})
+            ]);
+        }
+        const outUrl = pathToFileURL(await new Promise((resolve, reject)=>realpath(new URL(url), (err, result)=>err ? reject(err) : resolve(result)))).href;
+        if (encodedColon) return "file:" + outUrl.slice(5).replace(":", "%3a");
+        return outUrl;
+    }
+    async finalizeResolve(url, parentIsCjs, pkgUrl) {
+        if (parentIsCjs && url.endsWith("/")) url = url.slice(0, -1);
+        // Only CJS modules do extension searching for relative resolved paths
+        if (parentIsCjs) url = await (async ()=>{
+            // subfolder checks before file checks because of fetch
+            if (await this.exists(url + "/package.json")) {
+                const pcfg = await this.getPackageConfig(url) || {};
+                if (this.env.includes("browser") && typeof pcfg.browser === "string") return this.finalizeResolve(await legacyMainResolve.call(this, pcfg.browser, new URL(url)), parentIsCjs, pkgUrl);
+                if (this.env.includes("module") && typeof pcfg.module === "string") return this.finalizeResolve(await legacyMainResolve.call(this, pcfg.module, new URL(url)), parentIsCjs, pkgUrl);
+                if (typeof pcfg.main === "string") return this.finalizeResolve(await legacyMainResolve.call(this, pcfg.main, new URL(url)), parentIsCjs, pkgUrl);
+                return this.finalizeResolve(await legacyMainResolve.call(this, null, new URL(url)), parentIsCjs, pkgUrl);
+            }
+            if (await this.exists(url + "/index.js")) return url + "/index.js";
+            if (await this.exists(url + "/index.json")) return url + "/index.json";
+            if (await this.exists(url + "/index.node")) return url + "/index.node";
+            if (await this.exists(url)) return url;
+            if (await this.exists(url + ".js")) return url + ".js";
+            if (await this.exists(url + ".json")) return url + ".json";
+            if (await this.exists(url + ".node")) return url + ".node";
+            return url;
+        })();
+        // Only browser maps apply to relative resolved paths
+        if (this.env.includes("browser")) {
+            pkgUrl = pkgUrl || await this.getPackageBase(url);
+            if (url.startsWith(pkgUrl)) {
+                const pcfg = await this.getPackageConfig(pkgUrl);
+                if (pcfg && typeof pcfg.browser === "object" && pcfg.browser !== null) {
+                    const subpath = "./" + url.slice(pkgUrl.length);
+                    if (pcfg.browser[subpath]) {
+                        const target = pcfg.browser[subpath];
+                        if (target === false) throw new Error(`TODO: Empty browser map for ${subpath} in ${url}`);
+                        if (!target.startsWith("./")) throw new Error(`TODO: External browser map for ${subpath} to ${target} in ${url}`);
+                        // for browser mappings to the same module, avoid a loop
+                        if (pkgUrl + target.slice(2) === url) return url;
+                        return await this.finalizeResolve(pkgUrl + target.slice(2), parentIsCjs, pkgUrl);
+                    }
+                }
+            }
+        }
+        return url;
+    }
+    // reverse exports resolution
+    // returns _a_ possible export which resolves to the given package URL and subpath
+    // also handles "imports"
+    async getExportResolution(pkgUrl, subpath, originalSpecifier) {
+        const resolvedUrl = subpath === "." ? pkgUrl.slice(0, -1) : pkgUrl + subpath.slice(2);
+        const pcfg = await this.getPackageConfig(pkgUrl) || {};
+        if (originalSpecifier[0] === "#") {
+            if (pcfg.imports === undefined || pcfg.imports === null) return null;
+            const match = getMapMatch(originalSpecifier, pcfg.imports);
+            if (!match) return null;
+            const targets = enumeratePackageTargets(pcfg.imports[match]);
+            for (const curTarget of targets){
+                try {
+                    if (await this.finalizeResolve(curTarget, false, pkgUrl) === resolvedUrl) {
+                        return ".";
+                    }
+                } catch  {}
+            }
+            return null;
+        }
+        if (pcfg.exports !== undefined && pcfg.exports !== null) {
+            if (typeof pcfg.exports === "string") {
+                if (subpath !== ".") return null;
+                const url = new URL(pcfg.exports, pkgUrl).href;
+                try {
+                    if (await this.finalizeResolve(url, false, pkgUrl) === resolvedUrl) return ".";
+                } catch  {}
+                return null;
+            } else if (!allDotKeys(pcfg.exports)) {
+                if (subpath !== ".") return null;
+                const targets = enumeratePackageTargets(pcfg.exports);
+                for (const curTarget of targets){
+                    try {
+                        if (await this.finalizeResolve(new URL(curTarget, pkgUrl).href, false, pkgUrl) === resolvedUrl) return ".";
+                    } catch  {}
+                }
+                return null;
+            } else {
+                let bestMatch;
+                for (const expt of Object.keys(pcfg.exports)){
+                    const targets = enumeratePackageTargets(pcfg.exports[expt]);
+                    for (const curTarget of targets){
+                        if (curTarget.indexOf("*") === -1) {
+                            if (await this.finalizeResolve(new URL(curTarget, pkgUrl).href, false, pkgUrl) === resolvedUrl) {
+                                if (bestMatch) {
+                                    if (originalSpecifier.endsWith(bestMatch.slice(2))) {
+                                        if (!originalSpecifier.endsWith(expt.slice(2))) continue;
+                                    } else if (!originalSpecifier.endsWith(expt.slice(2))) {
+                                        // Normal precedence = shortest export!
+                                        if (expt.length < bestMatch.length) bestMatch = expt;
+                                    }
+                                }
+                                bestMatch = expt;
+                            }
+                        } else {
+                            const parts = curTarget.split("*");
+                            if (!subpath.startsWith(parts[0])) continue;
+                            const matchEndIndex = subpath.indexOf(parts[1], parts[0].length);
+                            if (matchEndIndex === -1) continue;
+                            const match = subpath.slice(parts[0].length, matchEndIndex);
+                            const substitutedTarget = curTarget.replace(/\*/g, match);
+                            if (subpath === substitutedTarget) {
+                                const prefix = expt.slice(0, expt.indexOf("*"));
+                                const suffix = expt.slice(expt.indexOf("*") + 1);
+                                if (bestMatch) {
+                                    if (originalSpecifier.endsWith(bestMatch.slice(2))) {
+                                        if (!originalSpecifier.endsWith(expt.slice(2).replace("*", match)) || bestMatch.startsWith(prefix) && bestMatch.endsWith(suffix)) continue;
+                                    } else if (!originalSpecifier.endsWith(expt.slice(2).replace("*", match))) {
+                                        if (bestMatch.startsWith(prefix) && bestMatch.endsWith(suffix)) continue;
+                                    }
+                                }
+                                bestMatch = expt.replace("*", match);
+                            }
+                        }
+                    }
+                }
+                return bestMatch;
+            }
+        } else {
+            if (subpath !== ".") {
+                try {
+                    if (await this.finalizeResolve(new URL(subpath, new URL(pkgUrl)).href, false, pkgUrl) === resolvedUrl) return ".";
+                } catch  {}
+                return null;
+            }
+            try {
+                if (typeof pcfg.main === "string" && await this.finalizeResolve(await legacyMainResolve.call(this, pcfg.main, new URL(pkgUrl), originalSpecifier, pkgUrl), false, pkgUrl) === resolvedUrl) return ".";
+            } catch  {}
+            try {
+                if (await this.finalizeResolve(await legacyMainResolve.call(this, null, new URL(pkgUrl), originalSpecifier, pkgUrl), false, pkgUrl) === resolvedUrl) return ".";
+            } catch  {}
+            try {
+                if (typeof pcfg.browser === "string" && await this.finalizeResolve(await legacyMainResolve.call(this, pcfg.browser, new URL(pkgUrl), originalSpecifier, pkgUrl), false, pkgUrl) === resolvedUrl) return ".";
+            } catch  {}
+            try {
+                if (typeof pcfg.module === "string" && await this.finalizeResolve(await legacyMainResolve.call(this, pcfg.module, new URL(pkgUrl), originalSpecifier, pkgUrl), false, pkgUrl) === resolvedUrl) return ".";
+                return null;
+            } catch  {}
+        }
+        return null;
+    }
+    // Note: updates here must be tracked in function above
+    async resolveExport(pkgUrl, subpath, cjsEnv, parentIsCjs, originalSpecifier, installer, parentUrl) {
+        const env = cjsEnv ? this.cjsEnv : this.env;
+        const pcfg = await this.getPackageConfig(pkgUrl) || {};
+        // If the package has no exports then we resolve against "node:@empty":
+        if (typeof pcfg.exports === "object" && pcfg.exports !== null && Object.keys(pcfg.exports).length === 0) {
+            const stdlibTarget = {
+                registry: "npm",
+                name: "@jspm/core",
+                ranges: [
+                    new SemverRange_1("*")
+                ],
+                unstable: true
+            };
+            const provider = installer.getProvider(stdlibTarget);
+            const pkg = await this.resolveLatestTarget(stdlibTarget, provider, parentUrl.href);
+            return this.resolveExport(await this.pkgToUrl(pkg, provider), "./nodelibs/@empty", cjsEnv, parentIsCjs, originalSpecifier, installer, parentUrl);
+        }
+        function throwExportNotDefined() {
+            throw new JspmError(`No '${subpath}' exports subpath defined in ${pkgUrl} resolving ${originalSpecifier}${importedFrom(parentUrl)}.`, "MODULE_NOT_FOUND");
+        }
+        if (pcfg.exports !== undefined && pcfg.exports !== null) {
+            function allDotKeys(exports) {
+                for(let p in exports){
+                    if (p[0] !== ".") return false;
+                }
+                return true;
+            }
+            if (typeof pcfg.exports === "string") {
+                if (subpath === ".") return this.finalizeResolve(new URL(pcfg.exports, pkgUrl).href, parentIsCjs, pkgUrl);
+                else throwExportNotDefined();
+            } else if (!allDotKeys(pcfg.exports)) {
+                if (subpath === ".") return this.finalizeResolve(this.resolvePackageTarget(pcfg.exports, pkgUrl, cjsEnv, "", false), parentIsCjs, pkgUrl);
+                else throwExportNotDefined();
+            } else {
+                const match = getMapMatch(subpath, pcfg.exports);
+                if (match) {
+                    let replacement = "";
+                    const wildcardIndex = match.indexOf("*");
+                    if (wildcardIndex !== -1) {
+                        replacement = subpath.slice(wildcardIndex, subpath.length - (match.length - wildcardIndex - 1));
+                    } else if (match.endsWith("/")) {
+                        replacement = subpath.slice(match.length);
+                    }
+                    const resolved = this.resolvePackageTarget(pcfg.exports[match], pkgUrl, cjsEnv, replacement, false);
+                    if (resolved === null) throwExportNotDefined();
+                    return this.finalizeResolve(resolved, parentIsCjs, pkgUrl);
+                }
+                throwExportNotDefined();
+            }
+        } else {
+            if (subpath === "." || parentIsCjs && subpath === "./") {
+                if (env.includes("browser") && typeof pcfg.browser === "string") return this.finalizeResolve(await legacyMainResolve.call(this, pcfg.browser, new URL(pkgUrl), originalSpecifier, pkgUrl), parentIsCjs, pkgUrl);
+                if (env.includes("module") && typeof pcfg.module === "string") return this.finalizeResolve(await legacyMainResolve.call(this, pcfg.module, new URL(pkgUrl), originalSpecifier, pkgUrl), parentIsCjs, pkgUrl);
+                if (typeof pcfg.main === "string") return this.finalizeResolve(await legacyMainResolve.call(this, pcfg.main, new URL(pkgUrl), originalSpecifier, pkgUrl), parentIsCjs, pkgUrl);
+                return this.finalizeResolve(await legacyMainResolve.call(this, null, new URL(pkgUrl), originalSpecifier, pkgUrl), parentIsCjs, pkgUrl);
+            } else {
+                return this.finalizeResolve(new URL(subpath, new URL(pkgUrl)).href, parentIsCjs, pkgUrl);
+            }
+        }
+    }
+    async analyze(resolvedUrl, parentUrl, system, isRequire, retry = true) {
+        const res = await fetch$1(resolvedUrl, this.fetchOpts);
+        if (!res) throw new JspmError(`Unable to fetch URL "${resolvedUrl}" for ${parentUrl}`);
+        switch(res.status){
+            case 200:
+            case 304:
+                break;
+            case 404:
+                throw new JspmError(`Module not found: ${resolvedUrl}${importedFrom(parentUrl)}`, "MODULE_NOT_FOUND");
+            default:
+                throw new JspmError(`Invalid status code ${res.status} loading ${resolvedUrl}. ${res.statusText}`);
+        }
+        try {
+            var source = await res.text();
+        } catch (e) {
+            if (retry && (e.code === "ERR_SOCKET_TIMEOUT" || e.code === "ETIMEOUT" || e.code === "ECONNRESET")) return this.analyze(resolvedUrl, parentUrl, system, isRequire, false);
+            throw e;
+        }
+        // TODO: headers over extensions for non-file URLs
+        try {
+            if (resolvedUrl.endsWith(".ts") || resolvedUrl.endsWith(".tsx") || resolvedUrl.endsWith(".jsx")) return await createTsAnalysis(source, resolvedUrl);
+            if (resolvedUrl.endsWith(".wasm")) {
+                return {
+                    deps: [],
+                    dynamicDeps: [],
+                    cjsLazyDeps: null,
+                    size: source.length,
+                    format: "wasm"
+                };
+            }
+            if (resolvedUrl.endsWith(".json")) {
+                try {
+                    JSON.parse(source);
+                    return {
+                        deps: [],
+                        dynamicDeps: [],
+                        cjsLazyDeps: null,
+                        size: source.length,
+                        format: "json"
+                    };
+                } catch  {}
+            }
+            const [imports, exports] = parse(source);
+            if (imports.every((impt)=>impt.d > 0) && !exports.length && resolvedUrl.startsWith("file:")) {
+                var _ref;
+                // Support CommonJS package boundary checks for non-ESM on file: protocol only
+                if (isRequire) {
+                    var _ref1;
+                    if (!(resolvedUrl.endsWith(".mjs") || resolvedUrl.endsWith(".js") && ((_ref1 = await this.getPackageConfig(await this.getPackageBase(resolvedUrl))) === null || _ref1 === void 0 ? void 0 : _ref1.type) === "module")) return createCjsAnalysis(imports, source, resolvedUrl);
+                } else if (resolvedUrl.endsWith(".cjs") || resolvedUrl.endsWith(".js") && ((_ref = await this.getPackageConfig(await this.getPackageBase(resolvedUrl))) === null || _ref === void 0 ? void 0 : _ref.type) !== "module") {
+                    return createCjsAnalysis(imports, source, resolvedUrl);
+                }
+            }
+            return system ? createSystemAnalysis(source, imports, resolvedUrl) : createEsmAnalysis(imports, source, resolvedUrl);
+        } catch (e) {
+            if (!e.message || !e.message.startsWith("Parse error @:")) throw e;
+            // fetch is _unstable_!!!
+            // so we retry the fetch first
+            if (retry) {
+                try {
+                    return this.analyze(resolvedUrl, parentUrl, system, isRequire, false);
+                } catch  {}
+            }
+            // TODO: better parser errors
+            if (e.message && e.message.startsWith("Parse error @:")) {
+                const [topline] = e.message.split("\n", 1);
+                const pos = topline.slice(14);
+                let [line, col] = pos.split(":");
+                const lines = source.split("\n");
+                let errStack = "";
+                if (line > 1) errStack += "\n  " + lines[line - 2];
+                errStack += "\n> " + lines[line - 1];
+                errStack += "\n  " + " ".repeat(col - 1) + "^";
+                if (lines.length > 1) errStack += "\n  " + lines[line];
+                throw new JspmError(`${errStack}\n\nError parsing ${resolvedUrl}:${pos}`);
+            }
+            throw e;
+        }
+    }
+    // Note: changes to this function must be updated enumeratePackageTargets too
+    resolvePackageTarget(target, packageUrl, cjsEnv, subpath, isImport) {
+        if (typeof target === "string") {
+            if (target === ".") {
+                // special dot export for file packages
+                return packageUrl.slice(0, -1);
+            }
+            if (!target.startsWith("./")) {
+                if (isImport) return target;
+                throw new Error(`Invalid exports target ${target} resolving ./${subpath} in ${packageUrl}`);
+            }
+            if (!target.startsWith("./")) throw new Error("Invalid ");
+            if (subpath === "") return new URL(target, packageUrl).href;
+            if (target.indexOf("*") !== -1) {
+                return new URL(target.replace(/\*/g, subpath), packageUrl).href;
+            } else if (target.endsWith("/")) {
+                return new URL(target + subpath, packageUrl).href;
+            } else {
+                throw new Error(`Expected pattern or path export resolving ./${subpath} in ${packageUrl}`);
+            }
+        } else if (typeof target === "object" && target !== null && !Array.isArray(target)) {
+            for(const condition in target){
+                if (condition === "default" || (cjsEnv ? this.cjsEnv : this.env).includes(condition)) {
+                    const resolved = this.resolvePackageTarget(target[condition], packageUrl, cjsEnv, subpath, isImport);
+                    if (resolved) return resolved;
+                }
+            }
+        } else if (Array.isArray(target)) {
+            // TODO: Validation for arrays
+            for (const targetFallback of target){
+                return this.resolvePackageTarget(targetFallback, packageUrl, cjsEnv, subpath, isImport);
+            }
+        }
+        return null;
+    }
+    constructor(env, log, fetchOpts, preserveSymlinks = false){
+        this.pcfgPromises = Object.create(null);
+        this.pcfgs = Object.create(null);
+        this.preserveSymlinks = false;
+        this.providers = defaultProviders;
+        if (env.includes("require")) throw new Error("Cannot manually pass require condition");
+        if (!env.includes("import")) env.push("import");
+        this.env = env;
+        this.cjsEnv = this.env.map((e)=>e === "import" ? "require" : e);
+        this.log = log;
+        this.fetchOpts = fetchOpts;
+        this.preserveSymlinks = preserveSymlinks;
+    }
+}
+function enumeratePackageTargets(target, targets = new Set()) {
+    if (typeof target === "string") {
+        targets.add(target);
+    } else if (typeof target === "object" && target !== null && !Array.isArray(target)) {
+        for(const condition in target){
+            enumeratePackageTargets(target[condition], targets);
+        }
+        return targets;
+    } else if (Array.isArray(target)) {
+        // TODO: Validation for arrays
+        for (const targetFallback of target){
+            enumeratePackageTargets(targetFallback, targets);
+            return targets;
+        }
+    }
+    return targets;
+}
+async function legacyMainResolve(main, pkgUrl, originalSpecifier, parentUrl) {
+    let guess;
+    if (main === null || main === void 0 ? void 0 : main.endsWith("index.js")) {
+        if (await this.exists(guess = new URL(`./${main}`, pkgUrl).href)) return guess;
+    } else if (main) {
+        if (await this.exists(guess = new URL(`./${main}/index.js`, pkgUrl).href)) return guess;
+        if (await this.exists(guess = new URL(`./${main}/index.json`, pkgUrl).href)) return guess;
+        if (await this.exists(guess = new URL(`./${main}/index.node`, pkgUrl).href)) return guess;
+        if (await this.exists(guess = new URL(`./${main}`, pkgUrl).href)) return guess;
+        if (await this.exists(guess = new URL(`./${main}.js`, pkgUrl).href)) return guess;
+        if (await this.exists(guess = new URL(`./${main}.json`, pkgUrl).href)) return guess;
+        if (await this.exists(guess = new URL(`./${main}.node`, pkgUrl).href)) return guess;
+    } else {
+        if (pkgUrl.protocol !== "file:" && await this.exists(guess = new URL("./mod.ts", pkgUrl).href)) return guess;
+        if (await this.exists(guess = new URL("./index.js", pkgUrl).href)) return guess;
+        if (await this.exists(guess = new URL("./index.json", pkgUrl).href)) return guess;
+        if (await this.exists(guess = new URL("./index.node", pkgUrl).href)) return guess;
+    }
+    // Not found.
+    throw new JspmError(`Unable to resolve ${main ? main + " in " : ""}${pkgUrl} resolving ${originalSpecifier !== null && originalSpecifier !== void 0 ? originalSpecifier : ""}${importedFrom(parentUrl)}.`, "MODULE_NOT_FOUND");
+}
+function getMapMatch(specifier, map) {
+    if (specifier in map) return specifier;
+    let bestMatch;
+    for (const match of Object.keys(map)){
+        const wildcardIndex = match.indexOf("*");
+        if (!match.endsWith("/") && wildcardIndex === -1) continue;
+        if (match.endsWith("/")) {
+            if (specifier.startsWith(match)) {
+                if (!bestMatch || match.length > bestMatch.length) bestMatch = match;
+            }
+        } else {
+            const prefix = match.slice(0, wildcardIndex);
+            const suffix = match.slice(wildcardIndex + 1);
+            if (specifier.startsWith(prefix) && specifier.endsWith(suffix) && specifier.length > prefix.length + suffix.length) {
+                if (!bestMatch || !bestMatch.startsWith(prefix) || !bestMatch.endsWith(suffix)) bestMatch = match;
+            }
+        }
+    }
+    return bestMatch;
+}
+function allDotKeys(exports) {
+    for(let p in exports){
+        if (p[0] !== ".") return false;
+    }
+    return true;
+}
+
+// @ts-ignore
+let createHash;
+async function getIntegrity(url, fetchOpts) {
+    if (!createHash) ({ createHash  } = await Promise.resolve().then(function(){return require('./_polyfill-node.crypto-37012e5c.js')}));
+    const res = await fetch$1(url, fetchOpts);
+    const buf = await res.text();
+    const hash = createHash("sha384");
+    hash.update(buf);
+    return "sha384-" + hash.digest("base64");
+}
+
+function encodeBase64(data) {
+    if (typeof window !== "undefined") {
+        return window.btoa(data);
+    }
+    return Buffer.from(data).toString("base64");
+}
+function decodeBase64(data) {
+    if (typeof window !== "undefined") {
+        return window.atob(data);
+    }
+    return Buffer.from(data, "base64").toString("utf8");
+}
+
+const { Semver , SemverRange  } = sver;
+function enumerateParentScopes(url) {
+    const parentScopes = [];
+    let separatorIndex = url.lastIndexOf("/");
+    const protocolIndex = url.indexOf("://") + 1;
+    while((separatorIndex = url.lastIndexOf("/", separatorIndex - 1)) !== protocolIndex){
+        parentScopes.push(url.slice(0, separatorIndex + 1));
+    }
+    return parentScopes;
+}
+function getResolution(resolutions, name, pkgScope) {
+    if (pkgScope && !pkgScope.endsWith("/")) throwInternalError(pkgScope);
+    if (!pkgScope) return resolutions.primary[name];
+    const scope = resolutions.secondary[pkgScope];
+    var _scope_name;
+    return (_scope_name = scope === null || scope === void 0 ? void 0 : scope[name]) !== null && _scope_name !== void 0 ? _scope_name : null;
+}
+function getFlattenedResolution(resolutions, name, pkgScope, flattenedSubpath) {
+    // no current scope -> check the flattened scopes
+    const parentScopes = enumerateParentScopes(pkgScope);
+    for (const scopeUrl of parentScopes){
+        if (!resolutions.flattened[scopeUrl]) continue;
+        const flatResolutions = resolutions.flattened[scopeUrl][name];
+        if (!flatResolutions) continue;
+        for (const flatResolution of flatResolutions){
+            if (flatResolution.export === flattenedSubpath || flatResolution.export.endsWith("/") && flattenedSubpath.startsWith(flatResolution.export)) {
+                return flatResolution.resolution;
+            }
+        }
+    }
+    return null;
+}
+function setConstraint(constraints, name, target, pkgScope = null) {
+    if (pkgScope === null) constraints.primary[name] = target;
+    else (constraints.secondary[pkgScope] = constraints.secondary[pkgScope] || Object.create(null))[name] = target;
+}
+function setResolution(resolutions, name, installUrl, pkgScope = null, installSubpath = null) {
+    if (pkgScope && !pkgScope.endsWith("/")) throwInternalError(pkgScope);
+    if (pkgScope === null) {
+        const existing = resolutions.primary[name];
+        if (existing && existing.installUrl === installUrl && existing.installSubpath === installSubpath) return false;
+        resolutions.primary[name] = {
+            installUrl,
+            installSubpath
+        };
+        return true;
+    } else {
+        resolutions.secondary[pkgScope] = resolutions.secondary[pkgScope] || {};
+        const existing = resolutions.secondary[pkgScope][name];
+        if (existing && existing.installUrl === installUrl && existing.installSubpath === installSubpath) return false;
+        resolutions.secondary[pkgScope][name] = {
+            installUrl,
+            installSubpath
+        };
+        return true;
+    }
+}
+function mergeLocks(resolutions, newResolutions) {
+    for (const pkg of Object.keys(newResolutions.primary)){
+        resolutions.primary[pkg] = newResolutions.primary[pkg];
+    }
+    for (const pkgUrl of Object.keys(newResolutions.secondary)){
+        if (resolutions[pkgUrl]) Object.assign(resolutions[pkgUrl] = Object.create(null), newResolutions[pkgUrl]);
+        else resolutions.secondary[pkgUrl] = newResolutions.secondary[pkgUrl];
+    }
+    for (const scopeUrl of Object.keys(newResolutions.flattened)){
+        if (resolutions[scopeUrl]) Object.assign(resolutions[scopeUrl], newResolutions[scopeUrl]);
+        else resolutions.flattened[scopeUrl] = newResolutions.flattened[scopeUrl];
+    }
+}
+function mergeConstraints(constraints, newConstraints) {
+    for (const pkg of Object.keys(newConstraints.primary)){
+        constraints.primary[pkg] = newConstraints.primary[pkg];
+    }
+    for (const pkgUrl of Object.keys(newConstraints.secondary)){
+        if (constraints[pkgUrl]) Object.assign(constraints[pkgUrl] = Object.create(null), newConstraints[pkgUrl]);
+        else constraints.secondary[pkgUrl] = newConstraints.secondary[pkgUrl];
+    }
+}
+function toPackageTargetMap(pcfg, pkgUrl, defaultRegistry = "npm", includeDev = false) {
+    const constraints = Object.create(null);
+    if (pcfg.dependencies) for (const name of Object.keys(pcfg.dependencies)){
+        constraints[name] = newPackageTarget(pcfg.dependencies[name], pkgUrl, defaultRegistry, name).pkgTarget;
+    }
+    if (pcfg.peerDependencies) for (const name of Object.keys(pcfg.peerDependencies)){
+        if (name in constraints) continue;
+        constraints[name] = newPackageTarget(pcfg.peerDependencies[name], pkgUrl, defaultRegistry, name).pkgTarget;
+    }
+    if (pcfg.optionalDependencies) for (const name of Object.keys(pcfg.optionalDependencies)){
+        if (name in constraints) continue;
+        constraints[name] = newPackageTarget(pcfg.optionalDependencies[name], pkgUrl, defaultRegistry, name).pkgTarget;
+    }
+    if (includeDev && pcfg.devDependencies) for (const name of Object.keys(pcfg.devDependencies)){
+        if (name in constraints) continue;
+        constraints[name] = newPackageTarget(pcfg.devDependencies[name], pkgUrl, defaultRegistry, name).pkgTarget;
+    }
+    return constraints;
+}
+async function packageTargetFromExact(pkg, resolver, permitDowngrades = false) {
+    let registry, name, version;
+    if (pkg.registry === "node_modules") {
+        // The node_modules versions are always URLs to npm-installed packages:
+        const pkgUrl = decodeBase64(pkg.version);
+        const pcfg = await resolver.getPackageConfig(pkgUrl);
+        if (!pcfg) throw new JspmError(`Package ${pkgUrl} has no package config, cannot create package target.`);
+        if (!pcfg.name || !pcfg.version) throw new JspmError(`Package ${pkgUrl} has no name or version, cannot create package target.`);
+        name = pcfg.name;
+        version = pcfg.version;
+        registry = "npm";
+    } else {
+        // The other registries all use semver ranges:
+        ({ registry , name , version  } = pkg);
+    }
+    const v = new Semver(version);
+    if (v.tag) return {
+        registry,
+        name,
+        ranges: [
+            new SemverRange(version)
+        ],
+        unstable: false
+    };
+    if (permitDowngrades) {
+        if (v.major !== 0) return {
+            registry,
+            name,
+            ranges: [
+                new SemverRange(v.major)
+            ],
+            unstable: false
+        };
+        if (v.minor !== 0) return {
+            registry,
+            name,
+            ranges: [
+                new SemverRange(v.major + "." + v.minor)
+            ],
+            unstable: false
+        };
+        return {
+            registry,
+            name,
+            ranges: [
+                new SemverRange(version)
+            ],
+            unstable: false
+        };
+    } else {
+        return {
+            registry,
+            name,
+            ranges: [
+                new SemverRange("^" + version)
+            ],
+            unstable: false
+        };
+    }
+}
+function getConstraintFor(name, registry, constraints) {
+    const installs = [];
+    for (const [alias, target] of Object.entries(constraints.primary)){
+        if (!(target instanceof URL) && target.registry === registry && target.name === name) installs.push({
+            alias,
+            pkgScope: null,
+            ranges: target.ranges
+        });
+    }
+    for (const [pkgScope, scope] of Object.entries(constraints.secondary)){
+        for (const alias of Object.keys(scope)){
+            const target = scope[alias];
+            if (!(target instanceof URL) && target.registry === registry && target.name === name) installs.push({
+                alias,
+                pkgScope: pkgScope,
+                ranges: target.ranges
+            });
+        }
+    }
+    return installs;
+}
+async function extractLockConstraintsAndMap(map, preloadUrls, mapUrl, rootUrl, defaultRegistry, resolver, // TODO: we should pass the whole providers namespace here so that we can
+// enforce the user's URL-specific constraints on which provider to use:
+provider) {
+    const locks = {
+        primary: Object.create(null),
+        secondary: Object.create(null),
+        flattened: Object.create(null)
+    };
+    const maps = {
+        imports: Object.create(null),
+        scopes: Object.create(null)
+    };
+    // Primary version constraints taken from the map configuration base (if found)
+    const primaryBase = await resolver.getPackageBase(mapUrl.href);
+    const primaryPcfg = await resolver.getPackageConfig(primaryBase);
+    const constraints = {
+        primary: primaryPcfg ? toPackageTargetMap(primaryPcfg, new URL(primaryBase), defaultRegistry, true) : Object.create(null),
+        secondary: Object.create(null)
+    };
+    const pkgUrls = new Set();
+    for (const key of Object.keys(map.imports || {})){
+        if (isPlain(key)) {
+            // Get the package name and subpath in package specifier space.
+            const parsedKey = parsePkg(key);
+            // Get the target package details in URL space:
+            let { parsedTarget , pkgUrl , subpath  } = await resolveTargetPkg(map.imports[key], mapUrl, rootUrl, primaryBase, resolver);
+            const exportSubpath = parsedTarget && await resolver.getExportResolution(pkgUrl, subpath, key);
+            pkgUrls.add(pkgUrl);
+            // If the plain specifier resolves to a package on some provider's CDN,
+            // and there's a corresponding import/export map entry in that package,
+            // then the resolution is standard and we can lock it:
+            if (exportSubpath) {
+                // Package "imports" resolutions don't constrain versions.
+                if (key[0] === "#") continue;
+                // Otherwise we treat top-level package versions as a constraint.
+                if (!constraints.primary[parsedKey.pkgName]) {
+                    constraints.primary[parsedKey.pkgName] = await packageTargetFromExact(parsedTarget.pkg, resolver);
+                }
+                // In the case of subpaths having diverging versions, we force convergence on one version
+                // Only scopes permit unpacking
+                let installSubpath = null;
+                if (parsedKey.subpath !== exportSubpath) {
+                    if (parsedKey.subpath === ".") {
+                        installSubpath = exportSubpath;
+                    } else if (exportSubpath === ".") {
+                        installSubpath = false;
+                    } else if (exportSubpath.endsWith(parsedKey.subpath.slice(1))) {
+                        installSubpath = exportSubpath.slice(0, parsedKey.subpath.length);
+                    }
+                }
+                if (installSubpath !== false) {
+                    setResolution(locks, parsedKey.pkgName, pkgUrl, null, installSubpath);
+                    continue;
+                }
+            }
+            // Another possibility is that the bare specifier is a remapping for the
+            // primary package's own-name, in which case we should check whether
+            // there's a corresponding export in the primary pjson:
+            if (primaryPcfg && primaryPcfg.name === parsedKey.pkgName) {
+                const exportSubpath = await resolver.getExportResolution(primaryBase, subpath, key);
+                // If the export subpath matches the key's subpath, then this is a
+                // standard resolution:
+                if (parsedKey.subpath === exportSubpath) continue;
+            }
+        }
+        // Fallback - this resolution is non-standard, so we need to record it as
+        // a custom import override:
+        maps.imports[isPlain(key) ? key : resolveUrl(key, mapUrl, rootUrl)] = resolveUrl(map.imports[key], mapUrl, rootUrl);
+    }
+    for (const scopeUrl of Object.keys(map.scopes || {})){
+        var _resolveUrl;
+        const resolvedScopeUrl = (_resolveUrl = resolveUrl(scopeUrl, mapUrl, rootUrl)) !== null && _resolveUrl !== void 0 ? _resolveUrl : scopeUrl;
+        const scopePkgUrl = await resolver.getPackageBase(resolvedScopeUrl);
+        const flattenedScope = new URL(scopePkgUrl).pathname === "/";
+        pkgUrls.add(scopePkgUrl);
+        const scope = map.scopes[scopeUrl];
+        for (const key of Object.keys(scope)){
+            if (isPlain(key)) {
+                // Get the package name and subpath in package specifier space.
+                const parsedKey = parsePkg(key);
+                // Get the target package details in URL space:
+                let { parsedTarget , pkgUrl , subpath  } = await resolveTargetPkg(scope[key], mapUrl, rootUrl, scopePkgUrl, resolver);
+                pkgUrls.add(pkgUrl);
+                const exportSubpath = parsedTarget && await resolver.getExportResolution(pkgUrl, subpath, key);
+                // TODO: we don't handle trailing-slash mappings here at all, which
+                // leads to them sticking around in the import map as custom
+                // resolutions forever.
+                if (exportSubpath) {
+                    // Imports resolutions that resolve as expected can be skipped
+                    if (key[0] === "#") continue;
+                    // If there is no constraint, we just make one as the semver major on the current version
+                    if (!constraints.primary[parsedKey.pkgName]) constraints.primary[parsedKey.pkgName] = parsedTarget ? await packageTargetFromExact(parsedTarget.pkg, resolver) : new URL(pkgUrl);
+                    // In the case of subpaths having diverging versions, we force convergence on one version
+                    // Only scopes permit unpacking
+                    let installSubpath = null;
+                    if (parsedKey.subpath !== exportSubpath) {
+                        if (parsedKey.subpath === ".") {
+                            installSubpath = exportSubpath;
+                        } else if (exportSubpath === ".") {
+                            installSubpath = false;
+                        } else {
+                            if (exportSubpath.endsWith(parsedKey.subpath.slice(1))) installSubpath = exportSubpath.slice(0, parsedKey.subpath.length);
+                        }
+                    }
+                    if (installSubpath !== false) {
+                        if (flattenedScope) {
+                            const flattened = locks.flattened[scopePkgUrl] = locks.flattened[scopePkgUrl] || {};
+                            flattened[parsedKey.pkgName] = flattened[parsedKey.pkgName] || [];
+                            flattened[parsedKey.pkgName].push({
+                                export: parsedKey.subpath,
+                                resolution: {
+                                    installUrl: pkgUrl,
+                                    installSubpath
+                                }
+                            });
+                        } else {
+                            setResolution(locks, parsedKey.pkgName, pkgUrl, scopePkgUrl, installSubpath);
+                        }
+                        continue;
+                    }
+                }
+            }
+            // Fallback -> Custom import with normalization
+            (maps.scopes[resolvedScopeUrl] = maps.scopes[resolvedScopeUrl] || Object.create(null))[isPlain(key) ? key : resolveUrl(key, mapUrl, rootUrl)] = resolveUrl(scope[key], mapUrl, rootUrl);
+        }
+    }
+    // for every package we resolved, add their package constraints into the list of constraints
+    await Promise.all([
+        ...pkgUrls
+    ].map(async (pkgUrl)=>{
+        if (!isURL(pkgUrl)) return;
+        const pcfg = await getPackageConfig(pkgUrl);
+        if (pcfg) constraints.secondary[pkgUrl] = toPackageTargetMap(pcfg, new URL(pkgUrl), defaultRegistry, false);
+    }));
+    // TODO: allow preloads to inform used versions somehow
+    // for (const url of preloadUrls) {
+    //   const resolved = resolveUrl(url, mapUrl, rootUrl).href;
+    //   const providerPkg = resolver.parseUrlPkg(resolved);
+    //   if (providerPkg) {
+    //     const pkgUrl = await resolver.getPackageBase(mapUrl.href);
+    //   }
+    // }
+    return {
+        maps,
+        constraints,
+        locks: await enforceProviderConstraints(locks, provider, resolver, primaryBase)
+    };
+}
+/**
+ * Enforces the user's provider constraints, which map subsets of URL-space to
+ * the provider that should be used to resolve them. Constraints are enforced
+ * by re-resolving every input map lock and constraint against the provider
+ * for their parent package URL.
+ * TODO: actually handle provider constraints
+ */ async function enforceProviderConstraints(locks, provider, resolver, basePkgUrl) {
+    const res = {
+        primary: {},
+        secondary: {},
+        flattened: {}
+    };
+    for (const [pkgName, lock] of Object.entries(locks.primary)){
+        const { installUrl , installSubpath  } = await translateLock(lock, provider, resolver, basePkgUrl);
+        setResolution(res, pkgName, installUrl, null, installSubpath);
+    }
+    for (const [pkgUrl, pkgLocks] of Object.entries(locks.secondary)){
+        for (const [pkgName, lock] of Object.entries(pkgLocks)){
+            const { installUrl , installSubpath  } = await translateLock(lock, provider, resolver, pkgUrl);
+            setResolution(res, pkgName, installUrl, pkgUrl, installSubpath);
+        }
+    }
+    for (const [scopeUrl, pkgLocks] of Object.entries(locks.flattened)){
+        res.flattened[scopeUrl] = {};
+        for (const [pkgName, locks] of Object.entries(pkgLocks)){
+            res.flattened[scopeUrl][pkgName] = [];
+            for (const lock of locks){
+                const newLock = await translateLock(lock.resolution, provider, resolver, scopeUrl);
+                res.flattened[scopeUrl][pkgName].push({
+                    export: lock.export,
+                    resolution: newLock
+                });
+            }
+        }
+    }
+    return res;
+}
+async function translateLock(lock, provider, resolver, parentUrl) {
+    const mdl = await resolver.parseUrlPkg(lock.installUrl);
+    if (!mdl) return lock; // no provider owns it, nothing to translate
+    const parentPkgUrl = await resolver.getPackageBase(parentUrl);
+    const newMdl = await translateProvider(mdl, provider, resolver, parentPkgUrl);
+    if (!newMdl) {
+        // TODO: we should throw here once parent scoping is implemented
+        // throw new JspmError(
+        //   `Failed to translate ${lock.installUrl} to provider ${provider.provider}.`
+        // );
+        return lock;
+    }
+    return {
+        installUrl: await resolver.pkgToUrl(newMdl.pkg, provider),
+        installSubpath: lock.installSubpath
+    };
+}
+async function translateProvider(mdl, { provider , layer  }, resolver, parentUrl) {
+    const pkg = mdl.pkg;
+    if ((pkg.registry === "deno" || pkg.registry === "denoland") && provider === "deno") {
+        return mdl; // nothing to do if translating deno-to-deno
+    } else if (pkg.registry === "deno" || pkg.registry === "denoland" || provider === "deno") {
+        // TODO: we should throw here once parent scoping is implemented
+        // throw new JspmError(
+        //   "Cannot translate packages between the 'deno' provider and other providers."
+        // );
+        return null;
+    }
+    const fromNodeModules = pkg.registry === "node_modules";
+    const toNodeModules = provider === "nodemodules";
+    if (fromNodeModules === toNodeModules) {
+        return {
+            ...mdl,
+            source: {
+                provider,
+                layer
+            }
+        };
+    }
+    const target = await packageTargetFromExact(pkg, resolver);
+    let latestPkg;
+    try {
+        latestPkg = await resolver.resolveLatestTarget(target, {
+            provider,
+            layer
+        }, parentUrl);
+    } catch (err) {
+        // TODO: we should throw here once parent scoping is implemented
+        // throw new JspmError(
+        //   `Failed to translate package ${pkg.name}@${pkg.version} to provider ${provider}.`
+        // );
+        return null;
+    }
+    return {
+        pkg: latestPkg,
+        source: {
+            provider,
+            layer
+        },
+        subpath: mdl.subpath
+    };
+}
+async function resolveTargetPkg(moduleUrl, mapUrl, rootUrl, parentUrl, resolver, provider) {
+    let targetUrl = resolveUrl(moduleUrl, mapUrl, rootUrl);
+    let parsedTarget = await resolver.parseUrlPkg(targetUrl);
+    let pkgUrl = parsedTarget ? await resolver.pkgToUrl(parsedTarget.pkg, parsedTarget.source) : await resolver.getPackageBase(targetUrl);
+    const subpath = "." + targetUrl.slice(pkgUrl.length - 1);
+    return {
+        parsedTarget,
+        pkgUrl,
+        subpath
+    };
+}
+
+var _this_providers, _npm;
+class Installer {
+    visitInstalls(visitor) {
+        if (visitor(this.installs.primary, null)) return;
+        for (const scopeUrl of Object.keys(this.installs.secondary)){
+            if (visitor(this.installs.secondary[scopeUrl], scopeUrl)) return;
+        }
+    }
+    startInstall() {
+        if (this.installing) throw new Error("Internal error: already installing");
+        this.installing = true;
+        this.newInstalls = false;
+        this.added = new Map();
+    }
+    finishInstall() {
+        this.installing = false;
+    }
+    getProvider(target) {
+        let provider = this.defaultProvider;
+        for (const name of Object.keys(this.providers)){
+            if (name.endsWith(":") && target.registry === name.slice(0, -1) || target.name.startsWith(name) && (target.name.length === name.length || target.name[name.length] === "/")) {
+                provider = parseProviderStr(this.providers[name]);
+                break;
+            }
+        }
+        return provider;
+    }
+    /**
+   * Locks a package against the given target.
+   *
+   * @param {string} pkgName Name of the package being installed.
+   * @param {InstallTarget} target The installation target being installed.
+   * @param {`./${string}` | '.'} traceSubpath
+   * @param {InstallMode} mode Specifies how to interact with existing installs.
+   * @param {`${string}/` | null} pkgScope URL of the package scope in which this install is occurring, null if it's a top-level install.
+   * @param {string} parentUrl URL of the parent for this install.
+   * @returns {Promise<InstalledResolution>}
+   */ async installTarget(pkgName, { pkgTarget , installSubpath  }, traceSubpath, mode, pkgScope, parentUrl) {
+        const isTopLevel = pkgScope === null;
+        const useLatest = isTopLevel && mode.includes("latest") || !isTopLevel && mode === "latest-all";
+        // Resolutions are always authoritative, and override the existing target:
+        if (this.resolutions[pkgName]) {
+            const resolutionTarget = newPackageTarget(this.resolutions[pkgName], this.opts.baseUrl, this.defaultRegistry, pkgName);
+            resolutionTarget.installSubpath = installSubpath;
+            if (JSON.stringify(pkgTarget) !== JSON.stringify(resolutionTarget.pkgTarget)) return this.installTarget(pkgName, resolutionTarget, traceSubpath, mode, pkgScope, parentUrl);
+        }
+        // URL targets are installed as locks directly, as we have no versioning
+        // information to work with:
+        if (pkgTarget instanceof URL) {
+            const installHref = pkgTarget.href;
+            const installUrl = installHref + (installHref.endsWith("/") ? "" : "/");
+            this.log("installer/installTarget", `${pkgName} ${pkgScope} -> ${installHref} (URL)`);
+            this.newInstalls = setResolution(this.installs, pkgName, installUrl, pkgScope, installSubpath);
+            return {
+                installUrl,
+                installSubpath
+            };
+        }
+        const provider = this.getProvider(pkgTarget);
+        // Look for an existing lock for this package if we're in an install mode
+        // that supports them:
+        if (mode === "default" || mode === "freeze" || !useLatest) {
+            const pkg = await this.getBestExistingMatch(pkgTarget);
+            if (pkg) {
+                this.log("installer/installTarget", `${pkgName} ${pkgScope} -> ${JSON.stringify(pkg)} (existing match)`);
+                const installUrl = await this.resolver.pkgToUrl(pkg, provider);
+                this.newInstalls = setResolution(this.installs, pkgName, installUrl, pkgScope, installSubpath);
+                setConstraint(this.constraints, pkgName, pkgTarget, pkgScope);
+                return {
+                    installUrl,
+                    installSubpath
+                };
+            }
+        }
+        const latestPkg = await this.resolver.resolveLatestTarget(pkgTarget, provider, parentUrl);
+        const pkgUrl = await this.resolver.pkgToUrl(latestPkg, provider);
+        const installed = getConstraintFor(latestPkg.name, latestPkg.registry, this.constraints);
+        // If this is a secondary install, then we ideally want to upgrade all
+        // existing locks on this package to latest and use that. If there's a
+        // constraint and we can't, then we fallback to the best existing lock:
+        if (mode !== "freeze" && !useLatest && !isTopLevel && latestPkg && !this.tryUpgradeAllTo(latestPkg, pkgUrl, installed)) {
+            const pkg = await this.getBestExistingMatch(pkgTarget);
+            // cannot upgrade to latest -> stick with existing resolution (if compatible)
+            if (pkg) {
+                this.log("installer/installTarget", `${pkgName} ${pkgScope} -> ${JSON.stringify(latestPkg)} (existing match not latest)`);
+                const installUrl = await this.resolver.pkgToUrl(pkg, provider);
+                this.newInstalls = setResolution(this.installs, pkgName, installUrl, pkgScope, installSubpath);
+                setConstraint(this.constraints, pkgName, pkgTarget, pkgScope);
+                return {
+                    installUrl,
+                    installSubpath
+                };
+            }
+        }
+        // Otherwise we install latest and make an attempt to upgrade any existing
+        // locks that are compatible to the latest version:
+        this.log("installer/installTarget", `${pkgName} ${pkgScope} -> ${pkgUrl} ${installSubpath ? installSubpath : "<no-subpath>"} (latest)`);
+        this.newInstalls = setResolution(this.installs, pkgName, pkgUrl, pkgScope, installSubpath);
+        setConstraint(this.constraints, pkgName, pkgTarget, pkgScope);
+        if (mode !== "freeze") this.upgradeSupportedTo(latestPkg, pkgUrl, installed);
+        return {
+            installUrl: pkgUrl,
+            installSubpath
+        };
+    }
+    /**
+   * Installs the given package specifier.
+   *
+   * @param {string} pkgName The package specifier being installed.
+   * @param {InstallMode} mode Specifies how to interact with existing installs.
+   * @param {`${string}/` | null} pkgScope URL of the package scope in which this install is occurring, null if it's a top-level install.
+   * @param {`./${string}` | '.'} traceSubpath
+   * @param {string} parentUrl URL of the parent for this install.
+   * @returns {Promise<string | InstalledResolution>}
+   */ async install(pkgName, mode, pkgScope = null, traceSubpath, parentUrl = this.installBaseUrl) {
+        var _pcfg_dependencies, _pcfg_peerDependencies, _pcfg_optionalDependencies, _pcfg_devDependencies;
+        this.log("installer/install", `installing ${pkgName} from ${parentUrl} in scope ${pkgScope}`);
+        if (!this.installing) throwInternalError("Not installing");
+        // Anything installed in the scope of the installer's base URL is treated
+        // as top-level, and hits the primary locks. Anything else is treated as
+        // a secondary dependency:
+        // TODO: wire this concept through the whole codebase.
+        const isTopLevel = !pkgScope || pkgScope == this.installBaseUrl;
+        if (this.resolutions[pkgName]) return this.installTarget(pkgName, newPackageTarget(this.resolutions[pkgName], this.opts.baseUrl, this.defaultRegistry, pkgName), traceSubpath, mode, isTopLevel ? null : pkgScope, parentUrl);
+        // Fetch the current scope's pjson:
+        const definitelyPkgScope = pkgScope || await this.resolver.getPackageBase(parentUrl);
+        const pcfg = await this.resolver.getPackageConfig(definitelyPkgScope) || {};
+        // By default, we take an install target from the current scope's pjson:
+        const pjsonTargetStr = ((_pcfg_dependencies = pcfg.dependencies) === null || _pcfg_dependencies === void 0 ? void 0 : _pcfg_dependencies[pkgName]) || ((_pcfg_peerDependencies = pcfg.peerDependencies) === null || _pcfg_peerDependencies === void 0 ? void 0 : _pcfg_peerDependencies[pkgName]) || ((_pcfg_optionalDependencies = pcfg.optionalDependencies) === null || _pcfg_optionalDependencies === void 0 ? void 0 : _pcfg_optionalDependencies[pkgName]) || isTopLevel && ((_pcfg_devDependencies = pcfg.devDependencies) === null || _pcfg_devDependencies === void 0 ? void 0 : _pcfg_devDependencies[pkgName]);
+        const pjsonTarget = pjsonTargetStr && newPackageTarget(pjsonTargetStr, new URL(definitelyPkgScope), this.defaultRegistry, pkgName);
+        const useLatestPjsonTarget = !!pjsonTarget && (isTopLevel && mode.includes("latest") || !isTopLevel && mode === "latest-all");
+        // Find any existing locks in the current package scope, making sure
+        // locks are always in-range for their parent scope pjsons:
+        const existingResolution = getResolution(this.installs, pkgName, isTopLevel ? null : pkgScope);
+        if (!useLatestPjsonTarget && existingResolution && (isTopLevel || mode === "freeze" || await this.inRange(existingResolution.installUrl, pjsonTarget.pkgTarget))) {
+            this.log("installer/install", `existing lock for ${pkgName} from ${parentUrl} in scope ${pkgScope} is ${JSON.stringify(existingResolution)}`);
+            return existingResolution;
+        }
+        // Pick up resolutions from flattened scopes like 'https://ga.jspm.io/"
+        // for secondary installs, if they're in range for the current pjson, or
+        // if we're in a freeze install:
+        if (!isTopLevel) {
+            const flattenedResolution = getFlattenedResolution(this.installs, pkgName, pkgScope, traceSubpath);
+            if (!useLatestPjsonTarget && flattenedResolution && (mode === "freeze" || await this.inRange(flattenedResolution.installUrl, pjsonTarget.pkgTarget))) {
+                this.newInstalls = setResolution(this.installs, pkgName, flattenedResolution.installUrl, pkgScope, flattenedResolution.installSubpath);
+                return flattenedResolution;
+            }
+        }
+        // Use the pjson target if it exists:
+        if (pjsonTarget) {
+            return this.installTarget(pkgName, pjsonTarget, traceSubpath, mode, isTopLevel ? null : pkgScope, parentUrl);
+        }
+        // Try resolve the package as a built-in:
+        const specifier = pkgName + (traceSubpath ? traceSubpath.slice(1) : "");
+        const builtin = this.resolver.resolveBuiltin(specifier);
+        if (builtin) {
+            if (typeof builtin === "string") return builtin;
+            return this.installTarget(specifier, // TODO: either change the types so resolveBuiltin always returns a
+            // fully qualified InstallTarget, or support string targets here.
+            builtin.target, traceSubpath, mode, isTopLevel ? null : pkgScope, parentUrl);
+        }
+        // existing primary version fallback
+        if (this.installs.primary[pkgName]) {
+            const { installUrl  } = getResolution(this.installs, pkgName, null);
+            return {
+                installUrl,
+                installSubpath: null
+            };
+        }
+        // global install fallback
+        const target = newPackageTarget("*", new URL(definitelyPkgScope), this.defaultRegistry, pkgName);
+        const { installUrl  } = await this.installTarget(pkgName, target, null, mode, isTopLevel ? null : pkgScope, parentUrl);
+        return {
+            installUrl,
+            installSubpath: null
+        };
+    }
+    // Note: maintain this live instead of recomputing
+    get pkgUrls() {
+        const pkgUrls = new Set();
+        for (const pkgUrl of Object.values(this.installs.primary)){
+            pkgUrls.add(pkgUrl.installUrl);
+        }
+        for (const scope of Object.keys(this.installs.secondary)){
+            for (const { installUrl  } of Object.values(this.installs.secondary[scope])){
+                pkgUrls.add(installUrl);
+            }
+        }
+        for (const flatScope of Object.keys(this.installs.flattened)){
+            for (const { resolution: { installUrl  }  } of Object.values(this.installs.flattened[flatScope]).flat()){
+                pkgUrls.add(installUrl);
+            }
+        }
+        return pkgUrls;
+    }
+    async getBestExistingMatch(matchPkg) {
+        let bestMatch = null;
+        for (const pkgUrl of this.pkgUrls){
+            const pkg = await this.resolver.parseUrlPkg(pkgUrl);
+            if (pkg && await this.inRange(pkg.pkg, matchPkg)) {
+                if (bestMatch) bestMatch = Semver_1.compare(new Semver_1(bestMatch.version), pkg.pkg.version) === -1 ? pkg.pkg : bestMatch;
+                else bestMatch = pkg.pkg;
+            }
+        }
+        return bestMatch;
+    }
+    async inRange(pkg, target) {
+        var _ref;
+        // URL|null targets don't have ranges, so nothing is in-range for them:
+        if (!target || target instanceof URL) return false;
+        const pkgExact = typeof pkg === "string" ? (_ref = await this.resolver.parseUrlPkg(pkg)) === null || _ref === void 0 ? void 0 : _ref.pkg : pkg;
+        if (!pkgExact) return false;
+        return pkgExact.registry === target.registry && pkgExact.name === target.name && target.ranges.some((range)=>range.has(pkgExact.version, true));
+    }
+    // upgrade all existing packages to this package if possible
+    tryUpgradeAllTo(pkg, pkgUrl, installed) {
+        const pkgVersion = new Semver_1(pkg.version);
+        let allCompatible = true;
+        for (const { ranges  } of installed){
+            if (ranges.every((range)=>!range.has(pkgVersion))) allCompatible = false;
+        }
+        if (!allCompatible) return false;
+        // if every installed version can support this new version, update them all
+        for (const { alias , pkgScope  } of installed){
+            const resolution = getResolution(this.installs, alias, pkgScope);
+            if (!resolution) continue;
+            const { installSubpath  } = resolution;
+            this.newInstalls = setResolution(this.installs, alias, pkgUrl, pkgScope, installSubpath);
+        }
+        return true;
+    }
+    // upgrade some exsiting packages to the new install
+    upgradeSupportedTo(pkg, pkgUrl, installed) {
+        const pkgVersion = new Semver_1(pkg.version);
+        for (const { alias , pkgScope , ranges  } of installed){
+            const resolution = getResolution(this.installs, alias, pkgScope);
+            if (!resolution) continue;
+            if (!ranges.some((range)=>range.has(pkgVersion, true))) continue;
+            const { installSubpath  } = resolution;
+            this.newInstalls = setResolution(this.installs, alias, pkgUrl, pkgScope, installSubpath);
+        }
+    }
+    constructor(baseUrl, opts, log, resolver){
+        this.installing = false;
+        this.newInstalls = false;
+        this.added = new Map();
+        this.hasLock = false;
+        this.defaultProvider = {
+            provider: "jspm.io",
+            layer: "default"
+        };
+        this.defaultRegistry = "npm";
+        this.log = log;
+        this.resolver = resolver;
+        this.resolutions = opts.resolutions || {};
+        this.installBaseUrl = baseUrl;
+        this.opts = opts;
+        this.hasLock = !!opts.lock;
+        this.installs = opts.lock || {
+            primary: Object.create(null),
+            secondary: Object.create(null),
+            flattened: Object.create(null)
+        };
+        this.constraints = {
+            primary: Object.create(null),
+            secondary: Object.create(null)
+        };
+        if (opts.defaultRegistry) this.defaultRegistry = opts.defaultRegistry;
+        if (opts.defaultProvider) this.defaultProvider = parseProviderStr(opts.defaultProvider);
+        this.providers = Object.assign({}, registryProviders);
+        var _;
+        // TODO: this is a hack, as we currently don't have proper support for
+        // providers owning particular registries. The proper way to do this would
+        // be to have each provider declare what registries it supports, and
+        // construct a providers mapping at init when we detect default provider:
+        if (opts.defaultProvider.includes("deno")) (_ = (_this_providers = this.providers)[_npm = "npm:"]) !== null && _ !== void 0 ? _ : _this_providers[_npm] = "jspm.io";
+        if (opts.providers) Object.assign(this.providers, opts.providers);
+    }
+}
+function parseProviderStr(provider) {
+    const split = provider.split("#");
+    return {
+        provider: split[0],
+        layer: split[1] || "default"
+    };
+}
+
+function combineSubpaths(installSubpath, traceSubpath) {
+    return installSubpath === null || installSubpath === "." || traceSubpath === "." ? installSubpath || traceSubpath : `${installSubpath}${traceSubpath.slice(1)}`;
+}
+class TraceMap {
+    async addInputMap(map, mapUrl = this.mapUrl, rootUrl = this.rootUrl, preloads) {
+        return this.processInputMap = this.processInputMap.then(async ()=>{
+            const inMap = new ImportMap({
+                map,
+                mapUrl,
+                rootUrl
+            }).rebase(this.mapUrl, this.rootUrl);
+            const pins = Object.keys(inMap.imports || []);
+            for (const pin of pins){
+                if (!this.pins.includes(pin)) this.pins.push(pin);
+            }
+            const { maps , locks , constraints  } = await extractLockConstraintsAndMap(inMap, preloads, mapUrl, rootUrl, this.installer.defaultRegistry, this.resolver, this.installer.defaultProvider);
+            this.inputMap.extend(maps);
+            mergeLocks(this.installer.installs, locks);
+            mergeConstraints(this.installer.constraints, constraints);
+        });
+    }
+    /**
+   * Resolves, analyses and recursively visits the given module specifier and all of its dependencies.
+   *
+   * @param {string} specifier Module specifier to visit.
+   * @param {VisitOpts} opts Visitor configuration.
+   * @param {} parentUrl URL of the parent context for the specifier.
+   * @param {} seen Cache for optimisation.
+   */ async visit(specifier, opts, parentUrl = this.baseUrl.href, seen = new Set()) {
+        var _this_opts_ignore;
+        if (!parentUrl) throw new Error("Internal error: expected parentUrl");
+        if ((_this_opts_ignore = this.opts.ignore) === null || _this_opts_ignore === void 0 ? void 0 : _this_opts_ignore.includes(specifier)) return;
+        if (seen.has(`${specifier}##${parentUrl}`)) return;
+        seen.add(`${specifier}##${parentUrl}`);
+        this.log("tracemap/visit", `Attempting to resolve ${specifier} to a module from ${parentUrl}, toplevel=${opts.toplevel}, mode=${opts.installMode}`);
+        const resolved = await this.resolve(specifier, parentUrl, opts.installMode, opts.toplevel);
+        // We support analysis of CommonJS modules for local workflows, where it's
+        // very likely that the user has some CommonJS dependencies, but this is
+        // something that the user has to explicitly enable:
+        const entry = await this.getTraceEntry(resolved, parentUrl);
+        if ((entry === null || entry === void 0 ? void 0 : entry.format) === "commonjs" && entry.usesCjs && !this.opts.commonJS) {
+            throw new JspmError(`Unable to trace ${resolved}, as it is a CommonJS module. Either enable CommonJS tracing explicitly by setting "GeneratorOptions.commonJS" to true, or use a provider that performs ESM transpiling like jspm.io via defaultProvider: 'jspm.io'.`);
+        }
+        if (opts.visitor) {
+            const stop = await opts.visitor(specifier, parentUrl, resolved, opts.toplevel, entry);
+            if (stop) return;
+        }
+        if (!entry) return;
+        let allDeps = [
+            ...entry.deps
+        ];
+        if (entry.dynamicDeps.length && !opts.static) {
+            for (const dep of entry.dynamicDeps){
+                if (!allDeps.includes(dep)) allDeps.push(dep);
+            }
+        }
+        if (entry.cjsLazyDeps && !opts.static) {
+            for (const dep of entry.cjsLazyDeps){
+                if (!allDeps.includes(dep)) allDeps.push(dep);
+            }
+        }
+        if (opts.toplevel && (isMappableScheme(specifier) || isPlain(specifier))) {
+            opts = {
+                ...opts,
+                toplevel: false
+            };
+        }
+        await Promise.all(allDeps.map(async (dep)=>{
+            if (dep.indexOf("*") !== -1) {
+                this.log("todo", "Handle wildcard trace " + dep + " in " + resolved);
+                return;
+            }
+            await this.visit(dep, opts, resolved, seen);
+        }));
+    }
+    async extractMap(modules) {
+        const map = new ImportMap({
+            mapUrl: this.mapUrl,
+            rootUrl: this.rootUrl
+        });
+        // note this plucks custom top-level custom imports
+        // we may want better control over this
+        map.extend(this.inputMap);
+        // re-drive all the traces to convergence
+        do {
+            this.installer.newInstalls = false;
+            await Promise.all(modules.map(async (module)=>{
+                await this.visit(module, {
+                    installMode: "freeze",
+                    static: this.opts.static,
+                    toplevel: true
+                });
+            }));
+        }while (this.installer.newInstalls)
+        // The final loop gives us the mappings
+        const staticList = new Set();
+        const dynamicList = new Set();
+        const dynamics = [];
+        let list = staticList;
+        const visitor = async (specifier, parentUrl, resolved, toplevel, entry)=>{
+            if (!staticList.has(resolved)) list.add(resolved);
+            if (entry) for (const dep of entry.dynamicDeps){
+                dynamics.push([
+                    dep,
+                    resolved
+                ]);
+            }
+            if (toplevel) {
+                if (isPlain(specifier) || isMappableScheme(specifier)) {
+                    var _this_tracedUrls, _this_tracedUrls_parentUrl;
+                    const existing = map.imports[specifier];
+                    if (!existing || existing !== resolved && ((_this_tracedUrls = this.tracedUrls) === null || _this_tracedUrls === void 0 ? void 0 : (_this_tracedUrls_parentUrl = _this_tracedUrls[parentUrl]) === null || _this_tracedUrls_parentUrl === void 0 ? void 0 : _this_tracedUrls_parentUrl.wasCjs)) {
+                        map.set(specifier, resolved);
+                    }
+                }
+            } else {
+                if (isPlain(specifier) || isMappableScheme(specifier)) {
+                    var _map_scopes_scopeUrl, _map_scopes_parentUrl;
+                    const scopeUrl = await this.resolver.getPackageBase(parentUrl);
+                    const existing = (_map_scopes_scopeUrl = map.scopes[scopeUrl]) === null || _map_scopes_scopeUrl === void 0 ? void 0 : _map_scopes_scopeUrl[specifier];
+                    if (!existing) {
+                        map.set(specifier, resolved, scopeUrl);
+                    } else if (existing !== resolved && ((_map_scopes_parentUrl = map.scopes[parentUrl]) === null || _map_scopes_parentUrl === void 0 ? void 0 : _map_scopes_parentUrl[specifier]) !== resolved) {
+                        map.set(specifier, resolved, parentUrl);
+                    }
+                }
+            }
+        };
+        const seen = new Set();
+        await Promise.all(modules.map(async (module)=>{
+            await this.visit(module, {
+                static: true,
+                visitor,
+                installMode: "freeze",
+                toplevel: true
+            }, this.baseUrl.href, seen);
+        }));
+        list = dynamicList;
+        await Promise.all(dynamics.map(async ([specifier, parent])=>{
+            await this.visit(specifier, {
+                visitor,
+                installMode: "freeze",
+                toplevel: false
+            }, parent, seen);
+        }));
+        if (this.installer.newInstalls) ;
+        return {
+            map,
+            staticDeps: [
+                ...staticList
+            ],
+            dynamicDeps: [
+                ...dynamicList
+            ]
+        };
+    }
+    startInstall() {
+        this.installer.startInstall();
+    }
+    async finishInstall(modules = this.pins) {
+        const result = await this.extractMap(modules);
+        this.installer.finishInstall();
+        return result;
+    }
+    async add(name, target, opts) {
+        await this.installer.installTarget(name, target, null, opts, null, this.mapUrl.href);
+    }
+    /**
+   * @returns `resolved` - either a URL `string` pointing to the module or `null` if the specifier should be ignored.
+   */ async resolve(specifier, parentUrl, installOpts, toplevel) {
+        var _this_tracedUrls_parentUrl, _this_tracedUrls_parentUrl1;
+        const cjsEnv = (_this_tracedUrls_parentUrl = this.tracedUrls[parentUrl]) === null || _this_tracedUrls_parentUrl === void 0 ? void 0 : _this_tracedUrls_parentUrl.wasCjs;
+        const parentPkgUrl = await this.resolver.getPackageBase(parentUrl);
+        if (!parentPkgUrl) throwInternalError();
+        const parentIsCjs = ((_this_tracedUrls_parentUrl1 = this.tracedUrls[parentUrl]) === null || _this_tracedUrls_parentUrl1 === void 0 ? void 0 : _this_tracedUrls_parentUrl1.format) === "commonjs";
+        if ((!isPlain(specifier) || specifier === "..") && !isMappableScheme(specifier)) {
+            let resolvedUrl = new URL(specifier, parentUrl);
+            if (!isFetchProtocol(resolvedUrl.protocol)) throw new JspmError(`Found unexpected protocol ${resolvedUrl.protocol}${importedFrom(parentUrl)}`);
+            const resolvedHref = resolvedUrl.href;
+            let finalized = await this.resolver.realPath(await this.resolver.finalizeResolve(resolvedHref, parentIsCjs, parentPkgUrl));
+            // handle URL mappings
+            const urlResolved = this.inputMap.resolve(finalized, parentUrl);
+            // TODO: avoid this hack - perhaps solved by conditional maps
+            if (urlResolved !== finalized && !urlResolved.startsWith("node:") && !urlResolved.startsWith("deno:")) {
+                finalized = urlResolved;
+            }
+            if (finalized !== resolvedHref) {
+                this.inputMap.set(resolvedHref.endsWith("/") ? resolvedHref.slice(0, -1) : resolvedHref, finalized);
+                resolvedUrl = new URL(finalized);
+            }
+            this.log("tracemap/resolve", `${specifier} ${parentUrl} -> ${resolvedUrl} (URL resolution)`);
+            return resolvedUrl.href;
+        }
+        // Subscope override
+        const scopeMatches = getScopeMatches(parentUrl, this.inputMap.scopes, this.inputMap.mapUrl);
+        const pkgSubscopes = scopeMatches.filter(([, url])=>url.startsWith(parentPkgUrl));
+        if (pkgSubscopes.length) {
+            for (const [scope] of pkgSubscopes){
+                const mapMatch = getMapMatch$1(specifier, this.inputMap.scopes[scope]);
+                if (mapMatch) {
+                    const resolved = await this.resolver.realPath(resolveUrl(this.inputMap.scopes[scope][mapMatch] + specifier.slice(mapMatch.length), this.inputMap.mapUrl, this.inputMap.rootUrl));
+                    this.log("tracemap/resolve", `${specifier} ${parentUrl} -> ${resolved} (subscope resolution)`);
+                    return resolved;
+                }
+            }
+        }
+        // Scope override
+        // TODO: isn't this subsumed by previous check?
+        const userScopeMatch = scopeMatches.find(([, url])=>url === parentPkgUrl);
+        if (userScopeMatch) {
+            const imports = this.inputMap.scopes[userScopeMatch[0]];
+            const userImportsMatch = getMapMatch$1(specifier, imports);
+            const userImportsResolved = userImportsMatch ? await this.resolver.realPath(resolveUrl(imports[userImportsMatch] + specifier.slice(userImportsMatch.length), this.inputMap.mapUrl, this.inputMap.rootUrl)) : null;
+            if (userImportsResolved) {
+                this.log("tracemap/resolve", `${specifier} ${parentUrl} -> ${userImportsResolved} (scope resolution)`);
+                return userImportsResolved;
+            }
+        }
+        // User import overrides
+        const userImportsMatch = getMapMatch$1(specifier, this.inputMap.imports);
+        const userImportsResolved = userImportsMatch ? await this.resolver.realPath(resolveUrl(this.inputMap.imports[userImportsMatch] + specifier.slice(userImportsMatch.length), this.inputMap.mapUrl, this.inputMap.rootUrl)) : null;
+        if (userImportsResolved) {
+            this.log("tracemap/resolve", `${specifier} ${parentUrl} -> ${userImportsResolved} (imports resolution)`);
+            return userImportsResolved;
+        }
+        const parsed = parsePkg(specifier);
+        if (!parsed) throw new JspmError(`Invalid package name ${specifier}`);
+        const { pkgName , subpath  } = parsed;
+        // Own name import
+        const pcfg = await this.resolver.getPackageConfig(parentPkgUrl) || {};
+        if (pcfg.exports && pcfg.name === pkgName) {
+            const resolved = await this.resolver.realPath(await this.resolver.resolveExport(parentPkgUrl, subpath, cjsEnv, parentIsCjs, specifier, this.installer, new URL(parentUrl)));
+            this.log("tracemap/resolve", `${specifier} ${parentUrl} -> ${resolved} (package own-name resolution)`);
+            return resolved;
+        }
+        // Imports
+        if (pcfg.imports && pkgName[0] === "#") {
+            const match = getMapMatch$1(specifier, pcfg.imports);
+            if (!match) throw new JspmError(`No '${specifier}' import defined in ${parentPkgUrl}${importedFrom(parentUrl)}.`);
+            const target = this.resolver.resolvePackageTarget(pcfg.imports[match], parentPkgUrl, cjsEnv, specifier.slice(match.length), true);
+            if (!isURL(target)) {
+                return this.resolve(target, parentUrl, installOpts, toplevel);
+            }
+            const resolved = await this.resolver.realPath(target);
+            this.log("tracemap/resolve", `${specifier} ${parentUrl} -> ${resolved} (package imports resolution)`);
+            return resolved;
+        }
+        // @ts-ignore
+        const installed = await this.installer.install(pkgName, installOpts, toplevel ? null : parentPkgUrl, subpath, parentUrl);
+        if (typeof installed === "string") {
+            return installed;
+        } else if (installed) {
+            const { installUrl , installSubpath  } = installed;
+            const resolved = await this.resolver.realPath(await this.resolver.resolveExport(installUrl, combineSubpaths(installSubpath, subpath), cjsEnv, parentIsCjs, specifier, this.installer, new URL(parentUrl)));
+            this.log("tracemap/resolve", `${specifier} ${parentUrl} -> ${resolved} (installation resolution)`);
+            return resolved;
+        }
+        throw new JspmError(`No resolution in map for ${specifier}${importedFrom(parentUrl)}`);
+    }
+    async getTraceEntry(resolvedUrl, parentUrl) {
+        if (resolvedUrl in this.tracedUrls) {
+            const entry = this.tracedUrls[resolvedUrl];
+            await entry.promise;
+            return entry;
+        }
+        if (isBuiltinScheme(resolvedUrl)) return null;
+        if (resolvedUrl.endsWith("/")) throw new JspmError(`Trailing "/" installs not supported installing ${resolvedUrl} for ${parentUrl}`);
+        const traceEntry = this.tracedUrls[resolvedUrl] = {
+            promise: null,
+            wasCjs: false,
+            usesCjs: false,
+            deps: null,
+            dynamicDeps: null,
+            cjsLazyDeps: null,
+            hasStaticParent: true,
+            size: NaN,
+            integrity: "",
+            format: undefined
+        };
+        traceEntry.promise = (async ()=>{
+            var _this_tracedUrls_parentUrl;
+            const parentIsCjs = ((_this_tracedUrls_parentUrl = this.tracedUrls[parentUrl]) === null || _this_tracedUrls_parentUrl === void 0 ? void 0 : _this_tracedUrls_parentUrl.format) === "commonjs";
+            const { deps , dynamicDeps , cjsLazyDeps , size , format , usesCjs  } = await this.resolver.analyze(resolvedUrl, parentUrl, this.opts.system, parentIsCjs);
+            traceEntry.format = format;
+            traceEntry.size = size;
+            traceEntry.deps = deps.sort();
+            traceEntry.dynamicDeps = dynamicDeps.sort();
+            traceEntry.cjsLazyDeps = cjsLazyDeps ? cjsLazyDeps.sort() : cjsLazyDeps;
+            // wasCJS distinct from CJS because it applies to CJS transformed into ESM
+            // from the resolver perspective
+            const wasCJS = format === "commonjs" || await this.resolver.wasCommonJS(resolvedUrl);
+            if (wasCJS) traceEntry.wasCjs = true;
+            traceEntry.promise = null;
+        })();
+        await traceEntry.promise;
+        return traceEntry;
+    }
+    constructor(opts, log, resolver){
+        this.tracedUrls = {};
+        this.pins = [];
+        /**
+   * Lock to ensure no races against input map processing.
+   * @type {Promise<void>}
+   */ this.processInputMap = Promise.resolve();
+        this.log = log;
+        this.resolver = resolver;
+        this.mapUrl = opts.mapUrl;
+        this.baseUrl = opts.baseUrl;
+        this.rootUrl = opts.rootUrl || null;
+        this.opts = opts;
+        this.inputMap = new ImportMap({
+            mapUrl: this.mapUrl,
+            rootUrl: this.rootUrl
+        });
+        this.installer = new Installer(this.mapUrl.pathname.endsWith("/") ? this.mapUrl.href : `${this.mapUrl.href}/`, this.opts, this.log, this.resolver);
+    }
+}
+
+function createLogger() {
+    let resolveQueue;
+    let queuePromise = new Promise((resolve)=>resolveQueue = resolve);
+    let queue = [];
+    const logStream = async function*() {
+        while(true){
+            while(queue.length)yield queue.shift();
+            await queuePromise;
+        }
+    };
+    function log(type, message) {
+        if (queue.length) {
+            queue.push({
+                type,
+                message
+            });
+        } else {
+            queue = [
+                {
+                    type,
+                    message
+                }
+            ];
+            const _resolveQueue = resolveQueue;
+            queuePromise = new Promise((resolve)=>resolveQueue = resolve);
+            _resolveQueue();
+        }
+    }
+    return {
+        log,
+        logStream
+    };
+}
+
+const wsRegEx = /^\s+/;
+class Replacer {
+    replace(start, end, replacement) {
+        const startOffset = findOffset(this.offsetTable, start);
+        const endOffset = findOffset(this.offsetTable, end);
+        this.source = this.source.slice(0, start + startOffset) + replacement + this.source.slice(end + endOffset);
+        addOffset(this.offsetTable, end, replacement.length - (end + endOffset - start - startOffset));
+    }
+    remove(start, end, trimWs = false) {
+        this.replace(start, end, "");
+        if (trimWs) {
+            if (typeof trimWs === "boolean") trimWs = wsRegEx;
+            const endIndex = this.idx(end);
+            var _this_source_slice_match;
+            const [wsMatch] = (_this_source_slice_match = this.source.slice(endIndex).match(trimWs)) !== null && _this_source_slice_match !== void 0 ? _this_source_slice_match : [];
+            var _ref;
+            this.source = this.source.slice(0, endIndex) + this.source.slice((_ref = endIndex + (wsMatch === null || wsMatch === void 0 ? void 0 : wsMatch.length)) !== null && _ref !== void 0 ? _ref : 0);
+            var _ref1;
+            addOffset(this.offsetTable, end, (_ref1 = -(wsMatch === null || wsMatch === void 0 ? void 0 : wsMatch.length)) !== null && _ref1 !== void 0 ? _ref1 : 0);
+        }
+    }
+    idx(idx) {
+        return idx + findOffset(this.offsetTable, idx);
+    }
+    constructor(source){
+        this.offsetTable = [];
+        this.source = source;
+    }
+}
+function addOffset(offsetTable, idx, offset) {
+    let i = offsetTable.length, eq = false;
+    while(i-- > 0){
+        const [offsetIdx] = offsetTable[i];
+        if (offsetIdx < idx || offsetIdx === idx && (eq = true)) break;
+    }
+    if (eq) offsetTable.splice(i, 1, [
+        idx,
+        offset + offsetTable[i][1]
+    ]);
+    else offsetTable.splice(i + 1, 0, [
+        idx,
+        offset
+    ]);
+}
+function findOffset(offsetTable, idx) {
+    let curOffset = 0;
+    for (const [offsetIdx, offset] of offsetTable){
+        if (offsetIdx > idx) break;
+        curOffset += offset;
+    }
+    return curOffset;
+}
+
+var _globalThis_process, _globalThis_process1, _globalThis_process2;
+const isWindows = ((_globalThis_process = globalThis.process) === null || _globalThis_process === void 0 ? void 0 : _globalThis_process.platform) === "win32";
+isWindows ? Object.keys((_globalThis_process1 = globalThis.process) === null || _globalThis_process1 === void 0 ? void 0 : _globalThis_process1.env).find((e)=>Boolean(e.match(/^PATH$/i))) || "Path" : "PATH";
+((_globalThis_process2 = globalThis.process) === null || _globalThis_process2 === void 0 ? void 0 : _globalThis_process2.platform) === "win32" ? ";" : ":";
+
+const defaultStyle = {
+    tab: "  ",
+    newline: isWindows ? "\r\n" : "\n",
+    trailingNewline: isWindows ? "\r\n" : "\n",
+    indent: "",
+    quote: '"'
+};
+function detectNewline(source) {
+    let newLineMatch = source.match(/\r?\n|\r(?!\n)/);
+    if (newLineMatch) return newLineMatch[0];
+    return isWindows ? "\r\n" : "\n";
+}
+function detectIndent$1(source, newline) {
+    let indent = undefined;
+    // best-effort tab detection
+    // yes this is overkill, but it avoids possibly annoying edge cases
+    let lines = source.split(newline);
+    for (const line of lines){
+        const curIndent = line.match(/^\s*[^\s]/);
+        if (curIndent && (indent === undefined || curIndent.length < indent.length)) indent = curIndent[0].slice(0, -1);
+    }
+    indent = indent || "";
+    lines = lines.map((line)=>line.slice(indent.length));
+    let tabSpaces = lines.map((line)=>{
+        var _line_match;
+        return ((_line_match = line.match(/^[ \t]*/)) === null || _line_match === void 0 ? void 0 : _line_match[0]) || "";
+    }) || [];
+    let tabDifferenceFreqs = new Map();
+    let lastLength = 0;
+    tabSpaces.forEach((tabSpace)=>{
+        let diff = Math.abs(tabSpace.length - lastLength);
+        if (diff !== 0) tabDifferenceFreqs.set(diff, (tabDifferenceFreqs.get(diff) || 0) + 1);
+        lastLength = tabSpace.length;
+    });
+    let bestTabLength = 0;
+    for (const tabLength of tabDifferenceFreqs.keys()){
+        if (!bestTabLength || tabDifferenceFreqs.get(tabLength) >= tabDifferenceFreqs.get(bestTabLength)) bestTabLength = tabLength;
+    }
+    // having determined the most common spacing difference length,
+    // generate samples of this tab length from the end of each line space
+    // the most common sample is then the tab string
+    let tabSamples = new Map();
+    tabSpaces.forEach((tabSpace)=>{
+        let sample = tabSpace.substr(tabSpace.length - bestTabLength);
+        tabSamples.set(sample, (tabSamples.get(sample) || 0) + 1);
+    });
+    let bestTabSample = "";
+    for (const [sample, freq] of tabSamples){
+        if (!bestTabSample || freq > tabSamples.get(bestTabSample)) bestTabSample = sample;
+    }
+    if (lines.length < 5 && lines.reduce((cnt, line)=>cnt + line.length, 0) < 100) bestTabSample = "  ";
+    return {
+        indent: indent || "",
+        tab: bestTabSample
+    };
+}
+function detectStyle(source) {
+    let style = Object.assign({}, defaultStyle);
+    style.newline = detectNewline(source);
+    let { indent , tab  } = detectIndent$1(source, style.newline);
+    style.indent = indent;
+    style.tab = tab;
+    let quoteMatch = source.match(/"|'/);
+    if (quoteMatch) style.quote = quoteMatch[0];
+    style.trailingNewline = source && source.match(new RegExp(style.newline + "$")) ? style.newline : "";
+    return style;
+}
+
+function parseStyled(source, fileName) {
+    // remove any byte order mark
+    if (source.startsWith("\uFEFF")) source = source.substr(1);
+    let style = detectStyle(source);
+    try {
+        return {
+            json: JSON.parse(source),
+            style
+        };
+    } catch (e) {
+        throw new JspmError(`Error parsing JSON file${fileName ? " " + fileName : ""}`);
+    }
+}
+
+let source, i;
+const alwaysSelfClosing = [
+    "link",
+    "base"
+];
+function parseHtml(_source, tagNames = [
+    "script",
+    "link",
+    "base",
+    "!--"
+]) {
+    const scripts = [];
+    source = _source;
+    i = 0;
+    let curScript = {
+        tagName: undefined,
+        start: -1,
+        end: -1,
+        attributes: [],
+        innerStart: -1,
+        innerEnd: -1
+    };
+    while(i < source.length){
+        var _readTagName;
+        while(source.charCodeAt(i++) !== 60 /*<*/ )if (i === source.length) return scripts;
+        const start = i - 1;
+        const tagName = (_readTagName = readTagName()) === null || _readTagName === void 0 ? void 0 : _readTagName.toLowerCase();
+        if (tagName === "!--") {
+            while(source.charCodeAt(i) !== 45 /*-*/  || source.charCodeAt(i + 1) !== 45 /*-*/  || source.charCodeAt(i + 2) !== 62 /*>*/ )if (++i === source.length) return scripts;
+            scripts.push({
+                tagName: "!--",
+                start: start,
+                end: i + 3,
+                attributes: [],
+                innerStart: start + 3,
+                innerEnd: i
+            });
+            i += 3;
+        } else if (tagName === undefined) {
+            return scripts;
+        } else if (tagNames.includes(tagName)) {
+            curScript.tagName = tagName;
+            curScript.start = i - tagName.length - 2;
+            const attributes = curScript.attributes;
+            let attr;
+            while(attr = scanAttr())attributes.push(attr);
+            let selfClosing = alwaysSelfClosing.includes(tagName);
+            if (source.charCodeAt(i - 2) === 47 /*/*/  && source.charCodeAt(i - 1) === 62 /*>*/ ) selfClosing = true;
+            if (selfClosing) {
+                curScript.end = i;
+            } else {
+                curScript.innerStart = i;
+                while(true){
+                    while(source.charCodeAt(i++) !== 60 /*<*/ )if (i === source.length) return scripts;
+                    const tag = readTagName();
+                    if (tag === undefined) return scripts;
+                    if (tag === `/${curScript.tagName}`) {
+                        curScript.innerEnd = i - 8;
+                        while(scanAttr());
+                        curScript.end = i;
+                        break;
+                    }
+                }
+            }
+            scripts.push(curScript);
+            curScript = {
+                tagName: undefined,
+                start: -1,
+                end: -1,
+                attributes: [],
+                innerStart: -1,
+                innerEnd: -1
+            };
+        } else {
+            while(scanAttr());
+        }
+    }
+    return scripts;
+}
+function readTagName() {
+    let start = i;
+    let ch;
+    while(!isWs(ch = source.charCodeAt(i++)) && ch !== 62 /*>*/ )if (i === source.length) return null;
+    return source.slice(start, ch === 62 ? --i : i - 1);
+}
+function scanAttr() {
+    let ch;
+    while(isWs(ch = source.charCodeAt(i)))if (++i === source.length) return null;
+    if (ch === 62 /*>*/  || ch === 47 /*/*/  && (ch = source.charCodeAt(++i)) === 62) {
+        i++;
+        return null;
+    }
+    const nameStart = i;
+    while(!isWs(ch = source.charCodeAt(i++)) && ch !== 61 /*=*/ ){
+        if (i === source.length) return null;
+        if (ch === 62 /*>*/ ) {
+            if (nameStart + 2 === i && source.charCodeAt(nameStart) === 47 /*/*/ ) return null;
+            return {
+                nameStart,
+                nameEnd: --i,
+                valueStart: -1,
+                valueEnd: -1
+            };
+        }
+    }
+    const nameEnd = i - 1;
+    if (ch !== 61 /*=*/ ) {
+        while(isWs(ch = source.charCodeAt(i)) && ch !== 61 /*=*/ ){
+            if (++i === source.length) return null;
+            if (ch === 62 /*>*/ ) return null;
+        }
+        if (ch !== 61 /*=*/ ) return {
+            nameStart,
+            nameEnd,
+            valueStart: -1,
+            valueEnd: -1
+        };
+    }
+    while(isWs(ch = source.charCodeAt(i++))){
+        if (i === source.length) return null;
+        if (ch === 62 /*>*/ ) return null;
+    }
+    if (ch === 34 /*"*/ ) {
+        const valueStart = i;
+        while(source.charCodeAt(i++) !== 34 /*"*/ )if (i === source.length) return null;
+        return {
+            nameStart,
+            nameEnd,
+            valueStart,
+            valueEnd: i - 1
+        };
+    } else if (ch === 39 /*'*/ ) {
+        const valueStart = i;
+        while(source.charCodeAt(i++) !== 39 /*'*/ )if (i === source.length) return null;
+        return {
+            nameStart,
+            nameEnd,
+            valueStart,
+            valueEnd: i - 1
+        };
+    } else {
+        const valueStart = i - 1;
+        i++;
+        while(!isWs(ch = source.charCodeAt(i)) && ch !== 62 /*>*/ )if (++i === source.length) return null;
+        return {
+            nameStart,
+            nameEnd,
+            valueStart,
+            valueEnd: i
+        };
+    }
+}
+function isWs(ch) {
+    return ch === 32 || ch < 14 && ch > 8;
+} // function logScripts (source: string, scripts: ParsedTag[]) {
+ //   for (const script of scripts) {
+ //     for (const { nameStart, nameEnd, valueStart, valueEnd } of script.attributes) {
+ //       console.log('Name: ' + source.slice(nameStart, nameEnd));
+ //       if (valueStart !== -1)
+ //         console.log('Value: ' + source.slice(valueStart, valueEnd));
+ //     }
+ //     console.log('"' + source.slice(script.innerStart, script.innerEnd) + '"');
+ //     console.log('"' + source.slice(script.start, script.end) + '"');
+ //   }
+ // }
+
+function getAttr(source, tag, name) {
+    for (const attr of tag.attributes){
+        if (source.slice(attr.nameStart, attr.nameEnd) === name) return source.slice(attr.valueStart, attr.valueEnd);
+    }
+    return null;
+}
+const esmsSrcRegEx = /(^|\/)(es-module-shims|esms)(\.min)?\.js$/;
+function toHtmlAttrs(source, attributes) {
+    return Object.fromEntries(attributes.map((attr)=>readAttr(source, attr)).map((attr)=>[
+            attr.name,
+            attr
+        ]));
+}
+function analyzeHtml(source, url = baseUrl) {
+    const analysis = {
+        base: url,
+        newlineTab: "\n",
+        map: {
+            json: null,
+            style: null,
+            start: -1,
+            end: -1,
+            newScript: false,
+            attrs: null
+        },
+        staticImports: new Set(),
+        dynamicImports: new Set(),
+        preloads: [],
+        modules: [],
+        esModuleShims: null,
+        comments: []
+    };
+    const tags = parseHtml(source, [
+        "!--",
+        "base",
+        "script",
+        "link"
+    ]);
+    let createdInjectionPoint = false;
+    for (const tag of tags){
+        switch(tag.tagName){
+            case "!--":
+                analysis.comments.push({
+                    start: tag.start,
+                    end: tag.end,
+                    attrs: {}
+                });
+                break;
+            case "base":
+                const href = getAttr(source, tag, "href");
+                if (href) analysis.base = new URL(href, url);
+                break;
+            case "script":
+                const type = getAttr(source, tag, "type");
+                if (type === "importmap") {
+                    const mapText = source.slice(tag.innerStart, tag.innerEnd);
+                    const emptyMap = mapText.trim().length === 0;
+                    const { json , style  } = emptyMap ? {
+                        json: {},
+                        style: defaultStyle
+                    } : parseStyled(mapText, url.href + "#importmap");
+                    const { start , end  } = tag;
+                    const attrs = toHtmlAttrs(source, tag.attributes);
+                    let lastChar = tag.start;
+                    while(isWs(source.charCodeAt(--lastChar)));
+                    analysis.newlineTab = detectIndent(source, lastChar + 1);
+                    analysis.map = {
+                        json,
+                        style,
+                        start,
+                        end,
+                        attrs,
+                        newScript: false
+                    };
+                    createdInjectionPoint = true;
+                } else if (type === "module") {
+                    const src = getAttr(source, tag, "src");
+                    if (src) {
+                        if (esmsSrcRegEx.test(src)) {
+                            analysis.esModuleShims = {
+                                start: tag.start,
+                                end: tag.end,
+                                attrs: toHtmlAttrs(source, tag.attributes)
+                            };
+                        } else {
+                            analysis.staticImports.add(isPlain(src) ? "./" + src : src);
+                            analysis.modules.push({
+                                start: tag.start,
+                                end: tag.end,
+                                attrs: toHtmlAttrs(source, tag.attributes)
+                            });
+                        }
+                    } else {
+                        const [imports] = parse(source.slice(tag.innerStart, tag.innerEnd)) || [];
+                        for (const { n , d  } of imports){
+                            if (!n) continue;
+                            (d === -1 ? analysis.staticImports : analysis.dynamicImports).add(n);
+                        }
+                    }
+                } else if (!type || type === "javascript") {
+                    const src = getAttr(source, tag, "src");
+                    if (src) {
+                        if (esmsSrcRegEx.test(src)) {
+                            analysis.esModuleShims = {
+                                start: tag.start,
+                                end: tag.end,
+                                attrs: toHtmlAttrs(source, tag.attributes)
+                            };
+                        }
+                    } else {
+                        const [imports] = parse(source.slice(tag.innerStart, tag.innerEnd)) || [];
+                        for (const { n , d  } of imports){
+                            if (!n) continue;
+                            (d === -1 ? analysis.staticImports : analysis.dynamicImports).add(n);
+                        }
+                    }
+                }
+                // If we haven't found an injection point already, then we default to
+                // injecting before the first link/script tag:
+                if (!createdInjectionPoint) {
+                    createInjectionPoint(source, tag.start, analysis.map, tag, analysis);
+                    createdInjectionPoint = true;
+                }
+                break;
+            case "link":
+                if (getAttr(source, tag, "rel") === "modulepreload") {
+                    const { start , end  } = tag;
+                    const attrs = toHtmlAttrs(source, tag.attributes);
+                    analysis.preloads.push({
+                        start,
+                        end,
+                        attrs
+                    });
+                }
+                // If we haven't found an injection point already, then we default to
+                // injecting before the first link/script tag:
+                if (!createdInjectionPoint) {
+                    createInjectionPoint(source, tag.start, analysis.map, tag, analysis);
+                    createdInjectionPoint = true;
+                }
+        }
+    }
+    // If we haven't found an existing import map to base the injection on, we
+    // fall back to injecting into the head:
+    if (!createdInjectionPoint) {
+        var _parseHtml;
+        const head = (_parseHtml = parseHtml(source, [
+            "head"
+        ])) === null || _parseHtml === void 0 ? void 0 : _parseHtml[0];
+        if (head) {
+            let injectionPoint = head.innerStart;
+            while(source[injectionPoint] !== "<")injectionPoint++;
+            createInjectionPoint(source, injectionPoint, analysis.map, head, analysis);
+            createdInjectionPoint = true;
+        }
+    }
+    // As a final fallback we inject into the end of the document:
+    if (!createdInjectionPoint) {
+        createInjectionPoint(source, source.length, analysis.map, {
+            tagName: "html",
+            start: source.length,
+            end: source.length,
+            attributes: [],
+            innerStart: source.length,
+            innerEnd: source.length
+        }, analysis);
+    }
+    return analysis;
+}
+function createInjectionPoint(source, injectionPoint, map, tag, analysis) {
+    let lastChar = injectionPoint;
+    while(isWs(source.charCodeAt(--lastChar)));
+    analysis.newlineTab = detectIndent(source, lastChar + 1);
+    if (analysis.newlineTab.indexOf("\n") === -1) {
+        lastChar = tag.start;
+        while(isWs(source.charCodeAt(--lastChar)));
+        analysis.newlineTab = detectIndent(source, lastChar + 1);
+    }
+    map.newScript = true;
+    map.attrs = toHtmlAttrs(source, tag.attributes);
+    map.start = map.end = injectionPoint;
+}
+function readAttr(source, { nameStart , nameEnd , valueStart , valueEnd  }) {
+    return {
+        start: nameStart,
+        end: valueEnd !== -1 ? valueEnd : nameEnd,
+        quote: valueStart !== -1 && (source[valueStart - 1] === '"' || source[valueStart - 1] === "'") ? source[valueStart - 1] : "",
+        name: source.slice(nameStart, nameEnd),
+        value: valueStart === -1 ? null : source.slice(valueStart, valueEnd)
+    };
+}
+function detectIndent(source, atIndex) {
+    if (source === "" || atIndex === -1) return "";
+    const nlIndex = atIndex;
+    if (source[atIndex] === "\r" && source[atIndex + 1] === "\n") atIndex++;
+    if (source[atIndex] === "\n") atIndex++;
+    while(source[atIndex] === " " || source[atIndex] === "\t")atIndex++;
+    return source.slice(nlIndex, atIndex) || "";
+}
+
+// @ts-ignore
+function createProvider(baseUrl, ownsBaseUrl) {
+    return {
+        ownsUrl,
+        pkgToUrl,
+        parseUrlPkg,
+        resolveLatestTarget,
+        getPackageConfig
+    };
+    function ownsUrl(url) {
+        // The nodemodules provider owns the base URL when it is the default
+        // provider so that it can link against a user's local installs, letting
+        // us support "file:" dependencies:
+        return ownsBaseUrl && url === baseUrl || url.includes("/node_modules/");
+    }
+    async function pkgToUrl(pkg) {
+        // The node_modules registry uses the base64-encoded URL of the package as
+        // the package version, so we need to decode it to get the right copy. See
+        // comments in the `resolveLatestTarget` function for details:
+        if (pkg.registry === "node_modules") {
+            return `${decodeBase64(pkg.version)}`;
+        }
+        // If we don't have a URL in the package name, then we need to try and
+        // resolve the package against the node_modules in the base package:
+        const target = await nodeResolve.call(this, pkg.name, baseUrl);
+        if (!target) throw new JspmError(`Failed to resolve ${pkg.name} against node_modules from ${baseUrl}`);
+        return `${decodeBase64(target.version)}`;
+    }
+    function parseUrlPkg(url) {
+        // We can only resolve packages in node_modules folders:
+        const nodeModulesIndex = url.lastIndexOf("/node_modules/");
+        if (nodeModulesIndex === -1) return null;
+        const nameAndSubpaths = url.slice(nodeModulesIndex + 14).split("/");
+        const name = nameAndSubpaths[0][0] === "@" ? `${nameAndSubpaths[0]}/${nameAndSubpaths[1]}` : nameAndSubpaths[0];
+        const pkgUrl = `${url.slice(0, nodeModulesIndex + 14)}${name}/`;
+        const subpath = `./${url.slice(pkgUrl.length)}`;
+        if (name && pkgUrl) {
+            return {
+                pkg: {
+                    name,
+                    registry: "node_modules",
+                    version: encodeBase64(pkgUrl)
+                },
+                subpath: subpath === "./" ? null : subpath,
+                layer: "default"
+            };
+        }
+    }
+    async function resolveLatestTarget(target, _layer, parentUrl) {
+        return nodeResolve.call(this, target.name, parentUrl);
+    }
+    async function getPackageConfig(pkgUrl) {
+        if (!ownsUrl.call(this, pkgUrl)) return null;
+        const pkgJsonUrl = new URL("package.json", pkgUrl);
+        const res = await fetch$1(pkgJsonUrl.href, this.fetchOpts);
+        switch(res.status){
+            case 200:
+            case 304:
+                break;
+            default:
+                return null;
+        }
+        async function remap(deps) {
+            if (!deps) return;
+            for (const [name, dep] of Object.entries(deps)){
+                if (!isLocal(dep)) continue;
+                const remappedUrl = new URL(`./node_modules/${name}`, pkgUrl);
+                if (!await dirExists.call(this, remappedUrl)) continue;
+                deps[name] = remappedUrl.href;
+            }
+        }
+        const pcfg = await res.json();
+        await remap.call(this, pcfg.dependencies);
+        await remap.call(this, pcfg.peerDependencies);
+        await remap.call(this, pcfg.optionalDependencies);
+        await remap.call(this, pcfg.devDependencies);
+        return pcfg;
+    }
+}
+/**
+ * Mimics the node resolution algorithm: look for a node_modules in the
+ * current directory with a package matching the target, and if you can't
+ * find it then recurse through the parent directories until you do.
+ * TODO: we don't currently handle the target's version constraints here
+ */ async function nodeResolve(name, parentUrl) {
+    let curUrl = new URL(`node_modules/${name}`, parentUrl);
+    const rootUrl = new URL(`/node_modules/${name}`, parentUrl).href;
+    const isScoped = name[0] === "@";
+    while(!await dirExists.call(this, curUrl)){
+        if (curUrl.href === rootUrl) return null; // failed to resolve
+        curUrl = new URL(`../../${isScoped ? "../" : ""}node_modules/${name}`, curUrl);
+    }
+    // Providers need to be able to translate between canonical package specs and
+    // URLs in a one-to-one fashion. The nodemodules provider breaks this contract
+    // as a node_modules folder may contain multiple copies of a given package
+    // and version, and if the user has local packages installed then "identical"
+    // packages may have different contents! To work around this use the
+    // base64-encoded URL of the package as the package version in the local
+    // registry, which we can decode to get the right copy:
+    return {
+        name,
+        registry: "node_modules",
+        version: encodeBase64(`${curUrl.href}/`)
+    };
+}
+async function dirExists(url, parentUrl) {
+    const res = await fetch$1(url, this.fetchOpts);
+    switch(res.status){
+        case 304:
+        case 200:
+            return true;
+        case 404:
+            return false;
+        default:
+            throw new JspmError(`Invalid status code ${res.status} looking up "${url}" - ${res.statusText}${importedFrom(parentUrl)}`);
+    }
+}
+function isLocal(dep) {
+    return dep.startsWith("file:");
+}
+/**
+ * Generator.
+ */ class Generator {
+    /**
+   * Add new custom mappings and lock resolutions to the input map
+   * of the generator, which are then applied in subsequent installs.
+   *
+   * @param jsonOrHtml The mappings are parsed as a JSON data object or string, falling back to reading an inline import map from an HTML file.
+   * @param mapUrl An optional URL for the map to handle relative resolutions, defaults to generator mapUrl.
+   * @param rootUrl An optional root URL for the map to handle root resolutions, defaults to generator rootUrl.
+   * @returns The list of modules pinned by this import map or HTML.
+   */ async addMappings(jsonOrHtml, mapUrl = this.mapUrl, rootUrl = this.rootUrl, preloads) {
+        if (typeof mapUrl === "string") mapUrl = new URL(mapUrl, this.baseUrl);
+        if (typeof rootUrl === "string") rootUrl = new URL(rootUrl, this.baseUrl);
+        let htmlModules;
+        if (typeof jsonOrHtml === "string") {
+            try {
+                jsonOrHtml = JSON.parse(jsonOrHtml);
+            } catch  {
+                const analysis = analyzeHtml(jsonOrHtml, mapUrl);
+                jsonOrHtml = analysis.map.json || {};
+                preloads = (preloads || []).concat(analysis.preloads.map((preload)=>{
+                    var _preload_attrs_href;
+                    return (_preload_attrs_href = preload.attrs.href) === null || _preload_attrs_href === void 0 ? void 0 : _preload_attrs_href.value;
+                }).filter((x)=>x));
+                htmlModules = [
+                    ...new Set([
+                        ...analysis.staticImports,
+                        ...analysis.dynamicImports
+                    ])
+                ];
+            }
+        }
+        await this.traceMap.addInputMap(jsonOrHtml, mapUrl, rootUrl, preloads);
+        return htmlModules || [
+            ...this.traceMap.pins
+        ];
+    }
+    /**
+   * Retrieve the lockfile data from the installer
+   */ getLock() {
+        return JSON.parse(JSON.stringify(this.traceMap.installer.installs));
+    }
+    /**
+   * Trace and pin a module, installing all dependencies necessary into the map
+   * to support its execution including static and dynamic module imports.
+   *
+   * @deprecated Use "link" instead.
+   */ async pin(specifier, parentUrl) {
+        return this.link(specifier, parentUrl);
+    }
+    /**
+   * Trace a module, installing all dependencies necessary into the map
+   * to support its execution including static and dynamic module imports.
+   *
+   * @param specifier Module to trace
+   * @param parentUrl Optional parent URL
+   * @deprecated Use "link" instead.
+   */ async traceInstall(specifier, parentUrl) {
+        return this.link(specifier, parentUrl);
+    }
+    /**
+   * Link a module, installing all dependencies necessary into the map
+   * to support its execution including static and dynamic module imports.
+   *
+   * @param specifier Module to link
+   * @param parentUrl Optional parent URL
+   */ async link(specifier, parentUrl) {
+        if (typeof specifier === "string") specifier = [
+            specifier
+        ];
+        let error = false;
+        if (this.installCnt++ === 0) this.traceMap.startInstall();
+        specifier = specifier.map((specifier)=>specifier.replace(/\\/g, "/"));
+        await this.traceMap.processInputMap;
+        try {
+            await Promise.all(specifier.map((specifier)=>this.traceMap.visit(specifier, {
+                    installMode: "freeze",
+                    toplevel: true
+                }, parentUrl || this.baseUrl.href)));
+            for (const s of specifier){
+                if (!this.traceMap.pins.includes(s)) this.traceMap.pins.push(s);
+            }
+        } catch (e) {
+            error = true;
+            throw e;
+        } finally{
+            if (--this.installCnt === 0) {
+                const { map , staticDeps , dynamicDeps  } = await this.traceMap.finishInstall();
+                this.map = map;
+                if (!error) return {
+                    staticDeps,
+                    dynamicDeps
+                };
+            }
+        }
+    }
+    /**
+   * Links every imported module in the given HTML file, installing all
+   * dependencies necessary to support its execution.
+   *
+   * @param html HTML to link
+   * @param htmlUrl URL of the given HTML
+   */ async linkHtml(html, htmlUrl) {
+        if (Array.isArray(html)) {
+            const impts = await Promise.all(html.map((h)=>this.linkHtml(h, htmlUrl)));
+            return [
+                ...new Set(impts)
+            ].reduce((a, b)=>a.concat(b), []);
+        }
+        let resolvedUrl;
+        if (htmlUrl) {
+            if (typeof htmlUrl === "string") {
+                resolvedUrl = new URL(resolveUrl(htmlUrl, this.mapUrl, this.rootUrl));
+            } else {
+                resolvedUrl = htmlUrl;
+            }
+        }
+        const analysis = analyzeHtml(html, resolvedUrl);
+        const impts = [
+            ...new Set([
+                ...analysis.staticImports,
+                ...analysis.dynamicImports
+            ])
+        ];
+        await Promise.all(impts.map((impt)=>{
+            return this.link(impt, resolvedUrl === null || resolvedUrl === void 0 ? void 0 : resolvedUrl.href);
+        }));
+        return impts;
+    }
+    /**
+   * Generate and inject an import map for an HTML file
+   *
+   * @deprecated Instead use:
+   *   const pins = await generator.addMappings(html, mapUrl, rootUrl);
+   *   return await generator.htmlInject(html, { pins, htmlUrl: mapUrl, rootUrl, preload, integrity, whitespace, esModuleShims, comment });
+   *
+   * Traces the module scripts of the HTML via link and install
+   * for URL-like specifiers and bare specifiers respectively.
+   *
+   * Injects the final generated import map returning the injected HTML
+   *
+   * @param html String
+   * @param injectOptions Injection options
+   *
+   * Injection options are: `htmlUrl`, `preload`, `integrity`, `whitespace`
+   * and `esModuleShims`. The default is `\{ esModuleShims: true, whitespace: true \}`.
+   *
+   * ES Module shims will be resolved to the latest version against the provider
+   *
+   * Example:
+   *
+   * ```js
+   *  const outputHtml = await generator.htmlGenerate(`
+   *    <!doctype html>
+   *    <script type="module">import 'react'</script>
+   *  `);
+   *   // <!doctype html>
+   *   // <!-- Generated by @jspm/generator - https://github.com/jspm/generator -->
+   *   // <script async src="https://ga.jspm.io/npm:es-module-shims@1.4.1/dist/es-module-shims.js"></script>
+   *   // <script type="importmap">
+   *   // {...}
+   *   // </script>
+   *   // <script type="module">import 'react'</script>
+   * ```
+   *
+   */ async htmlGenerate(html, { mapUrl , rootUrl , htmlUrl , preload =false , integrity =false , whitespace =true , esModuleShims =true , comment =true  } = {}) {
+        if (typeof mapUrl === "string") mapUrl = new URL(mapUrl);
+        const pins = await this.addMappings(html, mapUrl, rootUrl);
+        return await this.htmlInject(html, {
+            pins,
+            htmlUrl: htmlUrl || mapUrl,
+            rootUrl,
+            preload,
+            integrity,
+            whitespace,
+            esModuleShims,
+            comment
+        });
+    }
+    /**
+   * Inject the import map into the provided HTML source
+   *
+   * @param html HTML source to inject into
+   * @param opts Injection options
+   * @returns HTML source with import map injection
+   */ async htmlInject(html, { trace =false , pins =!trace , htmlUrl , rootUrl , preload =false , integrity =false , whitespace =true , esModuleShims =true , comment =true  } = {}) {
+        if (comment === true) comment = " Generated by @jspm/generator - https://github.com/jspm/generator ";
+        if (typeof htmlUrl === "string") htmlUrl = new URL(htmlUrl);
+        if (integrity) preload = true;
+        if (this.installCnt !== 0) throw new JspmError("htmlGenerate cannot run alongside other install ops");
+        const analysis = analyzeHtml(html, htmlUrl);
+        let modules = pins === true ? this.traceMap.pins : Array.isArray(pins) ? pins : [];
+        if (trace) {
+            const impts = await this.linkHtml(html, htmlUrl);
+            modules = [
+                ...new Set([
+                    ...modules,
+                    ...impts
+                ])
+            ];
+        }
+        try {
+            var { map , staticDeps , dynamicDeps  } = await this.extractMap(modules, htmlUrl, rootUrl);
+        } catch (err) {
+            // Most likely cause of a generation failure:
+            throw new JspmError(`${err.message}\n\nIf you are linking locally against your node_modules folder, make sure that you have all the necessary dependencies installed.`);
+        }
+        const preloadDeps = preload === true && integrity || preload === "all" ? [
+            ...new Set([
+                ...staticDeps,
+                ...dynamicDeps
+            ])
+        ] : staticDeps;
+        const newlineTab = !whitespace ? analysis.newlineTab : analysis.newlineTab.includes("\n") ? analysis.newlineTab : "\n" + analysis.newlineTab;
+        const replacer = new Replacer(html);
+        let esms = "";
+        if (esModuleShims) {
+            let esmsPkg;
+            try {
+                esmsPkg = await this.traceMap.resolver.resolveLatestTarget({
+                    name: "es-module-shims",
+                    registry: "npm",
+                    ranges: [
+                        new SemverRange_1("*")
+                    ],
+                    unstable: false
+                }, this.traceMap.installer.defaultProvider, this.baseUrl.href);
+            } catch (err) {
+                // This usually happens because the user is trying to use their
+                // node_modules as the provider but has not installed the shim:
+                let errMsg = `Unable to resolve "es-module-shims@*" under current provider "${this.traceMap.installer.defaultProvider.provider}".`;
+                if (this.traceMap.installer.defaultProvider.provider === "nodemodules") {
+                    errMsg += `\n\nJspm automatically injects a shim so that the import map in your HTML file will be usable by older browsers.\nYou may need to run "npm install es-module-shims" to install the shim if you want to link against your local node_modules folder.`;
+                }
+                errMsg += `\nTo disable the import maps polyfill injection, set esModuleShims: false.`;
+                throw new JspmError(errMsg);
+            }
+            let esmsUrl = await this.traceMap.resolver.pkgToUrl(esmsPkg, this.traceMap.installer.defaultProvider) + "dist/es-module-shims.js";
+            if (htmlUrl || rootUrl) esmsUrl = relativeUrl(new URL(esmsUrl), new URL(rootUrl !== null && rootUrl !== void 0 ? rootUrl : htmlUrl), !!rootUrl);
+            esms = `<script async src="${esmsUrl}" crossorigin="anonymous"${integrity ? ` integrity="${await getIntegrity(esmsUrl, this.traceMap.resolver.fetchOpts)}"` : ""}></script>${newlineTab}`;
+            if (analysis.esModuleShims) replacer.remove(analysis.esModuleShims.start, analysis.esModuleShims.end, true);
+        }
+        for (const preload of analysis.preloads){
+            replacer.remove(preload.start, preload.end, true);
+        }
+        let preloads = "";
+        if (preload && preloadDeps.length) {
+            let first = true;
+            for (let dep of preloadDeps.sort()){
+                if (first || whitespace) preloads += newlineTab;
+                if (first) first = false;
+                if (integrity) {
+                    preloads += `<link rel="modulepreload" href="${rootUrl || htmlUrl ? relativeUrl(new URL(dep), new URL(rootUrl || htmlUrl), !!rootUrl) : dep}" integrity="${await getIntegrity(dep, this.traceMap.resolver.fetchOpts)}" />`;
+                } else {
+                    preloads += `<link rel="modulepreload" href="${rootUrl || htmlUrl ? relativeUrl(new URL(dep), new URL(rootUrl || htmlUrl), !!rootUrl) : dep}" />`;
+                }
+            }
+        }
+        // when applying integrity, all existing script tags have their integrity updated
+        if (integrity) {
+            for (const module of analysis.modules){
+                if (!module.attrs.src) continue;
+                if (module.attrs.integrity) {
+                    replacer.remove(module.attrs.integrity.start - (replacer.source[replacer.idx(module.attrs.integrity.start - 1)] === " " ? 1 : 0), module.attrs.integrity.end + 1);
+                }
+                const lastAttr = Object.keys(module.attrs).filter((attr)=>attr !== "integrity").sort((a, b)=>module.attrs[a].end > module.attrs[b].end ? -1 : 1)[0];
+                replacer.replace(module.attrs[lastAttr].end + 1, module.attrs[lastAttr].end + 1, ` integrity="${await getIntegrity(resolveUrl(module.attrs.src.value, this.mapUrl, this.rootUrl), this.traceMap.resolver.fetchOpts)}"`);
+            }
+        }
+        if (comment) {
+            const existingComment = analysis.comments.find((c)=>replacer.source.slice(replacer.idx(c.start), replacer.idx(c.end)).includes(comment));
+            if (existingComment) {
+                replacer.remove(existingComment.start, existingComment.end, true);
+            }
+        }
+        replacer.replace(analysis.map.start, analysis.map.end, (comment ? "<!--" + comment + "-->" + newlineTab : "") + esms + '<script type="importmap">' + (whitespace ? newlineTab : "") + JSON.stringify(map, null, whitespace ? 2 : 0).replace(/\n/g, newlineTab) + (whitespace ? newlineTab : "") + "</script>" + preloads + (analysis.map.newScript ? newlineTab : ""));
+        return replacer.source;
+    }
+    /**
+   * Install a package target into the import map, including all its dependency resolutions via tracing.
+   *
+   * @param install Package or list of packages to install into the import map.
+   *
+   * @example
+   * ```js
+   * // Install a new package into the import map
+   * await generator.install('react-dom');
+   *
+   * // Install a package version and subpath into the import map (installs lit/decorators.js)
+   * await generator.install('lit@2/decorators.js');
+   *
+   * // Install a package version to a custom alias
+   * await generator.install({ alias: 'react16', target: 'react@16' });
+   *
+   * // Install a specific subpath of a package
+   * await generator.install({ target: 'lit@2', subpath: './html.js' });
+   *
+   * // Install an export from a locally located package folder into the map
+   * // The package.json is used to determine the exports and dependencies.
+   * await generator.install({ alias: 'mypkg', target: './packages/local-pkg', subpath: './feature' });
+   * ```
+   */ async install(install) {
+        return this._install(install);
+    }
+    async _install(install, mode) {
+        // Backwards-compatibility for deprecated options:
+        if (this.latest) mode !== null && mode !== void 0 ? mode : mode = "latest-primaries";
+        if (this.freeze) mode !== null && mode !== void 0 ? mode : mode = "freeze";
+        // If there are no arguments, then we reinstall all the top-level locks:
+        if (install === null || install === undefined) {
+            await this.traceMap.processInputMap;
+            // To match the behaviour of an argumentless `npm install`, we use
+            // existing resolutions for everything unless it's out-of-range:
+            mode !== null && mode !== void 0 ? mode : mode = "default";
+            return this._install(Object.entries(this.traceMap.installer.installs.primary).map(([alias, target])=>{
+                const pkgTarget = this.traceMap.installer.constraints.primary[alias];
+                // Try to reinstall lock against constraints if possible, otherwise
+                // reinstall it as a URL directly (which has the downside that it
+                // won't have NPM versioning semantics):
+                let newTarget = target.installUrl;
+                if (pkgTarget) {
+                    if (pkgTarget instanceof URL) {
+                        newTarget = pkgTarget.href;
+                    } else {
+                        newTarget = `${pkgTarget.registry}:${pkgTarget.name}`;
+                    }
+                }
+                var _target_installSubpath;
+                return {
+                    alias,
+                    target: newTarget,
+                    subpath: (_target_installSubpath = target.installSubpath) !== null && _target_installSubpath !== void 0 ? _target_installSubpath : undefined
+                };
+            }), mode);
+        }
+        // Split the case of multiple install targets:
+        if (Array.isArray(install)) {
+            if (install.length === 0) {
+                const { map , staticDeps , dynamicDeps  } = await this.traceMap.finishInstall();
+                this.map = map;
+                return {
+                    staticDeps,
+                    dynamicDeps
+                };
+            }
+            return await Promise.all(install.map((install)=>this._install(install, mode))).then((installs)=>installs.find((i)=>i));
+        }
+        // Split the case of multiple install subpaths:
+        if (typeof install !== "string" && install.subpaths !== undefined) {
+            install.subpaths.every((subpath)=>{
+                if (typeof subpath !== "string" || subpath !== "." && !subpath.startsWith("./")) throw new Error(`Install subpath "${subpath}" must be equal to "." or start with "./".`);
+            });
+            return await Promise.all(install.subpaths.map((subpath)=>this._install({
+                    target: install.target,
+                    alias: install.alias,
+                    subpath
+                }, mode))).then((installs)=>installs.find((i)=>i));
+        }
+        // Handle case of a single install target with at most one subpath:
+        let error = false;
+        if (this.installCnt++ === 0) this.traceMap.startInstall();
+        await this.traceMap.processInputMap; // don't race input processing
+        try {
+            // Resolve input information to a target package:
+            let alias, target, subpath;
+            if (typeof install === "string" || typeof install.target === "string") {
+                ({ alias , target , subpath  } = await installToTarget.call(this, install, this.traceMap.installer.defaultRegistry));
+            } else {
+                ({ alias , target , subpath  } = install);
+                validatePkgName(alias);
+            }
+            this.log("generator/install", `Adding primary constraint for ${alias}: ${JSON.stringify(target)}`);
+            // By default, an install takes the latest compatible version for primary
+            // dependencies, and existing in-range versions for secondaries:
+            mode !== null && mode !== void 0 ? mode : mode = "latest-primaries";
+            await this.traceMap.add(alias, target, mode);
+            await this.traceMap.visit(alias + subpath.slice(1), {
+                installMode: mode,
+                toplevel: true
+            }, this.mapUrl.href);
+            // Add the target package as a top-level pin:
+            if (!this.traceMap.pins.includes(alias + subpath.slice(1))) this.traceMap.pins.push(alias + subpath.slice(1));
+        } catch (e) {
+            error = true;
+            throw e;
+        } finally{
+            if (--this.installCnt === 0) {
+                const { map , staticDeps , dynamicDeps  } = await this.traceMap.finishInstall();
+                this.map = map;
+                if (!error) return {
+                    staticDeps,
+                    dynamicDeps
+                };
+            }
+        }
+    }
+    /**
+   * Locking install, retraces all top-level pins but does not change the
+   * versions of anything (similar to "npm ci").
+   *
+   * @deprecated Use install() with the "freeze: true" option.
+   */ async reinstall() {
+        if (this.installCnt++ === 0) this.traceMap.startInstall();
+        await this.traceMap.processInputMap;
+        if (--this.installCnt === 0) {
+            const { map , staticDeps , dynamicDeps  } = await this.traceMap.finishInstall();
+            this.map = map;
+            return {
+                staticDeps,
+                dynamicDeps
+            };
+        }
+    }
+    /**
+   * Updates the versions of the given packages to the latest versions
+   * compatible with their parent's package.json ranges. If no packages are
+   * given then all the top-level packages in the "imports" field of the
+   * initial import map are updated.
+   *
+   * @param {string | string[]} pkgNames Package name or list of package names to update.
+   */ async update(pkgNames) {
+        if (typeof pkgNames === "string") pkgNames = [
+            pkgNames
+        ];
+        if (this.installCnt++ === 0) this.traceMap.startInstall();
+        await this.traceMap.processInputMap;
+        const primaryResolutions = this.traceMap.installer.installs.primary;
+        const primaryConstraints = this.traceMap.installer.constraints.primary;
+        // Matching the behaviour of "npm update":
+        let mode = "latest-primaries";
+        if (!pkgNames) {
+            pkgNames = Object.keys(primaryResolutions);
+            mode = "latest-all";
+        }
+        const installs = [];
+        for (const name of pkgNames){
+            const resolution = primaryResolutions[name];
+            if (!resolution) {
+                this.installCnt--;
+                throw new JspmError(`No "imports" package entry for "${name}" to update. Note update takes package names not package specifiers.`);
+            }
+            const { installUrl , installSubpath  } = resolution;
+            const subpaths = this.traceMap.pins.filter((pin)=>pin === name || pin.startsWith(name) && pin[name.length] === "/").map((pin)=>`.${pin.slice(name.length)}`);
+            // use package.json range if present
+            if (primaryConstraints[name]) {
+                installs.push({
+                    alias: name,
+                    subpaths,
+                    target: {
+                        pkgTarget: primaryConstraints[name],
+                        installSubpath
+                    }
+                });
+            } else {
+                const pkg = await this.traceMap.resolver.parseUrlPkg(installUrl);
+                if (!pkg) throw new Error(`Unable to determine a package version lookup for ${name}. Make sure it is supported as a provider package.`);
+                const target = {
+                    pkgTarget: {
+                        registry: pkg.pkg.registry,
+                        name: pkg.pkg.name,
+                        ranges: [
+                            new SemverRange_1("^" + pkg.pkg.version)
+                        ],
+                        unstable: false
+                    },
+                    installSubpath
+                };
+                installs.push({
+                    alias: name,
+                    subpaths,
+                    target
+                });
+            }
+        }
+        await this._install(installs, mode);
+        if (--this.installCnt === 0) {
+            const { map , staticDeps , dynamicDeps  } = await this.traceMap.finishInstall();
+            this.map = map;
+            return {
+                staticDeps,
+                dynamicDeps
+            };
+        }
+    }
+    async uninstall(names) {
+        if (typeof names === "string") names = [
+            names
+        ];
+        if (this.installCnt++ === 0) {
+            this.traceMap.startInstall();
+        }
+        await this.traceMap.processInputMap;
+        let pins = this.traceMap.pins;
+        const unusedNames = new Set([
+            ...names
+        ]);
+        for(let i = 0; i < pins.length; i++){
+            const pin = pins[i];
+            const pinNames = names.filter((name)=>name === pin || name.endsWith("/") && pin.startsWith(name));
+            if (pinNames.length) {
+                pins.splice(i--, 1);
+                for (const name of pinNames)unusedNames.delete(name);
+            }
+        }
+        if (unusedNames.size) {
+            this.installCnt--;
+            throw new JspmError(`No "imports" entry for "${[
+                ...unusedNames
+            ][0]}" to uninstall.`);
+        }
+        this.traceMap.pins = pins;
+        if (--this.installCnt === 0) {
+            const { map  } = await this.traceMap.finishInstall();
+            this.map = map;
+        }
+    }
+    async extractMap(pins, mapUrl, rootUrl) {
+        if (typeof mapUrl === "string") mapUrl = new URL(mapUrl, this.baseUrl);
+        if (typeof rootUrl === "string") rootUrl = new URL(rootUrl, this.baseUrl);
+        if (!Array.isArray(pins)) pins = [
+            pins
+        ];
+        if (this.installCnt++ !== 0) throw new JspmError(`Cannot run extract map during installs`);
+        this.traceMap.startInstall();
+        await this.traceMap.processInputMap;
+        if (--this.installCnt !== 0) throw new JspmError(`Another install was started during extract map.`);
+        const { map , staticDeps , dynamicDeps  } = await this.traceMap.finishInstall(pins);
+        map.rebase(mapUrl, rootUrl);
+        map.flatten();
+        map.sort();
+        map.combineSubpaths();
+        return {
+            map: map.toJSON(),
+            staticDeps,
+            dynamicDeps
+        };
+    }
+    /**
+   * Resolve a specifier using the import map.
+   *
+   * @param specifier Module to resolve
+   * @param parentUrl ParentURL of module to resolve
+   * @returns Resolved URL string
+   */ resolve(specifier, parentUrl = this.baseUrl) {
+        if (typeof parentUrl === "string") parentUrl = new URL(parentUrl, this.baseUrl);
+        const resolved = this.map.resolve(specifier, parentUrl);
+        if (resolved === null) throw new JspmError(`Unable to resolve "${specifier}" from ${parentUrl.href}`, "MODULE_NOT_FOUND");
+        return resolved;
+    }
+    get importMap() {
+        return this.map;
+    }
+    getAnalysis(url) {
+        if (typeof url !== "string") url = url.href;
+        const trace = this.traceMap.tracedUrls[url];
+        if (!trace) throw new Error(`The URL ${url} has not been traced by this generator instance.`);
+        return {
+            format: trace.format,
+            staticDeps: trace.deps,
+            dynamicDeps: trace.dynamicDeps,
+            cjsLazyDeps: trace.cjsLazyDeps || []
+        };
+    }
+    getMap(mapUrl, rootUrl) {
+        const map = this.map.clone();
+        map.rebase(mapUrl, rootUrl);
+        map.flatten();
+        map.sort();
+        map.combineSubpaths();
+        return map.toJSON();
+    }
+    /**
+   * Constructs a new Generator instance.
+   *
+   * For example:
+   *
+   * ```js
+   * const generator = new Generator({
+   *   mapUrl: import.meta.url,
+   *   inputMap: {
+   *     "imports": {
+   *       "react": "https://cdn.skypack.dev/react"
+   *     }
+   *   },
+   *   defaultProvider: 'jspm',
+   *   defaultRegistry: 'npm',
+   *   providers: {
+   *     '@orgscope': 'nodemodules'
+   *   },
+   *   customProviders: {},
+   *   env: ['production', 'browser'],
+   *   cache: false,
+   * });
+   * ```
+   * @param {GeneratorOptions} opts Configuration for the new generator instance.
+   */ constructor({ baseUrl: baseUrl$1 , mapUrl , rootUrl =undefined , inputMap =undefined , env =[
+        "browser",
+        "development",
+        "module",
+        "import"
+    ] , defaultProvider , defaultRegistry ="npm" , customProviders =undefined , providers , resolutions ={} , cache =true , fetchOptions ={} , ignore =[] , freeze , latest , ipfsAPI , commonJS =false  } = {}){
+        /**
+   * The number of concurrent installs the generator is busy processing.
+   */ this.installCnt = 0;
+        // Initialise the debug logger:
+        const { log , logStream  } = createLogger();
+        this.log = log;
+        this.logStream = logStream;
+        if (browser$1$1.env.JSPM_GENERATOR_LOG) {
+            (async ()=>{
+                for await (const { type , message  } of this.logStream()){
+                    console.log(`\x1b[1m${type}:\x1b[0m ${message}`);
+                }
+            })();
+        }
+        // Initialise the resource fetcher:
+        let fetchOpts = {
+            retry: 1,
+            timeout: 10000,
+            ...fetchOptions,
+            headers: {
+                "Accept-Encoding": "gzip, br"
+            }
+        };
+        if (cache === "offline") fetchOpts.cache = "force-cache";
+        else if (!cache) fetchOpts.cache = "no-store";
+        if (ipfsAPI) fetchOpts.ipfsAPI = ipfsAPI;
+        // Default logic for the mapUrl, baseUrl and rootUrl:
+        if (mapUrl && !baseUrl$1) {
+            mapUrl = typeof mapUrl === "string" ? new URL(mapUrl, baseUrl) : mapUrl;
+            try {
+                baseUrl$1 = new URL("./", mapUrl);
+            } catch  {
+                baseUrl$1 = new URL(mapUrl + "/");
+            }
+        } else if (baseUrl$1 && !mapUrl) {
+            mapUrl = baseUrl$1;
+        } else if (!mapUrl && !baseUrl$1) {
+            baseUrl$1 = mapUrl = baseUrl;
+        }
+        this.baseUrl = typeof baseUrl$1 === "string" ? new URL(baseUrl$1, baseUrl) : baseUrl$1;
+        if (!this.baseUrl.pathname.endsWith("/")) {
+            this.baseUrl = new URL(this.baseUrl.href);
+            this.baseUrl.pathname += "/";
+        }
+        this.mapUrl = typeof mapUrl === "string" ? new URL(mapUrl, this.baseUrl) : mapUrl;
+        this.rootUrl = typeof rootUrl === "string" ? new URL(rootUrl, this.baseUrl) : rootUrl || null;
+        if (this.rootUrl && !this.rootUrl.pathname.endsWith("/")) this.rootUrl.pathname += "/";
+        if (!this.mapUrl.pathname.endsWith("/")) {
+            try {
+                this.mapUrl = new URL("./", this.mapUrl);
+            } catch  {
+                this.mapUrl = new URL(this.mapUrl.href + "/");
+            }
+        }
+        // Initialise the resolver:
+        const resolver = new Resolver(env, log, fetchOpts, true);
+        if (customProviders) {
+            for (const provider of Object.keys(customProviders)){
+                resolver.addCustomProvider(provider, customProviders[provider]);
+            }
+        }
+        // The node_modules provider is special, because it needs to be rooted to
+        // perform resolutions against the local node_modules directory:
+        const nmProvider = createProvider(this.baseUrl.href, defaultProvider === "nodemodules");
+        resolver.addCustomProvider("nodemodules", nmProvider);
+        // We make an attempt to auto-detect the default provider from the input
+        // map, by picking the provider with the most owned URLs:
+        defaultProvider = detectDefaultProvider(defaultProvider, inputMap, resolver);
+        // Initialise the tracer:
+        this.traceMap = new TraceMap({
+            mapUrl: this.mapUrl,
+            rootUrl: this.rootUrl,
+            baseUrl: this.baseUrl,
+            defaultProvider,
+            defaultRegistry,
+            providers,
+            ignore,
+            resolutions,
+            commonJS
+        }, log, resolver);
+        // Reconstruct constraints and locks from the input map:
+        this.map = new ImportMap({
+            mapUrl: this.mapUrl,
+            rootUrl: this.rootUrl
+        });
+        if (inputMap) this.addMappings(inputMap);
+        // Set deprecated global resolution options for backwards compat:
+        this.latest = latest;
+        this.freeze = freeze;
+    }
+}
+/**
+ * Get the package.json configuration for a specific URL or package.
+ *
+ * @param pkg Package to lookup configuration for
+ * @param lookupOptions Optional provider and cache defaults for lookup
+ * @returns Package JSON configuration
+ *
+ * Example:
+ * ```js
+ * import { getPackageConfig } from '@jspm/generator';
+ *
+ * // Supports a resolved package
+ * {
+ *   const packageJson = await getPackageConfig({ registry: 'npm', name: 'lit-element', version: '2.5.1' });
+ * }
+ *
+ * // Or alternatively provide any URL
+ * {
+ *   const packageJson = await getPackageConfig('https://ga.jspm.io/npm:lit-element@2.5.1/lit-element.js');
+ * }
+ * ```
+ */ async function getPackageConfig(pkg, { provider , cache  } = {}) {
+    const generator = new Generator({
+        cache: !cache,
+        defaultProvider: provider
+    });
+    if (typeof pkg === "object" && "name" in pkg) pkg = await generator.traceMap.resolver.pkgToUrl(pkg, generator.traceMap.installer.defaultProvider);
+    else if (typeof pkg === "string") pkg = new URL(pkg).href;
+    else pkg = pkg.href;
+    return generator.traceMap.resolver.getPackageConfig(pkg);
+}
+async function installToTarget(install, defaultRegistry) {
+    if (typeof install === "string") install = {
+        target: install
+    };
+    if (typeof install.target !== "string") throw new Error('All installs require a "target" string.');
+    if (install.subpath !== undefined && (typeof install.subpath !== "string" || install.subpath !== "." && !install.subpath.startsWith("./"))) throw new Error(`Install subpath "${install.subpath}" must be a string equal to "." or starting with "./".${typeof install.subpath === "string" ? `\nTry setting the subpath to "./${install.subpath}"` : ""}`);
+    const { alias , target , subpath  } = await parseTarget(this.traceMap.resolver, install.target, this.baseUrl, defaultRegistry);
+    return {
+        target,
+        alias: install.alias || alias,
+        subpath: install.subpath || subpath
+    };
+}
+function detectDefaultProvider(defaultProvider, inputMap, resolver) {
+    // We only use top-level install information to detect the provider:
+    const counts = {};
+    for (const url of Object.values((inputMap === null || inputMap === void 0 ? void 0 : inputMap.imports) || {})){
+        const name = resolver.providerNameForUrl(url);
+        if (name) {
+            counts[name] = (counts[name] || 0) + 1;
+        }
+    }
+    let winner;
+    let winnerCount = 0;
+    for (const [name, count] of Object.entries(counts)){
+        if (count > winnerCount) {
+            winner = name;
+            winnerCount = count;
+        }
+    }
+    // TODO: this should be the behaviour once we support full 'providers' opt
+    // The leading provider in the input map takes precedence as the provider of
+    // the root package. Failing that, the user-provided default is used. The
+    // 'providers' field can be used for hard-overriding this:
+    // return winner || defaultProvider || "jspm.io";
+    return defaultProvider || winner || "jspm.io";
+}let _importmap;
+
+window.process = window.process || {};
 window.process.env = window.process.env || {};
+window.exports = window.exports || {};
 
 const debounce = (cb, duration = 0) => {
   let timer;
@@ -70646,7 +76065,7 @@ const debounce = (cb, duration = 0) => {
 };
 
 const addLoading = () => loadingTag.classList.add('esm-x-active');
-const removeLoading = debounce(() => loadingTag.classList.remove('esm-x-active'), 500);
+const removeLoading = debounce(() => loadingTag.classList.remove('esm-x-active'), 1000);
 
 function transpile({ url, source, filename = undefined }) {
   filename = filename || path.basename(new URL(url).pathname);
@@ -70728,6 +76147,12 @@ function normalizeImportmap() {
   } else {
     importmapShimScript.innerHTML = content;
   }
+
+  _importmap = new Generator({
+    env: [process.env || 'production', 'module', 'browser'],
+    inputMap: JSON.parse(content),
+  });
+  console.log(_importmap);
 }
 
 async function transpileXModule() {
@@ -70754,4 +76179,4 @@ function initializePage() {
 
 // Initial setup
 initializeESModulesShim();
-initializePage();})();
+initializePage();exports.a=isString;exports.b=isNullOrUndefined;exports.c=isNull;exports.g=global$1;exports.i=isObject;exports.l=lib$f;

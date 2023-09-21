@@ -3,9 +3,13 @@ import presetReact from '@babel/preset-react'
 import presetTypescript from '@babel/preset-typescript'
 import path from 'path'
 import { loadingStyleTag, loadingTag } from './loading.js'
+import { Generator } from '@jspm/generator'
+
+let _importmap
 
 window.process = window.process || {}
 window.process.env = window.process.env || {}
+window.exports = window.exports || {}
 
 const debounce = (cb, duration = 0) => {
   let timer
@@ -18,7 +22,7 @@ const debounce = (cb, duration = 0) => {
 }
 
 const addLoading = () => loadingTag.classList.add('esm-x-active')
-const removeLoading = debounce(() => loadingTag.classList.remove('esm-x-active'), 500)
+const removeLoading = debounce(() => loadingTag.classList.remove('esm-x-active'), 1000)
 
 function transpile({ url, source, filename = undefined }) {
   filename = filename || path.basename(new URL(url).pathname)
@@ -100,6 +104,12 @@ function normalizeImportmap() {
   } else {
     importmapShimScript.innerHTML = content
   }
+
+  _importmap = new Generator({
+    env: [process.env || 'production', 'module', 'browser'],
+    inputMap: JSON.parse(content),
+  })
+  console.log(_importmap)
 }
 
 async function transpileXModule() {

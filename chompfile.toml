@@ -16,7 +16,7 @@ name = 'index.js'
 banner = '''/*!
  * App #PJSON_VERSION
  */'''
-format = 'iife'
+format = 'cjs'
 compact = true
 [[task.template-options.plugin]]
 package = '@rollup/plugin-node-resolve'

@@ -3,9 +3,6 @@ import presetReact from '@babel/preset-react'
 import presetTypescript from '@babel/preset-typescript'
 import path from 'path'
 import { loadingStyleTag, loadingTag } from './loading.js'
-import { Generator } from '@jspm/generator'
-
-let _importmap
 
 window.process = window.process || {}
 window.process.env = window.process.env || {}
@@ -104,12 +101,6 @@ function normalizeImportmap() {
   } else {
     importmapShimScript.innerHTML = content
   }
-
-  _importmap = new Generator({
-    env: [process.env || 'production', 'module', 'browser'],
-    inputMap: JSON.parse(content),
-  })
-  console.log(_importmap)
 }
 
 async function transpileXModule() {

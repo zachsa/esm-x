@@ -1,32 +1,25 @@
 version = 0.1
 default-task = 'rollup'
 
-extensions = ['chomp@0.1:rollup']
+[[task]]
+name = 'npm:install'
+targets = [
+    'node_modules',
+    'package-lock.json',
+]
+deps = ['package.json']
+validation = 'ok-only'
+display = 'init-only'
+run = 'npm install'
 
 [[task]]
-name='rollup'
-template = 'rollup'
-deps = ['src/*.js']
-[task.template-options]
-input = ['src/index.js']
-clear-dir = true
-[task.template-options.output]
-dir = 'dist'
-name = 'index.js'
-banner = '''/*!
- * App #PJSON_VERSION
- */'''
-format = 'cjs'
-compact = true
-[[task.template-options.plugin]]
-package = '@rollup/plugin-node-resolve'
-browser = true
-preferBuiltins = false
-[[task.template-options.plugin]]
-package = '@rollup/plugin-json'
-[[task.template-options.plugin]]
-package = '@rollup/plugin-commonjs'
-[[task.template-options.plugin]]
-package = 'rollup-plugin-polyfill-node'
-# [[task.template-options.plugin]]
-# package = '@rollup/plugin-terser'
+name = 'rollup'
+targets = ['dist/index.js']
+deps = [
+    '/home/zach/code/esm-x/src/*.js',
+    'src/index.js',
+    'npm:install',
+    'package.json',
+]
+engine = 'shell'
+run = 'node rollup.js'

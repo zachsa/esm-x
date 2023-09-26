@@ -1,6 +1,6 @@
 {
-  "name": "@mnemosyne/esm-x",
-  "version": "0.0.2",
+  "name": "esm-x",
+  "version": "0.0.3",
   "type": "module",
   "files": [
     "package.json",

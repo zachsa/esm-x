@@ -12,7 +12,7 @@ jobs:
       env:
         NODE_ENV: development
     permissions:
-      contents: write # Changed from 'read' to 'write' to allow pushing to repo
+      contents: write
       packages: write
     steps:
       - name: Checkout source
@@ -22,6 +22,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }} # Add this line to use GitHub token
       - name: Increment version and push
         run: |
+          git config --global --add safe.directory /__w/esm-x/esm-x
           git config --global user.name 'github-actions[bot]'
           git config --global user.email '41898282+github-actions[bot]@users.noreply.github.com'
           npm version patch -m "chore(release): increment patch version [skip ci]"

@@ -22,7 +22,7 @@ jobs:
       - name: Configure .npmrc
         run: |
           pwd
-          echo "//registry.npmjs.org/:_authToken=${{secrets.GITHUB_TOKEN}}" > ~/.npmrc
+          echo "//npm.pkg.github.com/:_authToken=${{secrets.GITHUB_TOKEN}}" > ~/.npmrc
           ls -a
       - name: Publish
         run: |

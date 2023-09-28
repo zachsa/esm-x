@@ -19,7 +19,11 @@ jobs:
         uses: actions/checkout@main
         with:
           ref: main
-      - name: Test running
+      - name: Configure .npmrc
         run: |
-          node --version
-          npm --version
+          echo "//registry.npmjs.org/:_authToken=${{secrets.GITHUB_TOKEN}}" >> .npmrc
+      - name: Publish
+        run: |
+          npm ci
+          npm publish
+

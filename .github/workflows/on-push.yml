@@ -32,4 +32,4 @@ jobs:
       - name: Install dependencies and publish
         run: |
           npm ci
-          npm publish
+          npm publish --access public

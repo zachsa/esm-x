@@ -19,7 +19,6 @@ jobs:
         uses: actions/checkout@main
         with:
           ref: main
-          token: ${{ secrets.GITHUB_TOKEN }} # Add this line to use GitHub token
       - name: Increment version and push
         run: |
           git config --global --add safe.directory /__w/esm-x/esm-x

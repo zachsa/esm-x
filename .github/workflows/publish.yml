@@ -8,13 +8,17 @@ jobs:
     permissions:
       contents: read
       packages: write
+    env:
+      NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
-      - uses: actions/checkout@main
-      - uses: actions/setup-node@main
+      - name: Checkout source
+        uses: actions/checkout@main
+      - name: Configure NPM
+        uses: actions/setup-node@main
         with:
           node-version: 20
           cache: 'npm'
-      - run: npm ci
-      - run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Publish pkg
+        run: |
+          npm ci
+          npm publish

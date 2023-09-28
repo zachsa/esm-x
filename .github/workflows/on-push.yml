@@ -21,4 +21,5 @@ jobs:
           ref: main
       - name: Test running
         run: |
-          echo hi
+          node --version
+          npm --version

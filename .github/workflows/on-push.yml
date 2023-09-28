@@ -12,19 +12,25 @@ jobs:
       env:
         NODE_ENV: development
     permissions:
-      contents: read
+      contents: write # Changed from 'read' to 'write' to allow pushing to repo
       packages: write
     steps:
       - name: Checkout source
         uses: actions/checkout@main
         with:
           ref: main
+          token: ${{ secrets.GITHUB_TOKEN }} # Add this line to use GitHub token
+      - name: Increment version and push
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          npm version patch -m "chore(release): increment patch version [skip ci]"
+          git push origin main
       - name: Configure .npmrc
         run: |
           echo "@zach_capetown:registry=https://registry.npmjs.org" > ~/.npmrc
           echo "//registry.npmjs.org/:_authToken=${{secrets.NPM_PUBLISH_TOKEN}}" >> ~/.npmrc
-      - name: Publish
+      - name: Install dependencies and publish
         run: |
           npm ci
           npm publish
-

@@ -29,8 +29,7 @@ jobs:
           git push origin main
       - name: Configure .npmrc
         run: |
-          echo "@zach_capetown:registry=https://registry.npmjs.org" > ~/.npmrc
-          echo "//registry.npmjs.org/:_authToken=${{secrets.NPM_PUBLISH_TOKEN}}" >> ~/.npmrc
+          echo "//registry.npmjs.org/:_authToken=${{secrets.NPM_PUBLISH_TOKEN}}" > ~/.npmrc
       - name: Install dependencies and publish
         run: |
           npm ci

@@ -23,6 +23,8 @@ jobs:
         run: |
           pwd
           echo "//npm.pkg.github.com/:_authToken=${{secrets.GITHUB_TOKEN}}" > ~/.npmrc
+          # echo "@zach_capetown:registry=https://registry.npmjs.org" > ~/.npmrc
+          # echo "//registry.npmjs.org/:_authToken=${{secrets.GITHUB_TOKEN}}" >> ~/.npmrc
           ls -a
       - name: Publish
         run: |

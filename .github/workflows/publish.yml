@@ -13,6 +13,8 @@ jobs:
     steps:
       - name: Checkout source
         uses: actions/checkout@main
+        with:
+          ref: main
       - name: Configure NPM
         uses: actions/setup-node@main
         with:

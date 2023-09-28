@@ -1,0 +1,24 @@
+name: push:main
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: node:20.7
+      env:
+        NODE_ENV: development
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@main
+        with:
+          ref: main
+      - name: Test running
+        run: |
+          echo hi

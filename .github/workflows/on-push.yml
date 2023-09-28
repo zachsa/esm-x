@@ -21,7 +21,9 @@ jobs:
           ref: main
       - name: Configure .npmrc
         run: |
-          echo "//registry.npmjs.org/:_authToken=${{secrets.GITHUB_TOKEN}}" >> .npmrc
+          pwd
+          echo "//registry.npmjs.org/:_authToken=${{secrets.GITHUB_TOKEN}}" > .npmrc
+          ls -a
       - name: Publish
         run: |
           npm ci

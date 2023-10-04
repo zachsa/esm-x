@@ -8,28 +8,21 @@ jobs:
   build:
     runs-on: ubuntu-latest
     container:
-      image: node:20.7
+      image: node:20.8
       env:
         NODE_ENV: development
     permissions:
       contents: write
       packages: write
     steps:
-      - name: Checkout source
-        uses: actions/checkout@main
-        with:
-          ref: main
-      - name: Increment version and push
-        run: |
-          git config --global --add safe.directory /__w/esm-x/esm-x
+      - uses: actions/checkout@main
+      - run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          npm version patch -m "chore(release): increment patch version [skip ci]"
+          npm ci & npm install -g chomp
+          npm version patch --no-git-tag-version
+          chomp
           git push origin main
-      - name: Configure .npmrc
-        run: |
           echo "//registry.npmjs.org/:_authToken=${{secrets.NPM_PUBLISH_TOKEN}}" > ~/.npmrc
-      - name: Install dependencies and publish
-        run: |
-          npm ci
           npm publish --access public
+          

@@ -1,5 +1,5 @@
 version = 0.1
-default-task = 'rollup'
+default-task = 'build'
 
 [[task]]
 name = 'npm:install'
@@ -13,7 +13,7 @@ display = 'init-only'
 run = 'npm install'
 
 [[task]]
-name = 'rollup'
+name = 'build'
 targets = ['dist/index.js']
 deps = [
     '/home/zach/code/esm-x/src/*.js',

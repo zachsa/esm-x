@@ -294,6 +294,7 @@
 		generated$3.isImportAttribute = isImportAttribute;
 		generated$3.isImportDeclaration = isImportDeclaration;
 		generated$3.isImportDefaultSpecifier = isImportDefaultSpecifier;
+		generated$3.isImportExpression = isImportExpression;
 		generated$3.isImportNamespaceSpecifier = isImportNamespaceSpecifier;
 		generated$3.isImportOrExportDeclaration = isImportOrExportDeclaration;
 		generated$3.isImportSpecifier = isImportSpecifier;
@@ -822,6 +823,11 @@
 		function isImportSpecifier(node, opts) {
 		  if (!node) return false;
 		  if (node.type !== "ImportSpecifier") return false;
+		  return opts == null || (0, _shallowEqual.default)(node, opts);
+		}
+		function isImportExpression(node, opts) {
+		  if (!node) return false;
+		  if (node.type !== "ImportExpression") return false;
 		  return opts == null || (0, _shallowEqual.default)(node, opts);
 		}
 		function isMetaProperty(node, opts) {
@@ -1808,6 +1814,7 @@
 		    case "ImportDefaultSpecifier":
 		    case "ImportNamespaceSpecifier":
 		    case "ImportSpecifier":
+		    case "ImportExpression":
 		    case "MetaProperty":
 		    case "ClassMethod":
 		    case "ObjectPattern":
@@ -1872,6 +1879,7 @@
 		    case "UpdateExpression":
 		    case "ArrowFunctionExpression":
 		    case "ClassExpression":
+		    case "ImportExpression":
 		    case "MetaProperty":
 		    case "Super":
 		    case "TaggedTemplateExpression":
@@ -4317,7 +4325,7 @@
 		      }()
 		    },
 		    left: {
-		      validate: !browser$1$1.env.BABEL_TYPES_8_BREAKING ? (0, _utils.assertNodeType)("LVal") : (0, _utils.assertNodeType)("Identifier", "MemberExpression", "ArrayPattern", "ObjectPattern", "TSAsExpression", "TSSatisfiesExpression", "TSTypeAssertion", "TSNonNullExpression")
+		      validate: !browser$1$1.env.BABEL_TYPES_8_BREAKING ? (0, _utils.assertNodeType)("LVal", "OptionalMemberExpression") : (0, _utils.assertNodeType)("Identifier", "MemberExpression", "OptionalMemberExpression", "ArrayPattern", "ObjectPattern", "TSAsExpression", "TSSatisfiesExpression", "TSTypeAssertion", "TSNonNullExpression")
 		    },
 		    right: {
 		      validate: (0, _utils.assertNodeType)("Expression")
@@ -5446,6 +5454,10 @@
 		      optional: true,
 		      validate: (0, _utils.assertValueType)("boolean")
 		    },
+		    phase: {
+		      default: null,
+		      validate: (0, _utils.assertOneOf)("source", "defer")
+		    },
 		    specifiers: {
 		      validate: (0, _utils.chain)((0, _utils.assertValueType)("array"), (0, _utils.assertEach)((0, _utils.assertNodeType)("ImportSpecifier", "ImportDefaultSpecifier", "ImportNamespaceSpecifier")))
 		    },
@@ -5488,6 +5500,23 @@
 		    },
 		    importKind: {
 		      validate: (0, _utils.assertOneOf)("type", "typeof", "value"),
+		      optional: true
+		    }
+		  }
+		});
+		defineType("ImportExpression", {
+		  visitor: ["source", "options"],
+		  aliases: ["Expression"],
+		  fields: {
+		    phase: {
+		      default: null,
+		      validate: (0, _utils.assertOneOf)("source", "defer")
+		    },
+		    source: {
+		      validate: (0, _utils.assertNodeType)("Expression")
+		    },
+		    options: {
+		      validate: (0, _utils.assertNodeType)("Expression"),
 		      optional: true
 		    }
 		  }
@@ -7613,6 +7642,7 @@
 		generated$2.importAttribute = importAttribute;
 		generated$2.importDeclaration = importDeclaration;
 		generated$2.importDefaultSpecifier = importDefaultSpecifier;
+		generated$2.importExpression = importExpression;
 		generated$2.importNamespaceSpecifier = importNamespaceSpecifier;
 		generated$2.importSpecifier = importSpecifier;
 		generated$2.indexedAccessType = indexedAccessType;
@@ -8255,6 +8285,13 @@
 		    type: "ImportSpecifier",
 		    local,
 		    imported
+		  });
+		}
+		function importExpression(source, options = null) {
+		  return (0, _validateNode.default)({
+		    type: "ImportExpression",
+		    source,
+		    options
 		  });
 		}
 		function metaProperty(meta, property) {
@@ -9754,6 +9791,7 @@
 		generated$1.assertImportAttribute = assertImportAttribute;
 		generated$1.assertImportDeclaration = assertImportDeclaration;
 		generated$1.assertImportDefaultSpecifier = assertImportDefaultSpecifier;
+		generated$1.assertImportExpression = assertImportExpression;
 		generated$1.assertImportNamespaceSpecifier = assertImportNamespaceSpecifier;
 		generated$1.assertImportOrExportDeclaration = assertImportOrExportDeclaration;
 		generated$1.assertImportSpecifier = assertImportSpecifier;
@@ -10156,6 +10194,9 @@
 		}
 		function assertImportSpecifier(node, opts) {
 		  assert("ImportSpecifier", node, opts);
+		}
+		function assertImportExpression(node, opts) {
+		  assert("ImportExpression", node, opts);
 		}
 		function assertMetaProperty(node, opts) {
 		  assert("MetaProperty", node, opts);
@@ -11629,6 +11670,12 @@
 			    return _index.importDefaultSpecifier;
 			  }
 			});
+			Object.defineProperty(exports, "ImportExpression", {
+			  enumerable: true,
+			  get: function () {
+			    return _index.importExpression;
+			  }
+			});
 			Object.defineProperty(exports, "ImportNamespaceSpecifier", {
 			  enumerable: true,
 			  get: function () {
@@ -12660,6 +12707,27 @@
 			
 		} (uppercase));
 		return uppercase;
+	}
+
+	var productions = {};
+
+	var hasRequiredProductions;
+
+	function requireProductions () {
+		if (hasRequiredProductions) return productions;
+		hasRequiredProductions = 1;
+
+		Object.defineProperty(productions, "__esModule", {
+		  value: true
+		});
+		productions.buildUndefinedNode = buildUndefinedNode;
+		var _index = requireGenerated$2();
+		function buildUndefinedNode() {
+		  return (0, _index.unaryExpression)("void", (0, _index.numericLiteral)(0), true);
+		}
+
+		
+		return productions;
 	}
 
 	var cloneNode$6 = {};
@@ -14819,6 +14887,18 @@
 			    }
 			  });
 			});
+			var _productions = requireProductions();
+			Object.keys(_productions).forEach(function (key) {
+			  if (key === "default" || key === "__esModule") return;
+			  if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
+			  if (key in exports && exports[key] === _productions[key]) return;
+			  Object.defineProperty(exports, key, {
+			    enumerable: true,
+			    get: function () {
+			      return _productions[key];
+			    }
+			  });
+			});
 			var _cloneNode = requireCloneNode();
 			var _clone = requireClone();
 			var _cloneDeep = requireCloneDeep();
@@ -16069,8 +16149,8 @@
 	    requeueComputedKeyAndDecorators(path);
 	  }
 	};
-	var _default$d = visitor$2;
-	lib$t.default = _default$d;
+	var _default$c = visitor$2;
+	lib$t.default = _default$c;
 
 	var hasRequiredRenamer;
 
@@ -17943,7 +18023,6 @@
 		  memberExpression,
 		  numericLiteral,
 		  toIdentifier,
-		  unaryExpression,
 		  variableDeclaration,
 		  variableDeclarator,
 		  isRecordExpression,
@@ -17952,7 +18031,8 @@
 		  isTopicReference,
 		  isMetaProperty,
 		  isPrivateName,
-		  isExportDeclaration
+		  isExportDeclaration,
+		  buildUndefinedNode
 		} = _t;
 		function gatherNodeParts(node, parts) {
 		  switch (node == null ? void 0 : node.type) {
@@ -18402,7 +18482,7 @@
 		    }
 		  }
 		  buildUndefinedNode() {
-		    return unaryExpression("void", numericLiteral(0), true);
+		    return buildUndefinedNode();
 		  }
 		  registerConstantViolation(path) {
 		    const ids = path.getBindingIdentifiers();
@@ -24277,6 +24357,7 @@
 		modules.ImportAttribute = ImportAttribute;
 		modules.ImportDeclaration = ImportDeclaration;
 		modules.ImportDefaultSpecifier = ImportDefaultSpecifier;
+		modules.ImportExpression = ImportExpression;
 		modules.ImportNamespaceSpecifier = ImportNamespaceSpecifier;
 		modules.ImportSpecifier = ImportSpecifier;
 		modules._printAttributes = _printAttributes;
@@ -24463,6 +24544,10 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		    this.noIndentInnerCommentsHere();
 		    this.word("module");
 		    this.space();
+		  } else if (node.phase) {
+		    this.noIndentInnerCommentsHere();
+		    this.word(node.phase);
+		    this.space();
 		  }
 		  const specifiers = node.specifiers.slice(0);
 		  const hasSpecifiers = !!specifiers.length;
@@ -24514,6 +24599,21 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		  this.word("as");
 		  this.space();
 		  this.print(node.local, node);
+		}
+		function ImportExpression(node) {
+		  this.word("import");
+		  if (node.phase) {
+		    this.tokenChar(46);
+		    this.word(node.phase);
+		  }
+		  this.tokenChar(40);
+		  this.print(node.source, node);
+		  if (node.options != null) {
+		    this.tokenChar(44);
+		    this.space();
+		    this.print(node.options, node);
+		  }
+		  this.tokenChar(41);
 		}
 
 		
@@ -30576,6 +30676,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		  DecoratorExportClass: "Decorators must be placed *after* the 'export' keyword. Remove the 'decoratorsBeforeExport: false' option to use the '@decorator export class {}' syntax.",
 		  DecoratorSemicolon: "Decorators must not be followed by a semicolon.",
 		  DecoratorStaticBlock: "Decorators can't be used with a static block.",
+		  DeferImportRequiresNamespace: 'Only `import defer * as x from "./module"` is valid.',
 		  DeletePrivateField: "Deleting a private field is not allowed.",
 		  DestructureNamedImport: "ES2015 named imports do not destructure. Use another statement for destructuring after the import.",
 		  DuplicateConstructor: "Duplicate constructor in the same class.",
@@ -30585,6 +30686,9 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		  }) => `\`${exportName}\` has already been exported. Exported identifiers must be unique.`,
 		  DuplicateProto: "Redefinition of __proto__ property.",
 		  DuplicateRegExpFlags: "Duplicate regular expression flag.",
+		  DynamicImportPhaseRequiresImportExpressions: ({
+		    phase
+		  }) => `'import.${phase}(...)' can only be parsed when using the 'createImportExpressions' option.`,
 		  ElementAfterRest: "Rest element must be last element.",
 		  EscapedCharNotAnIdentifier: "Invalid Unicode escape.",
 		  ExportBindingIsString: ({
@@ -30639,6 +30743,9 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		  InvalidLhsBinding: ({
 		    ancestor
 		  }) => `Binding invalid left-hand side in ${toNodeDescription(ancestor)}.`,
+		  InvalidLhsOptionalChaining: ({
+		    ancestor
+		  }) => `Invalid optional chaining in the left-hand side of ${toNodeDescription(ancestor)}.`,
 		  InvalidNumber: "Invalid number.",
 		  InvalidOrMissingExponent: "Floating-point numbers require a valid exponent after the 'e'.",
 		  InvalidOrUnexpectedToken: ({
@@ -30704,6 +30811,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		  RestTrailingComma: "Unexpected trailing comma after rest element.",
 		  SloppyFunction: "In non-strict mode code, functions can only be declared at top level or inside a block.",
 		  SloppyFunctionAnnexB: "In non-strict mode code, functions can only be declared at top level, inside a block, or as the body of an if statement.",
+		  SourcePhaseImportRequiresDefault: 'Only `import source x from "./module"` is valid.',
 		  StaticPrototype: "Classes may not have static property named prototype.",
 		  SuperNotAllowed: "`super()` is only valid inside a class constructor of a subclass. Maybe a typo in the method name ('constructor') or not extending another class?",
 		  SuperPrivateField: "Private fields can't be accessed on super.",
@@ -31125,8 +31233,9 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		      node.type = "ImportExpression";
 		      node.source = node.arguments[0];
 		      if (this.hasPlugin("importAttributes") || this.hasPlugin("importAssertions")) {
-		        var _node$arguments$;
-		        node.attributes = (_node$arguments$ = node.arguments[1]) != null ? _node$arguments$ : null;
+		        var _node$arguments$, _node$arguments$2;
+		        node.options = (_node$arguments$ = node.arguments[1]) != null ? _node$arguments$ : null;
+		        node.attributes = (_node$arguments$2 = node.arguments[1]) != null ? _node$arguments$2 : null;
 		      }
 		      delete node.arguments;
 		      delete node.callee;
@@ -31181,6 +31290,12 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		      node.optional = false;
 		    }
 		    return node;
+		  }
+		  isOptionalMemberExpression(node) {
+		    if (node.type === "ChainExpression") {
+		      return node.expression.type === "MemberExpression";
+		    }
+		    return super.isOptionalMemberExpression(node);
 		  }
 		  hasPropertyAsPrivateName(node) {
 		    if (node.type === "ChainExpression") {
@@ -31555,6 +31670,9 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		  _await: createKeywordLike("await", {
 		    startsExpr
 		  }),
+		  _defer: createKeywordLike("defer", {
+		    startsExpr
+		  }),
 		  _from: createKeywordLike("from", {
 		    startsExpr
 		  }),
@@ -31574,6 +31692,9 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		    startsExpr
 		  }),
 		  _set: createKeywordLike("set", {
+		    startsExpr
+		  }),
+		  _source: createKeywordLike("source", {
 		    startsExpr
 		  }),
 		  _static: createKeywordLike("static", {
@@ -31689,16 +31810,16 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		  })
 		};
 		function tokenIsIdentifier(token) {
-		  return token >= 93 && token <= 130;
+		  return token >= 93 && token <= 132;
 		}
 		function tokenKeywordOrIdentifierIsKeyword(token) {
 		  return token <= 92;
 		}
 		function tokenIsKeywordOrIdentifier(token) {
-		  return token >= 58 && token <= 130;
+		  return token >= 58 && token <= 132;
 		}
 		function tokenIsLiteralPropertyName(token) {
-		  return token >= 58 && token <= 134;
+		  return token >= 58 && token <= 136;
 		}
 		function tokenComesBeforeExpression(token) {
 		  return tokenBeforeExprs[token];
@@ -31710,7 +31831,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		  return token >= 29 && token <= 33;
 		}
 		function tokenIsFlowInterfaceOrTypeOrOpaque(token) {
-		  return token >= 127 && token <= 129;
+		  return token >= 129 && token <= 131;
 		}
 		function tokenIsLoop(token) {
 		  return token >= 90 && token <= 92;
@@ -31728,10 +31849,10 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		  return tokenPrefixes[token];
 		}
 		function tokenIsTSTypeOperator(token) {
-		  return token >= 119 && token <= 121;
+		  return token >= 121 && token <= 123;
 		}
 		function tokenIsTSDeclarationStart(token) {
-		  return token >= 122 && token <= 128;
+		  return token >= 124 && token <= 130;
 		}
 		function tokenLabelName(token) {
 		  return tokenLabels[token];
@@ -31762,16 +31883,16 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		      context.push(types.template);
 		    }
 		  };
-		  tokenTypes[140].updateContext = context => {
+		  tokenTypes[142].updateContext = context => {
 		    context.push(types.j_expr, types.j_oTag);
 		  };
 		}
 		let nonASCIIidentifierStartChars = "\xaa\xb5\xba\xc0-\xd6\xd8-\xf6\xf8-\u02c1\u02c6-\u02d1\u02e0-\u02e4\u02ec\u02ee\u0370-\u0374\u0376\u0377\u037a-\u037d\u037f\u0386\u0388-\u038a\u038c\u038e-\u03a1\u03a3-\u03f5\u03f7-\u0481\u048a-\u052f\u0531-\u0556\u0559\u0560-\u0588\u05d0-\u05ea\u05ef-\u05f2\u0620-\u064a\u066e\u066f\u0671-\u06d3\u06d5\u06e5\u06e6\u06ee\u06ef\u06fa-\u06fc\u06ff\u0710\u0712-\u072f\u074d-\u07a5\u07b1\u07ca-\u07ea\u07f4\u07f5\u07fa\u0800-\u0815\u081a\u0824\u0828\u0840-\u0858\u0860-\u086a\u0870-\u0887\u0889-\u088e\u08a0-\u08c9\u0904-\u0939\u093d\u0950\u0958-\u0961\u0971-\u0980\u0985-\u098c\u098f\u0990\u0993-\u09a8\u09aa-\u09b0\u09b2\u09b6-\u09b9\u09bd\u09ce\u09dc\u09dd\u09df-\u09e1\u09f0\u09f1\u09fc\u0a05-\u0a0a\u0a0f\u0a10\u0a13-\u0a28\u0a2a-\u0a30\u0a32\u0a33\u0a35\u0a36\u0a38\u0a39\u0a59-\u0a5c\u0a5e\u0a72-\u0a74\u0a85-\u0a8d\u0a8f-\u0a91\u0a93-\u0aa8\u0aaa-\u0ab0\u0ab2\u0ab3\u0ab5-\u0ab9\u0abd\u0ad0\u0ae0\u0ae1\u0af9\u0b05-\u0b0c\u0b0f\u0b10\u0b13-\u0b28\u0b2a-\u0b30\u0b32\u0b33\u0b35-\u0b39\u0b3d\u0b5c\u0b5d\u0b5f-\u0b61\u0b71\u0b83\u0b85-\u0b8a\u0b8e-\u0b90\u0b92-\u0b95\u0b99\u0b9a\u0b9c\u0b9e\u0b9f\u0ba3\u0ba4\u0ba8-\u0baa\u0bae-\u0bb9\u0bd0\u0c05-\u0c0c\u0c0e-\u0c10\u0c12-\u0c28\u0c2a-\u0c39\u0c3d\u0c58-\u0c5a\u0c5d\u0c60\u0c61\u0c80\u0c85-\u0c8c\u0c8e-\u0c90\u0c92-\u0ca8\u0caa-\u0cb3\u0cb5-\u0cb9\u0cbd\u0cdd\u0cde\u0ce0\u0ce1\u0cf1\u0cf2\u0d04-\u0d0c\u0d0e-\u0d10\u0d12-\u0d3a\u0d3d\u0d4e\u0d54-\u0d56\u0d5f-\u0d61\u0d7a-\u0d7f\u0d85-\u0d96\u0d9a-\u0db1\u0db3-\u0dbb\u0dbd\u0dc0-\u0dc6\u0e01-\u0e30\u0e32\u0e33\u0e40-\u0e46\u0e81\u0e82\u0e84\u0e86-\u0e8a\u0e8c-\u0ea3\u0ea5\u0ea7-\u0eb0\u0eb2\u0eb3\u0ebd\u0ec0-\u0ec4\u0ec6\u0edc-\u0edf\u0f00\u0f40-\u0f47\u0f49-\u0f6c\u0f88-\u0f8c\u1000-\u102a\u103f\u1050-\u1055\u105a-\u105d\u1061\u1065\u1066\u106e-\u1070\u1075-\u1081\u108e\u10a0-\u10c5\u10c7\u10cd\u10d0-\u10fa\u10fc-\u1248\u124a-\u124d\u1250-\u1256\u1258\u125a-\u125d\u1260-\u1288\u128a-\u128d\u1290-\u12b0\u12b2-\u12b5\u12b8-\u12be\u12c0\u12c2-\u12c5\u12c8-\u12d6\u12d8-\u1310\u1312-\u1315\u1318-\u135a\u1380-\u138f\u13a0-\u13f5\u13f8-\u13fd\u1401-\u166c\u166f-\u167f\u1681-\u169a\u16a0-\u16ea\u16ee-\u16f8\u1700-\u1711\u171f-\u1731\u1740-\u1751\u1760-\u176c\u176e-\u1770\u1780-\u17b3\u17d7\u17dc\u1820-\u1878\u1880-\u18a8\u18aa\u18b0-\u18f5\u1900-\u191e\u1950-\u196d\u1970-\u1974\u1980-\u19ab\u19b0-\u19c9\u1a00-\u1a16\u1a20-\u1a54\u1aa7\u1b05-\u1b33\u1b45-\u1b4c\u1b83-\u1ba0\u1bae\u1baf\u1bba-\u1be5\u1c00-\u1c23\u1c4d-\u1c4f\u1c5a-\u1c7d\u1c80-\u1c88\u1c90-\u1cba\u1cbd-\u1cbf\u1ce9-\u1cec\u1cee-\u1cf3\u1cf5\u1cf6\u1cfa\u1d00-\u1dbf\u1e00-\u1f15\u1f18-\u1f1d\u1f20-\u1f45\u1f48-\u1f4d\u1f50-\u1f57\u1f59\u1f5b\u1f5d\u1f5f-\u1f7d\u1f80-\u1fb4\u1fb6-\u1fbc\u1fbe\u1fc2-\u1fc4\u1fc6-\u1fcc\u1fd0-\u1fd3\u1fd6-\u1fdb\u1fe0-\u1fec\u1ff2-\u1ff4\u1ff6-\u1ffc\u2071\u207f\u2090-\u209c\u2102\u2107\u210a-\u2113\u2115\u2118-\u211d\u2124\u2126\u2128\u212a-\u2139\u213c-\u213f\u2145-\u2149\u214e\u2160-\u2188\u2c00-\u2ce4\u2ceb-\u2cee\u2cf2\u2cf3\u2d00-\u2d25\u2d27\u2d2d\u2d30-\u2d67\u2d6f\u2d80-\u2d96\u2da0-\u2da6\u2da8-\u2dae\u2db0-\u2db6\u2db8-\u2dbe\u2dc0-\u2dc6\u2dc8-\u2dce\u2dd0-\u2dd6\u2dd8-\u2dde\u3005-\u3007\u3021-\u3029\u3031-\u3035\u3038-\u303c\u3041-\u3096\u309b-\u309f\u30a1-\u30fa\u30fc-\u30ff\u3105-\u312f\u3131-\u318e\u31a0-\u31bf\u31f0-\u31ff\u3400-\u4dbf\u4e00-\ua48c\ua4d0-\ua4fd\ua500-\ua60c\ua610-\ua61f\ua62a\ua62b\ua640-\ua66e\ua67f-\ua69d\ua6a0-\ua6ef\ua717-\ua71f\ua722-\ua788\ua78b-\ua7ca\ua7d0\ua7d1\ua7d3\ua7d5-\ua7d9\ua7f2-\ua801\ua803-\ua805\ua807-\ua80a\ua80c-\ua822\ua840-\ua873\ua882-\ua8b3\ua8f2-\ua8f7\ua8fb\ua8fd\ua8fe\ua90a-\ua925\ua930-\ua946\ua960-\ua97c\ua984-\ua9b2\ua9cf\ua9e0-\ua9e4\ua9e6-\ua9ef\ua9fa-\ua9fe\uaa00-\uaa28\uaa40-\uaa42\uaa44-\uaa4b\uaa60-\uaa76\uaa7a\uaa7e-\uaaaf\uaab1\uaab5\uaab6\uaab9-\uaabd\uaac0\uaac2\uaadb-\uaadd\uaae0-\uaaea\uaaf2-\uaaf4\uab01-\uab06\uab09-\uab0e\uab11-\uab16\uab20-\uab26\uab28-\uab2e\uab30-\uab5a\uab5c-\uab69\uab70-\uabe2\uac00-\ud7a3\ud7b0-\ud7c6\ud7cb-\ud7fb\uf900-\ufa6d\ufa70-\ufad9\ufb00-\ufb06\ufb13-\ufb17\ufb1d\ufb1f-\ufb28\ufb2a-\ufb36\ufb38-\ufb3c\ufb3e\ufb40\ufb41\ufb43\ufb44\ufb46-\ufbb1\ufbd3-\ufd3d\ufd50-\ufd8f\ufd92-\ufdc7\ufdf0-\ufdfb\ufe70-\ufe74\ufe76-\ufefc\uff21-\uff3a\uff41-\uff5a\uff66-\uffbe\uffc2-\uffc7\uffca-\uffcf\uffd2-\uffd7\uffda-\uffdc";
-		let nonASCIIidentifierChars = "\u200c\u200d\xb7\u0300-\u036f\u0387\u0483-\u0487\u0591-\u05bd\u05bf\u05c1\u05c2\u05c4\u05c5\u05c7\u0610-\u061a\u064b-\u0669\u0670\u06d6-\u06dc\u06df-\u06e4\u06e7\u06e8\u06ea-\u06ed\u06f0-\u06f9\u0711\u0730-\u074a\u07a6-\u07b0\u07c0-\u07c9\u07eb-\u07f3\u07fd\u0816-\u0819\u081b-\u0823\u0825-\u0827\u0829-\u082d\u0859-\u085b\u0898-\u089f\u08ca-\u08e1\u08e3-\u0903\u093a-\u093c\u093e-\u094f\u0951-\u0957\u0962\u0963\u0966-\u096f\u0981-\u0983\u09bc\u09be-\u09c4\u09c7\u09c8\u09cb-\u09cd\u09d7\u09e2\u09e3\u09e6-\u09ef\u09fe\u0a01-\u0a03\u0a3c\u0a3e-\u0a42\u0a47\u0a48\u0a4b-\u0a4d\u0a51\u0a66-\u0a71\u0a75\u0a81-\u0a83\u0abc\u0abe-\u0ac5\u0ac7-\u0ac9\u0acb-\u0acd\u0ae2\u0ae3\u0ae6-\u0aef\u0afa-\u0aff\u0b01-\u0b03\u0b3c\u0b3e-\u0b44\u0b47\u0b48\u0b4b-\u0b4d\u0b55-\u0b57\u0b62\u0b63\u0b66-\u0b6f\u0b82\u0bbe-\u0bc2\u0bc6-\u0bc8\u0bca-\u0bcd\u0bd7\u0be6-\u0bef\u0c00-\u0c04\u0c3c\u0c3e-\u0c44\u0c46-\u0c48\u0c4a-\u0c4d\u0c55\u0c56\u0c62\u0c63\u0c66-\u0c6f\u0c81-\u0c83\u0cbc\u0cbe-\u0cc4\u0cc6-\u0cc8\u0cca-\u0ccd\u0cd5\u0cd6\u0ce2\u0ce3\u0ce6-\u0cef\u0cf3\u0d00-\u0d03\u0d3b\u0d3c\u0d3e-\u0d44\u0d46-\u0d48\u0d4a-\u0d4d\u0d57\u0d62\u0d63\u0d66-\u0d6f\u0d81-\u0d83\u0dca\u0dcf-\u0dd4\u0dd6\u0dd8-\u0ddf\u0de6-\u0def\u0df2\u0df3\u0e31\u0e34-\u0e3a\u0e47-\u0e4e\u0e50-\u0e59\u0eb1\u0eb4-\u0ebc\u0ec8-\u0ece\u0ed0-\u0ed9\u0f18\u0f19\u0f20-\u0f29\u0f35\u0f37\u0f39\u0f3e\u0f3f\u0f71-\u0f84\u0f86\u0f87\u0f8d-\u0f97\u0f99-\u0fbc\u0fc6\u102b-\u103e\u1040-\u1049\u1056-\u1059\u105e-\u1060\u1062-\u1064\u1067-\u106d\u1071-\u1074\u1082-\u108d\u108f-\u109d\u135d-\u135f\u1369-\u1371\u1712-\u1715\u1732-\u1734\u1752\u1753\u1772\u1773\u17b4-\u17d3\u17dd\u17e0-\u17e9\u180b-\u180d\u180f-\u1819\u18a9\u1920-\u192b\u1930-\u193b\u1946-\u194f\u19d0-\u19da\u1a17-\u1a1b\u1a55-\u1a5e\u1a60-\u1a7c\u1a7f-\u1a89\u1a90-\u1a99\u1ab0-\u1abd\u1abf-\u1ace\u1b00-\u1b04\u1b34-\u1b44\u1b50-\u1b59\u1b6b-\u1b73\u1b80-\u1b82\u1ba1-\u1bad\u1bb0-\u1bb9\u1be6-\u1bf3\u1c24-\u1c37\u1c40-\u1c49\u1c50-\u1c59\u1cd0-\u1cd2\u1cd4-\u1ce8\u1ced\u1cf4\u1cf7-\u1cf9\u1dc0-\u1dff\u203f\u2040\u2054\u20d0-\u20dc\u20e1\u20e5-\u20f0\u2cef-\u2cf1\u2d7f\u2de0-\u2dff\u302a-\u302f\u3099\u309a\ua620-\ua629\ua66f\ua674-\ua67d\ua69e\ua69f\ua6f0\ua6f1\ua802\ua806\ua80b\ua823-\ua827\ua82c\ua880\ua881\ua8b4-\ua8c5\ua8d0-\ua8d9\ua8e0-\ua8f1\ua8ff-\ua909\ua926-\ua92d\ua947-\ua953\ua980-\ua983\ua9b3-\ua9c0\ua9d0-\ua9d9\ua9e5\ua9f0-\ua9f9\uaa29-\uaa36\uaa43\uaa4c\uaa4d\uaa50-\uaa59\uaa7b-\uaa7d\uaab0\uaab2-\uaab4\uaab7\uaab8\uaabe\uaabf\uaac1\uaaeb-\uaaef\uaaf5\uaaf6\uabe3-\uabea\uabec\uabed\uabf0-\uabf9\ufb1e\ufe00-\ufe0f\ufe20-\ufe2f\ufe33\ufe34\ufe4d-\ufe4f\uff10-\uff19\uff3f";
+		let nonASCIIidentifierChars = "\u200c\u200d\xb7\u0300-\u036f\u0387\u0483-\u0487\u0591-\u05bd\u05bf\u05c1\u05c2\u05c4\u05c5\u05c7\u0610-\u061a\u064b-\u0669\u0670\u06d6-\u06dc\u06df-\u06e4\u06e7\u06e8\u06ea-\u06ed\u06f0-\u06f9\u0711\u0730-\u074a\u07a6-\u07b0\u07c0-\u07c9\u07eb-\u07f3\u07fd\u0816-\u0819\u081b-\u0823\u0825-\u0827\u0829-\u082d\u0859-\u085b\u0898-\u089f\u08ca-\u08e1\u08e3-\u0903\u093a-\u093c\u093e-\u094f\u0951-\u0957\u0962\u0963\u0966-\u096f\u0981-\u0983\u09bc\u09be-\u09c4\u09c7\u09c8\u09cb-\u09cd\u09d7\u09e2\u09e3\u09e6-\u09ef\u09fe\u0a01-\u0a03\u0a3c\u0a3e-\u0a42\u0a47\u0a48\u0a4b-\u0a4d\u0a51\u0a66-\u0a71\u0a75\u0a81-\u0a83\u0abc\u0abe-\u0ac5\u0ac7-\u0ac9\u0acb-\u0acd\u0ae2\u0ae3\u0ae6-\u0aef\u0afa-\u0aff\u0b01-\u0b03\u0b3c\u0b3e-\u0b44\u0b47\u0b48\u0b4b-\u0b4d\u0b55-\u0b57\u0b62\u0b63\u0b66-\u0b6f\u0b82\u0bbe-\u0bc2\u0bc6-\u0bc8\u0bca-\u0bcd\u0bd7\u0be6-\u0bef\u0c00-\u0c04\u0c3c\u0c3e-\u0c44\u0c46-\u0c48\u0c4a-\u0c4d\u0c55\u0c56\u0c62\u0c63\u0c66-\u0c6f\u0c81-\u0c83\u0cbc\u0cbe-\u0cc4\u0cc6-\u0cc8\u0cca-\u0ccd\u0cd5\u0cd6\u0ce2\u0ce3\u0ce6-\u0cef\u0cf3\u0d00-\u0d03\u0d3b\u0d3c\u0d3e-\u0d44\u0d46-\u0d48\u0d4a-\u0d4d\u0d57\u0d62\u0d63\u0d66-\u0d6f\u0d81-\u0d83\u0dca\u0dcf-\u0dd4\u0dd6\u0dd8-\u0ddf\u0de6-\u0def\u0df2\u0df3\u0e31\u0e34-\u0e3a\u0e47-\u0e4e\u0e50-\u0e59\u0eb1\u0eb4-\u0ebc\u0ec8-\u0ece\u0ed0-\u0ed9\u0f18\u0f19\u0f20-\u0f29\u0f35\u0f37\u0f39\u0f3e\u0f3f\u0f71-\u0f84\u0f86\u0f87\u0f8d-\u0f97\u0f99-\u0fbc\u0fc6\u102b-\u103e\u1040-\u1049\u1056-\u1059\u105e-\u1060\u1062-\u1064\u1067-\u106d\u1071-\u1074\u1082-\u108d\u108f-\u109d\u135d-\u135f\u1369-\u1371\u1712-\u1715\u1732-\u1734\u1752\u1753\u1772\u1773\u17b4-\u17d3\u17dd\u17e0-\u17e9\u180b-\u180d\u180f-\u1819\u18a9\u1920-\u192b\u1930-\u193b\u1946-\u194f\u19d0-\u19da\u1a17-\u1a1b\u1a55-\u1a5e\u1a60-\u1a7c\u1a7f-\u1a89\u1a90-\u1a99\u1ab0-\u1abd\u1abf-\u1ace\u1b00-\u1b04\u1b34-\u1b44\u1b50-\u1b59\u1b6b-\u1b73\u1b80-\u1b82\u1ba1-\u1bad\u1bb0-\u1bb9\u1be6-\u1bf3\u1c24-\u1c37\u1c40-\u1c49\u1c50-\u1c59\u1cd0-\u1cd2\u1cd4-\u1ce8\u1ced\u1cf4\u1cf7-\u1cf9\u1dc0-\u1dff\u200c\u200d\u203f\u2040\u2054\u20d0-\u20dc\u20e1\u20e5-\u20f0\u2cef-\u2cf1\u2d7f\u2de0-\u2dff\u302a-\u302f\u3099\u309a\u30fb\ua620-\ua629\ua66f\ua674-\ua67d\ua69e\ua69f\ua6f0\ua6f1\ua802\ua806\ua80b\ua823-\ua827\ua82c\ua880\ua881\ua8b4-\ua8c5\ua8d0-\ua8d9\ua8e0-\ua8f1\ua8ff-\ua909\ua926-\ua92d\ua947-\ua953\ua980-\ua983\ua9b3-\ua9c0\ua9d0-\ua9d9\ua9e5\ua9f0-\ua9f9\uaa29-\uaa36\uaa43\uaa4c\uaa4d\uaa50-\uaa59\uaa7b-\uaa7d\uaab0\uaab2-\uaab4\uaab7\uaab8\uaabe\uaabf\uaac1\uaaeb-\uaaef\uaaf5\uaaf6\uabe3-\uabea\uabec\uabed\uabf0-\uabf9\ufb1e\ufe00-\ufe0f\ufe20-\ufe2f\ufe33\ufe34\ufe4d-\ufe4f\uff10-\uff19\uff3f\uff65";
 		const nonASCIIidentifierStart = new RegExp("[" + nonASCIIidentifierStartChars + "]");
 		const nonASCIIidentifier = new RegExp("[" + nonASCIIidentifierStartChars + nonASCIIidentifierChars + "]");
 		nonASCIIidentifierStartChars = nonASCIIidentifierChars = null;
-		const astralIdentifierStartCodes = [0, 11, 2, 25, 2, 18, 2, 1, 2, 14, 3, 13, 35, 122, 70, 52, 268, 28, 4, 48, 48, 31, 14, 29, 6, 37, 11, 29, 3, 35, 5, 7, 2, 4, 43, 157, 19, 35, 5, 35, 5, 39, 9, 51, 13, 10, 2, 14, 2, 6, 2, 1, 2, 10, 2, 14, 2, 6, 2, 1, 68, 310, 10, 21, 11, 7, 25, 5, 2, 41, 2, 8, 70, 5, 3, 0, 2, 43, 2, 1, 4, 0, 3, 22, 11, 22, 10, 30, 66, 18, 2, 1, 11, 21, 11, 25, 71, 55, 7, 1, 65, 0, 16, 3, 2, 2, 2, 28, 43, 28, 4, 28, 36, 7, 2, 27, 28, 53, 11, 21, 11, 18, 14, 17, 111, 72, 56, 50, 14, 50, 14, 35, 349, 41, 7, 1, 79, 28, 11, 0, 9, 21, 43, 17, 47, 20, 28, 22, 13, 52, 58, 1, 3, 0, 14, 44, 33, 24, 27, 35, 30, 0, 3, 0, 9, 34, 4, 0, 13, 47, 15, 3, 22, 0, 2, 0, 36, 17, 2, 24, 20, 1, 64, 6, 2, 0, 2, 3, 2, 14, 2, 9, 8, 46, 39, 7, 3, 1, 3, 21, 2, 6, 2, 1, 2, 4, 4, 0, 19, 0, 13, 4, 159, 52, 19, 3, 21, 2, 31, 47, 21, 1, 2, 0, 185, 46, 42, 3, 37, 47, 21, 0, 60, 42, 14, 0, 72, 26, 38, 6, 186, 43, 117, 63, 32, 7, 3, 0, 3, 7, 2, 1, 2, 23, 16, 0, 2, 0, 95, 7, 3, 38, 17, 0, 2, 0, 29, 0, 11, 39, 8, 0, 22, 0, 12, 45, 20, 0, 19, 72, 264, 8, 2, 36, 18, 0, 50, 29, 113, 6, 2, 1, 2, 37, 22, 0, 26, 5, 2, 1, 2, 31, 15, 0, 328, 18, 16, 0, 2, 12, 2, 33, 125, 0, 80, 921, 103, 110, 18, 195, 2637, 96, 16, 1071, 18, 5, 4026, 582, 8634, 568, 8, 30, 18, 78, 18, 29, 19, 47, 17, 3, 32, 20, 6, 18, 689, 63, 129, 74, 6, 0, 67, 12, 65, 1, 2, 0, 29, 6135, 9, 1237, 43, 8, 8936, 3, 2, 6, 2, 1, 2, 290, 16, 0, 30, 2, 3, 0, 15, 3, 9, 395, 2309, 106, 6, 12, 4, 8, 8, 9, 5991, 84, 2, 70, 2, 1, 3, 0, 3, 1, 3, 3, 2, 11, 2, 0, 2, 6, 2, 64, 2, 3, 3, 7, 2, 6, 2, 27, 2, 3, 2, 4, 2, 0, 4, 6, 2, 339, 3, 24, 2, 24, 2, 30, 2, 24, 2, 30, 2, 24, 2, 30, 2, 24, 2, 30, 2, 24, 2, 7, 1845, 30, 7, 5, 262, 61, 147, 44, 11, 6, 17, 0, 322, 29, 19, 43, 485, 27, 757, 6, 2, 3, 2, 1, 2, 14, 2, 196, 60, 67, 8, 0, 1205, 3, 2, 26, 2, 1, 2, 0, 3, 0, 2, 9, 2, 3, 2, 0, 2, 0, 7, 0, 5, 0, 2, 0, 2, 0, 2, 2, 2, 1, 2, 0, 3, 0, 2, 0, 2, 0, 2, 0, 2, 0, 2, 1, 2, 0, 3, 3, 2, 6, 2, 3, 2, 3, 2, 0, 2, 9, 2, 16, 6, 2, 2, 4, 2, 16, 4421, 42719, 33, 4153, 7, 221, 3, 5761, 15, 7472, 3104, 541, 1507, 4938, 6, 4191];
+		const astralIdentifierStartCodes = [0, 11, 2, 25, 2, 18, 2, 1, 2, 14, 3, 13, 35, 122, 70, 52, 268, 28, 4, 48, 48, 31, 14, 29, 6, 37, 11, 29, 3, 35, 5, 7, 2, 4, 43, 157, 19, 35, 5, 35, 5, 39, 9, 51, 13, 10, 2, 14, 2, 6, 2, 1, 2, 10, 2, 14, 2, 6, 2, 1, 68, 310, 10, 21, 11, 7, 25, 5, 2, 41, 2, 8, 70, 5, 3, 0, 2, 43, 2, 1, 4, 0, 3, 22, 11, 22, 10, 30, 66, 18, 2, 1, 11, 21, 11, 25, 71, 55, 7, 1, 65, 0, 16, 3, 2, 2, 2, 28, 43, 28, 4, 28, 36, 7, 2, 27, 28, 53, 11, 21, 11, 18, 14, 17, 111, 72, 56, 50, 14, 50, 14, 35, 349, 41, 7, 1, 79, 28, 11, 0, 9, 21, 43, 17, 47, 20, 28, 22, 13, 52, 58, 1, 3, 0, 14, 44, 33, 24, 27, 35, 30, 0, 3, 0, 9, 34, 4, 0, 13, 47, 15, 3, 22, 0, 2, 0, 36, 17, 2, 24, 20, 1, 64, 6, 2, 0, 2, 3, 2, 14, 2, 9, 8, 46, 39, 7, 3, 1, 3, 21, 2, 6, 2, 1, 2, 4, 4, 0, 19, 0, 13, 4, 159, 52, 19, 3, 21, 2, 31, 47, 21, 1, 2, 0, 185, 46, 42, 3, 37, 47, 21, 0, 60, 42, 14, 0, 72, 26, 38, 6, 186, 43, 117, 63, 32, 7, 3, 0, 3, 7, 2, 1, 2, 23, 16, 0, 2, 0, 95, 7, 3, 38, 17, 0, 2, 0, 29, 0, 11, 39, 8, 0, 22, 0, 12, 45, 20, 0, 19, 72, 264, 8, 2, 36, 18, 0, 50, 29, 113, 6, 2, 1, 2, 37, 22, 0, 26, 5, 2, 1, 2, 31, 15, 0, 328, 18, 16, 0, 2, 12, 2, 33, 125, 0, 80, 921, 103, 110, 18, 195, 2637, 96, 16, 1071, 18, 5, 4026, 582, 8634, 568, 8, 30, 18, 78, 18, 29, 19, 47, 17, 3, 32, 20, 6, 18, 689, 63, 129, 74, 6, 0, 67, 12, 65, 1, 2, 0, 29, 6135, 9, 1237, 43, 8, 8936, 3, 2, 6, 2, 1, 2, 290, 16, 0, 30, 2, 3, 0, 15, 3, 9, 395, 2309, 106, 6, 12, 4, 8, 8, 9, 5991, 84, 2, 70, 2, 1, 3, 0, 3, 1, 3, 3, 2, 11, 2, 0, 2, 6, 2, 64, 2, 3, 3, 7, 2, 6, 2, 27, 2, 3, 2, 4, 2, 0, 4, 6, 2, 339, 3, 24, 2, 24, 2, 30, 2, 24, 2, 30, 2, 24, 2, 30, 2, 24, 2, 30, 2, 24, 2, 7, 1845, 30, 7, 5, 262, 61, 147, 44, 11, 6, 17, 0, 322, 29, 19, 43, 485, 27, 757, 6, 2, 3, 2, 1, 2, 14, 2, 196, 60, 67, 8, 0, 1205, 3, 2, 26, 2, 1, 2, 0, 3, 0, 2, 9, 2, 3, 2, 0, 2, 0, 7, 0, 5, 0, 2, 0, 2, 0, 2, 2, 2, 1, 2, 0, 3, 0, 2, 0, 2, 0, 2, 0, 2, 0, 2, 1, 2, 0, 3, 3, 2, 6, 2, 3, 2, 3, 2, 0, 2, 9, 2, 16, 6, 2, 2, 4, 2, 16, 4421, 42719, 33, 4153, 7, 221, 3, 5761, 15, 7472, 16, 621, 2467, 541, 1507, 4938, 6, 4191];
 		const astralIdentifierCodes = [509, 0, 227, 0, 150, 4, 294, 9, 1368, 2, 2, 1, 6, 3, 41, 2, 5, 0, 166, 1, 574, 3, 9, 9, 370, 1, 81, 2, 71, 10, 50, 3, 123, 2, 54, 14, 32, 10, 3, 1, 11, 3, 46, 10, 8, 0, 46, 9, 7, 2, 37, 13, 2, 9, 6, 1, 45, 0, 13, 2, 49, 13, 9, 3, 2, 11, 83, 11, 7, 0, 3, 0, 158, 11, 6, 9, 7, 3, 56, 1, 2, 6, 3, 1, 3, 2, 10, 0, 11, 1, 3, 6, 4, 4, 193, 17, 10, 9, 5, 0, 82, 19, 13, 9, 214, 6, 3, 8, 28, 1, 83, 16, 16, 9, 82, 12, 9, 9, 84, 14, 5, 9, 243, 14, 166, 9, 71, 5, 2, 1, 3, 3, 2, 0, 2, 1, 13, 9, 120, 6, 3, 6, 4, 0, 29, 9, 41, 6, 2, 3, 9, 0, 10, 10, 47, 15, 406, 7, 2, 7, 17, 9, 57, 21, 2, 13, 123, 5, 4, 0, 2, 1, 2, 6, 2, 0, 9, 9, 49, 4, 2, 1, 2, 4, 9, 9, 330, 3, 10, 1, 2, 0, 49, 6, 4, 4, 14, 9, 5351, 0, 7, 14, 13835, 9, 87, 9, 39, 4, 60, 6, 26, 9, 1014, 0, 2, 54, 8, 3, 82, 0, 12, 1, 19628, 1, 4706, 45, 3, 22, 543, 4, 4, 5, 9, 7, 3, 6, 31, 3, 149, 2, 1418, 49, 513, 54, 5, 49, 9, 0, 15, 0, 23, 4, 2, 14, 1361, 6, 2, 16, 3, 6, 2, 1, 2, 4, 101, 0, 161, 6, 10, 9, 357, 0, 62, 13, 499, 13, 983, 6, 110, 6, 6, 9, 4759, 9, 787719, 239];
 		function isInAstralSet(code, set) {
 		  let pos = 0x10000;
@@ -32295,7 +32416,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		    this.comments = [];
 		    this.commentStack = [];
 		    this.pos = 0;
-		    this.type = 137;
+		    this.type = 139;
 		    this.value = null;
 		    this.start = 0;
 		    this.end = 0;
@@ -32783,7 +32904,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		    this.state.start = this.state.pos;
 		    if (!this.isLookahead) this.state.startLoc = this.state.curPosition();
 		    if (this.state.pos >= this.length) {
-		      this.finishToken(137);
+		      this.finishToken(139);
 		      return;
 		    }
 		    this.getTokenFromCode(this.codePointAtPos(this.state.pos));
@@ -32967,10 +33088,10 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		      }
 		    } else if (isIdentifierStart(next)) {
 		      ++this.state.pos;
-		      this.finishToken(136, this.readWord1(next));
+		      this.finishToken(138, this.readWord1(next));
 		    } else if (next === 92) {
 		      ++this.state.pos;
-		      this.finishToken(136, this.readWord1());
+		      this.finishToken(138, this.readWord1());
 		    } else {
 		      this.finishOp(27, 1);
 		    }
@@ -33403,7 +33524,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		      mods += char;
 		    }
 		    this.state.pos = pos;
-		    this.finishToken(135, {
+		    this.finishToken(137, {
 		      pattern: content,
 		      flags: mods
 		    });
@@ -33443,10 +33564,10 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		    }
 		    if (isBigInt) {
 		      const str = this.input.slice(startLoc.index, this.state.pos).replace(/[_n]/g, "");
-		      this.finishToken(133, str);
+		      this.finishToken(135, str);
 		      return;
 		    }
-		    this.finishToken(132, val);
+		    this.finishToken(134, val);
 		  }
 		  readNumber(startsWithDot) {
 		    const start = this.state.pos;
@@ -33524,15 +33645,15 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		    }
 		    const str = this.input.slice(start, this.state.pos).replace(/[_mn]/g, "");
 		    if (isBigInt) {
-		      this.finishToken(133, str);
+		      this.finishToken(135, str);
 		      return;
 		    }
 		    if (isDecimal) {
-		      this.finishToken(134, str);
+		      this.finishToken(136, str);
 		      return;
 		    }
 		    const val = isOctal ? parseInt(str, 8) : parseFloat(str);
-		    this.finishToken(132, val);
+		    this.finishToken(134, val);
 		  }
 		  readCodePoint(throwOnInvalid) {
 		    const {
@@ -33552,7 +33673,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		    this.state.pos = pos + 1;
 		    this.state.lineStart = lineStart;
 		    this.state.curLine = curLine;
-		    this.finishToken(131, str);
+		    this.finishToken(133, str);
 		  }
 		  readTemplateContinuation() {
 		    if (!this.match(8)) {
@@ -33642,7 +33763,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		    if (type !== undefined) {
 		      this.finishToken(type, tokenLabelName(type));
 		    } else {
-		      this.finishToken(130, word);
+		      this.finishToken(132, word);
 		    }
 		  }
 		  checkKeywordEscapes() {
@@ -34010,7 +34131,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		    }
 		  }
 		  canInsertSemicolon() {
-		    return this.match(137) || this.match(8) || this.hasPrecedingLineBreak();
+		    return this.match(139) || this.match(8) || this.hasPrecedingLineBreak();
 		  }
 		  hasPrecedingLineBreak() {
 		    return lineBreak.test(this.input.slice(this.state.lastTokEndLoc.index, this.state.start));
@@ -34424,7 +34545,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		    return !!this.getPluginOption("flow", "enums");
 		  }
 		  finishToken(type, val) {
-		    if (type !== 131 && type !== 13 && type !== 28) {
+		    if (type !== 133 && type !== 13 && type !== 28) {
 		      if (this.flowPragma === undefined) {
 		        this.flowPragma = null;
 		      }
@@ -34456,7 +34577,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		    const node = this.startNode();
 		    const moduloLoc = this.state.startLoc;
 		    this.next();
-		    this.expectContextual(108);
+		    this.expectContextual(110);
 		    if (this.state.lastTokStart > moduloLoc.index + 1) {
 		      this.raise(FlowErrors.UnexpectedSpaceBetweenModuloChecks, {
 		        at: moduloLoc
@@ -34524,7 +34645,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		      return this.flowParseDeclareFunction(node);
 		    } else if (this.match(74)) {
 		      return this.flowParseDeclareVariable(node);
-		    } else if (this.eatContextual(125)) {
+		    } else if (this.eatContextual(127)) {
 		      if (this.match(16)) {
 		        return this.flowParseDeclareModuleExports(node);
 		      } else {
@@ -34535,11 +34656,11 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		        }
 		        return this.flowParseDeclareModule(node);
 		      }
-		    } else if (this.isContextual(128)) {
+		    } else if (this.isContextual(130)) {
 		      return this.flowParseDeclareTypeAlias(node);
-		    } else if (this.isContextual(129)) {
+		    } else if (this.isContextual(131)) {
 		      return this.flowParseDeclareOpaqueType(node);
-		    } else if (this.isContextual(127)) {
+		    } else if (this.isContextual(129)) {
 		      return this.flowParseDeclareInterface(node);
 		    } else if (this.match(82)) {
 		      return this.flowParseDeclareExportDeclaration(node, insideModule);
@@ -34556,7 +34677,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		  }
 		  flowParseDeclareModule(node) {
 		    this.scope.enter(0);
-		    if (this.match(131)) {
+		    if (this.match(133)) {
 		      node.id = super.parseExprAtom();
 		    } else {
 		      node.id = this.parseIdentifier();
@@ -34568,14 +34689,14 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		      let bodyNode = this.startNode();
 		      if (this.match(83)) {
 		        this.next();
-		        if (!this.isContextual(128) && !this.match(87)) {
+		        if (!this.isContextual(130) && !this.match(87)) {
 		          this.raise(FlowErrors.InvalidNonTypeImportInDeclareModule, {
 		            at: this.state.lastTokStartLoc
 		          });
 		        }
 		        super.parseImport(bodyNode);
 		      } else {
-		        this.expectContextual(123, FlowErrors.UnsupportedStatementInDeclareModule);
+		        this.expectContextual(125, FlowErrors.UnsupportedStatementInDeclareModule);
 		        bodyNode = this.flowParseDeclare(bodyNode, true);
 		      }
 		      body.push(bodyNode);
@@ -34623,7 +34744,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		      node.default = true;
 		      return this.finishNode(node, "DeclareExportDeclaration");
 		    } else {
-		      if (this.match(75) || this.isLet() || (this.isContextual(128) || this.isContextual(127)) && !insideModule) {
+		      if (this.match(75) || this.isLet() || (this.isContextual(130) || this.isContextual(129)) && !insideModule) {
 		        const label = this.state.value;
 		        throw this.raise(FlowErrors.UnsupportedDeclareExportKind, {
 		          at: this.state.startLoc,
@@ -34631,11 +34752,11 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		          suggestion: exportSuggestions[label]
 		        });
 		      }
-		      if (this.match(74) || this.match(68) || this.match(80) || this.isContextual(129)) {
+		      if (this.match(74) || this.match(68) || this.match(80) || this.isContextual(131)) {
 		        node.declaration = this.flowParseDeclare(this.startNode());
 		        node.default = false;
 		        return this.finishNode(node, "DeclareExportDeclaration");
-		      } else if (this.match(55) || this.match(5) || this.isContextual(127) || this.isContextual(128) || this.isContextual(129)) {
+		      } else if (this.match(55) || this.match(5) || this.isContextual(129) || this.isContextual(130) || this.isContextual(131)) {
 		        node = this.parseExport(node, null);
 		        if (node.type === "ExportNamedDeclaration") {
 		          node.type = "ExportDeclaration";
@@ -34650,7 +34771,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		  }
 		  flowParseDeclareModuleExports(node) {
 		    this.next();
-		    this.expectContextual(109);
+		    this.expectContextual(111);
 		    node.typeAnnotation = this.flowParseTypeAnnotation();
 		    this.semicolon();
 		    return this.finishNode(node, "DeclareModuleExports");
@@ -34689,12 +34810,12 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		    if (isClass) {
 		      node.implements = [];
 		      node.mixins = [];
-		      if (this.eatContextual(115)) {
+		      if (this.eatContextual(117)) {
 		        do {
 		          node.mixins.push(this.flowParseInterfaceExtends());
 		        } while (this.eat(12));
 		      }
-		      if (this.eatContextual(111)) {
+		      if (this.eatContextual(113)) {
 		        do {
 		          node.implements.push(this.flowParseInterfaceExtends());
 		        } while (this.eat(12));
@@ -34753,7 +34874,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		    return this.finishNode(node, "TypeAlias");
 		  }
 		  flowParseOpaqueType(node, declare) {
-		    this.expectContextual(128);
+		    this.expectContextual(130);
 		    node.id = this.flowParseRestrictedIdentifier(true, true);
 		    this.scope.declareName(node.id.name, 8201, node.id.loc.start);
 		    if (this.match(47)) {
@@ -34797,7 +34918,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		    const node = this.startNode();
 		    node.params = [];
 		    this.state.inType = true;
-		    if (this.match(47) || this.match(140)) {
+		    if (this.match(47) || this.match(142)) {
 		      this.next();
 		    } else {
 		      this.unexpected();
@@ -34854,7 +34975,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		  }
 		  flowParseInterfaceType() {
 		    const node = this.startNode();
-		    this.expectContextual(127);
+		    this.expectContextual(129);
 		    node.extends = [];
 		    if (this.eat(81)) {
 		      do {
@@ -34871,7 +34992,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		    return this.finishNode(node, "InterfaceTypeAnnotation");
 		  }
 		  flowParseObjectPropertyKey() {
-		    return this.match(132) || this.match(131) ? super.parseExprAtom() : this.parseIdentifier(true);
+		    return this.match(134) || this.match(133) ? super.parseExprAtom() : this.parseIdentifier(true);
 		  }
 		  flowParseObjectTypeIndexer(node, isStatic, variance) {
 		    node.static = isStatic;
@@ -34972,7 +35093,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		      let protoStartLoc = null;
 		      let inexactStartLoc = null;
 		      const node = this.startNode();
-		      if (allowProto && this.isContextual(116)) {
+		      if (allowProto && this.isContextual(118)) {
 		        const lookahead = this.lookahead();
 		        if (lookahead.type !== 14 && lookahead.type !== 17) {
 		          this.next();
@@ -34980,7 +35101,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		          allowStatic = false;
 		        }
 		      }
-		      if (allowStatic && this.isContextual(104)) {
+		      if (allowStatic && this.isContextual(106)) {
 		        const lookahead = this.lookahead();
 		        if (lookahead.type !== 14 && lookahead.type !== 17) {
 		          this.next();
@@ -35010,7 +35131,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		        nodeStart.callProperties.push(this.flowParseObjectTypeCallProperty(node, isStatic));
 		      } else {
 		        let kind = "init";
-		        if (this.isContextual(98) || this.isContextual(103)) {
+		        if (this.isContextual(99) || this.isContextual(104)) {
 		          const lookahead = this.lookahead();
 		          if (tokenIsLiteralPropertyName(lookahead.type)) {
 		            kind = this.state.value;
@@ -35333,7 +35454,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		        node.returnType = this.flowParseType();
 		        node.typeParameters = null;
 		        return this.finishNode(node, "FunctionTypeAnnotation");
-		      case 131:
+		      case 133:
 		        return this.parseLiteral(this.state.value, "StringLiteralTypeAnnotation");
 		      case 85:
 		      case 86:
@@ -35343,10 +35464,10 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		      case 53:
 		        if (this.state.value === "-") {
 		          this.next();
-		          if (this.match(132)) {
+		          if (this.match(134)) {
 		            return this.parseLiteralAtNode(-this.state.value, "NumberLiteralTypeAnnotation", node);
 		          }
-		          if (this.match(133)) {
+		          if (this.match(135)) {
 		            return this.parseLiteralAtNode(-this.state.value, "BigIntLiteralTypeAnnotation", node);
 		          }
 		          throw this.raise(FlowErrors.UnexpectedSubtractionOperand, {
@@ -35355,9 +35476,9 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		        }
 		        this.unexpected();
 		        return;
-		      case 132:
+		      case 134:
 		        return this.parseLiteral(this.state.value, "NumberLiteralTypeAnnotation");
-		      case 133:
+		      case 135:
 		        return this.parseLiteral(this.state.value, "BigIntLiteralTypeAnnotation");
 		      case 88:
 		        this.next();
@@ -35379,7 +35500,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		          this.next();
 		          return super.createIdentifier(node, label);
 		        } else if (tokenIsIdentifier(this.state.type)) {
-		          if (this.isContextual(127)) {
+		          if (this.isContextual(129)) {
 		            return this.flowParseInterfaceType();
 		          }
 		          return this.flowIdentToTypeAnnotation(startLoc, node, this.parseIdentifier());
@@ -35464,7 +35585,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		    return type;
 		  }
 		  flowParseTypeOrImplicitInstantiation() {
-		    if (this.state.type === 130 && this.state.value === "_") {
+		    if (this.state.type === 132 && this.state.value === "_") {
 		      const startLoc = this.state.startLoc;
 		      const node = this.parseIdentifier();
 		      return this.flowParseGenericType(startLoc, node);
@@ -35520,14 +35641,14 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		    return super.parseFunctionBodyAndFinish(node, type, isMethod);
 		  }
 		  parseStatementLike(flags) {
-		    if (this.state.strict && this.isContextual(127)) {
+		    if (this.state.strict && this.isContextual(129)) {
 		      const lookahead = this.lookahead();
 		      if (tokenIsKeywordOrIdentifier(lookahead.type)) {
 		        const node = this.startNode();
 		        this.next();
 		        return this.flowParseInterface(node);
 		      }
-		    } else if (this.shouldParseEnums() && this.isContextual(124)) {
+		    } else if (this.shouldParseEnums() && this.isContextual(126)) {
 		      const node = this.startNode();
 		      this.next();
 		      return this.flowParseEnumDeclaration(node);
@@ -35560,7 +35681,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		    const {
 		      type
 		    } = this.state;
-		    if (tokenIsFlowInterfaceOrTypeOrOpaque(type) || this.shouldParseEnums() && type === 124) {
+		    if (tokenIsFlowInterfaceOrTypeOrOpaque(type) || this.shouldParseEnums() && type === 126) {
 		      return !this.state.containsEsc;
 		    }
 		    return super.shouldParseExportDeclaration();
@@ -35569,13 +35690,13 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		    const {
 		      type
 		    } = this.state;
-		    if (tokenIsFlowInterfaceOrTypeOrOpaque(type) || this.shouldParseEnums() && type === 124) {
+		    if (tokenIsFlowInterfaceOrTypeOrOpaque(type) || this.shouldParseEnums() && type === 126) {
 		      return this.state.containsEsc;
 		    }
 		    return super.isExportDefaultSpecifier();
 		  }
 		  parseExportDefaultExpression() {
-		    if (this.shouldParseEnums() && this.isContextual(124)) {
+		    if (this.shouldParseEnums() && this.isContextual(126)) {
 		      const node = this.startNode();
 		      this.next();
 		      return this.flowParseEnumDeclaration(node);
@@ -35709,7 +35830,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		    super.assertModuleNodeAllowed(node);
 		  }
 		  parseExportDeclaration(node) {
-		    if (this.isContextual(128)) {
+		    if (this.isContextual(130)) {
 		      node.exportKind = "type";
 		      const declarationNode = this.startNode();
 		      this.next();
@@ -35720,17 +35841,17 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		      } else {
 		        return this.flowParseTypeAlias(declarationNode);
 		      }
-		    } else if (this.isContextual(129)) {
+		    } else if (this.isContextual(131)) {
 		      node.exportKind = "type";
 		      const declarationNode = this.startNode();
 		      this.next();
 		      return this.flowParseOpaqueType(declarationNode, false);
-		    } else if (this.isContextual(127)) {
+		    } else if (this.isContextual(129)) {
 		      node.exportKind = "type";
 		      const declarationNode = this.startNode();
 		      this.next();
 		      return this.flowParseInterface(declarationNode);
-		    } else if (this.shouldParseEnums() && this.isContextual(124)) {
+		    } else if (this.shouldParseEnums() && this.isContextual(126)) {
 		      node.exportKind = "value";
 		      const declarationNode = this.startNode();
 		      this.next();
@@ -35741,7 +35862,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		  }
 		  eatExportStar(node) {
 		    if (super.eatExportStar(node)) return true;
-		    if (this.isContextual(128) && this.lookahead().type === 55) {
+		    if (this.isContextual(130) && this.lookahead().type === 55) {
 		      node.exportKind = "type";
 		      this.next();
 		      this.next();
@@ -35769,7 +35890,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		    const {
 		      startLoc
 		    } = this.state;
-		    if (this.isContextual(123)) {
+		    if (this.isContextual(125)) {
 		      if (super.parseClassMemberFromModifier(classBody, member)) {
 		        return;
 		      }
@@ -35800,7 +35921,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		        identifierName: fullWord
 		      });
 		    }
-		    this.finishToken(130, fullWord);
+		    this.finishToken(132, fullWord);
 		  }
 		  getTokenFromCode(code) {
 		    const next = this.input.charCodeAt(this.state.pos + 1);
@@ -35926,7 +36047,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		    if (node.superClass && this.match(47)) {
 		      node.superTypeParameters = this.flowParseTypeParameterInstantiation();
 		    }
-		    if (this.isContextual(111)) {
+		    if (this.isContextual(113)) {
 		      this.next();
 		      const implemented = node.implements = [];
 		      do {
@@ -36028,7 +36149,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		  }
 		  isPotentialImportPhase(isExport) {
 		    if (super.isPotentialImportPhase(isExport)) return true;
-		    if (this.isContextual(128)) {
+		    if (this.isContextual(130)) {
 		      if (!isExport) return true;
 		      const ch = this.lookaheadCharCode();
 		      return ch === 123 || ch === 42;
@@ -36142,7 +36263,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		    var _jsx;
 		    let state = null;
 		    let jsx;
-		    if (this.hasPlugin("jsx") && (this.match(140) || this.match(47))) {
+		    if (this.hasPlugin("jsx") && (this.match(142) || this.match(47))) {
 		      state = this.state.clone();
 		      jsx = this.tryParse(() => super.parseMaybeAssign(refExpressionErrors, afterLeftParse), state);
 		      if (!jsx.error) return jsx.node;
@@ -36428,7 +36549,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		    const startLoc = this.state.startLoc;
 		    const endOfInit = () => this.match(12) || this.match(8);
 		    switch (this.state.type) {
-		      case 132:
+		      case 134:
 		        {
 		          const literal = this.parseNumericLiteral(this.state.value);
 		          if (endOfInit()) {
@@ -36443,7 +36564,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		            loc: startLoc
 		          };
 		        }
-		      case 131:
+		      case 133:
 		        {
 		          const literal = this.parseStringLiteral(this.state.value);
 		          if (endOfInit()) {
@@ -36627,7 +36748,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		  flowEnumParseExplicitType({
 		    enumName
 		  }) {
-		    if (!this.eatContextual(101)) return null;
+		    if (!this.eatContextual(102)) return null;
 		    if (!tokenIsIdentifier(this.state.type)) {
 		      throw this.raise(FlowErrors.EnumInvalidExplicitTypeUnknownSupplied, {
 		        at: this.state.startLoc,
@@ -37055,14 +37176,14 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		          if (this.state.pos === this.state.start) {
 		            if (ch === 60 && this.state.canStartJSXElement) {
 		              ++this.state.pos;
-		              this.finishToken(140);
+		              this.finishToken(142);
 		            } else {
 		              super.getTokenFromCode(ch);
 		            }
 		            return;
 		          }
 		          out += this.input.slice(chunkStart, this.state.pos);
-		          this.finishToken(139, out);
+		          this.finishToken(141, out);
 		          return;
 		        case 38:
 		          out += this.input.slice(chunkStart, this.state.pos);
@@ -37120,7 +37241,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		      }
 		    }
 		    out += this.input.slice(chunkStart, this.state.pos++);
-		    this.finishToken(131, out);
+		    this.finishToken(133, out);
 		  }
 		  jsxReadEntity() {
 		    const startPos = ++this.state.pos;
@@ -37160,11 +37281,11 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		    do {
 		      ch = this.input.charCodeAt(++this.state.pos);
 		    } while (isIdentifierChar(ch) || ch === 45);
-		    this.finishToken(138, this.input.slice(start, this.state.pos));
+		    this.finishToken(140, this.input.slice(start, this.state.pos));
 		  }
 		  jsxParseIdentifier() {
 		    const node = this.startNode();
-		    if (this.match(138)) {
+		    if (this.match(140)) {
 		      node.name = this.state.value;
 		    } else if (tokenIsKeyword(this.state.type)) {
 		      node.name = tokenLabelName(this.state.type);
@@ -37211,8 +37332,8 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		          });
 		        }
 		        return node;
-		      case 140:
-		      case 131:
+		      case 142:
+		      case 133:
 		        return this.parseExprAtom();
 		      default:
 		        throw this.raise(JsxErrors.UnsupportedJsxValue, {
@@ -37262,7 +37383,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		  }
 		  jsxParseOpeningElementAt(startLoc) {
 		    const node = this.startNodeAt(startLoc);
-		    if (this.eat(141)) {
+		    if (this.eat(143)) {
 		      return this.finishNode(node, "JSXOpeningFragment");
 		    }
 		    node.name = this.jsxParseElementName();
@@ -37270,21 +37391,21 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		  }
 		  jsxParseOpeningElementAfterName(node) {
 		    const attributes = [];
-		    while (!this.match(56) && !this.match(141)) {
+		    while (!this.match(56) && !this.match(143)) {
 		      attributes.push(this.jsxParseAttribute());
 		    }
 		    node.attributes = attributes;
 		    node.selfClosing = this.eat(56);
-		    this.expect(141);
+		    this.expect(143);
 		    return this.finishNode(node, "JSXOpeningElement");
 		  }
 		  jsxParseClosingElementAt(startLoc) {
 		    const node = this.startNodeAt(startLoc);
-		    if (this.eat(141)) {
+		    if (this.eat(143)) {
 		      return this.finishNode(node, "JSXClosingFragment");
 		    }
 		    node.name = this.jsxParseElementName();
-		    this.expect(141);
+		    this.expect(143);
 		    return this.finishNode(node, "JSXClosingElement");
 		  }
 		  jsxParseElementAt(startLoc) {
@@ -37295,7 +37416,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		    if (!openingElement.selfClosing) {
 		      contents: for (;;) {
 		        switch (this.state.type) {
-		          case 140:
+		          case 142:
 		            startLoc = this.state.startLoc;
 		            this.next();
 		            if (this.eat(56)) {
@@ -37304,7 +37425,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		            }
 		            children.push(this.jsxParseElementAt(startLoc));
 		            break;
-		          case 139:
+		          case 141:
 		            children.push(this.parseExprAtom());
 		            break;
 		          case 5:
@@ -37368,12 +37489,12 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		    context[context.length - 1] = newContext;
 		  }
 		  parseExprAtom(refExpressionErrors) {
-		    if (this.match(139)) {
+		    if (this.match(141)) {
 		      return this.parseLiteral(this.state.value, "JSXText");
-		    } else if (this.match(140)) {
+		    } else if (this.match(142)) {
 		      return this.jsxParseElement();
 		    } else if (this.match(47) && this.input.charCodeAt(this.state.pos) !== 33) {
-		      this.replaceToken(140);
+		      this.replaceToken(142);
 		      return this.jsxParseElement();
 		    } else {
 		      return super.parseExprAtom(refExpressionErrors);
@@ -37396,7 +37517,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		      }
 		      if (code === 62) {
 		        ++this.state.pos;
-		        this.finishToken(141);
+		        this.finishToken(143);
 		        return;
 		      }
 		      if ((code === 34 || code === 39) && context === types.j_oTag) {
@@ -37406,7 +37527,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		    }
 		    if (code === 60 && this.state.canStartJSXElement && this.input.charCodeAt(this.state.pos + 1) !== 33) {
 		      ++this.state.pos;
-		      this.finishToken(140);
+		      this.finishToken(142);
 		      return;
 		    }
 		    super.getTokenFromCode(code);
@@ -37416,12 +37537,12 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		      context,
 		      type
 		    } = this.state;
-		    if (type === 56 && prevType === 140) {
+		    if (type === 56 && prevType === 142) {
 		      context.splice(-2, 2, types.j_cTag);
 		      this.state.canStartJSXElement = false;
-		    } else if (type === 140) {
+		    } else if (type === 142) {
 		      context.push(types.j_oTag);
-		    } else if (type === 141) {
+		    } else if (type === 143) {
 		      const out = context[context.length - 1];
 		      if (out === types.j_oTag && prevType === 56 || out === types.j_cTag) {
 		        context.pop();
@@ -37559,7 +37680,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		          this.expressionScope.recordArrowParameterBindingError(Errors.InvalidParenthesizedAssignment, {
 		            at: node
 		          });
-		        } else if (parenthesized.type !== "MemberExpression") {
+		        } else if (parenthesized.type !== "MemberExpression" && !this.isOptionalMemberExpression(parenthesized)) {
 		          this.raise(Errors.InvalidParenthesizedAssignment, {
 		            at: node
 		          });
@@ -37789,7 +37910,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		    } = this.state;
 		    if (type === 21) {
 		      return this.parseBindingRestProperty(prop);
-		    } else if (type === 136) {
+		    } else if (type === 138) {
 		      this.expectPlugin("destructuringPrivate", startLoc);
 		      this.classScope.usePrivateName(this.state.value, startLoc);
 		      prop.key = this.parsePrivateName();
@@ -37831,6 +37952,9 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		      ObjectPattern: "properties"
 		    }, type);
 		  }
+		  isOptionalMemberExpression(expression) {
+		    return expression.type === "OptionalMemberExpression";
+		  }
 		  checkLVal(expression, {
 		    in: ancestor,
 		    binding = 64,
@@ -37841,7 +37965,17 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		    var _expression$extra;
 		    const type = expression.type;
 		    if (this.isObjectMethod(expression)) return;
-		    if (type === "MemberExpression") {
+		    const isOptionalMemberExpression = this.isOptionalMemberExpression(expression);
+		    if (isOptionalMemberExpression || type === "MemberExpression") {
+		      if (isOptionalMemberExpression) {
+		        this.expectPlugin("optionalChainingAssign", expression.loc.start);
+		        if (ancestor.type !== "AssignmentExpression") {
+		          this.raise(Errors.InvalidLhsOptionalChaining, {
+		            at: expression,
+		            ancestor
+		          });
+		        }
+		      }
 		      if (binding !== 64) {
 		        this.raise(Errors.InvalidPropertyBindingPattern, {
 		          at: expression
@@ -37876,7 +38010,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		      return;
 		    }
 		    const [key, isParenthesizedExpression] = Array.isArray(validity) ? validity : [validity, type === "ParenthesizedExpression"];
-		    const nextAncestor = type === "ArrayPattern" || type === "ObjectPattern" || type === "ParenthesizedExpression" ? {
+		    const nextAncestor = type === "ArrayPattern" || type === "ObjectPattern" ? {
 		      type
 		    } : ancestor;
 		    for (const child of [].concat(expression[key])) {
@@ -38015,7 +38149,6 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		  InvalidPropertyAccessAfterInstantiationExpression: "Invalid property access after an instantiation expression. " + "You can either wrap the instantiation expression in parentheses, or delete the type arguments.",
 		  InvalidTupleMemberLabel: "Tuple members must be labeled with a simple identifier.",
 		  MissingInterfaceName: "'interface' declarations must be followed by an identifier.",
-		  MixedLabeledAndUnlabeledElements: "Tuple members must all have names or all not have names.",
 		  NonAbstractClassHasAbstractMethod: "Abstract methods can only appear within an abstract class.",
 		  NonClassMethodPropertyHasAbstractModifer: "'abstract' modifier can only appear on a class, method, or property declaration.",
 		  OptionalTypeBeforeRequired: "A required element cannot follow an optional element.",
@@ -38108,7 +38241,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		    return tokenIsIdentifier(this.state.type);
 		  }
 		  tsTokenCanFollowModifier() {
-		    return (this.match(0) || this.match(5) || this.match(55) || this.match(21) || this.match(136) || this.isLiteralPropertyName()) && !this.hasPrecedingLineBreak();
+		    return (this.match(0) || this.match(5) || this.match(55) || this.match(21) || this.match(138) || this.isLiteralPropertyName()) && !this.hasPrecedingLineBreak();
 		  }
 		  tsNextTokenCanFollowModifier() {
 		    this.next();
@@ -38275,7 +38408,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		    const node = this.startNode();
 		    this.expect(83);
 		    this.expect(10);
-		    if (!this.match(131)) {
+		    if (!this.match(133)) {
 		      this.raise(TSErrors.UnsupportedImportTypeArgument, {
 		        at: this.state.startLoc
 		      });
@@ -38349,7 +38482,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		  }
 		  tsParseTypeParameters(parseModifiers) {
 		    const node = this.startNode();
-		    if (this.match(47) || this.match(140)) {
+		    if (this.match(47) || this.match(142)) {
 		      this.next();
 		    } else {
 		      this.unexpected();
@@ -38544,9 +38677,9 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		  tsIsStartOfMappedType() {
 		    this.next();
 		    if (this.eat(53)) {
-		      return this.isContextual(120);
+		      return this.isContextual(122);
 		    }
-		    if (this.isContextual(120)) {
+		    if (this.isContextual(122)) {
 		      this.next();
 		    }
 		    if (!this.match(0)) {
@@ -38571,8 +38704,8 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		    if (this.match(53)) {
 		      node.readonly = this.state.value;
 		      this.next();
-		      this.expectContextual(120);
-		    } else if (this.eatContextual(120)) {
+		      this.expectContextual(122);
+		    } else if (this.eatContextual(122)) {
 		      node.readonly = true;
 		    }
 		    this.expect(0);
@@ -38595,9 +38728,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		    const node = this.startNode();
 		    node.elementTypes = this.tsParseBracketedList("TupleElementTypes", this.tsParseTupleElementType.bind(this), true, false);
 		    let seenOptionalElement = false;
-		    let labeledElements = null;
 		    node.elementTypes.forEach(elementNode => {
-		      var _labeledElements;
 		      const {
 		        type
 		      } = elementNode;
@@ -38607,18 +38738,6 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		        });
 		      }
 		      seenOptionalElement || (seenOptionalElement = type === "TSNamedTupleMember" && elementNode.optional || type === "TSOptionalType");
-		      let checkType = type;
-		      if (type === "TSRestType") {
-		        elementNode = elementNode.typeAnnotation;
-		        checkType = elementNode.type;
-		      }
-		      const isLabeled = checkType === "TSNamedTupleMember";
-		      (_labeledElements = labeledElements) != null ? _labeledElements : labeledElements = isLabeled;
-		      if (labeledElements !== isLabeled) {
-		        this.raise(TSErrors.MixedLabeledAndUnlabeledElements, {
-		          at: elementNode
-		        });
-		      }
 		    });
 		    return this.finishNode(node, "TSTupleType");
 		  }
@@ -38715,9 +38834,9 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		  tsParseLiteralTypeNode() {
 		    const node = this.startNode();
 		    switch (this.state.type) {
-		      case 132:
+		      case 134:
+		      case 135:
 		      case 133:
-		      case 131:
 		      case 85:
 		      case 86:
 		        node.literal = super.parseExprAtom();
@@ -38738,7 +38857,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		  }
 		  tsParseThisTypeOrThisTypePredicate() {
 		    const thisKeyword = this.tsParseThisTypeNode();
-		    if (this.isContextual(114) && !this.hasPrecedingLineBreak()) {
+		    if (this.isContextual(116) && !this.hasPrecedingLineBreak()) {
 		      return this.tsParseThisTypePredicate(thisKeyword);
 		    } else {
 		      return thisKeyword;
@@ -38746,9 +38865,9 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		  }
 		  tsParseNonArrayType() {
 		    switch (this.state.type) {
-		      case 131:
-		      case 132:
 		      case 133:
+		      case 134:
+		      case 135:
 		      case 85:
 		      case 86:
 		        return this.tsParseLiteralTypeNode();
@@ -38756,7 +38875,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		        if (this.state.value === "-") {
 		          const node = this.startNode();
 		          const nextToken = this.lookahead();
-		          if (nextToken.type !== 132 && nextToken.type !== 133) {
+		          if (nextToken.type !== 134 && nextToken.type !== 135) {
 		            this.unexpected();
 		          }
 		          node.literal = this.parseMaybeUnary();
@@ -38838,7 +38957,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		  }
 		  tsParseInferType() {
 		    const node = this.startNode();
-		    this.expectContextual(113);
+		    this.expectContextual(115);
 		    const typeParameter = this.startNode();
 		    typeParameter.name = this.tsParseTypeParameterName();
 		    typeParameter.constraint = this.tsTryParse(() => this.tsParseConstraintForInferType());
@@ -38855,7 +38974,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		  }
 		  tsParseTypeOperatorOrHigher() {
 		    const isTypeOperator = tokenIsTSTypeOperator(this.state.type) && !this.state.containsEsc;
-		    return isTypeOperator ? this.tsParseTypeOperator() : this.isContextual(113) ? this.tsParseInferType() : this.tsInAllowConditionalTypesContext(() => this.tsParseArrayTypeOrHigher());
+		    return isTypeOperator ? this.tsParseTypeOperator() : this.isContextual(115) ? this.tsParseInferType() : this.tsInAllowConditionalTypesContext(() => this.tsParseArrayTypeOrHigher());
 		  }
 		  tsParseUnionOrIntersectionType(kind, parseConstituentType, operator) {
 		    const node = this.startNode();
@@ -38986,13 +39105,13 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		  }
 		  tsParseTypePredicatePrefix() {
 		    const id = this.parseIdentifier();
-		    if (this.isContextual(114) && !this.hasPrecedingLineBreak()) {
+		    if (this.isContextual(116) && !this.hasPrecedingLineBreak()) {
 		      this.next();
 		      return id;
 		    }
 		  }
 		  tsParseTypePredicateAsserts() {
-		    if (this.state.type !== 107) {
+		    if (this.state.type !== 109) {
 		      return false;
 		    }
 		    const containsEsc = this.state.containsEsc;
@@ -39031,7 +39150,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		    return this.finishNode(node, "TSConditionalType");
 		  }
 		  isAbstractConstructorSignature() {
-		    return this.isContextual(122) && this.lookahead().type === 77;
+		    return this.isContextual(124) && this.lookahead().type === 77;
 		  }
 		  tsParseNonConditionalType() {
 		    if (this.tsIsStartOfFunctionType()) {
@@ -39079,7 +39198,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		  }
 		  tsParseInterfaceDeclaration(node, properties = {}) {
 		    if (this.hasFollowingLineBreak()) return null;
-		    this.expectContextual(127);
+		    this.expectContextual(129);
 		    if (properties.declare) node.declare = true;
 		    if (tokenIsIdentifier(this.state.type)) {
 		      node.id = this.parseIdentifier();
@@ -39105,7 +39224,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		    node.typeAnnotation = this.tsInType(() => {
 		      node.typeParameters = this.tsTryParseTypeParameters(this.tsParseInOutModifiers);
 		      this.expect(29);
-		      if (this.isContextual(112) && this.lookahead().type !== 16) {
+		      if (this.isContextual(114) && this.lookahead().type !== 16) {
 		        const node = this.startNode();
 		        this.next();
 		        return this.finishNode(node, "TSIntrinsicKeyword");
@@ -39170,7 +39289,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		  }
 		  tsParseEnumMember() {
 		    const node = this.startNode();
-		    node.id = this.match(131) ? super.parseStringLiteral(this.state.value) : this.parseIdentifier(true);
+		    node.id = this.match(133) ? super.parseStringLiteral(this.state.value) : this.parseIdentifier(true);
 		    if (this.eat(29)) {
 		      node.initializer = super.parseMaybeAssignAllowIn();
 		    }
@@ -39179,7 +39298,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		  tsParseEnumDeclaration(node, properties = {}) {
 		    if (properties.const) node.const = true;
 		    if (properties.declare) node.declare = true;
-		    this.expectContextual(124);
+		    this.expectContextual(126);
 		    node.id = this.parseIdentifier();
 		    this.checkIdentifier(node.id, node.const ? 8971 : 8459);
 		    this.expect(5);
@@ -39214,10 +39333,10 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		    return this.finishNode(node, "TSModuleDeclaration");
 		  }
 		  tsParseAmbientExternalModuleDeclaration(node) {
-		    if (this.isContextual(110)) {
+		    if (this.isContextual(112)) {
 		      node.global = true;
 		      node.id = this.parseIdentifier();
-		    } else if (this.match(131)) {
+		    } else if (this.match(133)) {
 		      node.id = super.parseStringLiteral(this.state.value);
 		    } else {
 		      this.unexpected();
@@ -39249,16 +39368,16 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		    return this.finishNode(node, "TSImportEqualsDeclaration");
 		  }
 		  tsIsExternalModuleReference() {
-		    return this.isContextual(117) && this.lookaheadCharCode() === 40;
+		    return this.isContextual(119) && this.lookaheadCharCode() === 40;
 		  }
 		  tsParseModuleReference() {
 		    return this.tsIsExternalModuleReference() ? this.tsParseExternalModuleReference() : this.tsParseEntityName(false);
 		  }
 		  tsParseExternalModuleReference() {
 		    const node = this.startNode();
-		    this.expectContextual(117);
+		    this.expectContextual(119);
 		    this.expect(10);
-		    if (!this.match(131)) {
+		    if (!this.match(133)) {
 		      this.unexpected();
 		    }
 		    node.expression = super.parseExprAtom();
@@ -39292,7 +39411,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		    }
 		    let startType = this.state.type;
 		    let kind;
-		    if (this.isContextual(99)) {
+		    if (this.isContextual(100)) {
 		      startType = 74;
 		      kind = "let";
 		    }
@@ -39304,11 +39423,11 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		        case 80:
 		          nany.declare = true;
 		          return this.parseClass(nany, true, false);
-		        case 124:
+		        case 126:
 		          return this.tsParseEnumDeclaration(nany, {
 		            declare: true
 		          });
-		        case 110:
+		        case 112:
 		          return this.tsParseAmbientExternalModuleDeclaration(nany);
 		        case 75:
 		        case 74:
@@ -39321,7 +39440,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		            const: true,
 		            declare: true
 		          });
-		        case 127:
+		        case 129:
 		          {
 		            const result = this.tsParseInterfaceDeclaration(nany, {
 		              declare: true
@@ -39374,7 +39493,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		        break;
 		      case "module":
 		        if (this.tsCheckLineTerminator(next)) {
-		          if (this.match(131)) {
+		          if (this.match(133)) {
 		            return this.tsParseAmbientExternalModuleDeclaration(node);
 		          } else if (tokenIsIdentifier(this.state.type)) {
 		            return this.tsParseModuleOrNamespaceDeclaration(node);
@@ -39628,7 +39747,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		  }
 		  parseExprOp(left, leftStartLoc, minPrec) {
 		    let isSatisfies;
-		    if (tokenOperatorPrecedence(58) > minPrec && !this.hasPrecedingLineBreak() && (this.isContextual(93) || (isSatisfies = this.isContextual(118)))) {
+		    if (tokenOperatorPrecedence(58) > minPrec && !this.hasPrecedingLineBreak() && (this.isContextual(93) || (isSatisfies = this.isContextual(120)))) {
 		      const node = this.startNodeAt(leftStartLoc);
 		      node.expression = left;
 		      node.typeAnnotation = this.tsInType(() => {
@@ -39666,7 +39785,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		  checkDuplicateExports() {}
 		  isPotentialImportPhase(isExport) {
 		    if (super.isPotentialImportPhase(isExport)) return true;
-		    if (this.isContextual(128)) {
+		    if (this.isContextual(130)) {
 		      const ch = this.lookaheadCharCode();
 		      return isExport ? ch === 123 || ch === 42 : ch !== 61;
 		    }
@@ -39681,7 +39800,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		    }
 		  }
 		  parseImport(node) {
-		    if (this.match(131)) {
+		    if (this.match(133)) {
 		      node.importKind = "value";
 		      return super.parseImport(node);
 		    }
@@ -39689,7 +39808,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		    if (tokenIsIdentifier(this.state.type) && this.lookaheadCharCode() === 61) {
 		      node.importKind = "value";
 		      return this.tsParseImportEqualsDeclaration(node);
-		    } else if (this.isContextual(128)) {
+		    } else if (this.isContextual(130)) {
 		      const maybeDefaultIdentifier = this.parseMaybeImportPhase(node, false);
 		      if (this.lookaheadCharCode() === 61) {
 		        return this.tsParseImportEqualsDeclaration(node, maybeDefaultIdentifier);
@@ -39710,7 +39829,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		    if (this.match(83)) {
 		      this.next();
 		      let maybeDefaultIdentifier = null;
-		      if (this.isContextual(128) && this.isPotentialImportPhase(false)) {
+		      if (this.isContextual(130) && this.isPotentialImportPhase(false)) {
 		        maybeDefaultIdentifier = this.parseMaybeImportPhase(node, false);
 		      } else {
 		        node.importKind = "value";
@@ -39724,7 +39843,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		      return this.finishNode(assign, "TSExportAssignment");
 		    } else if (this.eatContextual(93)) {
 		      const decl = node;
-		      this.expectContextual(126);
+		      this.expectContextual(128);
 		      decl.id = this.parseIdentifier();
 		      this.semicolon();
 		      return this.finishNode(decl, "TSNamespaceExportDeclaration");
@@ -39733,7 +39852,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		    }
 		  }
 		  isAbstractClass() {
-		    return this.isContextual(122) && this.lookahead().type === 80;
+		    return this.isContextual(124) && this.lookahead().type === 80;
 		  }
 		  parseExportDefaultExpression() {
 		    if (this.isAbstractClass()) {
@@ -39742,7 +39861,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		      cls.abstract = true;
 		      return this.parseClass(cls, true, true);
 		    }
-		    if (this.match(127)) {
+		    if (this.match(129)) {
 		      const result = this.tsParseInterfaceDeclaration(this.startNode());
 		      if (result) return result;
 		    }
@@ -39779,10 +39898,10 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		        const: true
 		      });
 		    }
-		    if (this.isContextual(124)) {
+		    if (this.isContextual(126)) {
 		      return this.tsParseEnumDeclaration(this.startNode());
 		    }
-		    if (this.isContextual(127)) {
+		    if (this.isContextual(129)) {
 		      const result = this.tsParseInterfaceDeclaration(this.startNode());
 		      if (result) return result;
 		    }
@@ -39800,7 +39919,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		    });
 		  }
 		  tsIsStartOfStaticBlocks() {
-		    return this.isContextual(104) && this.lookaheadCharCode() === 123;
+		    return this.isContextual(106) && this.lookaheadCharCode() === 123;
 		  }
 		  parseClassMember(classBody, member, state) {
 		    const modifiers = ["declare", "private", "public", "protected", "override", "abstract", "readonly", "static"];
@@ -39922,12 +40041,12 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		    return node;
 		  }
 		  parseExportDeclaration(node) {
-		    if (!this.state.isAmbientContext && this.isContextual(123)) {
+		    if (!this.state.isAmbientContext && this.isContextual(125)) {
 		      return this.tsInAmbientContext(() => this.parseExportDeclaration(node));
 		    }
 		    const startLoc = this.state.startLoc;
-		    const isDeclare = this.eatContextual(123);
-		    if (isDeclare && (this.isContextual(123) || !this.shouldParseExportDeclaration())) {
+		    const isDeclare = this.eatContextual(125);
+		    if (isDeclare && (this.isContextual(125) || !this.shouldParseExportDeclaration())) {
 		      throw this.raise(TSErrors.ExpectedAmbientAfterExportDeclare, {
 		        at: this.state.startLoc
 		      });
@@ -39945,7 +40064,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		    return declaration;
 		  }
 		  parseClassId(node, isStatement, optionalId, bindingType) {
-		    if ((!isStatement || optionalId) && this.isContextual(111)) {
+		    if ((!isStatement || optionalId) && this.isContextual(113)) {
 		      return;
 		    }
 		    super.parseClassId(node, isStatement, optionalId, node.declare ? 1024 : 8331);
@@ -40040,7 +40159,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		    if (node.superClass && (this.match(47) || this.match(51))) {
 		      node.superTypeParameters = this.tsParseTypeArgumentsInExpression();
 		    }
-		    if (this.eatContextual(111)) {
+		    if (this.eatContextual(113)) {
 		      node.implements = this.tsParseHeritageClause("implements");
 		    }
 		  }
@@ -40076,7 +40195,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		    let state;
 		    let jsx;
 		    let typeCast;
-		    if (this.hasPlugin("jsx") && (this.match(140) || this.match(47))) {
+		    if (this.hasPlugin("jsx") && (this.match(142) || this.match(47))) {
 		      state = this.state.clone();
 		      jsx = this.tryParse(() => super.parseMaybeAssign(refExpressionErrors, afterLeftParse), state);
 		      if (!jsx.error) return jsx.node;
@@ -40389,7 +40508,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		    if (this.match(80)) {
 		      node.abstract = true;
 		      return this.maybeTakeDecorators(decorators, this.parseClass(node, true, false));
-		    } else if (this.isContextual(127)) {
+		    } else if (this.isContextual(129)) {
 		      if (!this.hasFollowingLineBreak()) {
 		        node.abstract = true;
 		        this.raise(TSErrors.NonClassMethodPropertyHasAbstractModifer, {
@@ -40586,13 +40705,13 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		});
 		var placeholders = superClass => class PlaceholdersParserMixin extends superClass {
 		  parsePlaceholder(expectedNode) {
-		    if (this.match(142)) {
+		    if (this.match(144)) {
 		      const node = this.startNode();
 		      this.next();
 		      this.assertNoSpace();
 		      node.name = super.parseIdentifier(true);
 		      this.assertNoSpace();
-		      this.expect(142);
+		      this.expect(144);
 		      return this.finishPlaceholder(node, expectedNode);
 		    }
 		  }
@@ -40603,7 +40722,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		  }
 		  getTokenFromCode(code) {
 		    if (code === 37 && this.input.charCodeAt(this.state.pos + 1) === 37) {
-		      this.finishOp(142, 2);
+		      this.finishOp(144, 2);
 		    } else {
 		      super.getTokenFromCode(code);
 		    }
@@ -40637,7 +40756,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		      return true;
 		    }
 		    const nextToken = this.lookahead();
-		    if (nextToken.type === 142) {
+		    if (nextToken.type === 144) {
 		      return true;
 		    }
 		    return false;
@@ -40674,7 +40793,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		    const oldStrict = this.state.strict;
 		    const placeholder = this.parsePlaceholder("Identifier");
 		    if (placeholder) {
-		      if (this.match(81) || this.match(142) || this.match(5)) {
+		      if (this.match(81) || this.match(144) || this.match(5)) {
 		        node.id = placeholder;
 		      } else if (optionalId || !isStatement) {
 		        node.id = null;
@@ -40695,7 +40814,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		  parseExport(node, decorators) {
 		    const placeholder = this.parsePlaceholder("Identifier");
 		    if (!placeholder) return super.parseExport(node, decorators);
-		    if (!this.isContextual(97) && !this.match(12)) {
+		    if (!this.isContextual(98) && !this.match(12)) {
 		      node.specifiers = [];
 		      node.source = null;
 		      node.declaration = this.finishPlaceholder(placeholder, "Declaration");
@@ -40711,7 +40830,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		    if (this.match(65)) {
 		      const next = this.nextTokenStart();
 		      if (this.isUnparsedContextual(next, "from")) {
-		        if (this.input.startsWith(tokenLabelName(142), this.nextTokenStartSince(next + 4))) {
+		        if (this.input.startsWith(tokenLabelName(144), this.nextTokenStartSince(next + 4))) {
 		          return true;
 		        }
 		      }
@@ -40739,7 +40858,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		    const placeholder = this.parsePlaceholder("Identifier");
 		    if (!placeholder) return super.parseImport(node);
 		    node.specifiers = [];
-		    if (!this.isContextual(97) && !this.match(12)) {
+		    if (!this.isContextual(98) && !this.match(12)) {
 		      node.source = this.finishPlaceholder(placeholder, "StringLiteral");
 		      this.semicolon();
 		      return this.finishNode(node, "ImportDeclaration");
@@ -40751,7 +40870,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		      const hasStarImport = this.maybeParseStarImportSpecifier(node);
 		      if (!hasStarImport) this.parseNamedImportSpecifiers(node);
 		    }
-		    this.expectContextual(97);
+		    this.expectContextual(98);
 		    node.source = this.parseImportSource();
 		    this.semicolon();
 		    return this.finishNode(node, "ImportDeclaration");
@@ -40895,6 +41014,9 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		    error.missingPlugins = "doExpressions";
 		    throw error;
 		  }
+		  if (hasPlugin(plugins, "optionalChainingAssign") && getPluginOption(plugins, "optionalChainingAssign", "version") !== "2023-07") {
+		    throw new Error("The 'optionalChainingAssign' plugin requires a 'version' option," + " representing the last proposal update. Currently, the" + " only supported value is '2023-07'.");
+		  }
 		}
 		const mixinPlugins = {
 		  estree,
@@ -40920,6 +41042,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		  strictMode: null,
 		  ranges: false,
 		  tokens: false,
+		  createImportExpressions: false,
 		  createParenthesizedExpressions: false,
 		  errorRecovery: false,
 		  attachComment: true,
@@ -40974,7 +41097,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		    this.enterInitialScopes();
 		    this.nextToken();
 		    const expr = this.parseExpression();
-		    if (!this.match(137)) {
+		    if (!this.match(139)) {
 		      this.unexpected();
 		    }
 		    this.finalizeRemainingComments();
@@ -41017,7 +41140,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		  }
 		  parseMaybeAssign(refExpressionErrors, afterLeftParse) {
 		    const startLoc = this.state.startLoc;
-		    if (this.isContextual(106)) {
+		    if (this.isContextual(108)) {
 		      if (this.prodParam.hasYield) {
 		        let left = this.parseYield();
 		        if (afterLeftParse) {
@@ -41096,7 +41219,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		    return expr;
 		  }
 		  parseMaybeUnaryOrPrivate(refExpressionErrors) {
-		    return this.match(136) ? this.parsePrivateName() : this.parseMaybeUnary(refExpressionErrors);
+		    return this.match(138) ? this.parsePrivateName() : this.parseMaybeUnary(refExpressionErrors);
 		  }
 		  parseExprOps(refExpressionErrors) {
 		    const startLoc = this.state.startLoc;
@@ -41171,7 +41294,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		            });
 		          case "smart":
 		            return this.withTopicBindingContext(() => {
-		              if (this.prodParam.hasYield && this.isContextual(106)) {
+		              if (this.prodParam.hasYield && this.isContextual(108)) {
 		                throw this.raise(Errors.PipeBodyIsTighter, {
 		                  at: this.state.startLoc
 		                });
@@ -41359,7 +41482,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		    if (computed) {
 		      node.property = this.parseExpression();
 		      this.expect(3);
-		    } else if (this.match(136)) {
+		    } else if (this.match(138)) {
 		      if (base.type === "Super") {
 		        this.raise(Errors.SuperPrivateField, {
 		          at: startLoc
@@ -41536,12 +41659,18 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		        if (this.match(16)) {
 		          return this.parseImportMetaProperty(node);
 		        }
-		        if (!this.match(10)) {
+		        if (this.match(10)) {
+		          if (this.options.createImportExpressions) {
+		            return this.parseImportCall(node);
+		          } else {
+		            return this.finishNode(node, "Import");
+		          }
+		        } else {
 		          this.raise(Errors.UnsupportedImport, {
 		            at: this.state.lastTokStartLoc
 		          });
+		          return this.finishNode(node, "Import");
 		        }
-		        return this.finishNode(node, "Import");
 		      case 78:
 		        node = this.startNode();
 		        this.next();
@@ -41556,13 +41685,13 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		          this.readRegexp();
 		          return this.parseRegExpLiteral(this.state.value);
 		        }
-		      case 132:
-		        return this.parseNumericLiteral(this.state.value);
-		      case 133:
-		        return this.parseBigIntLiteral(this.state.value);
 		      case 134:
+		        return this.parseNumericLiteral(this.state.value);
+		      case 135:
+		        return this.parseBigIntLiteral(this.state.value);
+		      case 136:
 		        return this.parseDecimalLiteral(this.state.value);
-		      case 131:
+		      case 133:
 		        return this.parseStringLiteral(this.state.value);
 		      case 84:
 		        return this.parseNullLiteral();
@@ -41618,7 +41747,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		            });
 		          }
 		        }
-		      case 136:
+		      case 138:
 		        {
 		          this.raise(Errors.PrivateInExpectedIn, {
 		            at: this.state.startLoc,
@@ -41662,7 +41791,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		        }
 		      default:
 		        if (tokenIsIdentifier(type)) {
-		          if (this.isContextual(125) && this.lookaheadInLineCharCode() === 123) {
+		          if (this.isContextual(127) && this.lookaheadInLineCharCode() === 123) {
 		            return this.parseModuleExpression();
 		          }
 		          const canBeArrow = this.state.potentialArrowAt === this.state.start;
@@ -41814,7 +41943,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		    if (this.prodParam.hasYield && this.match(16)) {
 		      const meta = this.createIdentifier(this.startNodeAtNode(node), "function");
 		      this.next();
-		      if (this.match(102)) {
+		      if (this.match(103)) {
 		        this.expectPlugin("functionSent");
 		      } else if (!this.hasPlugin("functionSent")) {
 		        this.unexpected();
@@ -41839,13 +41968,26 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		  parseImportMetaProperty(node) {
 		    const id = this.createIdentifier(this.startNodeAtNode(node), "import");
 		    this.next();
-		    if (this.isContextual(100)) {
+		    if (this.isContextual(101)) {
 		      if (!this.inModule) {
 		        this.raise(Errors.ImportMetaOutsideModule, {
 		          at: id
 		        });
 		      }
 		      this.sawUnambiguousESM = true;
+		    } else if (this.isContextual(105) || this.isContextual(97)) {
+		      const isSource = this.isContextual(105);
+		      if (!isSource) this.unexpected();
+		      this.expectPlugin(isSource ? "sourcePhaseImports" : "deferredImportEvaluation");
+		      if (!this.options.createImportExpressions) {
+		        throw this.raise(Errors.DynamicImportPhaseRequiresImportExpressions, {
+		          at: this.state.startLoc,
+		          phase: this.state.value
+		        });
+		      }
+		      this.next();
+		      node.phase = isSource ? "source" : "defer";
+		      return this.parseImportCall(node);
 		    }
 		    return this.parseMetaProperty(node, id, "meta");
 		  }
@@ -42005,10 +42147,12 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		    return this.finishNode(node, "NewExpression");
 		  }
 		  parseNewCallee(node) {
-		    node.callee = this.parseNoCallExpr();
-		    if (node.callee.type === "Import") {
+		    const isImport = this.match(83);
+		    const callee = this.parseNoCallExpr();
+		    node.callee = callee;
+		    if (isImport && (callee.type === "Import" || callee.type === "ImportExpression")) {
 		      this.raise(Errors.ImportCallNotNewExpression, {
-		        at: node.callee
+		        at: callee
 		      });
 		    }
 		  }
@@ -42251,19 +42395,19 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		        key = this.parseIdentifier(true);
 		      } else {
 		        switch (type) {
-		          case 132:
+		          case 134:
 		            key = this.parseNumericLiteral(value);
 		            break;
-		          case 131:
+		          case 133:
 		            key = this.parseStringLiteral(value);
 		            break;
-		          case 133:
+		          case 135:
 		            key = this.parseBigIntLiteral(value);
 		            break;
-		          case 134:
+		          case 136:
 		            key = this.parseDecimalLiteral(value);
 		            break;
-		          case 136:
+		          case 138:
 		            {
 		              const privateKeyLoc = this.state.startLoc;
 		              if (refExpressionErrors != null) {
@@ -42283,7 +42427,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		        }
 		      }
 		      prop.key = key;
-		      if (type !== 136) {
+		      if (type !== 138) {
 		        prop.computed = false;
 		      }
 		    }
@@ -42469,7 +42613,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		    const tokenIsKeyword = tokenKeywordOrIdentifierIsKeyword(type);
 		    if (liberal) {
 		      if (tokenIsKeyword) {
-		        this.replaceToken(130);
+		        this.replaceToken(132);
 		      }
 		    } else {
 		      this.checkReservedWord(name, startLoc, tokenIsKeyword, false);
@@ -42564,7 +42708,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		    const {
 		      type
 		    } = this.state;
-		    return type === 53 || type === 10 || type === 0 || tokenIsTemplate(type) || type === 101 && !this.state.containsEsc || type === 135 || type === 56 || this.hasPlugin("v8intrinsic") && type === 54;
+		    return type === 53 || type === 10 || type === 0 || tokenIsTemplate(type) || type === 102 && !this.state.containsEsc || type === 137 || type === 56 || this.hasPlugin("v8intrinsic") && type === 54;
 		  }
 		  parseYield() {
 		    const node = this.startNode();
@@ -42578,7 +42722,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		      delegating = this.eat(55);
 		      switch (this.state.type) {
 		        case 13:
-		        case 137:
+		        case 139:
 		        case 8:
 		        case 11:
 		        case 3:
@@ -42593,6 +42737,22 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		    node.delegate = delegating;
 		    node.argument = argument;
 		    return this.finishNode(node, "YieldExpression");
+		  }
+		  parseImportCall(node) {
+		    this.next();
+		    node.source = this.parseMaybeAssignAllowIn();
+		    if (this.hasPlugin("importAttributes") || this.hasPlugin("importAssertions")) {
+		      node.options = null;
+		    }
+		    if (this.eat(12)) {
+		      this.expectImportAttributesPlugin();
+		      if (!this.match(11)) {
+		        node.options = this.parseMaybeAssignAllowIn();
+		        this.eat(12);
+		      }
+		    }
+		    this.expect(11);
+		    return this.finishNode(node, "ImportExpression");
 		  }
 		  checkPipelineAtInfixOperator(left, leftStartLoc) {
 		    if (this.hasPlugin(["pipelineOperator", {
@@ -42758,7 +42918,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		    } = token;
 		    if (typeof type === "number") {
 		      {
-		        if (type === 136) {
+		        if (type === 138) {
 		          const {
 		            loc,
 		            start,
@@ -42775,7 +42935,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		            startLoc: loc.start,
 		            endLoc: hashEndLoc
 		          }), new Token({
-		            type: getExportedToken(130),
+		            type: getExportedToken(132),
 		            value: value,
 		            start: hashEndPos,
 		            end: end,
@@ -42866,7 +43026,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		    }
 		    return this.finishNode(file, "File");
 		  }
-		  parseProgram(program, end = 137, sourceType = this.options.sourceType) {
+		  parseProgram(program, end = 139, sourceType = this.options.sourceType) {
 		    program.sourceType = sourceType;
 		    program.interpreter = this.parseInterpreterDirective();
 		    this.parseBlockBody(program, true, true, end);
@@ -42879,7 +43039,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		      }
 		    }
 		    let finishedProgram;
-		    if (end === 137) {
+		    if (end === 139) {
 		      finishedProgram = this.finishNode(program, "Program");
 		    } else {
 		      finishedProgram = this.finishNodeAt(program, "Program", createPositionWithColumnOffset(this.state.startLoc, -1));
@@ -42911,7 +43071,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		    return this.finishNode(node, "InterpreterDirective");
 		  }
 		  isLet() {
-		    if (!this.isContextual(99)) {
+		    if (!this.isContextual(100)) {
 		      return false;
 		    }
 		    return this.hasFollowingBindingAtom();
@@ -42950,7 +43110,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		      type,
 		      containsEsc
 		    } = this.lookahead();
-		    if (type === 101 && !containsEsc) {
+		    if (type === 102 && !containsEsc) {
 		      return false;
 		    } else if (tokenIsIdentifier(type) && !this.hasFollowingLineBreak()) {
 		      this.expectPlugin("explicitResourceManagement");
@@ -43048,7 +43208,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		          return this.parseVarStatement(node, "await using");
 		        }
 		        break;
-		      case 105:
+		      case 107:
 		        if (this.state.containsEsc || !this.hasInLineFollowingBindingIdentifier()) {
 		          break;
 		        }
@@ -43063,7 +43223,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		          });
 		        }
 		        return this.parseVarStatement(node, "using");
-		      case 99:
+		      case 100:
 		        {
 		          if (this.state.containsEsc) {
 		            break;
@@ -43226,7 +43386,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		        while (this.eat(16)) {
 		          const node = this.startNodeAt(startLoc);
 		          node.object = expr;
-		          if (this.match(136)) {
+		          if (this.match(138)) {
 		            this.classScope.usePrivateName(this.state.value, this.state.startLoc);
 		            node.property = this.parsePrivateName();
 		          } else {
@@ -43316,10 +43476,10 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		      }
 		      return this.parseFor(node, null);
 		    }
-		    const startsWithLet = this.isContextual(99);
+		    const startsWithLet = this.isContextual(100);
 		    {
 		      const startsWithAwaitUsing = this.isContextual(96) && this.startsAwaitUsing();
-		      const starsWithUsingDeclaration = startsWithAwaitUsing || this.isContextual(105) && this.startsUsingForOf();
+		      const starsWithUsingDeclaration = startsWithAwaitUsing || this.isContextual(107) && this.startsUsingForOf();
 		      const isLetOrUsing = startsWithLet && this.hasFollowingBindingAtom() || starsWithUsingDeclaration;
 		      if (this.match(74) || this.match(75) || isLetOrUsing) {
 		        const initNode = this.startNode();
@@ -43344,7 +43504,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		            at: init
 		          });
 		        }
-		        if ((isForIn || this.isContextual(101)) && init.declarations.length === 1) {
+		        if ((isForIn || this.isContextual(102)) && init.declarations.length === 1) {
 		          return this.parseForIn(node, init, awaitAt);
 		        }
 		        if (awaitAt !== null) {
@@ -43356,7 +43516,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		    const startsWithAsync = this.isContextual(95);
 		    const refExpressionErrors = new ExpressionErrors();
 		    const init = this.parseExpression(true, refExpressionErrors);
-		    const isForOf = this.isContextual(101);
+		    const isForOf = this.isContextual(102);
 		    if (isForOf) {
 		      if (startsWithLet) {
 		        this.raise(Errors.ForOfLet, {
@@ -43666,12 +43826,12 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		      this.parseVarId(decl, kind);
 		      decl.init = !this.eat(29) ? null : isFor ? this.parseMaybeAssignDisallowIn() : this.parseMaybeAssignAllowIn();
 		      if (decl.init === null && !allowMissingInitializer) {
-		        if (decl.id.type !== "Identifier" && !(isFor && (this.match(58) || this.isContextual(101)))) {
+		        if (decl.id.type !== "Identifier" && !(isFor && (this.match(58) || this.isContextual(102)))) {
 		          this.raise(Errors.DeclarationMissingInitializer, {
 		            at: this.state.lastTokEndLoc,
 		            kind: "destructuring"
 		          });
-		        } else if (kind === "const" && !(this.match(58) || this.isContextual(101))) {
+		        } else if (kind === "const" && !(this.match(58) || this.isContextual(102))) {
 		          this.raise(Errors.DeclarationMissingInitializer, {
 		            at: this.state.lastTokEndLoc,
 		            kind: "const"
@@ -43834,7 +43994,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		    return false;
 		  }
 		  parseClassMember(classBody, member, state) {
-		    const isStatic = this.isContextual(104);
+		    const isStatic = this.isContextual(106);
 		    if (isStatic) {
 		      if (this.parseClassMemberFromModifier(classBody, member)) {
 		        return;
@@ -43858,7 +44018,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		    this.parsePropertyNamePrefixOperator(member);
 		    if (this.eat(55)) {
 		      method.kind = "method";
-		      const isPrivateName = this.match(136);
+		      const isPrivateName = this.match(138);
 		      this.parseClassElementName(method);
 		      if (isPrivateName) {
 		        this.pushClassPrivateMethod(classBody, privateMethod, true, false);
@@ -43873,7 +44033,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		      return;
 		    }
 		    const isContextual = tokenIsIdentifier(this.state.type) && !this.state.containsEsc;
-		    const isPrivate = this.match(136);
+		    const isPrivate = this.match(138);
 		    const key = this.parseClassElementName(member);
 		    const maybeQuestionTokenStartLoc = this.state.startLoc;
 		    this.parsePostMemberNameModifiers(publicMember);
@@ -43914,7 +44074,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		        this.unexpected(maybeQuestionTokenStartLoc);
 		      }
 		      method.kind = "method";
-		      const isPrivate = this.match(136);
+		      const isPrivate = this.match(138);
 		      this.parseClassElementName(method);
 		      this.parsePostMemberNameModifiers(publicMember);
 		      if (isPrivate) {
@@ -43930,7 +44090,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		    } else if (isContextual && (key.name === "get" || key.name === "set") && !(this.match(55) && this.isLineTerminator())) {
 		      this.resetPreviousNodeTrailingComments(key);
 		      method.kind = key.name;
-		      const isPrivate = this.match(136);
+		      const isPrivate = this.match(138);
 		      this.parseClassElementName(publicMethod);
 		      if (isPrivate) {
 		        this.pushClassPrivateMethod(classBody, privateMethod, false, false);
@@ -43946,7 +44106,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		    } else if (isContextual && key.name === "accessor" && !this.isLineTerminator()) {
 		      this.expectPlugin("decoratorAutoAccessors");
 		      this.resetPreviousNodeTrailingComments(key);
-		      const isPrivate = this.match(136);
+		      const isPrivate = this.match(138);
 		      this.parseClassElementName(publicProp);
 		      this.pushClassAccessorProperty(classBody, accessorProp, isPrivate);
 		    } else if (this.isLineTerminator()) {
@@ -43964,12 +44124,12 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		      type,
 		      value
 		    } = this.state;
-		    if ((type === 130 || type === 131) && member.static && value === "prototype") {
+		    if ((type === 132 || type === 133) && member.static && value === "prototype") {
 		      this.raise(Errors.StaticPrototype, {
 		        at: this.state.startLoc
 		      });
 		    }
-		    if (type === 136) {
+		    if (type === 138) {
 		      if (value === "constructor") {
 		        this.raise(Errors.ConstructorClassPrivateField, {
 		          at: this.state.startLoc
@@ -44106,7 +44266,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		      this.unexpected(null, 5);
 		    }
 		    if (hasNamespace && parseAfterNamespace) {
-		      this.unexpected(null, 97);
+		      this.unexpected(null, 98);
 		    }
 		    let hasDeclaration;
 		    if (isFromRequired || hasSpecifiers) {
@@ -44247,14 +44407,14 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		      type
 		    } = this.state;
 		    if (tokenIsIdentifier(type)) {
-		      if (type === 95 && !this.state.containsEsc || type === 99) {
+		      if (type === 95 && !this.state.containsEsc || type === 100) {
 		        return false;
 		      }
-		      if ((type === 128 || type === 127) && !this.state.containsEsc) {
+		      if ((type === 130 || type === 129) && !this.state.containsEsc) {
 		        const {
 		          type: nextType
 		        } = this.lookahead();
-		        if (tokenIsIdentifier(nextType) && nextType !== 97 || nextType === 5) {
+		        if (tokenIsIdentifier(nextType) && nextType !== 98 || nextType === 5) {
 		          this.expectOnePlugin(["flow", "typescript"]);
 		          return false;
 		        }
@@ -44274,7 +44434,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		    return false;
 		  }
 		  parseExportFrom(node, expect) {
-		    if (this.eatContextual(97)) {
+		    if (this.eatContextual(98)) {
 		      node.source = this.parseImportSource();
 		      this.checkExport(node);
 		      this.maybeParseImportAttributes(node);
@@ -44398,8 +44558,8 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		        this.expect(12);
 		        if (this.eat(8)) break;
 		      }
-		      const isMaybeTypeOnly = this.isContextual(128);
-		      const isString = this.match(131);
+		      const isMaybeTypeOnly = this.isContextual(130);
+		      const isString = this.match(133);
 		      const node = this.startNode();
 		      node.local = this.parseModuleExportName();
 		      nodes.push(this.parseExportSpecifier(node, isString, isInTypeExport, isMaybeTypeOnly));
@@ -44417,7 +44577,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		    return this.finishNode(node, "ExportSpecifier");
 		  }
 		  parseModuleExportName() {
-		    if (this.match(131)) {
+		    if (this.match(133)) {
 		      const result = this.parseStringLiteral(this.state.value);
 		      const surrogate = result.value.match(loneSurrogate);
 		      if (surrogate) {
@@ -44442,11 +44602,27 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		    return false;
 		  }
 		  checkImportReflection(node) {
-		    if (node.module) {
+		    const {
+		      specifiers
+		    } = node;
+		    const singleBindingType = specifiers.length === 1 ? specifiers[0].type : null;
+		    if (node.phase === "source") {
+		      if (singleBindingType !== "ImportDefaultSpecifier") {
+		        this.raise(Errors.SourcePhaseImportRequiresDefault, {
+		          at: specifiers[0].loc.start
+		        });
+		      }
+		    } else if (node.phase === "defer") {
+		      if (singleBindingType !== "ImportNamespaceSpecifier") {
+		        this.raise(Errors.DeferImportRequiresNamespace, {
+		          at: specifiers[0].loc.start
+		        });
+		      }
+		    } else if (node.module) {
 		      var _node$assertions;
-		      if (node.specifiers.length !== 1 || node.specifiers[0].type !== "ImportDefaultSpecifier") {
+		      if (singleBindingType !== "ImportDefaultSpecifier") {
 		        this.raise(Errors.ImportReflectionNotBinding, {
-		          at: node.specifiers[0].loc.start
+		          at: specifiers[0].loc.start
 		        });
 		      }
 		      if (((_node$assertions = node.assertions) == null ? void 0 : _node$assertions.length) > 0) {
@@ -44482,7 +44658,8 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		    }
 		  }
 		  isPotentialImportPhase(isExport) {
-		    return !isExport && this.isContextual(125);
+		    if (isExport) return false;
+		    return this.isContextual(105) || this.isContextual(97) || this.isContextual(127);
 		  }
 		  applyImportPhase(node, isExport, phase, loc) {
 		    if (isExport) {
@@ -44494,6 +44671,15 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		    } else if (this.hasPlugin("importReflection")) {
 		      node.module = false;
 		    }
+		    if (phase === "source") {
+		      this.expectPlugin("sourcePhaseImports", loc);
+		      node.phase = "source";
+		    } else if (phase === "defer") {
+		      this.expectPlugin("deferredImportEvaluation", loc);
+		      node.phase = "defer";
+		    } else if (this.hasPlugin("sourcePhaseImports")) {
+		      node.phase = null;
+		    }
 		  }
 		  parseMaybeImportPhase(node, isExport) {
 		    if (!this.isPotentialImportPhase(isExport)) {
@@ -44504,7 +44690,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		    const {
 		      type
 		    } = this.state;
-		    const isImportPhase = tokenIsKeywordOrIdentifier(type) ? type !== 97 || this.lookaheadCharCode() === 102 : type !== 12;
+		    const isImportPhase = tokenIsKeywordOrIdentifier(type) ? type !== 98 || this.lookaheadCharCode() === 102 : type !== 12;
 		    if (isImportPhase) {
 		      this.resetPreviousIdentifierLeadingComments(phaseIdentifier);
 		      this.applyImportPhase(node, isExport, phaseIdentifier.name, phaseIdentifier.loc.start);
@@ -44518,10 +44704,10 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		    const {
 		      type
 		    } = this.state;
-		    return tokenIsIdentifier(type) ? type !== 97 || this.lookaheadCharCode() === 102 : type !== 12;
+		    return tokenIsIdentifier(type) ? type !== 98 || this.lookaheadCharCode() === 102 : type !== 12;
 		  }
 		  parseImport(node) {
-		    if (this.match(131)) {
+		    if (this.match(133)) {
 		      return this.parseImportSourceAndAttributes(node);
 		    }
 		    return this.parseImportSpecifiersAndAfter(node, this.parseMaybeImportPhase(node, false));
@@ -44532,7 +44718,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		    const parseNext = !hasDefault || this.eat(12);
 		    const hasStar = parseNext && this.maybeParseStarImportSpecifier(node);
 		    if (parseNext && !hasStar) this.parseNamedImportSpecifiers(node);
-		    this.expectContextual(97);
+		    this.expectContextual(98);
 		    return this.parseImportSourceAndAttributes(node);
 		  }
 		  parseImportSourceAndAttributes(node) {
@@ -44546,7 +44732,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		    return this.finishNode(node, "ImportDeclaration");
 		  }
 		  parseImportSource() {
-		    if (!this.match(131)) this.unexpected();
+		    if (!this.match(133)) this.unexpected();
 		    return this.parseExprAtom();
 		  }
 		  parseImportSpecifierLocal(node, specifier, type) {
@@ -44579,13 +44765,13 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		        });
 		      }
 		      attrNames.add(keyName);
-		      if (this.match(131)) {
+		      if (this.match(133)) {
 		        node.key = this.parseStringLiteral(keyName);
 		      } else {
 		        node.key = this.parseIdentifier(true);
 		      }
 		      this.expect(14);
-		      if (!this.match(131)) {
+		      if (!this.match(133)) {
 		        throw this.raise(Errors.ModuleAttributeInvalidValue, {
 		          at: this.state.startLoc
 		        });
@@ -44615,7 +44801,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		      }
 		      attributes.add(node.key.name);
 		      this.expect(14);
-		      if (!this.match(131)) {
+		      if (!this.match(133)) {
 		        throw this.raise(Errors.ModuleAttributeInvalidValue, {
 		          at: this.state.startLoc
 		        });
@@ -44706,8 +44892,8 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		        if (this.eat(8)) break;
 		      }
 		      const specifier = this.startNode();
-		      const importedIsString = this.match(131);
-		      const isMaybeTypeOnly = this.isContextual(128);
+		      const importedIsString = this.match(133);
+		      const isMaybeTypeOnly = this.isContextual(130);
 		      specifier.imported = this.parseModuleExportName();
 		      const importSpecifier = this.parseImportSpecifier(specifier, importedIsString, node.importKind === "type" || node.importKind === "typeof", isMaybeTypeOnly, undefined);
 		      node.specifiers.push(importSpecifier);
@@ -45127,10 +45313,14 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		});
 		evaluation.evaluate = evaluate;
 		evaluation.evaluateTruthy = evaluateTruthy;
-		const VALID_CALLEES = ["String", "Number", "Math"];
+		const VALID_OBJECT_CALLEES = ["Number", "String", "Math"];
+		const VALID_IDENTIFIER_CALLEES = ["isFinite", "isNaN", "parseFloat", "parseInt", "decodeURI", "decodeURIComponent", "encodeURI", "encodeURIComponent", null, null];
 		const INVALID_METHODS = ["random"];
-		function isValidCallee(val) {
-		  return VALID_CALLEES.includes(val);
+		function isValidObjectCallee(val) {
+		  return VALID_OBJECT_CALLEES.includes(val);
+		}
+		function isValidIdentifierCallee(val) {
+		  return VALID_IDENTIFIER_CALLEES.includes(val);
 		}
 		function isInvalidMethod(val) {
 		  return INVALID_METHODS.includes(val);
@@ -45405,13 +45595,13 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		    const callee = path.get("callee");
 		    let context;
 		    let func;
-		    if (callee.isIdentifier() && !path.scope.getBinding(callee.node.name) && isValidCallee(callee.node.name)) {
+		    if (callee.isIdentifier() && !path.scope.getBinding(callee.node.name) && (isValidObjectCallee(callee.node.name) || isValidIdentifierCallee(callee.node.name))) {
 		      func = commonjsGlobal[callee.node.name];
 		    }
 		    if (callee.isMemberExpression()) {
 		      const object = callee.get("object");
 		      const property = callee.get("property");
-		      if (object.isIdentifier() && property.isIdentifier() && isValidCallee(object.node.name) && !isInvalidMethod(property.node.name)) {
+		      if (object.isIdentifier() && property.isIdentifier() && isValidObjectCallee(object.node.name) && !isInvalidMethod(property.node.name)) {
 		        context = commonjsGlobal[object.node.name];
 		        func = context[property.node.name];
 		      }
@@ -46150,7 +46340,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 	Object.defineProperty(lib$n, "__esModule", {
 	  value: true
 	});
-	lib$n.default = _default$c;
+	lib$n.default = _default$b;
 	var _template = requireLib$5();
 	var _t$7 = requireLib$b();
 	const {
@@ -46267,7 +46457,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 	  }
 	  return state;
 	}
-	function _default$c({
+	function _default$b({
 	  node,
 	  parent,
 	  scope,
@@ -49041,13 +49231,14 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		  applyDecs2203: helper("7.19.0", 'function applyDecs2203Factory(){function createAddInitializerMethod(e,t){return function(r){!function(e,t){if(e.v)throw new Error("attempted to call "+t+" after decoration was finished")}(t,"addInitializer"),assertCallable(r,"An initializer"),e.push(r)}}function memberDec(e,t,r,a,n,i,s,o){var c;switch(n){case 1:c="accessor";break;case 2:c="method";break;case 3:c="getter";break;case 4:c="setter";break;default:c="field"}var l,u,f={kind:c,name:s?"#"+t:t,static:i,private:s},p={v:!1};0!==n&&(f.addInitializer=createAddInitializerMethod(a,p)),0===n?s?(l=r.get,u=r.set):(l=function(){return this[t]},u=function(e){this[t]=e}):2===n?l=function(){return r.value}:(1!==n&&3!==n||(l=function(){return r.get.call(this)}),1!==n&&4!==n||(u=function(e){r.set.call(this,e)})),f.access=l&&u?{get:l,set:u}:l?{get:l}:{set:u};try{return e(o,f)}finally{p.v=!0}}function assertCallable(e,t){if("function"!=typeof e)throw new TypeError(t+" must be a function")}function assertValidReturnValue(e,t){var r=typeof t;if(1===e){if("object"!==r||null===t)throw new TypeError("accessor decorators must return an object with get, set, or init properties or void 0");void 0!==t.get&&assertCallable(t.get,"accessor.get"),void 0!==t.set&&assertCallable(t.set,"accessor.set"),void 0!==t.init&&assertCallable(t.init,"accessor.init")}else if("function"!==r){var a;throw a=0===e?"field":10===e?"class":"method",new TypeError(a+" decorators must return a function or void 0")}}function applyMemberDec(e,t,r,a,n,i,s,o){var c,l,u,f,p,d,h=r[0];if(s?c=0===n||1===n?{get:r[3],set:r[4]}:3===n?{get:r[3]}:4===n?{set:r[3]}:{value:r[3]}:0!==n&&(c=Object.getOwnPropertyDescriptor(t,a)),1===n?u={get:c.get,set:c.set}:2===n?u=c.value:3===n?u=c.get:4===n&&(u=c.set),"function"==typeof h)void 0!==(f=memberDec(h,a,c,o,n,i,s,u))&&(assertValidReturnValue(n,f),0===n?l=f:1===n?(l=f.init,p=f.get||u.get,d=f.set||u.set,u={get:p,set:d}):u=f);else for(var v=h.length-1;v>=0;v--){var g;if(void 0!==(f=memberDec(h[v],a,c,o,n,i,s,u)))assertValidReturnValue(n,f),0===n?g=f:1===n?(g=f.init,p=f.get||u.get,d=f.set||u.set,u={get:p,set:d}):u=f,void 0!==g&&(void 0===l?l=g:"function"==typeof l?l=[l,g]:l.push(g))}if(0===n||1===n){if(void 0===l)l=function(e,t){return t};else if("function"!=typeof l){var y=l;l=function(e,t){for(var r=t,a=0;a<y.length;a++)r=y[a].call(e,r);return r}}else{var m=l;l=function(e,t){return m.call(e,t)}}e.push(l)}0!==n&&(1===n?(c.get=u.get,c.set=u.set):2===n?c.value=u:3===n?c.get=u:4===n&&(c.set=u),s?1===n?(e.push((function(e,t){return u.get.call(e,t)})),e.push((function(e,t){return u.set.call(e,t)}))):2===n?e.push(u):e.push((function(e,t){return u.call(e,t)})):Object.defineProperty(t,a,c))}function pushInitializers(e,t){t&&e.push((function(e){for(var r=0;r<t.length;r++)t[r].call(e);return e}))}return function(e,t,r){var a=[];return function(e,t,r){for(var a,n,i=new Map,s=new Map,o=0;o<r.length;o++){var c=r[o];if(Array.isArray(c)){var l,u,f=c[1],p=c[2],d=c.length>3,h=f>=5;if(h?(l=t,0!=(f-=5)&&(u=n=n||[])):(l=t.prototype,0!==f&&(u=a=a||[])),0!==f&&!d){var v=h?s:i,g=v.get(p)||0;if(!0===g||3===g&&4!==f||4===g&&3!==f)throw new Error("Attempted to decorate a public method/accessor that has the same name as a previously decorated public method/accessor. This is not currently supported by the decorators plugin. Property name was: "+p);!g&&f>2?v.set(p,f):v.set(p,!0)}applyMemberDec(e,l,c,p,f,h,d,u)}}pushInitializers(e,a),pushInitializers(e,n)}(a,e,t),function(e,t,r){if(r.length>0){for(var a=[],n=t,i=t.name,s=r.length-1;s>=0;s--){var o={v:!1};try{var c=r[s](n,{kind:"class",name:i,addInitializer:createAddInitializerMethod(a,o)})}finally{o.v=!0}void 0!==c&&(assertValidReturnValue(10,c),n=c)}e.push(n,(function(){for(var e=0;e<a.length;e++)a[e].call(n)}))}}(a,e,r),a}}var applyDecs2203Impl;export default function applyDecs2203(e,t,r){return(applyDecs2203Impl=applyDecs2203Impl||applyDecs2203Factory())(e,t,r)}'),
 		  applyDecs2203R: helper("7.20.0", 'function applyDecs2203RFactory(){function createAddInitializerMethod(e,t){return function(r){!function(e,t){if(e.v)throw new Error("attempted to call "+t+" after decoration was finished")}(t,"addInitializer"),assertCallable(r,"An initializer"),e.push(r)}}function memberDec(e,t,r,n,a,i,s,o){var c;switch(a){case 1:c="accessor";break;case 2:c="method";break;case 3:c="getter";break;case 4:c="setter";break;default:c="field"}var l,u,f={kind:c,name:s?"#"+t:t,static:i,private:s},p={v:!1};0!==a&&(f.addInitializer=createAddInitializerMethod(n,p)),0===a?s?(l=r.get,u=r.set):(l=function(){return this[t]},u=function(e){this[t]=e}):2===a?l=function(){return r.value}:(1!==a&&3!==a||(l=function(){return r.get.call(this)}),1!==a&&4!==a||(u=function(e){r.set.call(this,e)})),f.access=l&&u?{get:l,set:u}:l?{get:l}:{set:u};try{return e(o,f)}finally{p.v=!0}}function assertCallable(e,t){if("function"!=typeof e)throw new TypeError(t+" must be a function")}function assertValidReturnValue(e,t){var r=typeof t;if(1===e){if("object"!==r||null===t)throw new TypeError("accessor decorators must return an object with get, set, or init properties or void 0");void 0!==t.get&&assertCallable(t.get,"accessor.get"),void 0!==t.set&&assertCallable(t.set,"accessor.set"),void 0!==t.init&&assertCallable(t.init,"accessor.init")}else if("function"!==r){var n;throw n=0===e?"field":10===e?"class":"method",new TypeError(n+" decorators must return a function or void 0")}}function applyMemberDec(e,t,r,n,a,i,s,o){var c,l,u,f,p,d,h=r[0];if(s?c=0===a||1===a?{get:r[3],set:r[4]}:3===a?{get:r[3]}:4===a?{set:r[3]}:{value:r[3]}:0!==a&&(c=Object.getOwnPropertyDescriptor(t,n)),1===a?u={get:c.get,set:c.set}:2===a?u=c.value:3===a?u=c.get:4===a&&(u=c.set),"function"==typeof h)void 0!==(f=memberDec(h,n,c,o,a,i,s,u))&&(assertValidReturnValue(a,f),0===a?l=f:1===a?(l=f.init,p=f.get||u.get,d=f.set||u.set,u={get:p,set:d}):u=f);else for(var v=h.length-1;v>=0;v--){var g;if(void 0!==(f=memberDec(h[v],n,c,o,a,i,s,u)))assertValidReturnValue(a,f),0===a?g=f:1===a?(g=f.init,p=f.get||u.get,d=f.set||u.set,u={get:p,set:d}):u=f,void 0!==g&&(void 0===l?l=g:"function"==typeof l?l=[l,g]:l.push(g))}if(0===a||1===a){if(void 0===l)l=function(e,t){return t};else if("function"!=typeof l){var y=l;l=function(e,t){for(var r=t,n=0;n<y.length;n++)r=y[n].call(e,r);return r}}else{var m=l;l=function(e,t){return m.call(e,t)}}e.push(l)}0!==a&&(1===a?(c.get=u.get,c.set=u.set):2===a?c.value=u:3===a?c.get=u:4===a&&(c.set=u),s?1===a?(e.push((function(e,t){return u.get.call(e,t)})),e.push((function(e,t){return u.set.call(e,t)}))):2===a?e.push(u):e.push((function(e,t){return u.call(e,t)})):Object.defineProperty(t,n,c))}function applyMemberDecs(e,t){for(var r,n,a=[],i=new Map,s=new Map,o=0;o<t.length;o++){var c=t[o];if(Array.isArray(c)){var l,u,f=c[1],p=c[2],d=c.length>3,h=f>=5;if(h?(l=e,0!==(f-=5)&&(u=n=n||[])):(l=e.prototype,0!==f&&(u=r=r||[])),0!==f&&!d){var v=h?s:i,g=v.get(p)||0;if(!0===g||3===g&&4!==f||4===g&&3!==f)throw new Error("Attempted to decorate a public method/accessor that has the same name as a previously decorated public method/accessor. This is not currently supported by the decorators plugin. Property name was: "+p);!g&&f>2?v.set(p,f):v.set(p,!0)}applyMemberDec(a,l,c,p,f,h,d,u)}}return pushInitializers(a,r),pushInitializers(a,n),a}function pushInitializers(e,t){t&&e.push((function(e){for(var r=0;r<t.length;r++)t[r].call(e);return e}))}return function(e,t,r){return{e:applyMemberDecs(e,t),get c(){return function(e,t){if(t.length>0){for(var r=[],n=e,a=e.name,i=t.length-1;i>=0;i--){var s={v:!1};try{var o=t[i](n,{kind:"class",name:a,addInitializer:createAddInitializerMethod(r,s)})}finally{s.v=!0}void 0!==o&&(assertValidReturnValue(10,o),n=o)}return[n,function(){for(var e=0;e<r.length;e++)r[e].call(n)}]}}(e,r)}}}}export default function applyDecs2203R(e,t,r){return(applyDecs2203R=applyDecs2203RFactory())(e,t,r)}'),
 		  applyDecs2301: helper("7.21.0", 'import checkInRHS from"checkInRHS";function applyDecs2301Factory(){function createAddInitializerMethod(e,t){return function(r){!function(e,t){if(e.v)throw new Error("attempted to call "+t+" after decoration was finished")}(t,"addInitializer"),assertCallable(r,"An initializer"),e.push(r)}}function assertInstanceIfPrivate(e,t){if(!e(t))throw new TypeError("Attempted to access private element on non-instance")}function memberDec(e,t,r,n,a,i,s,o,c){var u;switch(a){case 1:u="accessor";break;case 2:u="method";break;case 3:u="getter";break;case 4:u="setter";break;default:u="field"}var l,f,p={kind:u,name:s?"#"+t:t,static:i,private:s},d={v:!1};if(0!==a&&(p.addInitializer=createAddInitializerMethod(n,d)),s||0!==a&&2!==a)if(2===a)l=function(e){return assertInstanceIfPrivate(c,e),r.value};else{var h=0===a||1===a;(h||3===a)&&(l=s?function(e){return assertInstanceIfPrivate(c,e),r.get.call(e)}:function(e){return r.get.call(e)}),(h||4===a)&&(f=s?function(e,t){assertInstanceIfPrivate(c,e),r.set.call(e,t)}:function(e,t){r.set.call(e,t)})}else l=function(e){return e[t]},0===a&&(f=function(e,r){e[t]=r});var v=s?c.bind():function(e){return t in e};p.access=l&&f?{get:l,set:f,has:v}:l?{get:l,has:v}:{set:f,has:v};try{return e(o,p)}finally{d.v=!0}}function assertCallable(e,t){if("function"!=typeof e)throw new TypeError(t+" must be a function")}function assertValidReturnValue(e,t){var r=typeof t;if(1===e){if("object"!==r||null===t)throw new TypeError("accessor decorators must return an object with get, set, or init properties or void 0");void 0!==t.get&&assertCallable(t.get,"accessor.get"),void 0!==t.set&&assertCallable(t.set,"accessor.set"),void 0!==t.init&&assertCallable(t.init,"accessor.init")}else if("function"!==r){var n;throw n=0===e?"field":10===e?"class":"method",new TypeError(n+" decorators must return a function or void 0")}}function curryThis2(e){return function(t){e(this,t)}}function applyMemberDec(e,t,r,n,a,i,s,o,c){var u,l,f,p,d,h,v,g=r[0];if(s?u=0===a||1===a?{get:(p=r[3],function(){return p(this)}),set:curryThis2(r[4])}:3===a?{get:r[3]}:4===a?{set:r[3]}:{value:r[3]}:0!==a&&(u=Object.getOwnPropertyDescriptor(t,n)),1===a?f={get:u.get,set:u.set}:2===a?f=u.value:3===a?f=u.get:4===a&&(f=u.set),"function"==typeof g)void 0!==(d=memberDec(g,n,u,o,a,i,s,f,c))&&(assertValidReturnValue(a,d),0===a?l=d:1===a?(l=d.init,h=d.get||f.get,v=d.set||f.set,f={get:h,set:v}):f=d);else for(var y=g.length-1;y>=0;y--){var m;if(void 0!==(d=memberDec(g[y],n,u,o,a,i,s,f,c)))assertValidReturnValue(a,d),0===a?m=d:1===a?(m=d.init,h=d.get||f.get,v=d.set||f.set,f={get:h,set:v}):f=d,void 0!==m&&(void 0===l?l=m:"function"==typeof l?l=[l,m]:l.push(m))}if(0===a||1===a){if(void 0===l)l=function(e,t){return t};else if("function"!=typeof l){var b=l;l=function(e,t){for(var r=t,n=0;n<b.length;n++)r=b[n].call(e,r);return r}}else{var I=l;l=function(e,t){return I.call(e,t)}}e.push(l)}0!==a&&(1===a?(u.get=f.get,u.set=f.set):2===a?u.value=f:3===a?u.get=f:4===a&&(u.set=f),s?1===a?(e.push((function(e,t){return f.get.call(e,t)})),e.push((function(e,t){return f.set.call(e,t)}))):2===a?e.push(f):e.push((function(e,t){return f.call(e,t)})):Object.defineProperty(t,n,u))}function applyMemberDecs(e,t,r){for(var n,a,i,s=[],o=new Map,c=new Map,u=0;u<t.length;u++){var l=t[u];if(Array.isArray(l)){var f,p,d=l[1],h=l[2],v=l.length>3,g=d>=5,y=r;if(g?(f=e,0!==(d-=5)&&(p=a=a||[]),v&&!i&&(i=function(t){return checkInRHS(t)===e}),y=i):(f=e.prototype,0!==d&&(p=n=n||[])),0!==d&&!v){var m=g?c:o,b=m.get(h)||0;if(!0===b||3===b&&4!==d||4===b&&3!==d)throw new Error("Attempted to decorate a public method/accessor that has the same name as a previously decorated public method/accessor. This is not currently supported by the decorators plugin. Property name was: "+h);!b&&d>2?m.set(h,d):m.set(h,!0)}applyMemberDec(s,f,l,h,d,g,v,p,y)}}return pushInitializers(s,n),pushInitializers(s,a),s}function pushInitializers(e,t){t&&e.push((function(e){for(var r=0;r<t.length;r++)t[r].call(e);return e}))}return function(e,t,r,n){return{e:applyMemberDecs(e,t,n),get c(){return function(e,t){if(t.length>0){for(var r=[],n=e,a=e.name,i=t.length-1;i>=0;i--){var s={v:!1};try{var o=t[i](n,{kind:"class",name:a,addInitializer:createAddInitializerMethod(r,s)})}finally{s.v=!0}void 0!==o&&(assertValidReturnValue(10,o),n=o)}return[n,function(){for(var e=0;e<r.length;e++)r[e].call(n)}]}}(e,r)}}}}export default function applyDecs2301(e,t,r,n){return(applyDecs2301=applyDecs2301Factory())(e,t,r,n)}'),
-		  applyDecs2305: helper("7.21.0", 'import checkInRHS from"checkInRHS";function createAddInitializerMethod(e,t){return function(r){assertNotFinished(t,"addInitializer"),assertCallable(r,"An initializer"),e.push(r)}}function assertInstanceIfPrivate(e,t){if(!e(t))throw new TypeError("Attempted to access private element on non-instance")}function memberDec(e,t,r,n,a,i,s,o,c,l){var u;switch(i){case 1:u="accessor";break;case 2:u="method";break;case 3:u="getter";break;case 4:u="setter";break;default:u="field"}var f,d,p={kind:u,name:o?"#"+r:r,static:s,private:o},h={v:!1};if(0!==i&&(p.addInitializer=createAddInitializerMethod(a,h)),o||0!==i&&2!==i)if(2===i)f=function(e){return assertInstanceIfPrivate(l,e),n.value};else{var v=0===i||1===i;(v||3===i)&&(f=o?function(e){return assertInstanceIfPrivate(l,e),n.get.call(e)}:function(e){return n.get.call(e)}),(v||4===i)&&(d=o?function(e,t){assertInstanceIfPrivate(l,e),n.set.call(e,t)}:function(e,t){n.set.call(e,t)})}else f=function(e){return e[r]},0===i&&(d=function(e,t){e[r]=t});var y=o?l.bind():function(e){return r in e};p.access=f&&d?{get:f,set:d,has:y}:f?{get:f,has:y}:{set:d,has:y};try{return e.call(t,c,p)}finally{h.v=!0}}function assertNotFinished(e,t){if(e.v)throw new Error("attempted to call "+t+" after decoration was finished")}function assertCallable(e,t){if("function"!=typeof e)throw new TypeError(t+" must be a function")}function assertValidReturnValue(e,t){var r=typeof t;if(1===e){if("object"!==r||null===t)throw new TypeError("accessor decorators must return an object with get, set, or init properties or void 0");void 0!==t.get&&assertCallable(t.get,"accessor.get"),void 0!==t.set&&assertCallable(t.set,"accessor.set"),void 0!==t.init&&assertCallable(t.init,"accessor.init")}else if("function"!==r){var n;throw n=0===e?"field":5===e?"class":"method",new TypeError(n+" decorators must return a function or void 0")}}function curryThis1(e){return function(){return e(this)}}function curryThis2(e){return function(t){e(this,t)}}function applyMemberDec(e,t,r,n,a,i,s,o,c,l){var u,f,d,p,h,v,y=r[0];n||Array.isArray(y)||(y=[y]),o?u=0===i||1===i?{get:curryThis1(r[3]),set:curryThis2(r[4])}:3===i?{get:r[3]}:4===i?{set:r[3]}:{value:r[3]}:0!==i&&(u=Object.getOwnPropertyDescriptor(t,a)),1===i?d={get:u.get,set:u.set}:2===i?d=u.value:3===i?d=u.get:4===i&&(d=u.set);for(var g=n?2:1,m=y.length-1;m>=0;m-=g){var b;if(void 0!==(p=memberDec(y[m],n?y[m-1]:void 0,a,u,c,i,s,o,d,l)))assertValidReturnValue(i,p),0===i?b=p:1===i?(b=p.init,h=p.get||d.get,v=p.set||d.set,d={get:h,set:v}):d=p,void 0!==b&&(void 0===f?f=b:"function"==typeof f?f=[f,b]:f.push(b))}if(0===i||1===i){if(void 0===f)f=function(e,t){return t};else if("function"!=typeof f){var I=f;f=function(e,t){for(var r=t,n=I.length-1;n>=0;n--)r=I[n].call(e,r);return r}}else{var w=f;f=function(e,t){return w.call(e,t)}}e.push(f)}0!==i&&(1===i?(u.get=d.get,u.set=d.set):2===i?u.value=d:3===i?u.get=d:4===i&&(u.set=d),o?1===i?(e.push((function(e,t){return d.get.call(e,t)})),e.push((function(e,t){return d.set.call(e,t)}))):2===i?e.push(d):e.push((function(e,t){return d.call(e,t)})):Object.defineProperty(t,a,u))}function applyMemberDecs(e,t,r){for(var n,a,i,s=[],o=new Map,c=new Map,l=0;l<t.length;l++){var u=t[l];if(Array.isArray(u)){var f,d,p=u[1],h=u[2],v=u.length>3,y=16&p,g=!!(8&p),m=r;if(p&=7,g?(f=e,0!==p&&(d=a=a||[]),v&&!i&&(i=function(t){return checkInRHS(t)===e}),m=i):(f=e.prototype,0!==p&&(d=n=n||[])),0!==p&&!v){var b=g?c:o,I=b.get(h)||0;if(!0===I||3===I&&4!==p||4===I&&3!==p)throw new Error("Attempted to decorate a public method/accessor that has the same name as a previously decorated public method/accessor. This is not currently supported by the decorators plugin. Property name was: "+h);b.set(h,!(!I&&p>2)||p)}applyMemberDec(s,f,u,y,h,p,g,v,d,m)}}return pushInitializers(s,n),pushInitializers(s,a),s}function pushInitializers(e,t){t&&e.push((function(e){for(var r=0;r<t.length;r++)t[r].call(e);return e}))}function applyClassDecs(e,t,r){if(t.length){for(var n=[],a=e,i=e.name,s=r?2:1,o=t.length-1;o>=0;o-=s){var c={v:!1};try{var l=t[o].call(r?t[o-1]:void 0,a,{kind:"class",name:i,addInitializer:createAddInitializerMethod(n,c)})}finally{c.v=!0}void 0!==l&&(assertValidReturnValue(5,l),a=l)}return[a,function(){for(var e=0;e<n.length;e++)n[e].call(a)}]}}export default function applyDecs2305(e,t,r,n,a){return{e:applyMemberDecs(e,t,a),get c(){return applyClassDecs(e,r,n)}}}'),
+		  applyDecs2305: helper("7.21.0", 'import checkInRHS from"checkInRHS";function createAddInitializerMethod(e,t){return function(r){assertNotFinished(t,"addInitializer"),assertCallable(r,"An initializer"),e.push(r)}}function assertInstanceIfPrivate(e,t){if(!e(t))throw new TypeError("Attempted to access private element on non-instance")}function memberDec(e,t,r,a,n,i,s,o,c,l,u){var f;switch(i){case 1:f="accessor";break;case 2:f="method";break;case 3:f="getter";break;case 4:f="setter";break;default:f="field"}var d,p,h={kind:f,name:o?"#"+r:r,static:s,private:o,metadata:u},v={v:!1};if(0!==i&&(h.addInitializer=createAddInitializerMethod(n,v)),o||0!==i&&2!==i)if(2===i)d=function(e){return assertInstanceIfPrivate(l,e),a.value};else{var y=0===i||1===i;(y||3===i)&&(d=o?function(e){return assertInstanceIfPrivate(l,e),a.get.call(e)}:function(e){return a.get.call(e)}),(y||4===i)&&(p=o?function(e,t){assertInstanceIfPrivate(l,e),a.set.call(e,t)}:function(e,t){a.set.call(e,t)})}else d=function(e){return e[r]},0===i&&(p=function(e,t){e[r]=t});var m=o?l.bind():function(e){return r in e};h.access=d&&p?{get:d,set:p,has:m}:d?{get:d,has:m}:{set:p,has:m};try{return e.call(t,c,h)}finally{v.v=!0}}function assertNotFinished(e,t){if(e.v)throw new Error("attempted to call "+t+" after decoration was finished")}function assertCallable(e,t){if("function"!=typeof e)throw new TypeError(t+" must be a function")}function assertValidReturnValue(e,t){var r=typeof t;if(1===e){if("object"!==r||null===t)throw new TypeError("accessor decorators must return an object with get, set, or init properties or void 0");void 0!==t.get&&assertCallable(t.get,"accessor.get"),void 0!==t.set&&assertCallable(t.set,"accessor.set"),void 0!==t.init&&assertCallable(t.init,"accessor.init")}else if("function"!==r){var a;throw a=0===e?"field":5===e?"class":"method",new TypeError(a+" decorators must return a function or void 0")}}function curryThis1(e){return function(){return e(this)}}function curryThis2(e){return function(t){e(this,t)}}function applyMemberDec(e,t,r,a,n,i,s,o,c,l,u){var f,d,p,h,v,y,m=r[0];a||Array.isArray(m)||(m=[m]),o?f=0===i||1===i?{get:curryThis1(r[3]),set:curryThis2(r[4])}:3===i?{get:r[3]}:4===i?{set:r[3]}:{value:r[3]}:0!==i&&(f=Object.getOwnPropertyDescriptor(t,n)),1===i?p={get:f.get,set:f.set}:2===i?p=f.value:3===i?p=f.get:4===i&&(p=f.set);for(var g=a?2:1,b=m.length-1;b>=0;b-=g){var I;if(void 0!==(h=memberDec(m[b],a?m[b-1]:void 0,n,f,c,i,s,o,p,l,u)))assertValidReturnValue(i,h),0===i?I=h:1===i?(I=h.init,v=h.get||p.get,y=h.set||p.set,p={get:v,set:y}):p=h,void 0!==I&&(void 0===d?d=I:"function"==typeof d?d=[d,I]:d.push(I))}if(0===i||1===i){if(void 0===d)d=function(e,t){return t};else if("function"!=typeof d){var w=d;d=function(e,t){for(var r=t,a=w.length-1;a>=0;a--)r=w[a].call(e,r);return r}}else{var M=d;d=function(e,t){return M.call(e,t)}}e.push(d)}0!==i&&(1===i?(f.get=p.get,f.set=p.set):2===i?f.value=p:3===i?f.get=p:4===i&&(f.set=p),o?1===i?(e.push((function(e,t){return p.get.call(e,t)})),e.push((function(e,t){return p.set.call(e,t)}))):2===i?e.push(p):e.push((function(e,t){return p.call(e,t)})):Object.defineProperty(t,n,f))}function applyMemberDecs(e,t,r,a){for(var n,i,s,o=[],c=new Map,l=new Map,u=0;u<t.length;u++){var f=t[u];if(Array.isArray(f)){var d,p,h=f[1],v=f[2],y=f.length>3,m=16&h,g=!!(8&h),b=r;if(h&=7,g?(d=e,0!==h&&(p=i=i||[]),y&&!s&&(s=function(t){return checkInRHS(t)===e}),b=s):(d=e.prototype,0!==h&&(p=n=n||[])),0!==h&&!y){var I=g?l:c,w=I.get(v)||0;if(!0===w||3===w&&4!==h||4===w&&3!==h)throw new Error("Attempted to decorate a public method/accessor that has the same name as a previously decorated public method/accessor. This is not currently supported by the decorators plugin. Property name was: "+v);I.set(v,!(!w&&h>2)||h)}applyMemberDec(o,d,f,m,v,h,g,y,p,b,a)}}return pushInitializers(o,n),pushInitializers(o,i),o}function pushInitializers(e,t){t&&e.push((function(e){for(var r=0;r<t.length;r++)t[r].call(e);return e}))}function applyClassDecs(e,t,r,a){if(t.length){for(var n=[],i=e,s=e.name,o=r?2:1,c=t.length-1;c>=0;c-=o){var l={v:!1};try{var u=t[c].call(r?t[c-1]:void 0,i,{kind:"class",name:s,addInitializer:createAddInitializerMethod(n,l),metadata:a})}finally{l.v=!0}void 0!==u&&(assertValidReturnValue(5,u),i=u)}return[defineMetadata(i,a),function(){for(var e=0;e<n.length;e++)n[e].call(i)}]}}function defineMetadata(e,t){return Object.defineProperty(e,Symbol.metadata||Symbol.for("Symbol.metadata"),{configurable:!0,enumerable:!0,value:t})}export default function applyDecs2305(e,t,r,a,n,i){if(arguments.length>=6)var s=i[Symbol.metadata||Symbol.for("Symbol.metadata")];var o=Object.create(void 0===s?null:s),c=applyMemberDecs(e,t,n,o);return r.length||defineMetadata(e,o),{e:c,get c(){return applyClassDecs(e,r,a,o)}}}'),
 		  asyncGeneratorDelegate: helper("7.0.0-beta.0", 'import OverloadYield from"OverloadYield";export default function _asyncGeneratorDelegate(t){var e={},n=!1;function pump(e,r){return n=!0,r=new Promise((function(n){n(t[e](r))})),{done:!1,value:new OverloadYield(r,1)}}return e["undefined"!=typeof Symbol&&Symbol.iterator||"@@iterator"]=function(){return this},e.next=function(t){return n?(n=!1,t):pump("next",t)},"function"==typeof t.throw&&(e.throw=function(t){if(n)throw n=!1,t;return pump("throw",t)}),"function"==typeof t.return&&(e.return=function(t){return n?(n=!1,t):pump("return",t)}),e}'),
 		  asyncIterator: helper("7.15.9", 'export default function _asyncIterator(r){var n,t,o,e=2;for("undefined"!=typeof Symbol&&(t=Symbol.asyncIterator,o=Symbol.iterator);e--;){if(t&&null!=(n=r[t]))return n.call(r);if(o&&null!=(n=r[o]))return new AsyncFromSyncIterator(n.call(r));t="@@asyncIterator",o="@@iterator"}throw new TypeError("Object is not async iterable")}function AsyncFromSyncIterator(r){function AsyncFromSyncIteratorContinuation(r){if(Object(r)!==r)return Promise.reject(new TypeError(r+" is not an object."));var n=r.done;return Promise.resolve(r.value).then((function(r){return{value:r,done:n}}))}return AsyncFromSyncIterator=function(r){this.s=r,this.n=r.next},AsyncFromSyncIterator.prototype={s:null,n:null,next:function(){return AsyncFromSyncIteratorContinuation(this.n.apply(this.s,arguments))},return:function(r){var n=this.s.return;return void 0===n?Promise.resolve({value:r,done:!0}):AsyncFromSyncIteratorContinuation(n.apply(this.s,arguments))},throw:function(r){var n=this.s.return;return void 0===n?Promise.reject(r):AsyncFromSyncIteratorContinuation(n.apply(this.s,arguments))}},new AsyncFromSyncIterator(r)}'),
 		  awaitAsyncGenerator: helper("7.0.0-beta.0", 'import OverloadYield from"OverloadYield";export default function _awaitAsyncGenerator(e){return new OverloadYield(e,0)}'),
 		  checkInRHS: helper("7.20.5", 'export default function _checkInRHS(e){if(Object(e)!==e)throw TypeError("right-hand side of \'in\' should be an object, got "+(null!==e?typeof e:"null"));return e}'),
 		  defineAccessor: helper("7.20.7", "export default function _defineAccessor(e,r,n,t){var c={configurable:!0,enumerable:!0};return c[e]=t,Object.defineProperty(r,n,c)}"),
 		  dispose: helper("7.22.0", 'function dispose_SuppressedError(r,e){return"undefined"!=typeof SuppressedError?dispose_SuppressedError=SuppressedError:(dispose_SuppressedError=function(r,e){this.suppressed=r,this.error=e,this.stack=(new Error).stack},dispose_SuppressedError.prototype=Object.create(Error.prototype,{constructor:{value:dispose_SuppressedError,writable:!0,configurable:!0}})),new dispose_SuppressedError(r,e)}export default function _dispose(r,e,s){function next(){for(;r.length>0;)try{var o=r.pop(),p=o.d.call(o.v);if(o.a)return Promise.resolve(p).then(next,err)}catch(r){return err(r)}if(s)throw e}function err(r){return e=s?new dispose_SuppressedError(r,e):r,s=!0,next()}return next()}'),
+		  importDeferProxy: helper("7.23.0", "export default function _importDeferProxy(e){var t=null,constValue=function(e){return function(){return e}},proxy=function(r){return function(n,o,f){return null===t&&(t=e()),r(t,o,f)}};return new Proxy({},{defineProperty:constValue(!1),deleteProperty:constValue(!1),get:proxy(Reflect.get),getOwnPropertyDescriptor:proxy(Reflect.getOwnPropertyDescriptor),getPrototypeOf:constValue(null),isExtensible:constValue(!1),has:proxy(Reflect.has),ownKeys:proxy(Reflect.ownKeys),preventExtensions:constValue(!0),set:constValue(!1),setPrototypeOf:constValue(!1)})}"),
 		  iterableToArrayLimit: helper("7.0.0-beta.0", 'export default function _iterableToArrayLimit(r,l){var t=null==r?null:"undefined"!=typeof Symbol&&r[Symbol.iterator]||r["@@iterator"];if(null!=t){var e,n,i,u,a=[],f=!0,o=!1;try{if(i=(t=t.call(r)).next,0===l){if(Object(t)!==t)return;f=!1}else for(;!(f=(e=i.call(t)).done)&&(a.push(e.value),a.length!==l);f=!0);}catch(r){o=!0,n=r}finally{try{if(!f&&null!=t.return&&(u=t.return(),Object(u)!==u))return}finally{if(o)throw n}}return a}}'),
 		  iterableToArrayLimitLoose: helper("7.0.0-beta.0", 'export default function _iterableToArrayLimitLoose(e,r){var t=e&&("undefined"!=typeof Symbol&&e[Symbol.iterator]||e["@@iterator"]);if(null!=t){var o,l=[];for(t=t.call(e);e.length<r&&!(o=t.next()).done;)l.push(o.value);return l}}'),
 		  jsx: helper("7.0.0-beta.0", 'var REACT_ELEMENT_TYPE;export default function _createRawReactElement(e,r,E,l){REACT_ELEMENT_TYPE||(REACT_ELEMENT_TYPE="function"==typeof Symbol&&Symbol.for&&Symbol.for("react.element")||60103);var o=e&&e.defaultProps,n=arguments.length-3;if(r||0===n||(r={children:void 0}),1===n)r.children=l;else if(n>1){for(var t=new Array(n),f=0;f<n;f++)t[f]=arguments[f+3];r.children=t}if(r&&o)for(var i in o)void 0===r[i]&&(r[i]=o[i]);else r||(r=o||{});return{$$typeof:REACT_ELEMENT_TYPE,type:e,key:void 0===E?null:""+E,ref:null,props:r,_owner:null}}'),
@@ -50849,6 +51040,11 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
     return x;
   }
 `;
+		helpers$1.nullishReceiverError = helper("7.22.6")`
+  export default function _nullishReceiverError(r) {
+    throw new TypeError("Cannot set property of null or undefined.");
+  }
+`;
 
 		
 		return helpers;
@@ -52564,11 +52760,14 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		var _helperSimpleAccess = lib$j;
 		const {
 		  assignmentExpression,
-		  callExpression,
 		  cloneNode,
 		  expressionStatement,
 		  getOuterBindingIdentifiers,
 		  identifier,
+		  isArrowFunctionExpression,
+		  isClassExpression,
+		  isFunctionExpression,
+		  isIdentifier,
 		  isMemberExpression,
 		  isVariableDeclaration,
 		  jsxIdentifier,
@@ -52598,7 +52797,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		    }
 		  } while (path = path.parentPath);
 		}
-		function rewriteLiveReferences$1(programPath, metadata) {
+		function rewriteLiveReferences$1(programPath, metadata, wrapReference) {
 		  const imported = new Map();
 		  const exported = new Map();
 		  const requeueInParent = path => {
@@ -52638,17 +52837,21 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		    scope: programPath.scope,
 		    imported,
 		    exported,
-		    buildImportReference: ([source, importName, localName], identNode) => {
+		    buildImportReference([source, importName, localName], identNode) {
 		      const meta = metadata.source.get(source);
 		      meta.referenced = true;
 		      if (localName) {
-		        if (meta.lazy) {
-		          identNode = callExpression(identNode, []);
+		        if (meta.wrap) {
+		          var _wrapReference;
+		          identNode = (_wrapReference = wrapReference(identNode, meta.wrap)) != null ? _wrapReference : identNode;
 		        }
 		        return identNode;
 		      }
 		      let namespace = identifier(meta.name);
-		      if (meta.lazy) namespace = callExpression(namespace, []);
+		      if (meta.wrap) {
+		        var _wrapReference2;
+		        namespace = (_wrapReference2 = wrapReference(namespace, meta.wrap)) != null ? _wrapReference2 : namespace;
+		      }
 		      if (importName === "default" && meta.interop === "node-default") {
 		        return namespace;
 		      }
@@ -52686,14 +52889,34 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		      exported,
 		      metadata
 		    } = this;
-		    Object.keys(path.getOuterBindingIdentifiers()).forEach(localName => {
-		      const exportNames = exported.get(localName) || [];
-		      if (exportNames.length > 0) {
-		        const statement = expressionStatement(buildBindingExportAssignmentExpression(metadata, exportNames, identifier(localName), path.scope));
-		        statement._blockHoist = path.node._blockHoist;
-		        requeueInParent(path.insertAfter(statement)[0]);
+		    const isVar = path.node.kind === "var";
+		    for (const decl of path.get("declarations")) {
+		      const {
+		        id
+		      } = decl.node;
+		      let {
+		        init
+		      } = decl.node;
+		      if (isIdentifier(id) && exported.has(id.name) && !isArrowFunctionExpression(init) && (!isFunctionExpression(init) || init.id) && (!isClassExpression(init) || init.id)) {
+		        if (!init) {
+		          if (isVar) {
+		            continue;
+		          } else {
+		            init = path.scope.buildUndefinedNode();
+		          }
+		        }
+		        decl.node.init = buildBindingExportAssignmentExpression(metadata, exported.get(id.name), init, path.scope);
+		        requeueInParent(decl.get("init"));
+		      } else {
+		        for (const localName of Object.keys(decl.getOuterBindingIdentifiers())) {
+		          if (exported.has(localName)) {
+		            const statement = expressionStatement(buildBindingExportAssignmentExpression(metadata, exported.get(localName), identifier(localName), path.scope));
+		            statement._blockHoist = path.node._blockHoist;
+		            requeueInParent(path.insertAfter(statement)[0]);
+		          }
+		        }
 		      }
-		    });
+		    }
 		  }
 		};
 		const buildBindingExportAssignmentExpression = (metadata, exportNames, localExpr, scope) => {
@@ -53188,7 +53411,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 	function normalizeModuleAndLoadMetadata(programPath, exportName, {
 	  importInterop,
 	  initializeReexports = false,
-	  lazy = false,
+	  getWrapperPayload,
 	  esNamespaceOnly = false,
 	  filename
 	}) {
@@ -53203,7 +53426,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 	    hasExports
 	  } = getModuleMetadata(programPath, {
 	    initializeReexports,
-	    lazy
+	    getWrapperPayload
 	  }, stringSpecifiers);
 	  removeImportExportDeclarations(programPath);
 	  for (const [source, metadata] of sources) {
@@ -53258,12 +53481,13 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 	  }
 	}
 	function getModuleMetadata(programPath, {
-	  lazy,
+	  getWrapperPayload,
 	  initializeReexports
 	}, stringSpecifiers) {
 	  const localData = getLocalExportMetadata(programPath, initializeReexports, stringSpecifiers);
+	  const importNodes = new Map();
 	  const sourceData = new Map();
-	  const getData = sourceNode => {
+	  const getData = (sourceNode, node) => {
 	    const source = sourceNode.value;
 	    let data = sourceData.get(source);
 	    if (!data) {
@@ -53276,17 +53500,23 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 	        reexports: new Map(),
 	        reexportNamespace: new Set(),
 	        reexportAll: null,
-	        lazy: false,
+	        wrap: null,
+	        get lazy() {
+	          return this.wrap === "lazy";
+	        },
 	        referenced: false
 	      };
 	      sourceData.set(source, data);
+	      importNodes.set(source, [node]);
+	    } else {
+	      importNodes.get(source).push(node);
 	    }
 	    return data;
 	  };
 	  let hasExports = false;
 	  programPath.get("body").forEach(child => {
 	    if (child.isImportDeclaration()) {
-	      const data = getData(child.node.source);
+	      const data = getData(child.node.source, child.node);
 	      if (!data.loc) data.loc = child.node.loc;
 	      child.get("specifiers").forEach(spec => {
 	        if (spec.isImportDefaultSpecifier()) {
@@ -53327,7 +53557,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 	      });
 	    } else if (child.isExportAllDeclaration()) {
 	      hasExports = true;
-	      const data = getData(child.node.source);
+	      const data = getData(child.node.source, child.node);
 	      if (!data.loc) data.loc = child.node.loc;
 	      data.reexportAll = {
 	        loc: child.node.loc
@@ -53335,7 +53565,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 	      data.referenced = true;
 	    } else if (child.isExportNamedDeclaration() && child.node.source) {
 	      hasExports = true;
-	      const data = getData(child.node.source);
+	      const data = getData(child.node.source, child.node);
 	      if (!data.loc) data.loc = child.node.loc;
 	      child.get("specifiers").forEach(spec => {
 	        assertExportSpecifier(spec);
@@ -53373,17 +53603,9 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 	      metadata.interop = "default";
 	    }
 	  }
-	  for (const [source, metadata] of sourceData) {
-	    if (lazy !== false && !(isSideEffectImport(metadata) || metadata.reexportAll)) {
-	      if (lazy === true) {
-	        metadata.lazy = !/\./.test(source);
-	      } else if (Array.isArray(lazy)) {
-	        metadata.lazy = lazy.indexOf(source) !== -1;
-	      } else if (typeof lazy === "function") {
-	        metadata.lazy = lazy(source);
-	      } else {
-	        throw new Error(`.lazy must be a boolean, string array, or function`);
-	      }
+	  if (getWrapperPayload) {
+	    for (const [source, metadata] of sourceData) {
+	      metadata.wrap = getWrapperPayload(source, metadata, importNodes.get(source));
 	    }
 	  }
 	  return {
@@ -53513,6 +53735,46 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 	  });
 	}
 
+	var lazyModules = {};
+
+	var hasRequiredLazyModules;
+
+	function requireLazyModules () {
+		if (hasRequiredLazyModules) return lazyModules;
+		hasRequiredLazyModules = 1;
+
+		Object.defineProperty(lazyModules, "__esModule", {
+		  value: true
+		});
+		lazyModules.toGetWrapperPayload = toGetWrapperPayload;
+		lazyModules.wrapReference = wrapReference;
+		var _core = requireLib();
+		var _normalizeAndLoadMetadata = normalizeAndLoadMetadata;
+		function toGetWrapperPayload(lazy) {
+		  return (source, metadata) => {
+		    if (lazy === false) return null;
+		    if ((0, _normalizeAndLoadMetadata.isSideEffectImport)(metadata) || metadata.reexportAll) return null;
+		    if (lazy === true) {
+		      return /\./.test(source) ? null : "lazy";
+		    }
+		    if (Array.isArray(lazy)) {
+		      return lazy.indexOf(source) === -1 ? null : "lazy";
+		    }
+		    if (typeof lazy === "function") {
+		      return lazy(source) ? "lazy" : null;
+		    }
+		    throw new Error(`.lazy must be a boolean, string array, or function`);
+		  };
+		}
+		function wrapReference(ref, payload) {
+		  if (payload === "lazy") return _core.types.callExpression(ref, []);
+		  return null;
+		}
+
+		
+		return lazyModules;
+	}
+
 	var dynamicImport$1 = {};
 
 	var hasRequiredDynamicImport;
@@ -53533,7 +53795,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		  };
 		}
 		function buildDynamicImport(node, deferToThen, wrapWithPromise, builder) {
-		  const [specifier] = node.arguments;
+		  const specifier = _core.types.isCallExpression(node) ? node.arguments[0] : node.source;
 		  if (_core.types.isStringLiteral(specifier) || _core.types.isTemplateLiteral(specifier) && specifier.quasis.length === 0) {
 		    if (deferToThen) {
 		      return _core.template.expression.ast`
@@ -53673,6 +53935,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 			var _rewriteThis = requireRewriteThis();
 			var _rewriteLiveReferences = requireRewriteLiveReferences();
 			var _normalizeAndLoadMetadata = normalizeAndLoadMetadata;
+			var Lazy = requireLazyModules();
 			var _dynamicImport = requireDynamicImport();
 			var _getModuleName = getModuleName$1;
 			const {
@@ -53701,6 +53964,8 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 			  noInterop,
 			  importInterop = noInterop ? "none" : "babel",
 			  lazy,
+			  getWrapperPayload = Lazy.toGetWrapperPayload(lazy != null ? lazy : false),
+			  wrapReference = Lazy.wrapReference,
 			  esNamespaceOnly,
 			  filename,
 			  constantReexports = arguments[1].loose,
@@ -53713,14 +53978,14 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 			  const meta = (0, _normalizeAndLoadMetadata.default)(path, exportName, {
 			    importInterop,
 			    initializeReexports: constantReexports,
-			    lazy,
+			    getWrapperPayload,
 			    esNamespaceOnly,
 			    filename
 			  });
 			  if (!allowTopLevelThis) {
 			    (0, _rewriteThis.default)(path);
 			  }
-			  (0, _rewriteLiveReferences.default)(path, meta);
+			  (0, _rewriteLiveReferences.default)(path, meta, wrapReference);
 			  if (strictMode !== false) {
 			    const hasStrict = path.node.directives.some(directive => {
 			      return directive.value.value === "use strict";
@@ -53738,7 +54003,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 			    meta.exportNameListName = nameList.name;
 			    headers.push(nameList.statement);
 			  }
-			  headers.push(...buildExportInitializationStatements(path, meta, constantReexports, noIncompleteNsImportDetection));
+			  headers.push(...buildExportInitializationStatements(path, meta, wrapReference, constantReexports, noIncompleteNsImportDetection));
 			  return {
 			    meta,
 			    headers
@@ -53768,7 +54033,8 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 			  }
 			  return callExpression(programPath.hub.addHelper(helper), [expr]);
 			}
-			function buildNamespaceInitStatements(metadata, sourceMetadata, constantReexports = false) {
+			function buildNamespaceInitStatements(metadata, sourceMetadata, constantReexports = false, wrapReference = Lazy.wrapReference) {
+			  var _wrapReference;
 			  const statements = [];
 			  const srcNamespaceId = identifier(sourceMetadata.name);
 			  for (const localName of sourceMetadata.importsNamespace) {
@@ -53778,12 +54044,12 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 			      SOURCE: cloneNode(srcNamespaceId)
 			    }));
 			  }
-			  const srcNamespace = sourceMetadata.lazy ? callExpression(srcNamespaceId, []) : srcNamespaceId;
+			  const srcNamespace = (_wrapReference = wrapReference(srcNamespaceId, sourceMetadata.wrap)) != null ? _wrapReference : srcNamespaceId;
 			  if (constantReexports) {
-			    statements.push(...buildReexportsFromMeta(metadata, sourceMetadata, true));
+			    statements.push(...buildReexportsFromMeta(metadata, sourceMetadata, true, wrapReference));
 			  }
 			  for (const exportName of sourceMetadata.reexportNamespace) {
-			    statements.push((sourceMetadata.lazy ? _core.template.statement`
+			    statements.push((!_core.types.isIdentifier(srcNamespace) ? _core.template.statement`
             Object.defineProperty(EXPORTS, "NAME", {
               enumerable: true,
               get: function() {
@@ -53815,8 +54081,10 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
     });
     `
 			};
-			function buildReexportsFromMeta(meta, metadata, constantReexports) {
-			  const namespace = metadata.lazy ? callExpression(identifier(metadata.name), []) : identifier(metadata.name);
+			function buildReexportsFromMeta(meta, metadata, constantReexports, wrapReference) {
+			  var _wrapReference2;
+			  let namespace = identifier(metadata.name);
+			  namespace = (_wrapReference2 = wrapReference(namespace, metadata.wrap)) != null ? _wrapReference2 : namespace;
 			  const {
 			    stringSpecifiers
 			  } = meta;
@@ -53911,7 +54179,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 			    statement: variableDeclaration("var", [variableDeclarator(name, valueToNode(exportedVars))])
 			  };
 			}
-			function buildExportInitializationStatements(programPath, metadata, constantReexports = false, noIncompleteNsImportDetection = false) {
+			function buildExportInitializationStatements(programPath, metadata, wrapReference, constantReexports = false, noIncompleteNsImportDetection = false) {
 			  const initStatements = [];
 			  for (const [localName, data] of metadata.local) {
 			    if (data.kind === "import") ; else if (data.kind === "hoisted") {
@@ -53924,7 +54192,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 			  }
 			  for (const data of metadata.source.values()) {
 			    if (!constantReexports) {
-			      const reexportsStatements = buildReexportsFromMeta(metadata, data, false);
+			      const reexportsStatements = buildReexportsFromMeta(metadata, data, false, wrapReference);
 			      const reexports = [...data.reexports.keys()];
 			      for (let i = 0; i < reexportsStatements.length; i++) {
 			        initStatements.push([reexports[i], reexportsStatements[i]]);
@@ -63433,7 +63701,7 @@ getting parsed as 6.1, which can lead to unexpected behavior.
 	  value: true
 	});
 	removed.default = void 0;
-	var _default$b = {
+	var _default$a = {
 	  auxiliaryComment: {
 	    message: "Use `auxiliaryCommentBefore` or `auxiliaryCommentAfter`"
 	  },
@@ -63492,7 +63760,7 @@ getting parsed as 6.1, which can lead to unexpected behavior.
 	    message: "The `sourceMapTarget` option has been removed because it makes more sense for the tooling " + "that calls Babel to assign `map.file` themselves."
 	  }
 	};
-	removed.default = _default$b;
+	removed.default = _default$a;
 
 	var optionAssertions = {};
 
@@ -65635,19 +65903,19 @@ getting parsed as 6.1, which can lead to unexpected behavior.
 		if (hasRequiredConvertSourceMap) return convertSourceMap;
 		hasRequiredConvertSourceMap = 1;
 		(function (exports) {
-			var fs = require$$0;
-			var path = require$$1;
 
 			Object.defineProperty(exports, 'commentRegex', {
 			  get: function getCommentRegex () {
-			    return /^\s*\/(?:\/|\*)[@#]\s+sourceMappingURL=data:(?:application|text)\/json;(?:charset[:=]\S+?;)?base64,(?:.*)$/mg;
+			    // Groups: 1: media type, 2: MIME type, 3: charset, 4: encoding, 5: data.
+			    return /^\s*?\/[\/\*][@#]\s+?sourceMappingURL=data:(((?:application|text)\/json)(?:;charset=([^;,]+?)?)?)?(?:;(base64))?,(.*?)$/mg;
 			  }
 			});
+
 
 			Object.defineProperty(exports, 'mapFileCommentRegex', {
 			  get: function getMapFileCommentRegex () {
 			    // Matches sourceMappingURL in either // or /* comment styles.
-			    return /(?:\/\/[@#][ \t]+sourceMappingURL=([^\s'"`]+?)[ \t]*$)|(?:\/\*[@#][ \t]+sourceMappingURL=([^\*]+?)[ \t]*(?:\*\/){1}[ \t]*$)/mg;
+			    return /(?:\/\/[@#][ \t]+?sourceMappingURL=([^\s'"`]+?)[ \t]*?$)|(?:\/\*[@#][ \t]+sourceMappingURL=([^*]+?)[ \t]*?(?:\*\/){1}[ \t]*?$)/mg;
 			  }
 			});
 
@@ -65681,29 +65949,43 @@ getting parsed as 6.1, which can lead to unexpected behavior.
 			  return sm.split(',').pop();
 			}
 
-			function readFromFileMap(sm, dir) {
-			  // NOTE: this will only work on the server since it attempts to read the map file
-
+			function readFromFileMap(sm, read) {
 			  var r = exports.mapFileCommentRegex.exec(sm);
-
 			  // for some odd reason //# .. captures in 1 and /* .. */ in 2
 			  var filename = r[1] || r[2];
-			  var filepath = path.resolve(dir, filename);
 
 			  try {
-			    return fs.readFileSync(filepath, 'utf8');
+			    var sm = read(filename);
+			    if (sm != null && typeof sm.catch === 'function') {
+			      return sm.catch(throwError);
+			    } else {
+			      return sm;
+			    }
 			  } catch (e) {
-			    throw new Error('An error occurred while trying to read the map file at ' + filepath + '\n' + e);
+			    throwError(e);
+			  }
+
+			  function throwError(e) {
+			    throw new Error('An error occurred while trying to read the map file at ' + filename + '\n' + e.stack);
 			  }
 			}
 
 			function Converter (sm, opts) {
 			  opts = opts || {};
 
-			  if (opts.isFileComment) sm = readFromFileMap(sm, opts.commentFileDir);
-			  if (opts.hasComment) sm = stripComment(sm);
-			  if (opts.isEncoded) sm = decodeBase64(sm);
-			  if (opts.isJSON || opts.isEncoded) sm = JSON.parse(sm);
+			  if (opts.hasComment) {
+			    sm = stripComment(sm);
+			  }
+
+			  if (opts.encoding === 'base64') {
+			    sm = decodeBase64(sm);
+			  } else if (opts.encoding === 'uri') {
+			    sm = decodeURIComponent(sm);
+			  }
+
+			  if (opts.isJSON || opts.encoding) {
+			    sm = JSON.parse(sm);
+			  }
 
 			  this.sourcemap = sm;
 			}
@@ -65740,10 +66022,22 @@ getting parsed as 6.1, which can lead to unexpected behavior.
 			  return btoa(unescape(encodeURIComponent(json)));
 			}
 
+			Converter.prototype.toURI = function () {
+			  var json = this.toJSON();
+			  return encodeURIComponent(json);
+			};
+
 			Converter.prototype.toComment = function (options) {
-			  var base64 = this.toBase64();
-			  var data = 'sourceMappingURL=data:application/json;charset=utf-8;base64,' + base64;
-			  return options && options.multiline ? '/*# ' + data + ' */' : '//# ' + data;
+			  var encoding, content, data;
+			  if (options != null && options.encoding === 'uri') {
+			    encoding = '';
+			    content = this.toURI();
+			  } else {
+			    encoding = ';base64';
+			    content = this.toBase64();
+			  }
+			  data = 'sourceMappingURL=data:application/json;charset=utf-8' + encoding + ',' + content;
+			  return options != null && options.multiline ? '/*# ' + data + ' */' : '//# ' + data;
 			};
 
 			// returns copy instead of original
@@ -65773,20 +66067,42 @@ getting parsed as 6.1, which can lead to unexpected behavior.
 			  return new Converter(json, { isJSON: true });
 			};
 
+			exports.fromURI = function (uri) {
+			  return new Converter(uri, { encoding: 'uri' });
+			};
+
 			exports.fromBase64 = function (base64) {
-			  return new Converter(base64, { isEncoded: true });
+			  return new Converter(base64, { encoding: 'base64' });
 			};
 
 			exports.fromComment = function (comment) {
+			  var m, encoding;
 			  comment = comment
 			    .replace(/^\/\*/g, '//')
 			    .replace(/\*\/$/g, '');
-
-			  return new Converter(comment, { isEncoded: true, hasComment: true });
+			  m = exports.commentRegex.exec(comment);
+			  encoding = m && m[4] || 'uri';
+			  return new Converter(comment, { encoding: encoding, hasComment: true });
 			};
 
-			exports.fromMapFileComment = function (comment, dir) {
-			  return new Converter(comment, { commentFileDir: dir, isFileComment: true, isJSON: true });
+			function makeConverter(sm) {
+			  return new Converter(sm, { isJSON: true });
+			}
+
+			exports.fromMapFileComment = function (comment, read) {
+			  if (typeof read === 'string') {
+			    throw new Error(
+			      'String directory paths are no longer supported with `fromMapFileComment`\n' +
+			      'Please review the Upgrading documentation at https://github.com/thlorenz/convert-source-map#upgrading'
+			    )
+			  }
+
+			  var sm = readFromFileMap(comment, read);
+			  if (sm != null && typeof sm.then === 'function') {
+			    return sm.then(makeConverter);
+			  } else {
+			    return makeConverter(sm);
+			  }
 			};
 
 			// Finds last sourcemap comment in file or returns null if none was found
@@ -65796,9 +66112,15 @@ getting parsed as 6.1, which can lead to unexpected behavior.
 			};
 
 			// Finds last sourcemap comment in file or returns null if none was found
-			exports.fromMapFileSource = function (content, dir) {
+			exports.fromMapFileSource = function (content, read) {
+			  if (typeof read === 'string') {
+			    throw new Error(
+			      'String directory paths are no longer supported with `fromMapFileSource`\n' +
+			      'Please review the Upgrading documentation at https://github.com/thlorenz/convert-source-map#upgrading'
+			    )
+			  }
 			  var m = content.match(exports.mapFileCommentRegex);
-			  return m ? exports.fromMapFileComment(m.pop(), dir) : null;
+			  return m ? exports.fromMapFileComment(m.pop(), read) : null;
 			};
 
 			exports.removeComments = function (src) {
@@ -66226,7 +66548,7 @@ If you want to leave it as-is, add ${syntaxPluginInfo} to the 'plugins' section 
 	Object.defineProperty(cloneDeep, "__esModule", {
 	  value: true
 	});
-	cloneDeep.default = _default$a;
+	cloneDeep.default = _default$9;
 	function deepClone(value, cache) {
 	  if (value !== null) {
 	    if (cache.has(value)) return cache.get(value);
@@ -66250,7 +66572,7 @@ If you want to leave it as-is, add ${syntaxPluginInfo} to the 'plugins' section 
 	  }
 	  return value;
 	}
-	function _default$a(value) {
+	function _default$9(value) {
 	  if (typeof value !== "object") return value;
 	  return deepClone(value, new Map());
 	}
@@ -66333,9 +66655,11 @@ If you want to leave it as-is, add ${syntaxPluginInfo} to the 'plugins' section 
 		      const lastComment = extractComments(INLINE_SOURCEMAP_REGEX, ast);
 		      if (lastComment) {
 		        try {
-		          inputMap = _convertSourceMap().fromComment(lastComment);
+		          inputMap = _convertSourceMap().fromComment("//" + lastComment);
 		        } catch (err) {
-		          debug("discarding unknown inline input sourcemap", err);
+		          {
+		            debug("discarding unknown inline input sourcemap");
+		          }
 		        }
 		      }
 		    }
@@ -67240,7 +67564,7 @@ If you want to leave it as-is, add ${syntaxPluginInfo} to the 'plugins' section 
 			var _transformAst = requireTransformAst();
 			var _parse = requireParse();
 			requireLib();
-			const version = "7.22.20";
+			const version = "7.23.0";
 			exports.version = version;
 			const DEFAULT_EXTENSIONS = Object.freeze([".js", ".jsx", ".es6", ".es", ".mjs", ".cjs"]);
 			exports.DEFAULT_EXTENSIONS = DEFAULT_EXTENSIONS;
@@ -67354,8 +67678,8 @@ If you want to leave it as-is, add ${syntaxPluginInfo} to the 'plugins' section 
 	  value: true
 	});
 	lib$d.default = void 0;
-	var _helperPluginUtils$6 = lib$f;
-	var _default$9 = (0, _helperPluginUtils$6.declare)(api => {
+	var _helperPluginUtils$5 = lib$f;
+	var _default$8 = (0, _helperPluginUtils$5.declare)(api => {
 	  api.assertVersion(7);
 	  return {
 	    name: "syntax-jsx",
@@ -67369,7 +67693,7 @@ If you want to leave it as-is, add ${syntaxPluginInfo} to the 'plugins' section 
 	    }
 	  };
 	});
-	lib$d.default = _default$9;
+	lib$d.default = _default$8;
 
 	var lib$c = {};
 
@@ -67398,7 +67722,7 @@ If you want to leave it as-is, add ${syntaxPluginInfo} to the 'plugins' section 
 	});
 	createPlugin$1.default = createPlugin;
 	var _pluginSyntaxJsx = lib$d;
-	var _helperPluginUtils$5 = lib$f;
+	var _helperPluginUtils$4 = lib$f;
 	var _core$a = requireLib();
 	var _helperModuleImports = lib$k;
 	var _helperAnnotateAsPure$3 = lib$c;
@@ -67428,7 +67752,7 @@ If you want to leave it as-is, add ${syntaxPluginInfo} to the 'plugins' section 
 	  name,
 	  development
 	}) {
-	  return (0, _helperPluginUtils$5.declare)((_, options) => {
+	  return (0, _helperPluginUtils$4.declare)((_, options) => {
 	    const {
 	      pure: PURE_ANNOTATION,
 	      throwIfNamespace = true,
@@ -67900,11 +68224,11 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`);
 	});
 	lib$e.default = void 0;
 	var _createPlugin$1 = createPlugin$1;
-	var _default$8 = (0, _createPlugin$1.default)({
+	var _default$7 = (0, _createPlugin$1.default)({
 	  name: "transform-react-jsx",
 	  development: false
 	});
-	lib$e.default = _default$8;
+	lib$e.default = _default$7;
 
 	var lib$b = {};
 
@@ -67915,11 +68239,11 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`);
 	});
 	development.default = void 0;
 	var _createPlugin = createPlugin$1;
-	var _default$7 = (0, _createPlugin.default)({
+	var _default$6 = (0, _createPlugin.default)({
 	  name: "transform-react-jsx/development",
 	  development: true
 	});
-	development.default = _default$7;
+	development.default = _default$6;
 
 	(function (exports) {
 
@@ -67943,10 +68267,10 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`);
 	  value: true
 	});
 	lib$a.default = void 0;
-	var _helperPluginUtils$4 = lib$f;
+	var _helperPluginUtils$3 = lib$f;
 	var _path = require$$1;
 	var _core$9 = requireLib();
-	var _default$6 = (0, _helperPluginUtils$4.declare)(api => {
+	var _default$5 = (0, _helperPluginUtils$3.declare)(api => {
 	  api.assertVersion(7);
 	  function addDisplayName(id, call) {
 	    const props = call.arguments[0].properties;
@@ -68027,7 +68351,7 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`);
 	    }
 	  };
 	});
-	lib$a.default = _default$6;
+	lib$a.default = _default$5;
 
 	var lib$9 = {};
 
@@ -68035,11 +68359,11 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`);
 	  value: true
 	});
 	lib$9.default = void 0;
-	var _helperPluginUtils$3 = lib$f;
+	var _helperPluginUtils$2 = lib$f;
 	var _helperAnnotateAsPure$2 = lib$c;
 	var _core$8 = requireLib();
 	const PURE_CALLS = [["react", new Set(["cloneElement", "createContext", "createElement", "createFactory", "createRef", "forwardRef", "isValidElement", "memo", "lazy"])], ["react-dom", new Set(["createPortal"])]];
-	var _default$5 = (0, _helperPluginUtils$3.declare)(api => {
+	var _default$4 = (0, _helperPluginUtils$2.declare)(api => {
 	  api.assertVersion(7);
 	  return {
 	    name: "transform-react-pure-annotations",
@@ -68052,7 +68376,7 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`);
 	    }
 	  };
 	});
-	lib$9.default = _default$5;
+	lib$9.default = _default$4;
 	function isReactCall(path) {
 	  const calleePath = path.get("callee");
 	  if (!calleePath.isMemberExpression()) {
@@ -68153,7 +68477,7 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`);
 	  };
 	});
 
-	var _default$4 = lib$g.default = index$1;
+	var _default$3 = lib$g.default = index$1;
 
 	var lib$8 = {};
 
@@ -68165,7 +68489,7 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`);
 	  value: true
 	});
 	lib$6.default = void 0;
-	var _helperPluginUtils$2 = lib$f;
+	var _helperPluginUtils$1 = lib$f;
 	{
 	  var removePlugin = function (plugins, name) {
 	    const indices = [];
@@ -68180,7 +68504,7 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`);
 	    }
 	  };
 	}
-	var _default$3 = (0, _helperPluginUtils$2.declare)((api, opts) => {
+	var _default$2 = (0, _helperPluginUtils$1.declare)((api, opts) => {
 	  api.assertVersion(7);
 	  const {
 	    disallowAmbiguousJSXLike,
@@ -68212,7 +68536,7 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`);
 	    }
 	  };
 	});
-	lib$6.default = _default$3;
+	lib$6.default = _default$2;
 
 	var lib$5 = {};
 
@@ -70872,7 +71196,7 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`);
 	  value: true
 	});
 	lib$7.default = void 0;
-	var _helperPluginUtils$1 = lib$f;
+	var _helperPluginUtils = lib$f;
 	var _pluginSyntaxTypescript = lib$6;
 	var _helperCreateClassFeaturesPlugin = lib$5;
 	var _constEnum = constEnum;
@@ -70923,7 +71247,7 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`);
 	    throw path.buildCodeFrameError(`\`${wrong}\` is only supported when compiling modules to CommonJS.\n` + `Please consider using \`${suggestion}\`${extra}, or add ` + `@babel/plugin-transform-modules-commonjs to your Babel config.`);
 	  }
 	}
-	var _default$2 = (0, _helperPluginUtils$1.declare)((api, opts) => {
+	var _default$1 = (0, _helperPluginUtils.declare)((api, opts) => {
 	  const {
 	    types: t,
 	    template
@@ -71358,7 +71682,7 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`);
 	    return !sourceFileHasJsx;
 	  }
 	});
-	lib$7.default = _default$2;
+	lib$7.default = _default$1;
 
 	var lib = {};
 
@@ -71377,43 +71701,132 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`);
 	  path.replaceWith((0, _helperModuleTransforms$1.buildDynamicImport)(path.node, true, false, specifier => buildRequire(specifier, file)));
 	}
 
-	Object.defineProperty(lib, "__esModule", {
+	var lazy = {};
+
+	Object.defineProperty(lazy, "__esModule", {
 	  value: true
 	});
-	lib.default = void 0;
-	var _helperPluginUtils = lib$f;
-	var _helperModuleTransforms = requireLib$2();
-	var _helperSimpleAccess = lib$j;
+	lazy.lazyImportsHook = void 0;
 	var _core = requireLib();
-	var _dynamicImport = dynamicImport;
-	var _default$1 = (0, _helperPluginUtils.declare)((api, options) => {
-	  var _api$assumption, _api$assumption2, _api$assumption3;
-	  api.assertVersion(7);
-	  const {
-	    strictNamespace = false,
-	    mjsStrictNamespace = strictNamespace,
-	    allowTopLevelThis,
-	    strict,
-	    strictMode,
-	    noInterop,
-	    importInterop,
-	    lazy = false,
-	    allowCommonJSExports = true,
-	    loose = false
-	  } = options;
-	  const constantReexports = (_api$assumption = api.assumption("constantReexports")) != null ? _api$assumption : loose;
-	  const enumerableModuleMeta = (_api$assumption2 = api.assumption("enumerableModuleMeta")) != null ? _api$assumption2 : loose;
-	  const noIncompleteNsImportDetection = (_api$assumption3 = api.assumption("noIncompleteNsImportDetection")) != null ? _api$assumption3 : false;
-	  if (typeof lazy !== "boolean" && typeof lazy !== "function" && (!Array.isArray(lazy) || !lazy.every(item => typeof item === "string"))) {
-	    throw new Error(`.lazy must be a boolean, array of strings, or a function`);
+	var _helperModuleTransforms = requireLib$2();
+	const lazyImportsHook = lazy => ({
+	  name: `${"@babel/plugin-transform-modules-commonjs"}/lazy`,
+	  version: "7.23.0",
+	  getWrapperPayload(source, metadata) {
+	    if ((0, _helperModuleTransforms.isSideEffectImport)(metadata) || metadata.reexportAll) {
+	      return null;
+	    }
+	    if (lazy === true) {
+	      return /\./.test(source) ? null : "lazy/function";
+	    }
+	    if (Array.isArray(lazy)) {
+	      return lazy.indexOf(source) === -1 ? null : "lazy/function";
+	    }
+	    if (typeof lazy === "function") {
+	      return lazy(source) ? "lazy/function" : null;
+	    }
+	  },
+	  buildRequireWrapper(name, init, payload, referenced) {
+	    if (payload === "lazy/function") {
+	      if (!referenced) return false;
+	      return _core.template.statement.ast`
+        function ${name}() {
+          const data = ${init};
+          ${name} = function(){ return data; };
+          return data;
+        }
+      `;
+	    }
+	  },
+	  wrapReference(ref, payload) {
+	    if (payload === "lazy/function") return _core.types.callExpression(ref, []);
 	  }
-	  if (typeof strictNamespace !== "boolean") {
-	    throw new Error(`.strictNamespace must be a boolean, or undefined`);
+	});
+	lazy.lazyImportsHook = lazyImportsHook;
+
+	var hooks = {};
+
+	Object.defineProperty(hooks, "__esModule", {
+	  value: true
+	});
+	hooks.defineCommonJSHook = defineCommonJSHook;
+	hooks.makeInvokers = makeInvokers;
+	const commonJSHooksKey = "@babel/plugin-transform-modules-commonjs/customWrapperPlugin";
+	function defineCommonJSHook(file, hook) {
+	  let hooks = file.get(commonJSHooksKey);
+	  if (!hooks) file.set(commonJSHooksKey, hooks = []);
+	  hooks.push(hook);
+	}
+	function findMap(arr, cb) {
+	  if (arr) {
+	    for (const el of arr) {
+	      const res = cb(el);
+	      if (res != null) return res;
+	    }
 	  }
-	  if (typeof mjsStrictNamespace !== "boolean") {
-	    throw new Error(`.mjsStrictNamespace must be a boolean, or undefined`);
-	  }
-	  const getAssertion = localName => _core.template.expression.ast`
+	}
+	function makeInvokers(file) {
+	  const hooks = file.get(commonJSHooksKey);
+	  return {
+	    getWrapperPayload(...args) {
+	      return findMap(hooks, hook => hook.getWrapperPayload == null ? void 0 : hook.getWrapperPayload(...args));
+	    },
+	    wrapReference(...args) {
+	      return findMap(hooks, hook => hook.wrapReference == null ? void 0 : hook.wrapReference(...args));
+	    },
+	    buildRequireWrapper(...args) {
+	      return findMap(hooks, hook => hook.buildRequireWrapper == null ? void 0 : hook.buildRequireWrapper(...args));
+	    }
+	  };
+	}
+
+	(function (exports) {
+
+		Object.defineProperty(exports, "__esModule", {
+		  value: true
+		});
+		exports.default = void 0;
+		Object.defineProperty(exports, "defineCommonJSHook", {
+		  enumerable: true,
+		  get: function () {
+		    return _hooks.defineCommonJSHook;
+		  }
+		});
+		var _helperPluginUtils = lib$f;
+		var _helperModuleTransforms = requireLib$2();
+		var _helperSimpleAccess = lib$j;
+		var _core = requireLib();
+		var _dynamicImport = dynamicImport;
+		var _lazy = lazy;
+		var _hooks = hooks;
+		var _default = (0, _helperPluginUtils.declare)((api, options) => {
+		  var _api$assumption, _api$assumption2, _api$assumption3;
+		  api.assertVersion(7);
+		  const {
+		    strictNamespace = false,
+		    mjsStrictNamespace = strictNamespace,
+		    allowTopLevelThis,
+		    strict,
+		    strictMode,
+		    noInterop,
+		    importInterop,
+		    lazy = false,
+		    allowCommonJSExports = true,
+		    loose = false
+		  } = options;
+		  const constantReexports = (_api$assumption = api.assumption("constantReexports")) != null ? _api$assumption : loose;
+		  const enumerableModuleMeta = (_api$assumption2 = api.assumption("enumerableModuleMeta")) != null ? _api$assumption2 : loose;
+		  const noIncompleteNsImportDetection = (_api$assumption3 = api.assumption("noIncompleteNsImportDetection")) != null ? _api$assumption3 : false;
+		  if (typeof lazy !== "boolean" && typeof lazy !== "function" && (!Array.isArray(lazy) || !lazy.every(item => typeof item === "string"))) {
+		    throw new Error(`.lazy must be a boolean, array of strings, or a function`);
+		  }
+		  if (typeof strictNamespace !== "boolean") {
+		    throw new Error(`.strictNamespace must be a boolean, or undefined`);
+		  }
+		  if (typeof mjsStrictNamespace !== "boolean") {
+		    throw new Error(`.mjsStrictNamespace must be a boolean, or undefined`);
+		  }
+		  const getAssertion = localName => _core.template.expression.ast`
     (function(){
       throw new Error(
         "The CommonJS '" + "${localName}" + "' variable is not available in ES6 modules." +
@@ -71421,151 +71834,151 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`);
         "Babel config for this file.");
     })()
   `;
-	  const moduleExportsVisitor = {
-	    ReferencedIdentifier(path) {
-	      const localName = path.node.name;
-	      if (localName !== "module" && localName !== "exports") return;
-	      const localBinding = path.scope.getBinding(localName);
-	      const rootBinding = this.scope.getBinding(localName);
-	      if (rootBinding !== localBinding || path.parentPath.isObjectProperty({
-	        value: path.node
-	      }) && path.parentPath.parentPath.isObjectPattern() || path.parentPath.isAssignmentExpression({
-	        left: path.node
-	      }) || path.isAssignmentExpression({
-	        left: path.node
-	      })) {
-	        return;
-	      }
-	      path.replaceWith(getAssertion(localName));
-	    },
-	    UpdateExpression(path) {
-	      const arg = path.get("argument");
-	      if (!arg.isIdentifier()) return;
-	      const localName = arg.node.name;
-	      if (localName !== "module" && localName !== "exports") return;
-	      const localBinding = path.scope.getBinding(localName);
-	      const rootBinding = this.scope.getBinding(localName);
-	      if (rootBinding !== localBinding) return;
-	      path.replaceWith(_core.types.assignmentExpression(path.node.operator[0] + "=", arg.node, getAssertion(localName)));
-	    },
-	    AssignmentExpression(path) {
-	      const left = path.get("left");
-	      if (left.isIdentifier()) {
-	        const localName = left.node.name;
-	        if (localName !== "module" && localName !== "exports") return;
-	        const localBinding = path.scope.getBinding(localName);
-	        const rootBinding = this.scope.getBinding(localName);
-	        if (rootBinding !== localBinding) return;
-	        const right = path.get("right");
-	        right.replaceWith(_core.types.sequenceExpression([right.node, getAssertion(localName)]));
-	      } else if (left.isPattern()) {
-	        const ids = left.getOuterBindingIdentifiers();
-	        const localName = Object.keys(ids).filter(localName => {
-	          if (localName !== "module" && localName !== "exports") return false;
-	          return this.scope.getBinding(localName) === path.scope.getBinding(localName);
-	        })[0];
-	        if (localName) {
-	          const right = path.get("right");
-	          right.replaceWith(_core.types.sequenceExpression([right.node, getAssertion(localName)]));
-	        }
-	      }
-	    }
-	  };
-	  return {
-	    name: "transform-modules-commonjs",
-	    pre() {
-	      this.file.set("@babel/plugin-transform-modules-*", "commonjs");
-	    },
-	    visitor: {
-	      CallExpression(path) {
-	        if (!this.file.has("@babel/plugin-proposal-dynamic-import")) return;
-	        if (!_core.types.isImport(path.node.callee)) return;
-	        let {
-	          scope
-	        } = path;
-	        do {
-	          scope.rename("require");
-	        } while (scope = scope.parent);
-	        (0, _dynamicImport.transformDynamicImport)(path, noInterop, this.file);
-	      },
-	      Program: {
-	        exit(path, state) {
-	          if (!(0, _helperModuleTransforms.isModule)(path)) return;
-	          path.scope.rename("exports");
-	          path.scope.rename("module");
-	          path.scope.rename("require");
-	          path.scope.rename("__filename");
-	          path.scope.rename("__dirname");
-	          if (!allowCommonJSExports) {
-	            {
-	              (0, _helperSimpleAccess.default)(path, new Set(["module", "exports"]), false);
-	            }
-	            path.traverse(moduleExportsVisitor, {
-	              scope: path.scope
-	            });
-	          }
-	          let moduleName = (0, _helperModuleTransforms.getModuleName)(this.file.opts, options);
-	          if (moduleName) moduleName = _core.types.stringLiteral(moduleName);
-	          const {
-	            meta,
-	            headers
-	          } = (0, _helperModuleTransforms.rewriteModuleStatementsAndPrepareHeader)(path, {
-	            exportName: "exports",
-	            constantReexports,
-	            enumerableModuleMeta,
-	            strict,
-	            strictMode,
-	            allowTopLevelThis,
-	            noInterop,
-	            importInterop,
-	            lazy,
-	            esNamespaceOnly: typeof state.filename === "string" && /\.mjs$/.test(state.filename) ? mjsStrictNamespace : strictNamespace,
-	            noIncompleteNsImportDetection,
-	            filename: this.file.opts.filename
-	          });
-	          for (const [source, metadata] of meta.source) {
-	            const loadExpr = _core.types.callExpression(_core.types.identifier("require"), [_core.types.stringLiteral(source)]);
-	            let header;
-	            if ((0, _helperModuleTransforms.isSideEffectImport)(metadata)) {
-	              if (metadata.lazy) throw new Error("Assertion failure");
-	              header = _core.types.expressionStatement(loadExpr);
-	            } else {
-	              if (metadata.lazy && !metadata.referenced) {
-	                continue;
-	              }
-	              const init = (0, _helperModuleTransforms.wrapInterop)(path, loadExpr, metadata.interop) || loadExpr;
-	              if (metadata.lazy) {
-	                header = _core.template.statement.ast`
-                  function ${metadata.name}() {
-                    const data = ${init};
-                    ${metadata.name} = function(){ return data; };
-                    return data;
-                  }
-                `;
-	              } else {
-	                header = _core.template.statement.ast`
-                  var ${metadata.name} = ${init};
-                `;
-	              }
-	            }
-	            header.loc = metadata.loc;
-	            headers.push(header);
-	            headers.push(...(0, _helperModuleTransforms.buildNamespaceInitStatements)(meta, metadata, constantReexports));
-	          }
-	          (0, _helperModuleTransforms.ensureStatementsHoisted)(headers);
-	          path.unshiftContainer("body", headers);
-	          path.get("body").forEach(path => {
-	            if (headers.indexOf(path.node) === -1) return;
-	            if (path.isVariableDeclaration()) {
-	              path.scope.registerDeclaration(path);
-	            }
-	          });
-	        }
-	      }
-	    }
-	  };
-	});
-	lib.default = _default$1;
+		  const moduleExportsVisitor = {
+		    ReferencedIdentifier(path) {
+		      const localName = path.node.name;
+		      if (localName !== "module" && localName !== "exports") return;
+		      const localBinding = path.scope.getBinding(localName);
+		      const rootBinding = this.scope.getBinding(localName);
+		      if (rootBinding !== localBinding || path.parentPath.isObjectProperty({
+		        value: path.node
+		      }) && path.parentPath.parentPath.isObjectPattern() || path.parentPath.isAssignmentExpression({
+		        left: path.node
+		      }) || path.isAssignmentExpression({
+		        left: path.node
+		      })) {
+		        return;
+		      }
+		      path.replaceWith(getAssertion(localName));
+		    },
+		    UpdateExpression(path) {
+		      const arg = path.get("argument");
+		      if (!arg.isIdentifier()) return;
+		      const localName = arg.node.name;
+		      if (localName !== "module" && localName !== "exports") return;
+		      const localBinding = path.scope.getBinding(localName);
+		      const rootBinding = this.scope.getBinding(localName);
+		      if (rootBinding !== localBinding) return;
+		      path.replaceWith(_core.types.assignmentExpression(path.node.operator[0] + "=", arg.node, getAssertion(localName)));
+		    },
+		    AssignmentExpression(path) {
+		      const left = path.get("left");
+		      if (left.isIdentifier()) {
+		        const localName = left.node.name;
+		        if (localName !== "module" && localName !== "exports") return;
+		        const localBinding = path.scope.getBinding(localName);
+		        const rootBinding = this.scope.getBinding(localName);
+		        if (rootBinding !== localBinding) return;
+		        const right = path.get("right");
+		        right.replaceWith(_core.types.sequenceExpression([right.node, getAssertion(localName)]));
+		      } else if (left.isPattern()) {
+		        const ids = left.getOuterBindingIdentifiers();
+		        const localName = Object.keys(ids).filter(localName => {
+		          if (localName !== "module" && localName !== "exports") return false;
+		          return this.scope.getBinding(localName) === path.scope.getBinding(localName);
+		        })[0];
+		        if (localName) {
+		          const right = path.get("right");
+		          right.replaceWith(_core.types.sequenceExpression([right.node, getAssertion(localName)]));
+		        }
+		      }
+		    }
+		  };
+		  return {
+		    name: "transform-modules-commonjs",
+		    pre() {
+		      this.file.set("@babel/plugin-transform-modules-*", "commonjs");
+		      if (lazy) (0, _hooks.defineCommonJSHook)(this.file, (0, _lazy.lazyImportsHook)(lazy));
+		    },
+		    visitor: {
+		      ["CallExpression" + (api.types.importExpression ? "|ImportExpression" : "")](path) {
+		        if (!this.file.has("@babel/plugin-proposal-dynamic-import")) return;
+		        if (path.isCallExpression() && !_core.types.isImport(path.node.callee)) return;
+		        let {
+		          scope
+		        } = path;
+		        do {
+		          scope.rename("require");
+		        } while (scope = scope.parent);
+		        (0, _dynamicImport.transformDynamicImport)(path, noInterop, this.file);
+		      },
+		      Program: {
+		        exit(path, state) {
+		          if (!(0, _helperModuleTransforms.isModule)(path)) return;
+		          path.scope.rename("exports");
+		          path.scope.rename("module");
+		          path.scope.rename("require");
+		          path.scope.rename("__filename");
+		          path.scope.rename("__dirname");
+		          if (!allowCommonJSExports) {
+		            {
+		              (0, _helperSimpleAccess.default)(path, new Set(["module", "exports"]), false);
+		            }
+		            path.traverse(moduleExportsVisitor, {
+		              scope: path.scope
+		            });
+		          }
+		          let moduleName = (0, _helperModuleTransforms.getModuleName)(this.file.opts, options);
+		          if (moduleName) moduleName = _core.types.stringLiteral(moduleName);
+		          const hooks = (0, _hooks.makeInvokers)(this.file);
+		          const {
+		            meta,
+		            headers
+		          } = (0, _helperModuleTransforms.rewriteModuleStatementsAndPrepareHeader)(path, {
+		            exportName: "exports",
+		            constantReexports,
+		            enumerableModuleMeta,
+		            strict,
+		            strictMode,
+		            allowTopLevelThis,
+		            noInterop,
+		            importInterop,
+		            wrapReference: hooks.wrapReference,
+		            getWrapperPayload: hooks.getWrapperPayload,
+		            esNamespaceOnly: typeof state.filename === "string" && /\.mjs$/.test(state.filename) ? mjsStrictNamespace : strictNamespace,
+		            noIncompleteNsImportDetection,
+		            filename: this.file.opts.filename
+		          });
+		          for (const [source, metadata] of meta.source) {
+		            const loadExpr = _core.types.callExpression(_core.types.identifier("require"), [_core.types.stringLiteral(source)]);
+		            let header;
+		            if ((0, _helperModuleTransforms.isSideEffectImport)(metadata)) {
+		              if (lazy && metadata.wrap === "function") {
+		                throw new Error("Assertion failure");
+		              }
+		              header = _core.types.expressionStatement(loadExpr);
+		            } else {
+		              var _header;
+		              const init = (0, _helperModuleTransforms.wrapInterop)(path, loadExpr, metadata.interop) || loadExpr;
+		              if (metadata.wrap) {
+		                const res = hooks.buildRequireWrapper(metadata.name, init, metadata.wrap, metadata.referenced);
+		                if (res === false) continue;else header = res;
+		              }
+		              (_header = header) != null ? _header : header = _core.template.statement.ast`
+                var ${metadata.name} = ${init};
+              `;
+		            }
+		            header.loc = metadata.loc;
+		            headers.push(header);
+		            headers.push(...(0, _helperModuleTransforms.buildNamespaceInitStatements)(meta, metadata, constantReexports, hooks.wrapReference));
+		          }
+		          (0, _helperModuleTransforms.ensureStatementsHoisted)(headers);
+		          path.unshiftContainer("body", headers);
+		          path.get("body").forEach(path => {
+		            if (headers.indexOf(path.node) === -1) return;
+		            if (path.isVariableDeclaration()) {
+		              path.scope.registerDeclaration(path);
+		            }
+		          });
+		        }
+		      }
+		    }
+		  };
+		});
+		exports.default = _default;
+
+		
+	} (lib));
 
 	Object.defineProperty(lib$8, '__esModule', { value: true });
 
@@ -71595,6 +72008,7 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`);
 	    jsxPragmaFrag: "jsxPragmaFrag",
 	    onlyRemoveTypeImports: "onlyRemoveTypeImports",
 	    optimizeConstEnums: "optimizeConstEnums",
+	    rewriteImportExtensions: "rewriteImportExtensions",
 	    allExtensions: "allExtensions",
 	    isTSX: "isTSX"
 	  };
@@ -71614,6 +72028,7 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`);
 	    }
 	  }
 	  const optimizeConstEnums = v.validateBooleanOption(TopLevelOptions.optimizeConstEnums, options.optimizeConstEnums, false);
+	  const rewriteImportExtensions = v.validateBooleanOption(TopLevelOptions.rewriteImportExtensions, options.rewriteImportExtensions, false);
 	  const normalized = {
 	    ignoreExtensions,
 	    allowNamespaces,
@@ -71621,7 +72036,8 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`);
 	    jsxPragma,
 	    jsxPragmaFrag,
 	    onlyRemoveTypeImports,
-	    optimizeConstEnums
+	    optimizeConstEnums,
+	    rewriteImportExtensions
 	  };
 	  {
 	    normalized.allExtensions = allExtensions;
@@ -71629,6 +72045,27 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`);
 	  }
 	  return normalized;
 	}
+
+	var pluginRewriteTSImports = helperPluginUtils.declare(function ({
+	  types: t
+	}) {
+	  return {
+	    name: "preset-typescript/plugin-rewrite-ts-imports",
+	    visitor: {
+	      "ImportDeclaration|ExportAllDeclaration|ExportNamedDeclaration"({
+	        node
+	      }) {
+	        const {
+	          source
+	        } = node;
+	        const kind = t.isImportDeclaration(node) ? node.importKind : node.exportKind;
+	        if (kind === "value" && source && /[\\/]/.test(source.value)) {
+	          source.value = source.value.replace(/(\.[mc]?)ts$/, "$1js");
+	        }
+	      }
+	    }
+	  };
+	});
 
 	var index = helperPluginUtils.declarePreset((api, opts) => {
 	  api.assertVersion(7);
@@ -71641,7 +72078,8 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`);
 	    jsxPragma,
 	    jsxPragmaFrag,
 	    onlyRemoveTypeImports,
-	    optimizeConstEnums
+	    optimizeConstEnums,
+	    rewriteImportExtensions
 	  } = normalizeOptions(opts);
 	  const pluginOptions = disallowAmbiguousJSXLike => ({
 	    allowDeclareFields: opts.allowDeclareFields,
@@ -71661,6 +72099,7 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`);
 	  };
 	  const disableExtensionDetect = allExtensions || ignoreExtensions;
 	  return {
+	    plugins: rewriteImportExtensions ? [pluginRewriteTSImports] : [],
 	    overrides: disableExtensionDetect ? [{
 	      plugins: getPlugins(isTSX, disallowAmbiguousJSXLike)
 	    }] : [{
@@ -71786,7 +72225,7 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`);
 	    filename: ['.tsx', '.ts', '.js', '.jsx'].some(ext => filename.endsWith(ext))
 	      ? filename
 	      : undefined,
-	    presets: [_default$4, _default],
+	    presets: [_default$3, _default],
 	  });
 	  removeLoading();
 	  return transformed.code

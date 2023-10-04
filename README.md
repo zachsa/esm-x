@@ -16,7 +16,7 @@ Browser-native module loading of non-standard JavaScript (Typescript and JSX) vi
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # Example
-Here is an example of a simple React application with the `react` and `react-dom` library imports defined via an importmap. Copy this file into `index.html`, and serve via a web server (i.e. `npx http-server -c-1`).
+Here is an example of a simple React application with the `react` and `react-dom` library imports defined via an importmap. Copy this file into `index.html`, and serve via a web server (i.e. `npx http-server -c-1`). There is an example of an `@mui/material` app in [the test directory of this repository](/test/).
 
 ```html
 <!doctype html>

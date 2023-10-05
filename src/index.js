@@ -36,17 +36,10 @@ function transpile({ url, source, filename = undefined }) {
 }
 
 function initializeESModulesShim() {
-  const {
-    fetch: _,
-    shimMode: __,
-    resolve: ___,
-    skip: ____,
-    ...otherOptions
-  } = globalThis.esmsInitOptions || {}
+  const { fetch: _, shimMode: __, resolve: ___, ...otherOptions } = globalThis.esmsInitOptions || {}
 
   globalThis.esmsInitOptions = {
     shimMode: true,
-    skip: ['https://ga.jspm.io/'], // TODO should match everything NOT from origin
     async fetch(url, options) {
       const res = await fetch(url, options)
       if (!res.ok) return res

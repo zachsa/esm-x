@@ -20,8 +20,9 @@ jobs:
           git config --global --add safe.directory /__w/esm-x/esm-x
           git config --global user.name 'github-actions[bot]'
           git config --global user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          npm ci & npm install -g chomp
-          npm version patch --no-git-tag-version
+          npm version patch -m "chore(release): increment patch version [skip ci]"
+          npm install -g chomp
+          npm ci
           chomp
           git push origin main
           echo "//registry.npmjs.org/:_authToken=${{secrets.NPM_PUBLISH_TOKEN}}" > ~/.npmrc

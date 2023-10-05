@@ -2,24 +2,8 @@ version = 0.1
 default-task = 'build'
 
 [[task]]
-name = 'npm:install'
-targets = [
-    'node_modules',
-    'package-lock.json',
-]
-deps = ['package.json']
-validation = 'ok-only'
-display = 'init-only'
-run = 'npm install'
-
-[[task]]
 name = 'build'
 targets = ['dist/index.js']
-deps = [
-    '/home/zach/code/esm-x/src/*.js',
-    'src/index.js',
-    'npm:install',
-    'package.json',
-]
+deps = ['src/*.js']
 engine = 'shell'
 run = 'node rollup.js'

@@ -3538,11 +3538,11 @@
 		return keyword;
 	}
 
-	var hasRequiredLib$e;
+	var hasRequiredLib$d;
 
-	function requireLib$e () {
-		if (hasRequiredLib$e) return lib$w;
-		hasRequiredLib$e = 1;
+	function requireLib$d () {
+		if (hasRequiredLib$d) return lib$w;
+		hasRequiredLib$d = 1;
 		(function (exports) {
 
 			Object.defineProperty(exports, "__esModule", {
@@ -3614,7 +3614,7 @@
 		  value: true
 		});
 		isValidIdentifier.default = isValidIdentifier$1;
-		var _helperValidatorIdentifier = requireLib$e();
+		var _helperValidatorIdentifier = requireLib$d();
 		function isValidIdentifier$1(name, reserved = true) {
 		  if (typeof name !== "string") return false;
 		  if (reserved) {
@@ -3631,11 +3631,11 @@
 
 	var lib$v = {};
 
-	var hasRequiredLib$d;
+	var hasRequiredLib$c;
 
-	function requireLib$d () {
-		if (hasRequiredLib$d) return lib$v;
-		hasRequiredLib$d = 1;
+	function requireLib$c () {
+		if (hasRequiredLib$c) return lib$v;
+		hasRequiredLib$c = 1;
 
 		Object.defineProperty(lib$v, "__esModule", {
 		  value: true
@@ -4294,8 +4294,8 @@
 		core.patternLikeCommon = core.functionTypeAnnotationCommon = core.functionDeclarationCommon = core.functionCommon = core.classMethodOrPropertyCommon = core.classMethodOrDeclareMethodCommon = void 0;
 		var _is = requireIs();
 		var _isValidIdentifier = requireIsValidIdentifier();
-		var _helperValidatorIdentifier = requireLib$e();
-		var _helperStringParser = requireLib$d();
+		var _helperValidatorIdentifier = requireLib$d();
+		var _helperStringParser = requireLib$c();
 		var _index = requireConstants();
 		var _utils = requireUtils$1();
 		const defineType = (0, _utils.defineAliasedType)("Standardized");
@@ -7538,7 +7538,7 @@
 		});
 		validateNode.default = validateNode$1;
 		var _validate = requireValidate();
-		var _index = requireLib$c();
+		var _index = requireLib$b();
 		function validateNode$1(node) {
 		  const keys = _index.BUILDER_KEYS[node.type];
 		  for (const key of keys) {
@@ -9562,7 +9562,7 @@
 		});
 		cleanJSXElementLiteralChild.default = cleanJSXElementLiteralChild$1;
 		var _index = requireGenerated$2();
-		var _index2 = requireLib$c();
+		var _index2 = requireLib$b();
 		function cleanJSXElementLiteralChild$1(child, args) {
 		  const lines = child.value.split(/\r\n|\n|\r/);
 		  let lastNonEmptyLine = 0;
@@ -13307,7 +13307,7 @@
 		});
 		toIdentifier.default = toIdentifier$1;
 		var _isValidIdentifier = requireIsValidIdentifier();
-		var _helperValidatorIdentifier = requireLib$e();
+		var _helperValidatorIdentifier = requireLib$d();
 		function toIdentifier$1(input) {
 		  input = input + "";
 		  let name = "";
@@ -13959,7 +13959,7 @@
 		});
 		prependToMemberExpression.default = prependToMemberExpression$1;
 		var _index = requireGenerated$2();
-		var _index2 = requireLib$c();
+		var _index2 = requireLib$b();
 		function prependToMemberExpression$1(member, prepend) {
 		  if ((0, _index2.isSuper)(member.object)) {
 		    throw new Error("Cannot prepend node to super property access (`super.foo`).");
@@ -14431,11 +14431,11 @@
 		return isVar;
 	}
 
-	var hasRequiredLib$c;
+	var hasRequiredLib$b;
 
-	function requireLib$c () {
-		if (hasRequiredLib$c) return lib$x;
-		hasRequiredLib$c = 1;
+	function requireLib$b () {
+		if (hasRequiredLib$b) return lib$x;
+		hasRequiredLib$b = 1;
 		(function (exports) {
 
 			Object.defineProperty(exports, "__esModule", {
@@ -15036,7 +15036,7 @@
 		visitors.merge = merge;
 		visitors.verify = verify;
 		var virtualTypes = requireVirtualTypes();
-		var _t = requireLib$c();
+		var _t = requireLib$b();
 		const {
 		  DEPRECATED_KEYS,
 		  DEPRECATED_ALIASES,
@@ -16049,7 +16049,7 @@
 	  value: true
 	});
 	lib$u.default = splitExportDeclaration;
-	var _t$8 = requireLib$c();
+	var _t$8 = requireLib$b();
 	const {
 	  cloneNode: cloneNode$5,
 	  exportNamedDeclaration,
@@ -16103,64 +16103,54 @@
 
 	var lib$t = {};
 
-	var hasRequiredLib$b;
-
-	function requireLib$b () {
-		if (hasRequiredLib$b) return lib$t;
-		hasRequiredLib$b = 1;
-
-		Object.defineProperty(lib$t, "__esModule", {
-		  value: true
-		});
-		lib$t.default = void 0;
-		lib$t.requeueComputedKeyAndDecorators = requeueComputedKeyAndDecorators;
-		{
-		  lib$t.skipAllButComputedKey = function skipAllButComputedKey(path) {
-		    path.skip();
-		    if (path.node.computed) {
-		      path.context.maybeQueue(path.get("key"));
-		    }
-		  };
-		}
-		function requeueComputedKeyAndDecorators(path) {
-		  const {
-		    context,
-		    node
-		  } = path;
-		  if (node.computed) {
-		    context.maybeQueue(path.get("key"));
-		  }
-		  if (node.decorators) {
-		    for (const decorator of path.get("decorators")) {
-		      context.maybeQueue(decorator);
-		    }
-		  }
-		}
-		const visitor = {
-		  FunctionParent(path) {
-		    if (path.isArrowFunctionExpression()) {
-		      return;
-		    } else {
-		      path.skip();
-		      if (path.isMethod()) {
-		        requeueComputedKeyAndDecorators(path);
-		      }
-		    }
-		  },
-		  Property(path) {
-		    if (path.isObjectProperty()) {
-		      return;
-		    }
-		    path.skip();
-		    requeueComputedKeyAndDecorators(path);
-		  }
-		};
-		var _default = visitor;
-		lib$t.default = _default;
-
-		
-		return lib$t;
+	Object.defineProperty(lib$t, "__esModule", {
+	  value: true
+	});
+	lib$t.default = void 0;
+	lib$t.requeueComputedKeyAndDecorators = requeueComputedKeyAndDecorators;
+	{
+	  lib$t.skipAllButComputedKey = function skipAllButComputedKey(path) {
+	    path.skip();
+	    if (path.node.computed) {
+	      path.context.maybeQueue(path.get("key"));
+	    }
+	  };
 	}
+	function requeueComputedKeyAndDecorators(path) {
+	  const {
+	    context,
+	    node
+	  } = path;
+	  if (node.computed) {
+	    context.maybeQueue(path.get("key"));
+	  }
+	  if (node.decorators) {
+	    for (const decorator of path.get("decorators")) {
+	      context.maybeQueue(decorator);
+	    }
+	  }
+	}
+	const visitor$2 = {
+	  FunctionParent(path) {
+	    if (path.isArrowFunctionExpression()) {
+	      return;
+	    } else {
+	      path.skip();
+	      if (path.isMethod()) {
+	        requeueComputedKeyAndDecorators(path);
+	      }
+	    }
+	  },
+	  Property(path) {
+	    if (path.isObjectProperty()) {
+	      return;
+	    }
+	    path.skip();
+	    requeueComputedKeyAndDecorators(path);
+	  }
+	};
+	var _default$c = visitor$2;
+	lib$t.default = _default$c;
 
 	var hasRequiredRenamer;
 
@@ -16173,8 +16163,8 @@
 		});
 		renamer.default = void 0;
 		var _helperSplitExportDeclaration = lib$u;
-		var t = requireLib$c();
-		var _helperEnvironmentVisitor = requireLib$b();
+		var t = requireLib$b();
+		var _helperEnvironmentVisitor = lib$t;
 		var _traverseNode = requireTraverseNode();
 		var _visitors = requireVisitors();
 		const renameVisitor = {
@@ -17994,7 +17984,7 @@
 		var _index = requireLib$4();
 		var _binding = requireBinding();
 		var _globals = requireGlobals();
-		var _t = requireLib$c();
+		var _t = requireLib$b();
 		var t = _t;
 		var _cache = requireCache();
 		var _visitors = requireVisitors();
@@ -22792,7 +22782,7 @@
 		  value: true
 		});
 		whitespace.nodes = void 0;
-		var _t = requireLib$c();
+		var _t = requireLib$b();
 		const {
 		  FLIPPED_ALIAS_KEYS,
 		  isArrayExpression,
@@ -22970,7 +22960,7 @@
 		parentheses.IntersectionTypeAnnotation = parentheses.UnionTypeAnnotation = UnionTypeAnnotation;
 		parentheses.UpdateExpression = UpdateExpression;
 		parentheses.AwaitExpression = parentheses.YieldExpression = YieldExpression;
-		var _t = requireLib$c();
+		var _t = requireLib$b();
 		const {
 		  isArrayTypeAnnotation,
 		  isArrowFunctionExpression,
@@ -23264,7 +23254,7 @@
 		node.needsWhitespaceBefore = needsWhitespaceBefore;
 		var whitespace = requireWhitespace();
 		var parens = requireParentheses();
-		var _t = requireLib$c();
+		var _t = requireLib$b();
 		const {
 		  FLIPPED_ALIAS_KEYS,
 		  isCallExpression,
@@ -23413,7 +23403,7 @@
 		expressions.V8IntrinsicIdentifier = V8IntrinsicIdentifier;
 		expressions.YieldExpression = YieldExpression;
 		expressions._shouldPrintDecoratorsBeforeExport = _shouldPrintDecoratorsBeforeExport;
-		var _t = requireLib$c();
+		var _t = requireLib$b();
 		var n = requireNode();
 		const {
 		  isCallExpression,
@@ -23722,7 +23712,7 @@
 		statements.VariableDeclarator = VariableDeclarator;
 		statements.WhileStatement = WhileStatement;
 		statements.WithStatement = WithStatement;
-		var _t = requireLib$c();
+		var _t = requireLib$b();
 		const {
 		  isFor,
 		  isForStatement,
@@ -23999,7 +23989,7 @@
 		classes.ClassProperty = ClassProperty;
 		classes.StaticBlock = StaticBlock;
 		classes._classMethodHead = _classMethodHead;
-		var _t = requireLib$c();
+		var _t = requireLib$b();
 		const {
 		  isExportDefaultDeclaration,
 		  isExportNamedDeclaration
@@ -24184,7 +24174,7 @@
 		methods._parameters = _parameters;
 		methods._params = _params;
 		methods._predicate = _predicate;
-		var _t = requireLib$c();
+		var _t = requireLib$b();
 		const {
 		  isIdentifier
 		} = _t;
@@ -24371,7 +24361,7 @@
 		modules.ImportNamespaceSpecifier = ImportNamespaceSpecifier;
 		modules.ImportSpecifier = ImportSpecifier;
 		modules._printAttributes = _printAttributes;
-		var _t = requireLib$c();
+		var _t = requireLib$b();
 		const {
 		  isClassDeclaration,
 		  isExportDefaultSpecifier,
@@ -24998,7 +24988,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		types.StringLiteral = StringLiteral;
 		types.TopicReference = TopicReference;
 		types.TupleExpression = TupleExpression;
-		var _t = requireLib$c();
+		var _t = requireLib$b();
 		var _jsesc = requireJsesc();
 		const {
 		  isAssignmentPattern,
@@ -25282,7 +25272,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 			exports.VoidTypeAnnotation = VoidTypeAnnotation;
 			exports._interfaceish = _interfaceish;
 			exports._variance = _variance;
-			var _t = requireLib$c();
+			var _t = requireLib$b();
 			var _modules = requireModules();
 			var _types2 = requireTypes();
 			const {
@@ -26960,7 +26950,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		printer$1.default = void 0;
 		var _buffer = requireBuffer();
 		var n = requireNode();
-		var _t = requireLib$c();
+		var _t = requireLib$b();
 		var generatorFunctions = requireGenerators();
 		const {
 		  isFunction,
@@ -27728,7 +27718,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		ancestry.inType = inType;
 		ancestry.isAncestor = isAncestor;
 		ancestry.isDescendant = isDescendant;
-		var _t = requireLib$c();
+		var _t = requireLib$b();
 		const {
 		  VISITOR_KEYS
 		} = _t;
@@ -27875,7 +27865,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		  value: true
 		});
 		util$1.createUnionType = createUnionType;
-		var _t = requireLib$c();
+		var _t = requireLib$b();
 		const {
 		  createFlowUnionType,
 		  createTSUnionType,
@@ -27912,7 +27902,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		  value: true
 		});
 		infererReference.default = _default;
-		var _t = requireLib$c();
+		var _t = requireLib$b();
 		var _util = requireUtil();
 		const {
 		  BOOLEAN_NUMBER_BINARY_OPERATORS,
@@ -28101,7 +28091,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 			exports.UnaryExpression = UnaryExpression;
 			exports.UpdateExpression = UpdateExpression;
 			exports.VariableDeclarator = VariableDeclarator;
-			var _t = requireLib$c();
+			var _t = requireLib$b();
 			var _infererReference = requireInfererReference();
 			var _util = requireUtil();
 			const {
@@ -28292,7 +28282,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		inference.isBaseType = isBaseType;
 		inference.isGenericType = isGenericType;
 		var inferers = requireInferers();
-		var _t = requireLib$c();
+		var _t = requireLib$b();
 		const {
 		  anyTypeAnnotation,
 		  isAnyTypeAnnotation,
@@ -30299,7 +30289,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		lib$q.default = highlight;
 		lib$q.shouldHighlight = shouldHighlight;
 		var _jsTokens = requireJsTokens();
-		var _helperValidatorIdentifier = requireLib$e();
+		var _helperValidatorIdentifier = requireLib$d();
 		var _chalk = _interopRequireWildcard(requireChalk(), true);
 		function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function (nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 		function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
@@ -45051,7 +45041,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		  value: true
 		});
 		lib$o.default = hoistVariables;
-		var _t = requireLib$c();
+		var _t = requireLib$b();
 		const {
 		  assignmentExpression,
 		  expressionStatement,
@@ -45118,7 +45108,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		var _index2 = requirePath();
 		var _cache = requireCache();
 		var _parser = requireLib$7();
-		var _t = requireLib$c();
+		var _t = requireLib$b();
 		var _helperHoistVariables = requireLib$6();
 		const {
 		  FUNCTION_TYPES,
@@ -45681,7 +45671,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		  value: true
 		});
 		formatters.statements = formatters.statement = formatters.smart = formatters.program = formatters.expression = void 0;
-		var _t = requireLib$c();
+		var _t = requireLib$b();
 		const {
 		  assertExpressionStatement
 		} = _t;
@@ -45842,7 +45832,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		  value: true
 		});
 		parse$2.default = parseAndBuildMetadata;
-		var _t = requireLib$c();
+		var _t = requireLib$b();
 		var _parser = requireLib$7();
 		var _codeFrame = requireLib$8();
 		const {
@@ -46011,7 +46001,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		  value: true
 		});
 		populate.default = populatePlaceholders;
-		var _t = requireLib$c();
+		var _t = requireLib$b();
 		const {
 		  blockStatement,
 		  cloneNode,
@@ -46352,7 +46342,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 	});
 	lib$n.default = _default$b;
 	var _template = requireLib$5();
-	var _t$7 = requireLib$c();
+	var _t$7 = requireLib$b();
 	const {
 	  NOT_LOCAL_BINDING,
 	  cloneNode: cloneNode$4,
@@ -46527,8 +46517,8 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		conversion.ensureBlock = ensureBlock;
 		conversion.toComputedKey = toComputedKey;
 		conversion.unwrapFunctionEnvironment = unwrapFunctionEnvironment;
-		var _t = requireLib$c();
-		var _helperEnvironmentVisitor = requireLib$b();
+		var _t = requireLib$b();
+		var _helperEnvironmentVisitor = lib$t;
 		var _helperFunctionName = lib$n;
 		var _visitors = requireVisitors();
 		const {
@@ -47019,7 +47009,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		introspection.referencesImport = referencesImport;
 		introspection.resolve = resolve;
 		introspection.willIMaybeExecuteBefore = willIMaybeExecuteBefore;
-		var _t = requireLib$c();
+		var _t = requireLib$b();
 		const {
 		  STATEMENT_OR_BLOCK_KEYS,
 		  VISITOR_KEYS,
@@ -47743,7 +47733,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		  value: true
 		});
 		hoister.default = void 0;
-		var _t = requireLib$c();
+		var _t = requireLib$b();
 		var _t2 = _t;
 		const {
 		  react
@@ -47933,7 +47923,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		var _cache = requireCache();
 		var _hoister = requireHoister();
 		var _index = requirePath();
-		var _t = requireLib$c();
+		var _t = requireLib$b();
 		const {
 		  arrowFunctionExpression,
 		  assertExpression,
@@ -48169,7 +48159,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		family.getPrevSibling = getPrevSibling;
 		family.getSibling = getSibling;
 		var _index = requirePath();
-		var _t = requireLib$c();
+		var _t = requireLib$b();
 		const {
 		  getBindingIdentifiers: _getBindingIdentifiers,
 		  getOuterBindingIdentifiers: _getOuterBindingIdentifiers,
@@ -48502,7 +48492,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		comments.addComment = addComment;
 		comments.addComments = addComments;
 		comments.shareCommentsWithSiblings = shareCommentsWithSiblings;
-		var _t = requireLib$c();
+		var _t = requireLib$b();
 		const {
 		  addComment: _addComment,
 		  addComments: _addComments
@@ -48578,7 +48568,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		virtualTypesValidator.isStatement = isStatement;
 		virtualTypesValidator.isUser = isUser;
 		virtualTypesValidator.isVar = isVar;
-		var _t = requireLib$c();
+		var _t = requireLib$b();
 		const {
 		  isBinding,
 		  isBlockScoped: nodeIsBlockScoped,
@@ -48735,7 +48725,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		var _debug = requireBrowser$2();
 		var _index = requireLib$4();
 		var _index2 = requireScope();
-		var _t = requireLib$c();
+		var _t = requireLib$b();
 		var t = _t;
 		var cache = requireCache();
 		var _generator = requireLib$a();
@@ -48932,7 +48922,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		});
 		context$1.default = void 0;
 		var _index = requirePath();
-		var _t = requireLib$c();
+		var _t = requireLib$b();
 		const {
 		  VISITOR_KEYS
 		} = _t;
@@ -49054,7 +49044,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		});
 		traverseNode.traverseNode = traverseNode$1;
 		var _context = requireContext();
-		var _t = requireLib$c();
+		var _t = requireLib$b();
 		const {
 		  VISITOR_KEYS
 		} = _t;
@@ -49138,7 +49128,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 			exports.visitors = exports.default = void 0;
 			var visitors = requireVisitors();
 			exports.visitors = visitors;
-			var _t = requireLib$c();
+			var _t = requireLib$b();
 			var cache = requireCache();
 			var _traverseNode = requireTraverseNode();
 			var _index = requirePath();
@@ -51076,7 +51066,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		lib$z.list = void 0;
 		lib$z.minVersion = minVersion;
 		var _traverse = requireLib$4();
-		var _t = requireLib$c();
+		var _t = requireLib$b();
 		var _helpers = requireHelpers();
 		const {
 		  assignmentExpression,
@@ -52230,7 +52220,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 	});
 	importBuilder.default = void 0;
 	var _assert$2 = require$$1$1;
-	var _t$6 = requireLib$c();
+	var _t$6 = requireLib$b();
 	const {
 	  callExpression: callExpression$3,
 	  cloneNode: cloneNode$3,
@@ -52359,7 +52349,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 	});
 	importInjector.default = void 0;
 	var _assert$1 = require$$1$1;
-	var _t$5 = requireLib$c();
+	var _t$5 = requireLib$b();
 	var _importBuilder = importBuilder;
 	var _isModule = isModule$1;
 	const {
@@ -52642,7 +52632,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		  value: true
 		});
 		rewriteThis.default = rewriteThis$1;
-		var _helperEnvironmentVisitor = requireLib$b();
+		var _helperEnvironmentVisitor = lib$t;
 		var _core = requireLib();
 		const {
 		  numericLiteral,
@@ -52671,7 +52661,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 	  value: true
 	});
 	lib$j.default = simplifyAccess;
-	var _t$4 = requireLib$c();
+	var _t$4 = requireLib$b();
 	const {
 	  LOGICAL_OPERATORS: LOGICAL_OPERATORS$1,
 	  assignmentExpression: assignmentExpression$2,
@@ -53398,7 +53388,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 	normalizeAndLoadMetadata.isSideEffectImport = isSideEffectImport;
 	normalizeAndLoadMetadata.validateImportInteropOption = validateImportInteropOption;
 	var _path$5 = require$$1;
-	var _helperValidatorIdentifier = requireLib$e();
+	var _helperValidatorIdentifier = requireLib$d();
 	var _helperSplitExportDeclaration = lib$u;
 	function hasExports(metadata) {
 	  return metadata.hasExports;
@@ -55962,7 +55952,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		  return data;
 		}
 		function _t() {
-		  const data = requireLib$c();
+		  const data = requireLib$b();
 		  _t = function () {
 		    return data;
 		  };
@@ -56181,7 +56171,7 @@ Please specify the "importAttributesKeyword" generator option, whose value can b
 		  return data;
 		}
 		function _t() {
-		  const data = requireLib$c();
+		  const data = requireLib$b();
 		  _t = function () {
 		    return data;
 		  };
@@ -66619,7 +66609,7 @@ If you want to leave it as-is, add ${syntaxPluginInfo} to the 'plugins' section 
 		  return data;
 		}
 		function _t() {
-		  const data = requireLib$c();
+		  const data = requireLib$b();
 		  _t = function () {
 		    return data;
 		  };
@@ -67535,7 +67525,7 @@ If you want to leave it as-is, add ${syntaxPluginInfo} to the 'plugins' section 
 			var _index = indexBrowser;
 			var _environment = environment;
 			function _types() {
-			  const data = requireLib$c();
+			  const data = requireLib$b();
 			  _types = function () {
 			    return data;
 			  };
@@ -67711,7 +67701,7 @@ If you want to leave it as-is, add ${syntaxPluginInfo} to the 'plugins' section 
 	  value: true
 	});
 	lib$c.default = annotateAsPure;
-	var _t$3 = requireLib$c();
+	var _t$3 = requireLib$b();
 	const {
 	  addComment
 	} = _t$3;
@@ -68558,7 +68548,7 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`);
 
 	Object.defineProperty(lib$3, '__esModule', { value: true });
 
-	var _t$2 = requireLib$c();
+	var _t$2 = requireLib$b();
 
 	function _interopNamespace$1(e) {
 	  if (e && e.__esModule) return e;
@@ -68951,7 +68941,7 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`);
 	  value: true
 	});
 	lib$2.default = optimiseCallExpression;
-	var _t$1 = requireLib$c();
+	var _t$1 = requireLib$b();
 	const {
 	  callExpression: callExpression$1,
 	  identifier: identifier$1,
@@ -68981,7 +68971,7 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`);
 	  value: true
 	});
 	lib$4.default = void 0;
-	var _helperEnvironmentVisitor$2 = requireLib$b();
+	var _helperEnvironmentVisitor$2 = lib$t;
 	var _helperMemberExpressionToFunctions$1 = lib$3;
 	var _helperOptimiseCallExpression$1 = lib$2;
 	var _core$7 = requireLib();
@@ -68999,7 +68989,7 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`);
 	{
 	  {
 	    {
-	      const ns = requireLib$b();
+	      const ns = lib$t;
 	      lib$4.environmentVisitor = ns.default;
 	      lib$4.skipAllButComputedKey = ns.skipAllButComputedKey;
 	    }
@@ -69213,7 +69203,7 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`);
 	lib$1.isTransparentExprWrapper = isTransparentExprWrapper;
 	lib$1.skipTransparentExprWrapperNodes = skipTransparentExprWrapperNodes;
 	lib$1.skipTransparentExprWrappers = skipTransparentExprWrappers;
-	var _t = requireLib$c();
+	var _t = requireLib$b();
 	const {
 	  isParenthesizedExpression,
 	  isTSAsExpression,
@@ -69260,7 +69250,7 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`);
 	fields.transformPrivateNamesUsage = transformPrivateNamesUsage;
 	var _core$6 = requireLib();
 	var _helperReplaceSupers$1 = lib$4;
-	var _helperEnvironmentVisitor$1 = requireLib$b();
+	var _helperEnvironmentVisitor$1 = lib$t;
 	var _helperMemberExpressionToFunctions = lib$3;
 	var _helperOptimiseCallExpression = lib$2;
 	var _helperAnnotateAsPure$1 = lib$c;
@@ -70229,7 +70219,7 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`);
 	misc.extractComputedKeys = extractComputedKeys;
 	misc.injectInitialization = injectInitialization;
 	var _core$4 = requireLib();
-	var _helperEnvironmentVisitor = requireLib$b();
+	var _helperEnvironmentVisitor = lib$t;
 	const findBareSupers = _core$4.traverse.visitors.merge([{
 	  Super(path) {
 	    const {
@@ -72310,8 +72300,8 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`);
 	}
 
 	async function transpileXModule() {
-	  const script = document.querySelector('script[type="esm-x"]');
-	  if (script) {
+	  const scripts = document.querySelectorAll('script[type="esm-x"]');
+	  for (const script of scripts) {
 	    const transpiledCode = await transpile({ filename: 'script.tsx', source: script.innerHTML });
 	    script.innerHTML = transpiledCode;
 	    script.setAttribute('type', 'module-shim');

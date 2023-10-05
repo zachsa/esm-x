@@ -104,8 +104,8 @@ function normalizeImportmap() {
 }
 
 async function transpileXModule() {
-  const script = document.querySelector('script[type="esm-x"]')
-  if (script) {
+  const scripts = document.querySelectorAll('script[type="esm-x"]')
+  for (const script of scripts) {
     const transpiledCode = await transpile({ filename: 'script.tsx', source: script.innerHTML })
     script.innerHTML = transpiledCode
     script.setAttribute('type', 'module-shim')

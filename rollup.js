@@ -5,6 +5,7 @@ import commonjs from '@rollup/plugin-commonjs'
 import polyfillNode from 'rollup-plugin-polyfill-node'
 import { readFileSync, rmSync } from 'fs'
 import terser from '@rollup/plugin-terser'
+import replace from '@rollup/plugin-replace'
 
 rmSync('dist', { recursive: true })
 const { name, version } = JSON.parse(readFileSync('package.json', 'utf8'))
@@ -31,6 +32,12 @@ await Promise.resolve([
     format: 'iife',
     name: 'esmx',
     sourcemap: true,
+    plugins: [
+      replace({
+        preventAssignment: true,
+        'process.env.NODE_ENV': JSON.stringify('development'),
+      }),
+    ],
   }),
 
   // PROD
@@ -42,6 +49,12 @@ await Promise.resolve([
     compact: true,
     file: 'dist/index.js',
     format: 'iife',
-    plugins: [terser()],
+    plugins: [
+      terser(),
+      replace({
+        preventAssignment: true,
+        'process.env.NODE_ENV': JSON.stringify('production'),
+      }),
+    ],
   }),
 ])

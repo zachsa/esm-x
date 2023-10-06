@@ -4,6 +4,9 @@ import presetTypescript from '@babel/preset-typescript'
 import path from 'path'
 import { loadingStyleTag, loadingTag } from './loading.js'
 
+const NODE_ENV = process.env.NODE_ENV
+const isDev = NODE_ENV !== 'production'
+
 window.process = window.process || {}
 window.process.env = window.process.env || {}
 window.exports = window.exports || {}
@@ -23,7 +26,9 @@ const removeLoading = debounce(() => loadingTag.classList.remove('esm-x-active')
 
 function transpile({ url, source, filename = undefined }) {
   filename = filename || path.basename(new URL(url).pathname)
-  console.info('Transpiling', filename)
+  if (isDev) {
+    console.info('Transpiling', filename)
+  }
   addLoading()
   const transformed = transform(source, {
     filename: ['.tsx', '.ts', '.js', '.jsx'].some(ext => filename.endsWith(ext))

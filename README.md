@@ -79,7 +79,7 @@ Here is an example of a simple React application with the `react` and `react-dom
 
 ## Importmaps
 
-Head to the [JSPM generator](https://generator.jspm.io/) to quickly generate an importmap that includes React. Any importmap configuration should be supported - huge importmaps are fine, make sure to take advantage of dynamic imports / code splitting (for example, `Suspense/lazy` when using React), etc. (and obviously don't preload scripts)
+Head to the [JSPM generator](https://generator.jspm.io/) to quickly generate an importmap. Any importmap configuration should be supported - huge importmaps are fine, make sure to take advantage of dynamic imports / code splitting (for example, `Suspense/lazy` when using React), etc. (and obviously don't preload scripts)
 
 # Local development
 

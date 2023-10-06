@@ -22,7 +22,7 @@ With all major browsers now supporting `importmaps`, bundle-free web development
 Leverages [importmaps](https://github.com/WICG/import-maps) in conjunction with [the ES Module Shim library](https://github.com/guybedford/es-module-shims). With `shimMode` forced to `true`, all Source Code from the website origin is transpiled using [Babel](https://babeljs.io/), while imports originating from a module CDN (such as the excellent JSPM CDN, that optimizes all NPM libraries for ESM-supporting browsers) are loaded with `shimMode` forced to `false`. For now, browsers that don't support ESM are not supported - but that could change in the future.
 
 # Usage
-Include the `esm-x` library as the first script in your HTML file, and include at least one `<script type="esm-x">...</script>`. Scripts of `type="esm-x"` will be transpiled and executed in the order they are included in the HTML page.
+Include the `esm-x` library (328kB gzipped) as the first script in your HTML file, and include at least one `<script type="esm-x">...</script>`. Scripts of `type="esm-x"` will be transpiled and executed in the order they are included in the HTML page.
 
 Here is an example of a simple React application with the `react` and `react-dom` library imports defined via an importmap. Copy this file into `index.html`, and serve via a web server (i.e. `npx http-server -c-1`). There is an example of an `@mui/material` app in [the test directory of this repository](/test/).
 

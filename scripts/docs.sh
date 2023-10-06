@@ -14,4 +14,4 @@ rm -f README.md.bak
 
 # Add and commit the changes to README.md
 git add README.md
-git commit -m '[rebase-with-next-commit]' --no-verify 2>/dev/null
+git commit --no-edit --no-verify

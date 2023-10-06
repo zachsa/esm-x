@@ -34,7 +34,7 @@ Here is an example of a simple React application with the `react` and `react-dom
     <title>ESM-X Example</title>
 
     <!-- Include ESM-X here -->
-    <script src="https://www.unpkg.com/@zachsa/esm-x@1.0.6/dist/index.js"></script>
+    <script src="https://www.unpkg.com/@zachsa/esm-x@1.0.7/dist/index.js"></script>
 
     <!--
     JSPM Generator Import Map

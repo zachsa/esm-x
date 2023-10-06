@@ -25,6 +25,7 @@ jobs:
           npm ci
           chomp
           git push origin main
+          jq '.type="script"' package.json > tmp.json && mv tmp.json package.json
           echo "//registry.npmjs.org/:_authToken=${{secrets.NPM_PUBLISH_TOKEN}}" > ~/.npmrc
           npm publish --access public
           

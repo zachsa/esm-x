@@ -2,6 +2,8 @@
   "name": "@zachsa/esm-x",
   "version": "1.0.5",
   "type": "module",
+  "browser": "dist/index.js",
+  "main": "dist/index.js",
   "files": [
     "package.json",
     "LICENSE",

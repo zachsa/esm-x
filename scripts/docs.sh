@@ -14,4 +14,4 @@ rm -f README.md.bak
 
 # Add and commit the changes to README.md
 git add README.md
-git commit --no-edit --no-verify
+git commit -m "Updated docs" --no-verify

@@ -1,4 +1,5 @@
 # esm-x
+
 Enhance browser-JavaScript support to include JSX/Typescript syntax for websites utilizing importmaps.
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
@@ -7,6 +8,7 @@ Enhance browser-JavaScript support to include JSX/Typescript syntax for websites
 - [Motivation](#motivation)
   - [How it works](#how-it-works)
 - [Usage](#usage)
+  - [Options](#options)
   - [Importmaps](#importmaps)
 - [Local development](#local-development)
   - [Publish](#publish)
@@ -15,13 +17,15 @@ Enhance browser-JavaScript support to include JSX/Typescript syntax for websites
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # Motivation
+
 With all major browsers now supporting `importmaps`, bundle-free web development workflows have become both feasible and incredibly convenient. This project seeks to bring that convenience to React/Typescript projects.
 
 ## How it works
 
-Leverages [importmaps](https://github.com/WICG/import-maps) in conjunction with [the ES Module Shim library](https://github.com/guybedford/es-module-shims). With `shimMode` forced to `true`, all Source Code from the website origin is transpiled using [Babel](https://babeljs.io/), while imports originating from a module CDN (such as the excellent JSPM CDN, that optimizes all NPM libraries for ESM-supporting browsers) are loaded with `shimMode` forced to `false`. For now, browsers that don't support ESM are not supported - but that could change in the future.
+Leverages [importmaps](https://github.com/WICG/import-maps) in conjunction with [the ES Module Shim library](https://github.com/guybedford/es-module-shims). With `shimMode` forced to `true`, all Source Code from the website origin is transpiled using [Babel](https://babeljs.io/), while prior-optimized imports originating from a module CDN (such as the excellent JSPM CDN) are loaded directly.
 
 # Usage
+
 Include the `esm-x` library (328kB gzipped) as the first script in your HTML file, and include at least one `<script type="esm-x">...</script>`. Scripts of `type="esm-x"` will be transpiled and executed in the order they are included in the HTML page.
 
 Here is an example of a simple React application with the `react` and `react-dom` library imports defined via an importmap. Copy this file into `index.html`, and serve via a web server (i.e. `npx http-server -c-1`). There is an example of an `@mui/material` app in [the test directory of this repository](/test/).
@@ -34,12 +38,9 @@ Here is an example of a simple React application with the `react` and `react-dom
     <title>ESM-X Example</title>
 
     <!-- Include ESM-X here -->
-    <script src="https://www.unpkg.com/@zachsa/esm-x@1.0.10/dist/index.js"></script>
+    <script src="https://ga.jspm.io/npm:@zachsa/esm-x@1.0.10/dist/index.js"></script>
 
-    <!--
-    JSPM Generator Import Map
-    Edit URL: https://generator.jspm.io/#U2NhYGBiDs0rySzJSU1hKEpNTC7RTcnPdTC00DPSM9BPzslMzSuBiEPFAIy0jtgzAA
-  -->
+    <!-- https://generator.jspm.io/#U2NhYGBiDs0rySzJSU1hKEpNTC7RTcnPdTC00DPSM9BPzslMzSuBiEPFAIy0jtgzAA -->
     <script type="importmap">
       {
         "imports": {
@@ -55,13 +56,14 @@ Here is an example of a simple React application with the `react` and `react-dom
       }
     </script>
 
-    <!-- ES Module Shims: Import maps polyfill for older browsers without import maps support (eg Safari 16.3) -->
+    <!-- ES Module Shims -->
     <script
       async
       src="https://ga.jspm.io/npm:es-module-shims@1.8.0/dist/es-module-shims.js"
       crossorigin="anonymous"
     ></script>
 
+    <!-- ESM-X script -->
     <script type="esm-x">
       import React, { FC } from 'react';
       import { createRoot } from 'react-dom/client';
@@ -75,6 +77,13 @@ Here is an example of a simple React application with the `react` and `react-dom
     <div id="root"></div>
   </body>
 </html>
+```
+
+## Options
+Configure the ESM-X script by including HTML tag id and other attributes:
+
+```html
+<script id="esm-x" loading="circular|linear|disabled" src="..."></script>
 ```
 
 ## Importmaps

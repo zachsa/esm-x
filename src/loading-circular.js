@@ -51,10 +51,11 @@ loadingStyleTag.textContent = `
     border-top-color: #FFF;
     border-radius: 50%;
     animation: spin 1s linear infinite;
-    margin-bottom: 20px;
+    margin-top: 8px;
   }
 
   .esm-x-active .esm-x-title {
+    margin: 16px 24px auto;
     font-family: 'monospace';
     color: #FFF;
     font-size: 16px;
@@ -69,7 +70,7 @@ loadingTag.className = 'esm-x-placeholder'
 spinnerContainer.className = 'esm-x-spinner-container'
 spinner.className = 'esm-x-spinner'
 title.className = 'esm-x-title'
-title.textContent = 'Compiling JavaScript'
+title.textContent = 'ESM-X'
 loadingTag.appendChild(spinnerContainer)
 spinnerContainer.appendChild(spinner)
 spinnerContainer.appendChild(title)

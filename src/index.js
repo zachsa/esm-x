@@ -2,7 +2,26 @@ import { transform } from '@babel/core'
 import presetReact from '@babel/preset-react'
 import presetTypescript from '@babel/preset-typescript'
 import path from 'path'
-import { loadingStyleTag, loadingTag } from './loading.js'
+import {
+  loadingStyleTag as circularLoadingStyleTag,
+  loadingTag as circularLoadingTag,
+} from './loading-circular.js'
+import {
+  loadingStyleTag as linearLoadingStyleTag,
+  loadingTag as linearLoadingTag,
+} from './loading-linear.js'
+
+const loadingConfig = {
+  disabled: { style: undefined, tag: undefined },
+  circular: {
+    style: circularLoadingStyleTag,
+    tag: circularLoadingTag,
+  },
+  linear: {
+    style: linearLoadingStyleTag,
+    tag: linearLoadingTag,
+  },
+}
 
 const NODE_ENV = process.env.NODE_ENV
 const isDev = NODE_ENV !== 'production'
@@ -21,26 +40,26 @@ const debounce = (cb, duration = 0) => {
   }
 }
 
-const addLoading = () => loadingTag.classList.add('esm-x-active')
-const removeLoading = debounce(() => loadingTag.classList.remove('esm-x-active'), 1000)
+const addLoading = tag => tag?.classList.add('esm-x-active')
+const removeLoading = debounce(tag => tag?.classList.remove('esm-x-active'), 1000)
 
-function transpile({ url, source, filename = undefined }) {
+function transpile({ url, source, filename = undefined, loadingTag }) {
   filename = filename || path.basename(new URL(url).pathname)
   if (isDev) {
     console.info('Transpiling', filename)
   }
-  addLoading()
+  addLoading(loadingTag)
   const transformed = transform(source, {
     filename: ['.tsx', '.ts', '.js', '.jsx'].some(ext => filename.endsWith(ext))
       ? filename
       : undefined,
     presets: [presetReact, presetTypescript],
   })
-  removeLoading()
+  removeLoading(loadingTag)
   return transformed.code
 }
 
-function initializeESModulesShim() {
+function initializeESModulesShim(loadingTag) {
   const { fetch: _, shimMode: __, resolve: ___, ...otherOptions } = globalThis.esmsInitOptions || {}
 
   globalThis.esmsInitOptions = {
@@ -50,7 +69,7 @@ function initializeESModulesShim() {
       if (!res.ok) return res
       if (url.includes(globalThis.origin)) {
         const source = await res.text()
-        const transformed = await transpile({ url, source })
+        const transformed = await transpile({ url, source, loadingTag })
         return new Response(new Blob([transformed], { type: 'application/javascript' }))
       }
       return res
@@ -110,19 +129,26 @@ async function transpileXModule() {
   }
 }
 
-function initializePage() {
+function initializePage(loadingStyle, loadingTag) {
   document.addEventListener('DOMContentLoaded', async () => {
-    if (!document.getElementById('esm-x-loading-style')) {
-      document.head.appendChild(loadingStyleTag)
+    if (loadingStyle && loadingTag) {
+      if (!document.getElementById('esm-x-loading-style')) {
+        document.head.appendChild(loadingStyle)
+      }
+      if (!document.getElementById('esm-x-loading')) {
+        document.body.appendChild(loadingTag)
+      }
     }
-    if (!document.getElementById('esm-x-loading')) {
-      document.body.appendChild(loadingTag)
-    }
+
     normalizeImportmap()
     await transpileXModule()
   })
 }
 
+const loadingType =
+  document.querySelector('script[id="esm-x"]')?.attributes?.loading?.value || 'circular'
+const { style: loadingStyle, tag: loadingTag } = loadingConfig[loadingType]
+
 // Initial setup
-initializeESModulesShim()
-initializePage()
+initializeESModulesShim(loadingTag)
+initializePage(loadingStyle, loadingTag)

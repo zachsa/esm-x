@@ -10,6 +10,7 @@ Enhance browser-JavaScript support to include JSX/Typescript syntax for websites
 - [Usage](#usage)
   - [Options](#options)
   - [Importmaps](#importmaps)
+    - [External importmaps](#external-importmaps)
 - [Local development](#local-development)
   - [Publish](#publish)
 - [Install](#install)
@@ -89,6 +90,13 @@ Configure the ESM-X script by including HTML tag id and other attributes:
 ## Importmaps
 
 Head to the [JSPM generator](https://generator.jspm.io/) to quickly generate an importmap. Any importmap configuration should be supported - huge importmaps are fine, make sure to take advantage of dynamic imports / code splitting (for example, `Suspense/lazy` when using React), etc. (and obviously don't preload scripts)
+
+### External importmaps
+To use an external importmap, make sure that your importmap tag is of type "importmap-shim", and that the src url endsWith('importmap'). For example:
+
+```html
+<script type="importmap-shim" src="path/to/file/called/importmap"></script>
+```
 
 # Local development
 

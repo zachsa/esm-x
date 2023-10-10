@@ -23,7 +23,7 @@ jobs:
           git config --global user.email '41898282+github-actions[bot]@users.noreply.github.com'
           npm version patch -m "chore(release): increment patch version [skip ci]"
           npm install -g chomp
-          npm ci
+          npm ci --force
           chomp
           git push origin main
           jq '.type="script"' package.json > tmp.json && mv tmp.json package.json

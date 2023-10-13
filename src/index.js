@@ -5,6 +5,7 @@ import path from 'path'
 import {
   loadingStyleTag as circularLoadingStyleTag,
   loadingTag as circularLoadingTag,
+  setMsg as setMsg_,
 } from './loading-circular.js'
 import {
   loadingStyleTag as linearLoadingStyleTag,
@@ -22,6 +23,8 @@ const loadingConfig = {
     tag: linearLoadingTag,
   },
 }
+
+const setMsg = typeof setMsg_ === 'undefined' ? undefined : setMsg_
 
 const NODE_ENV = process.env.NODE_ENV
 const isDev = NODE_ENV !== 'production'
@@ -43,19 +46,17 @@ const debounce = (cb, duration = 0) => {
 const addLoading = tag => tag?.classList.add('esm-x-active')
 const removeLoading = debounce(tag => tag?.classList.remove('esm-x-active'), 1000)
 
-function transpile({ url, source, filename = undefined, loadingTag }) {
+function transpile({ url, source, filename = undefined }) {
   filename = filename || path.basename(new URL(url).pathname)
   if (isDev) {
     console.info('Transpiling', filename)
   }
-  addLoading(loadingTag)
   const transformed = transform(source, {
     filename: ['.tsx', '.ts', '.js', '.jsx'].some(ext => filename.endsWith(ext))
       ? filename
       : undefined,
     presets: [presetReact, presetTypescript],
   })
-  removeLoading(loadingTag)
   return transformed.code
 }
 
@@ -65,14 +66,22 @@ function initializeESModulesShim(loadingTag) {
   globalThis.esmsInitOptions = {
     shimMode: true,
     async fetch(url, options) {
-      const res = await fetch(url, options)
-      if (!res.ok) return res
-      if (!url.endsWith('importmap') && url.includes(globalThis.origin)) {
-        const source = await res.text()
-        const transformed = await transpile({ url, source, loadingTag })
-        return new Response(new Blob([transformed], { type: 'application/javascript' }))
+      addLoading(loadingTag)
+      if (setMsg) {
+        setMsg(`Loading ${url} ...`)
       }
-      return res
+      try {
+        const res = await fetch(url, options)
+        if (!res.ok) return res
+        if (!url.endsWith('importmap') && url.includes(globalThis.origin)) {
+          const source = await res.text()
+          const transformed = await transpile({ url, source })
+          return new Response(new Blob([transformed], { type: 'application/javascript' }))
+        }
+        return res
+      } finally {
+        removeLoading(loadingTag)
+      }
     },
     resolve(id, parentUrl, resolve) {
       if (id.startsWith('./') && !parentUrl) {

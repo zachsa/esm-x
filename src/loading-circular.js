@@ -59,18 +59,35 @@ loadingStyleTag.textContent = `
     font-family: 'monospace';
     color: #FFF;
     font-size: 16px;
-  }`
+  }
+  
+  .esm-x-active .esm-x-msg {
+    margin: 16px 24px auto;
+    font-family: 'monospace';
+    color: #FFF;
+    font-size: 8px;
+  }
+`
 
 export const loadingTag = document.createElement('div')
+export const spinnerContainer = document.createElement('div')
+export const spinner = document.createElement('div')
+export const title = document.createElement('div')
+export const msgContainer = document.createElement('div')
+
 loadingTag.id = 'esm-x-loading'
-const spinnerContainer = document.createElement('div')
-const spinner = document.createElement('div')
-const title = document.createElement('div')
 loadingTag.className = 'esm-x-placeholder'
 spinnerContainer.className = 'esm-x-spinner-container'
 spinner.className = 'esm-x-spinner'
 title.className = 'esm-x-title'
 title.textContent = 'ESM-X'
+msgContainer.className = 'esm-x-msg'
+
 loadingTag.appendChild(spinnerContainer)
 spinnerContainer.appendChild(spinner)
 spinnerContainer.appendChild(title)
+spinnerContainer.appendChild(msgContainer)
+
+export const setMsg = (msg = '') => {
+  msgContainer.innerHTML = msg
+}

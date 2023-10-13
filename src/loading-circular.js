@@ -62,11 +62,42 @@ loadingStyleTag.textContent = `
   }
   
   .esm-x-active .esm-x-msg {
-    margin: 16px 24px auto;
+    margin: 16px;
+    width: 650px;
     font-family: 'monospace';
     color: #FFF;
     font-size: 8px;
+    max-height: 200px;
+    overflow-y: auto;
   }
+
+  /* Style for the scrollbar track/background */
+  .esm-x-active .esm-x-msg::-webkit-scrollbar {
+    width: 8px;
+    background-color: rgba(0,0,0,0.1);
+  }
+  
+  .esm-x-active .esm-x-msg::-webkit-scrollbar-track {
+    border-radius: 4px;
+    background-color: rgba(0,0,0,0.1);
+  }
+  
+  /* Style for the scrollbar thumb/handle */
+  .esm-x-active .esm-x-msg::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background-color: rgba(255, 255, 255, 0.4);
+    transition: background-color 0.2s;
+  }
+  
+  .esm-x-active .esm-x-msg::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(255, 255, 255, 0.6);
+  }
+  
+  /* Firefox */
+  .esm-x-active .esm-x-msg {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.4) rgba(0,0,0,0.1);
+  }  
 `
 
 export const loadingTag = document.createElement('div')
@@ -89,5 +120,33 @@ spinnerContainer.appendChild(title)
 spinnerContainer.appendChild(msgContainer)
 
 export const setMsg = (msg = '') => {
-  msgContainer.innerHTML = msg
+  p.innerHTML = msg
+}
+
+const stamp = () => {
+  const date = new Date()
+  const year = date.getFullYear()
+  const month = String(date.getMonth() + 1).padStart(2, '0')
+  const day = String(date.getDate()).padStart(2, '0')
+  const hours = String(date.getHours()).padStart(2, '0')
+  const minutes = String(date.getMinutes()).padStart(2, '0')
+  const seconds = String(date.getSeconds()).padStart(2, '0')
+
+  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`
+}
+
+const history = 100
+let i = 0
+
+export const addMsg = (msg = '') => {
+  const p = document.createElement('p')
+  p.innerHTML = `${++i} ${stamp()}: ${msg}`
+  msgContainer.append(p)
+
+  // Check and remove older messages if they exceed history limit
+  while (msgContainer.children.length > history) {
+    msgContainer.removeChild(msgContainer.firstChild)
+  }
+
+  msgContainer.scrollTop = msgContainer.scrollHeight
 }

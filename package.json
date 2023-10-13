@@ -1,6 +1,6 @@
 {
   "name": "@zachsa/esm-x",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "type": "module",
   "browser": "dist/index.js",
   "main": "dist/index.js",

@@ -73,7 +73,7 @@ function initializeESModulesShim(loadingTag) {
       try {
         const res = await fetch(url, options)
         if (!res.ok) return res
-        if (!url.endsWith('importmap') && url.includes(globalThis.origin)) {
+        if (!url.endsWith('importmap') || url.endsWith('importmap.json')) {
           const source = await res.text()
           const transformed = await transpile({ url, source })
           return new Response(new Blob([transformed], { type: 'application/javascript' }))

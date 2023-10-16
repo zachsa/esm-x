@@ -92,11 +92,13 @@ Configure the ESM-X script by including HTML tag id and other attributes:
 Head to the [JSPM generator](https://generator.jspm.io/) to quickly generate an importmap. Any importmap configuration should be supported - huge importmaps are fine, make sure to take advantage of dynamic imports / code splitting (for example, `Suspense/lazy` when using React), etc. (and obviously don't preload scripts)
 
 ### External importmaps
-To use an external importmap, make sure that your importmap tag is of type "importmap-shim", and that the src url endsWith('importmap'). For example:
+To use an external importmap, make sure that your importmap tag is of type "importmap-shim", and that the src url `endsWith('importmap') || endsWith('importmap.json')`. For example:
 
 ```html
-<script type="importmap-shim" src="path/to/file/called/importmap"></script>
+<script type="importmap-shim" src="path/to/file/called/importmap.json"></script>
 ```
+
+It's easy to work with external importmaps using the [`jspm CLI`](https://jspm.org/docs/jspm-cli/stable/).
 
 # Local development
 

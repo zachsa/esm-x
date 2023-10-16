@@ -48,18 +48,20 @@ const debounce = (cb, duration = 0) => {
 const addLoading = tag => tag?.classList.add('esm-x-active')
 const removeLoading = debounce(tag => tag?.classList.remove('esm-x-active'), 1000)
 
-function transpile({ url, source, filename = undefined }) {
-  filename = filename || path.basename(new URL(url).pathname)
-  if (isDev) {
-    console.info('Transpiling', filename)
-  }
-  const transformed = transform(source, {
-    filename: ['.tsx', '.ts', '.js', '.jsx'].some(ext => filename.endsWith(ext))
-      ? filename
-      : undefined,
-    presets: [presetReact, presetTypescript],
+async function transpile({ url, source, filename = undefined }) {
+  return new Promise((resolve, reject) => {
+    filename = filename || path.basename(new URL(url).pathname)
+    if (isDev) {
+      console.info('Transpiling', filename)
+    }
+    const transformed = transform(source, {
+      filename: ['.tsx', '.ts', '.js', '.jsx'].some(ext => filename.endsWith(ext))
+        ? filename
+        : undefined,
+      presets: [presetReact, presetTypescript],
+    })
+    resolve(transformed.code)
   })
-  return transformed.code
 }
 
 function initializeESModulesShim(loadingTag) {
@@ -75,7 +77,14 @@ function initializeESModulesShim(loadingTag) {
       try {
         const res = await fetch(url, options)
         if (!res.ok) return res
-        if (!url.endsWith('importmap') || url.endsWith('importmap.json')) {
+
+        /**
+         * importmap files need to be handled by es-module-shims, all code
+         * from the origin is treated as needing to be transpiled
+         */
+        const isImportMapFile = url.endsWith('importmap') || url.endsWith('importmap.json')
+        const isSameOrigin = url.includes(globalThis.origin)
+        if (!isImportMapFile && isSameOrigin) {
           const source = await res.text()
           const transformed = await transpile({ url, source })
           return new Response(new Blob([transformed], { type: 'application/javascript' }))

@@ -6,6 +6,7 @@ import {
   loadingStyleTag as circularLoadingStyleTag,
   loadingTag as circularLoadingTag,
   setMsg as setMsg_,
+  addMsg as addMsg_,
 } from './loading-circular.js'
 import {
   loadingStyleTag as linearLoadingStyleTag,
@@ -25,6 +26,7 @@ const loadingConfig = {
 }
 
 const setMsg = typeof setMsg_ === 'undefined' ? undefined : setMsg_
+const addMsg = typeof setMsg_ === 'undefined' ? undefined : addMsg_
 
 const NODE_ENV = process.env.NODE_ENV
 const isDev = NODE_ENV !== 'production'
@@ -67,8 +69,8 @@ function initializeESModulesShim(loadingTag) {
     shimMode: true,
     async fetch(url, options) {
       addLoading(loadingTag)
-      if (setMsg) {
-        setMsg(`Loading ${url} ...`)
+      if (addMsg) {
+        addMsg(`${url}`)
       }
       try {
         const res = await fetch(url, options)

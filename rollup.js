@@ -3,11 +3,18 @@ import nodeResolve from '@rollup/plugin-node-resolve'
 import json from '@rollup/plugin-json'
 import commonjs from '@rollup/plugin-commonjs'
 import polyfillNode from 'rollup-plugin-polyfill-node'
-import { readFileSync, rmSync } from 'fs'
+import { readFileSync, rmSync, readdirSync } from 'fs'
+import path from 'path'
 import terser from '@rollup/plugin-terser'
 import replace from '@rollup/plugin-replace'
 
-rmSync('dist', { recursive: true })
+const directory = 'dist'
+readdirSync(directory).forEach(file => {
+  if (path.extname(file) === '.js') {
+    rmSync(path.join(directory, file))
+  }
+})
+
 const { name, version } = JSON.parse(readFileSync('package.json', 'utf8'))
 
 // Transpile

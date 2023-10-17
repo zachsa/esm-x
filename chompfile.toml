@@ -3,7 +3,22 @@ default-task = 'build'
 
 [[task]]
 name = 'build'
-targets = ['dist/index.js']
+deps = ['rollup:src', 'rollup:worker']
+serial = true
+
+[[task]]
+name = 'rollup:src'
 deps = ['src/*.js']
 engine = 'shell'
-run = 'node rollup.js'
+run = '''
+node rollup.js
+'''
+
+[[task]]
+name = 'rollup:worker'
+deps = ['src/scripts/*.js']
+engine = 'shell'
+run = '''
+mkdir -p dist/scripts
+cp src/scripts/worker.js dist/scripts/worker.js
+'''

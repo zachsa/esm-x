@@ -13,6 +13,22 @@ import {
   loadingTag as linearLoadingTag,
 } from './loading-linear.js'
 
+if (!window.Worker) {
+  throw new Error(
+    "Web workers are not supported in this browser. ESM-X may support workflows that don't require web workers in the future - please request this if you see this error",
+  )
+}
+
+const scriptURL = document.currentScript.src
+const worker = new Worker(
+  scriptURL.substring(0, scriptURL.lastIndexOf('/') + 1) + 'scripts/worker.js',
+)
+
+worker.postMessage([1, 4])
+worker.onmessage = e => {
+  console.log(e.data)
+}
+
 const loadingConfig = {
   disabled: { style: undefined, tag: undefined },
   circular: {
@@ -47,6 +63,10 @@ const debounce = (cb, duration = 0) => {
 
 const addLoading = tag => tag?.classList.add('esm-x-active')
 const removeLoading = debounce(tag => tag?.classList.remove('esm-x-active'), 1000)
+
+
+
+
 
 async function transpile({ url, source, filename = undefined }) {
   return new Promise((resolve, reject) => {

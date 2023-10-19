@@ -19,15 +19,15 @@ if (!window.Worker) {
   )
 }
 
-const scriptURL = document.currentScript.src
-const worker = new Worker(
-  scriptURL.substring(0, scriptURL.lastIndexOf('/') + 1) + 'scripts/worker.js',
-)
+// const scriptURL = document.currentScript.src
+// const worker = new Worker(
+//   scriptURL.substring(0, scriptURL.lastIndexOf('/') + 1) + 'scripts/worker.js',
+// )
 
-worker.postMessage([1, 4])
-worker.onmessage = e => {
-  console.log(e.data)
-}
+// worker.postMessage([1, 4])
+// worker.onmessage = e => {
+//   console.log(e.data)
+// }
 
 const loadingConfig = {
   disabled: { style: undefined, tag: undefined },
@@ -64,23 +64,23 @@ const debounce = (cb, duration = 0) => {
 const addLoading = tag => tag?.classList.add('esm-x-active')
 const removeLoading = debounce(tag => tag?.classList.remove('esm-x-active'), 1000)
 
-
-
-
-
 async function transpile({ url, source, filename = undefined }) {
   return new Promise((resolve, reject) => {
-    filename = filename || path.basename(new URL(url).pathname)
-    if (isDev) {
-      console.info('Transpiling', filename)
+    try {
+      filename = filename || path.basename(new URL(url).pathname)
+      if (isDev) {
+        console.info('Transpiling', filename)
+      }
+      const transformed = transform(source, {
+        filename: ['.tsx', '.ts', '.js', '.jsx'].some(ext => filename.endsWith(ext))
+          ? filename
+          : undefined,
+        presets: [presetReact, presetTypescript],
+      })
+      resolve(transformed.code)
+    } catch (e) {
+      reject(e)
     }
-    const transformed = transform(source, {
-      filename: ['.tsx', '.ts', '.js', '.jsx'].some(ext => filename.endsWith(ext))
-        ? filename
-        : undefined,
-      presets: [presetReact, presetTypescript],
-    })
-    resolve(transformed.code)
   })
 }
 
@@ -107,9 +107,12 @@ function initializeESModulesShim(loadingTag) {
         if (!isImportMapFile && isSameOrigin) {
           const source = await res.text()
           const transformed = await transpile({ url, source })
+          console.log(url, 'done')
           return new Response(new Blob([transformed], { type: 'application/javascript' }))
         }
         return res
+      } catch (e) {
+        console.error(e)
       } finally {
         removeLoading(loadingTag)
       }

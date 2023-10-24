@@ -58,8 +58,6 @@ const debounce = (cb, duration = 0) => {
 const addLoading = tag => tag?.classList.add('esm-x-active')
 const removeLoading = debounce(tag => tag?.classList.remove('esm-x-active'), 1000)
 
-const map = {}
-
 async function transpile({ url, source, filename = path.basename(new URL(url).pathname) }) {
   if (isDev) {
     console.info('Transpiling', filename)
@@ -75,7 +73,6 @@ async function transpile({ url, source, filename = path.basename(new URL(url).pa
         if (_id === id) {
           worker.removeEventListener('message', handleMessage)
           resolve(transformed)
-          delete map[_id]
         }
       }
 

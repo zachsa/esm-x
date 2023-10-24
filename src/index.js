@@ -107,7 +107,6 @@ function initializeESModulesShim(loadingTag) {
         if (!isImportMapFile && isSameOrigin) {
           const source = await res.text()
           const transformed = await transpile({ url, source })
-          console.log(url, 'done')
           return new Response(new Blob([transformed], { type: 'application/javascript' }))
         }
         return res
@@ -164,28 +163,39 @@ function normalizeImportmap() {
 }
 
 async function transpileXModule() {
-  const scripts = document.querySelectorAll('script[type="esm-x"]')
-  for (const script of scripts) {
-    const transpiledCode = await transpile({ filename: 'script.tsx', source: script.innerHTML })
-    script.innerHTML = transpiledCode
-    script.setAttribute('type', 'module-shim')
+  const scripts = Array.from(document.querySelectorAll('script[type="esm-x"]'))
+
+  const createAndInsertNewScript = async (script, i) => {
+    const newScript = document.createElement('script')
+    newScript.type = 'module-shim'
+    newScript.innerHTML = await transpile({
+      filename: `script-${i}.tsx`,
+      source: script.innerHTML,
+    })
+    script.insertAdjacentElement('afterend', newScript)
   }
+
+  await Promise.all(scripts.map(createAndInsertNewScript))
 }
 
 function initializePage(loadingStyle, loadingTag) {
-  document.addEventListener('DOMContentLoaded', async () => {
-    if (loadingStyle && loadingTag) {
-      if (!document.getElementById('esm-x-loading-style')) {
-        document.head.appendChild(loadingStyle)
+  document.addEventListener(
+    'DOMContentLoaded',
+    async () => {
+      if (loadingStyle && loadingTag) {
+        if (!document.getElementById('esm-x-loading-style')) {
+          document.head.appendChild(loadingStyle)
+        }
+        if (!document.getElementById('esm-x-loading')) {
+          document.body.appendChild(loadingTag)
+        }
       }
-      if (!document.getElementById('esm-x-loading')) {
-        document.body.appendChild(loadingTag)
-      }
-    }
 
-    normalizeImportmap()
-    await transpileXModule()
-  })
+      normalizeImportmap()
+      await transpileXModule()
+    },
+    { once: true },
+  )
 }
 
 const loadingType =

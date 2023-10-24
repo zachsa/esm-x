@@ -1,6 +1,4 @@
-import { transform } from '@babel/core'
-import presetReact from '@babel/preset-react'
-import presetTypescript from '@babel/preset-typescript'
+import { nanoid } from 'nanoid'
 import path from 'path'
 import {
   loadingStyleTag as circularLoadingStyleTag,
@@ -19,15 +17,11 @@ if (!window.Worker) {
   )
 }
 
-// const scriptURL = document.currentScript.src
-// const worker = new Worker(
-//   scriptURL.substring(0, scriptURL.lastIndexOf('/') + 1) + 'scripts/worker.js',
-// )
-
-// worker.postMessage([1, 4])
-// worker.onmessage = e => {
-//   console.log(e.data)
-// }
+const scriptURL = document.currentScript.src
+const worker = new Worker(
+  scriptURL.substring(0, scriptURL.lastIndexOf('/') + 1) + 'scripts/worker.js',
+  { type: 'module' },
+)
 
 const loadingConfig = {
   disabled: { style: undefined, tag: undefined },
@@ -64,20 +58,29 @@ const debounce = (cb, duration = 0) => {
 const addLoading = tag => tag?.classList.add('esm-x-active')
 const removeLoading = debounce(tag => tag?.classList.remove('esm-x-active'), 1000)
 
-async function transpile({ url, source, filename = undefined }) {
+const map = {}
+
+async function transpile({ url, source, filename = path.basename(new URL(url).pathname) }) {
+  if (isDev) {
+    console.info('Transpiling', filename)
+  }
+
   return new Promise((resolve, reject) => {
     try {
-      filename = filename || path.basename(new URL(url).pathname)
-      if (isDev) {
-        console.info('Transpiling', filename)
+      const id = nanoid()
+
+      const handleMessage = e => {
+        const { id: _id, transformed } = e.data
+
+        if (_id === id) {
+          worker.removeEventListener('message', handleMessage)
+          resolve(transformed)
+          delete map[_id]
+        }
       }
-      const transformed = transform(source, {
-        filename: ['.tsx', '.ts', '.js', '.jsx'].some(ext => filename.endsWith(ext))
-          ? filename
-          : undefined,
-        presets: [presetReact, presetTypescript],
-      })
-      resolve(transformed.code)
+
+      worker.addEventListener('message', handleMessage)
+      worker.postMessage({ id, filename, source })
     } catch (e) {
       reject(e)
     }
@@ -192,6 +195,12 @@ function initializePage(loadingStyle, loadingTag) {
       }
 
       normalizeImportmap()
+
+      // Wait for transpiler to load
+      await new Promise(resolve => {
+        worker.addEventListener('message', resolve, { once: true })
+      })
+
       await transpileXModule()
     },
     /**

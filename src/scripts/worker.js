@@ -1,11 +1,27 @@
-onmessage = function (e) {
-  console.log('Worker: Message received from main script')
-  const result = e.data[0] * e.data[1]
-  if (isNaN(result)) {
-    postMessage('Please write two numbers')
-  } else {
-    const workerResult = 'Result: ' + result
-    console.log('Worker: Posting message back to main script')
-    postMessage(workerResult)
-  }
+import { transform } from '@babel/core'
+import presetReact from '@babel/preset-react'
+import presetTypescript from '@babel/preset-typescript'
+
+// Signal worker ready
+self.postMessage(1)
+
+const transpile = async ({ source, filename }) =>
+  new Promise((resolve, reject) => {
+    try {
+      const transformed = transform(source, {
+        filename: ['.tsx', '.ts', '.js', '.jsx'].some(ext => filename.endsWith(ext))
+          ? filename
+          : undefined,
+        presets: [presetReact, presetTypescript],
+      })
+      resolve(transformed.code)
+    } catch (e) {
+      reject(e)
+    }
+  })
+
+self.onmessage = async e => {
+  const { id, filename, source } = e.data
+  const transformed = await transpile({ source, filename })
+  self.postMessage({ id, transformed })
 }

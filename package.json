@@ -27,5 +27,8 @@
   "scripts": {
     "prepare": "husky install",
     "docs": "./scripts/docs.sh"
+  },
+  "dependencies": {
+    "nanoid": "^5.0.2"
   }
 }

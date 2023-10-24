@@ -194,6 +194,11 @@ function initializePage(loadingStyle, loadingTag) {
       normalizeImportmap()
       await transpileXModule()
     },
+    /**
+     * https://github.com/guybedford/es-module-shims#no-load-event-retriggers
+     * Seems like it's a better option to explicitly handle this just for this
+     * script
+     */
     { once: true },
   )
 }

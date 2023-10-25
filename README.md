@@ -39,7 +39,10 @@ Here is an example of a simple React application with the `react` and `react-dom
     <title>ESM-X Example</title>
 
     <!-- Include ESM-X here -->
-    <script src="https://ga.jspm.io/npm:@zachsa/esm-x@1.0.21/dist/index.js"></script>
+    <script src="https://www.unpkg.com/@zachsa/esm-x@1.0.21/dist/index.js"></script>
+    <!-- or via JSPM
+      <script src="https://ga.jspm.io/npm:@zachsa/esm-x@1.0.21/dist/index.js"></script> 
+    -->
 
     <!-- https://generator.jspm.io/#U2NhYGBiDs0rySzJSU1hKEpNTC7RTcnPdTC00DPSM9BPzslMzSuBiEPFAIy0jtgzAA -->
     <script type="importmap">
@@ -81,6 +84,7 @@ Here is an example of a simple React application with the `react` and `react-dom
 ```
 
 ## Options
+
 Configure the ESM-X script by including HTML tag id and other attributes:
 
 ```html
@@ -92,6 +96,7 @@ Configure the ESM-X script by including HTML tag id and other attributes:
 Head to the [JSPM generator](https://generator.jspm.io/) to quickly generate an importmap. Any importmap configuration should be supported - huge importmaps are fine, make sure to take advantage of dynamic imports / code splitting (for example, `Suspense/lazy` when using React), etc. (and obviously don't preload scripts)
 
 ### External importmaps
+
 To use an external importmap, make sure that your importmap tag is of type "importmap-shim", and that the src url `endsWith('importmap') || endsWith('importmap.json')`. For example:
 
 ```html

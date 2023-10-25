@@ -3,21 +3,21 @@ default-task = 'build'
 
 [[task]]
 name = 'build'
-deps = ['rollup:script', 'rollup:worker']
+deps = ['rollup:src', 'rollup:scripts']
 serial = true
 
 [[task]]
-name = 'rollup:script'
+name = 'rollup:src'
 deps = ['src/*.js']
 engine = 'shell'
 run = '''
-node rollup.script.js
+node rollup/src.js
 '''
 
 [[task]]
-name = 'rollup:worker'
+name = 'rollup:scripts'
 deps = ['src/scripts/*.js']
 engine = 'shell'
 run = '''
-node rollup.worker.js
+node rollup/scripts.js
 '''

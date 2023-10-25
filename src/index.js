@@ -18,8 +18,8 @@ if (!window.Worker) {
 }
 
 const scriptURL = document.currentScript.src
-const worker = new Worker(
-  scriptURL.substring(0, scriptURL.lastIndexOf('/') + 1) + 'scripts/worker.js',
+const compiler = new Worker(
+  scriptURL.substring(0, scriptURL.lastIndexOf('/') + 1) + 'scripts/compiler.js',
   { type: 'module' },
 )
 
@@ -55,8 +55,8 @@ const debounce = (cb, duration = 0) => {
   }
 }
 
-const addLoading = tag => tag?.classList.add('esm-x-active')
-const removeLoading = debounce(tag => tag?.classList.remove('esm-x-active'), 1000)
+const showLoading = tag => tag?.classList.add('esm-x-active')
+const hideLoading = debounce(tag => tag?.classList.remove('esm-x-active'), 1000)
 
 async function transpile({ url, source, filename = path.basename(new URL(url).pathname) }) {
   if (isDev) {
@@ -71,13 +71,13 @@ async function transpile({ url, source, filename = path.basename(new URL(url).pa
         const { id: _id, transformed } = e.data
 
         if (_id === id) {
-          worker.removeEventListener('message', handleMessage)
+          compiler.removeEventListener('message', handleMessage)
           resolve(transformed)
         }
       }
 
-      worker.addEventListener('message', handleMessage)
-      worker.postMessage({ id, filename, source })
+      compiler.addEventListener('message', handleMessage)
+      compiler.postMessage({ id, filename, source })
     } catch (e) {
       reject(e)
     }
@@ -90,7 +90,7 @@ function initializeESModulesShim(loadingTag) {
   globalThis.esmsInitOptions = {
     shimMode: true,
     async fetch(url, options) {
-      addLoading(loadingTag)
+      showLoading(loadingTag)
       if (addMsg) {
         addMsg(`${url}`)
       }
@@ -113,7 +113,7 @@ function initializeESModulesShim(loadingTag) {
       } catch (e) {
         console.error(e)
       } finally {
-        removeLoading(loadingTag)
+        hideLoading(loadingTag)
       }
     },
     resolve(id, parentUrl, resolve) {
@@ -195,7 +195,7 @@ function initializePage(loadingStyle, loadingTag) {
 
       // Wait for transpiler to load
       await new Promise(resolve => {
-        worker.addEventListener('message', resolve, { once: true })
+        compiler.addEventListener('message', resolve, { once: true })
       })
 
       await transpileXModule()
@@ -216,3 +216,4 @@ const { style: loadingStyle, tag: loadingTag } = loadingConfig[loadingType]
 // Initial setup
 initializeESModulesShim(loadingTag)
 initializePage(loadingStyle, loadingTag)
+showLoading(loadingTag)

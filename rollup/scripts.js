@@ -3,24 +3,33 @@ import nodeResolve from '@rollup/plugin-node-resolve'
 import json from '@rollup/plugin-json'
 import commonjs from '@rollup/plugin-commonjs'
 import polyfillNode from 'rollup-plugin-polyfill-node'
-import { readFileSync, rmSync, readdirSync } from 'fs'
+import fs from 'fs'
 import path from 'path'
+import { fileURLToPath } from 'url'
 import terser from '@rollup/plugin-terser'
 import replace from '@rollup/plugin-replace'
 
-const directory = 'dist/scripts'
-readdirSync(directory).forEach(file => {
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
+
+const directory = `${__dirname}/../dist/scripts`
+
+if (!fs.existsSync(directory)) {
+  fs.mkdirSync(directory)
+}
+
+fs.readdirSync(directory).forEach(file => {
   if (path.extname(file) === '.js') {
-    rmSync(path.join(directory, file))
+    fs.rmSync(path.join(directory, file))
   }
 })
 
-const { name, version } = JSON.parse(readFileSync('package.json', 'utf8'))
+const { name, version } = JSON.parse(fs.readFileSync(`${__dirname}/../package.json`, 'utf8'))
 
 // Transpile
 const bundle = await rollup({
   external: [],
-  input: 'src/scripts/worker.js',
+  input: 'src/scripts/compiler.js',
   plugins: [
     nodeResolve({
       browser: true,
@@ -35,7 +44,7 @@ const bundle = await rollup({
 await Promise.resolve([
   // DEV
   bundle.write({
-    file: 'dist/scripts/dev.worker.js',
+    file: 'dist/scripts/dev.compiler.js',
     format: 'iife',
     name: 'esmx',
     sourcemap: true,
@@ -54,7 +63,7 @@ await Promise.resolve([
   * ${name} ${version}
   */`,
     compact: true,
-    file: 'dist/scripts/worker.js',
+    file: 'dist/scripts/compiler.js',
     format: 'iife',
     plugins: [
       terser(),

@@ -2,9 +2,6 @@ import { transform } from '@babel/core'
 import presetReact from '@babel/preset-react'
 import presetTypescript from '@babel/preset-typescript'
 
-// Signal worker ready
-self.postMessage(1)
-
 const transpile = async ({ source, filename }) =>
   new Promise((resolve, reject) => {
     try {
@@ -25,3 +22,6 @@ self.onmessage = async e => {
   const transformed = await transpile({ source, filename })
   self.postMessage({ id, transformed })
 }
+
+// Signal worker ready
+self.postMessage(1)

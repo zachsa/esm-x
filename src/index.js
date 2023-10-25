@@ -19,8 +19,19 @@ if (!window.Worker) {
 
 const scriptURL = document.currentScript.src
 const compiler = new Worker(
-  scriptURL.substring(0, scriptURL.lastIndexOf('/') + 1) + 'scripts/compiler.js',
-  { type: 'module' },
+  URL.createObjectURL(
+    new Blob(
+      [
+        `importScripts("${
+          scriptURL.substring(0, scriptURL.lastIndexOf('/') + 1) + 'scripts/compiler.js'
+        }");`,
+      ],
+      {
+        type: 'application/javascript; charset=utf8',
+      },
+    ),
+  ),
+  { type: 'classic' },
 )
 
 const loadingConfig = {

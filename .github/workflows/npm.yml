@@ -1,8 +1,9 @@
-name: push:main
+name: NPM
+
 on:
   push:
-    branches:
-      - main
+    tags:
+      - 'v*'
 
 jobs:
   build:

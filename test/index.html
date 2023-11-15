@@ -33,10 +33,11 @@
     <script type="esm-x">
       import React, { lazy, Suspense } from 'react'
       import { createRoot } from 'react-dom/client'
+      import { LinearProgress } from '@mui/joy'
       const App = lazy(() => import('./src/app.jsx'))
 
       const Entry = () => (
-        <Suspense fallback={'Suspense loading ...'}>
+        <Suspense fallback={<LinearProgress />}>
           <App />
         </Suspense>
       )

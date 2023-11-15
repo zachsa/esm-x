@@ -39,9 +39,9 @@ Here is an example of a simple React application with the `react` and `react-dom
     <title>ESM-X Example</title>
 
     <!-- Include ESM-X here -->
-    <script src="https://www.unpkg.com/@zachsa/esm-x@1.0.23/dist/index.js"></script>
+    <script src="https://www.unpkg.com/@zachsa/esm-x@1.0.24/dist/index.js"></script>
     <!-- or via JSPM
-      <script src="https://ga.jspm.io/npm:@zachsa/esm-x@1.0.23/dist/index.js"></script> 
+      <script src="https://ga.jspm.io/npm:@zachsa/esm-x@1.0.24/dist/index.js"></script> 
     -->
 
     <!-- https://generator.jspm.io/#U2NhYGBiDs0rySzJSU1hKEpNTC7RTcnPdTC00DPSM9BPzslMzSuBiEPFAIy0jtgzAA -->

@@ -20,4 +20,5 @@ deps = ['src/scripts/*.js']
 engine = 'shell'
 run = '''
 node rollup/scripts.js
+cp node_modules/esbuild-wasm/esbuild.wasm dist/scripts
 '''

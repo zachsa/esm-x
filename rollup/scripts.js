@@ -38,6 +38,7 @@ const bundle = await rollup({
     json({}),
     commonjs({}),
     polyfillNode({}),
+    // wasm(),
   ],
 })
 

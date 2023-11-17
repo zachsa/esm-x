@@ -1,9 +1,21 @@
+import * as esbuild from 'esbuild-wasm'
 import { transform } from '@babel/core'
 import presetReact from '@babel/preset-react'
 import presetTypescript from '@babel/preset-typescript'
 
-const transpile = async ({ source, filename }) =>
-  new Promise((resolve, reject) => {
+let _wasm
+
+const transpile = async ({ source, filename }) => {
+  if (!_wasm) {
+    try {
+      _wasm = await esbuild.initialize({
+        wasmURL: 'http://localhost:3000/node_modules/esbuild-wasm/esbuild.wasm',
+        worker: false,
+      })
+    } catch (error) {}
+  }
+
+  return new Promise((resolve, reject) => {
     try {
       const transformed = transform(source, {
         filename: ['.tsx', '.ts', '.js', '.jsx'].some(ext => filename.endsWith(ext))
@@ -16,6 +28,7 @@ const transpile = async ({ source, filename }) =>
       reject(e)
     }
   })
+}
 
 self.onmessage = async e => {
   const { id, filename, source } = e.data

@@ -11,6 +11,9 @@ import {
   loadingTag as linearLoadingTag,
 } from './loading-linear.js'
 
+const NODE_ENV = process.env.NODE_ENV
+const isDev = NODE_ENV !== 'production'
+
 if (!window.Worker) {
   throw new Error(
     "Web workers are not supported in this browser. ESM-X may support workflows that don't require web workers in the future - please request this if you see this error",
@@ -22,8 +25,9 @@ const compiler = new Worker(
   URL.createObjectURL(
     new Blob(
       [
-        `importScripts("${
-          scriptURL.substring(0, scriptURL.lastIndexOf('/') + 1) + 'scripts/compiler.js'
+        `import("${
+          scriptURL.substring(0, scriptURL.lastIndexOf('/') + 1) +
+          `scripts/${isDev ? 'dev.' : ''}compiler.js`
         }");`,
       ],
       {
@@ -31,7 +35,7 @@ const compiler = new Worker(
       },
     ),
   ),
-  { type: 'classic' },
+  { type: 'module' },
 )
 
 const loadingConfig = {
@@ -48,9 +52,6 @@ const loadingConfig = {
 
 const setMsg = typeof setMsg_ === 'undefined' ? undefined : setMsg_
 const addMsg = typeof setMsg_ === 'undefined' ? undefined : addMsg_
-
-const NODE_ENV = process.env.NODE_ENV
-const isDev = NODE_ENV !== 'production'
 
 window.process = window.process || {}
 window.process.env = window.process.env || {}
@@ -69,7 +70,12 @@ const debounce = (cb, duration = 0) => {
 const showLoading = tag => tag?.classList.add('esm-x-active')
 const hideLoading = debounce(tag => tag?.classList.remove('esm-x-active'), 1000)
 
-async function transpile({ url, source, filename = path.basename(new URL(url).pathname) }) {
+async function transpile({
+  url,
+  source,
+  filename = path.basename(new URL(url).pathname),
+  compilerType,
+}) {
   if (isDev) {
     console.info('Transpiling', filename)
   }
@@ -88,14 +94,14 @@ async function transpile({ url, source, filename = path.basename(new URL(url).pa
       }
 
       compiler.addEventListener('message', handleMessage)
-      compiler.postMessage({ id, filename, source })
+      compiler.postMessage({ id, filename, source, compilerType })
     } catch (e) {
       reject(e)
     }
   })
 }
 
-function initializeESModulesShim(loadingTag) {
+function initializeESModulesShim(loadingTag, compilerType) {
   const { fetch: _, shimMode: __, resolve: ___, ...otherOptions } = globalThis.esmsInitOptions || {}
 
   globalThis.esmsInitOptions = {
@@ -117,7 +123,7 @@ function initializeESModulesShim(loadingTag) {
         const isSameOrigin = url.includes(globalThis.origin)
         if (!isImportMapFile && isSameOrigin) {
           const source = await res.text()
-          const transformed = await transpile({ url, source })
+          const transformed = await transpile({ url, source, compilerType })
           return new Response(new Blob([transformed], { type: 'application/javascript' }))
         }
         return res
@@ -173,7 +179,7 @@ function normalizeImportmap() {
   }
 }
 
-async function transpileXModule() {
+async function transpileXModule(compilerType) {
   const scripts = Array.from(document.querySelectorAll('script[type="esm-x"]'))
 
   const createAndInsertNewScript = async (script, i) => {
@@ -182,6 +188,7 @@ async function transpileXModule() {
     newScript.innerHTML = await transpile({
       filename: `script-${i}.tsx`,
       source: script.innerHTML,
+      compilerType,
     })
     script.insertAdjacentElement('afterend', newScript)
   }
@@ -189,7 +196,7 @@ async function transpileXModule() {
   await Promise.all(scripts.map(createAndInsertNewScript))
 }
 
-function initializePage(loadingStyle, loadingTag) {
+function initializePage(loadingStyle, loadingTag, compilerType) {
   document.addEventListener(
     'DOMContentLoaded',
     async () => {
@@ -209,7 +216,7 @@ function initializePage(loadingStyle, loadingTag) {
         compiler.addEventListener('message', resolve, { once: true })
       })
 
-      await transpileXModule()
+      await transpileXModule(compilerType)
     },
     /**
      * https://github.com/guybedford/es-module-shims#no-load-event-retriggers
@@ -222,9 +229,21 @@ function initializePage(loadingStyle, loadingTag) {
 
 const loadingType =
   document.querySelector('script[id="esm-x"]')?.attributes?.loading?.value || 'circular'
+const compilerType =
+  document.querySelector('script[id="esm-x"]')?.attributes?.compiler?.value || 'babel'
 const { style: loadingStyle, tag: loadingTag } = loadingConfig[loadingType]
 
+if (isDev) {
+  console.info('Using compiler', compilerType)
+}
+
+const knownCompilers = ['esbuild', 'babel']
+
+if (!knownCompilers.map(s => s.toLowerCase()).includes(compilerType?.toLowerCase())) {
+  throw new Error(`Unknown compiler specified. Choose between [${knownCompilers.join(', ')}]`)
+}
+
 // Initial setup
-initializeESModulesShim(loadingTag)
-initializePage(loadingStyle, loadingTag)
+initializeESModulesShim(loadingTag, compilerType)
+initializePage(loadingStyle, loadingTag, compilerType)
 showLoading(loadingTag)

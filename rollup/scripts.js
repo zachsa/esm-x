@@ -26,52 +26,58 @@ fs.readdirSync(directory).forEach(file => {
 
 const { name, version } = JSON.parse(fs.readFileSync(`${__dirname}/../package.json`, 'utf8'))
 
-// Transpile
-const bundle = await rollup({
-  external: [],
-  input: 'src/scripts/compiler.js',
-  plugins: [
-    nodeResolve({
-      browser: true,
-      preferBuiltins: false,
-    }),
-    json({}),
-    commonjs({}),
-    polyfillNode({}),
-    // wasm(),
-  ],
-})
+// Get all .js files in src/scripts
+const scriptFiles = fs
+  .readdirSync(`${__dirname}/../src/scripts`)
+  .filter(file => file.endsWith('.js'))
+  .map(file => `src/scripts/${file}`)
 
-await Promise.resolve([
-  // DEV
-  bundle.write({
-    file: 'dist/scripts/dev.compiler.js',
-    format: 'iife',
-    name: 'esmx',
-    sourcemap: true,
-    plugins: [
-      replace({
-        preventAssignment: true,
-        'process.env.NODE_ENV': JSON.stringify('development'),
-      }),
-    ],
-  }),
+// Transpile each file
+await Promise.all(
+  scriptFiles.map(async inputFile => {
+    const bundle = await rollup({
+      external: [],
+      input: inputFile,
+      plugins: [
+        nodeResolve({
+          browser: true,
+          preferBuiltins: false,
+        }),
+        json({}),
+        commonjs({}),
+        polyfillNode({}),
+      ],
+    })
 
-  // PROD
-  bundle.write({
-    sourcemap: true,
-    banner: `/*!
-  * ${name} ${version}
-  */`,
-    compact: true,
-    file: 'dist/scripts/compiler.js',
-    format: 'iife',
-    plugins: [
-      terser(),
-      replace({
-        preventAssignment: true,
-        'process.env.NODE_ENV': JSON.stringify('production'),
-      }),
-    ],
+    const outputFile = `dist/scripts/${path.basename(inputFile)}`
+
+    // DEV
+    await bundle.write({
+      file: `dist/scripts/dev.${path.basename(outputFile)}`,
+      format: 'esm',
+      sourcemap: true,
+      plugins: [
+        replace({
+          preventAssignment: true,
+          'process.env.NODE_ENV': JSON.stringify('development'),
+        }),
+      ],
+    })
+
+    // PROD
+    await bundle.write({
+      sourcemap: true,
+      banner: `/*! * ${name} ${version} */`,
+      compact: true,
+      file: `dist/scripts/${path.basename(outputFile)}`,
+      format: 'esm',
+      plugins: [
+        terser(),
+        replace({
+          preventAssignment: true,
+          'process.env.NODE_ENV': JSON.stringify('production'),
+        }),
+      ],
+    })
   }),
-])
+)

@@ -88,7 +88,7 @@ Here is an example of a simple React application with the `react` and `react-dom
 Configure the ESM-X script by including HTML tag id and other attributes:
 
 ```html
-<script id="esm-x" loading="circular|linear|disabled" src="..."></script>
+<script id="esm-x" loading="circular|linear|disabled" compiler="babel|esbuild" src="..."></script>
 ```
 
 ## Importmaps

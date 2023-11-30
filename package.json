@@ -21,6 +21,7 @@
     "@rollup/plugin-terser": "^0.4.4",
     "esbuild-wasm": "^0.19.8",
     "husky": "^8.0.3",
+    "nanoid": "^5.0.3",
     "prettier": "^3.1.0",
     "rollup": "^3.0.0",
     "rollup-plugin-polyfill-node": "^0.13.0"
@@ -28,8 +29,5 @@
   "scripts": {
     "prepare": "husky install",
     "docs": "./scripts/docs.sh"
-  },
-  "dependencies": {
-    "nanoid": "^5.0.3"
   }
 }

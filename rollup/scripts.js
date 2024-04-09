@@ -64,7 +64,7 @@ await Promise.all(
             polyfillNode({}),
             replace({
               preventAssignment: true,
-              'process.env.NODE_ENV': NODE_ENV,
+              'process.env.NODE_ENV': JSON.stringify(NODE_ENV),
             }),
           ],
         })
@@ -75,7 +75,6 @@ await Promise.all(
           compact: true,
           file: OUTPUT,
           format: 'esm',
-
           plugins: [NODE_ENV === 'production' ? terser() : undefined].filter(Boolean),
         })
       }),

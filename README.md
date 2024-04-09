@@ -40,14 +40,11 @@ Here is an example of a simple React application with the `react` and `react-dom
 
     <!-- Include ESM-X here -->
     <script
+      id="esm-x"
       compiler="babel"
       loading="circular"
       src="https://www.unpkg.com/@zachsa/esm-x@1.0.29/dist/index.js"
     ></script>
-    
-    <!-- or via JSPM
-      <script src="https://ga.jspm.io/npm:@zachsa/esm-x@1.0.29/dist/index.js"></script> 
-    -->
 
     <!-- https://generator.jspm.io/#U2NhYGBiDs0rySzJSU1hKEpNTC7RTcnPdTC00DPSM9BPzslMzSuBiEPFAIy0jtgzAA -->
     <script type="importmap">

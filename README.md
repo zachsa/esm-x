@@ -63,7 +63,7 @@ Here is an example of a simple React application with the `react` and `react-dom
     <!-- ES Module Shims -->
     <script
       async
-      src="https://ga.jspm.io/npm:es-module-shims@1.8.0/dist/es-module-shims.js"
+      src="https://ga.jspm.io/npm:es-module-shims@1.9.0/dist/es-module-shims.js"
       crossorigin="anonymous"
     ></script>
 

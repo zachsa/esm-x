@@ -11,19 +11,19 @@
     "dist/"
   ],
   "devDependencies": {
-    "@babel/core": "^7.23.5",
-    "@babel/preset-react": "^7.23.3",
-    "@babel/preset-typescript": "^7.23.3",
+    "@babel/core": "^7.24.4",
+    "@babel/preset-react": "^7.24.1",
+    "@babel/preset-typescript": "^7.24.1",
     "@rollup/plugin-commonjs": "^25.0.7",
-    "@rollup/plugin-json": "^6.0.1",
+    "@rollup/plugin-json": "^6.1.0",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@rollup/plugin-replace": "^5.0.5",
     "@rollup/plugin-terser": "^0.4.4",
-    "esbuild-wasm": "^0.19.8",
-    "husky": "^8.0.3",
-    "nanoid": "^5.0.3",
-    "prettier": "^3.1.0",
-    "rollup": "^3.0.0",
+    "esbuild-wasm": "^0.20.2",
+    "husky": "^9.0.11",
+    "nanoid": "^5.0.7",
+    "prettier": "^3.2.5",
+    "rollup": "^4.14.1",
     "rollup-plugin-polyfill-node": "^0.13.0"
   },
   "scripts": {

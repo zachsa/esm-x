@@ -9,7 +9,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     container:
-      image: node:21.2
+      image: node:21.7.2
       env:
         NODE_ENV: development
     permissions:

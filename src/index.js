@@ -20,6 +20,7 @@ if (!window.Worker) {
   )
 }
 
+
 const scriptURL = document.currentScript.src
 const compiler = new Worker(
   URL.createObjectURL(
@@ -57,6 +58,16 @@ window.process = window.process || {}
 window.process.env = window.process.env || {}
 window.exports = window.exports || {}
 
+const loadingType =
+  document.querySelector('script[id="esm-x"]')?.attributes?.loading?.value || 'circular'
+const compilerType =
+  document.querySelector('script[id="esm-x"]')?.attributes?.compiler?.value || 'babel'
+const { style: loadingStyle, tag: loadingTag } = loadingConfig[loadingType]
+
+if (isDev) {
+  console.info('Using compiler', compilerType)
+}
+
 const debounce = (cb, duration = 0) => {
   let timer
   return (...args) => {
@@ -68,7 +79,10 @@ const debounce = (cb, duration = 0) => {
 }
 
 const showLoading = tag => tag?.classList.add('esm-x-active')
-const hideLoading = debounce(tag => tag?.classList.remove('esm-x-active'), 1000)
+const hideLoading = debounce(
+  tag => tag?.classList.remove('esm-x-active'),
+  loadingType === 'linear' ? 100 : 1000,
+)
 
 async function transpile({
   url,
@@ -227,15 +241,7 @@ function initializePage(loadingStyle, loadingTag, compilerType) {
   )
 }
 
-const loadingType =
-  document.querySelector('script[id="esm-x"]')?.attributes?.loading?.value || 'circular'
-const compilerType =
-  document.querySelector('script[id="esm-x"]')?.attributes?.compiler?.value || 'babel'
-const { style: loadingStyle, tag: loadingTag } = loadingConfig[loadingType]
 
-if (isDev) {
-  console.info('Using compiler', compilerType)
-}
 
 const knownCompilers = ['esbuild', 'babel']
 

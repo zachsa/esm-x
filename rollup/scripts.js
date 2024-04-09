@@ -15,7 +15,7 @@ const __dirname = path.dirname(__filename)
 const directory = `${__dirname}/../dist/scripts`
 
 if (!fs.existsSync(directory)) {
-  fs.mkdirSync(directory)
+  fs.mkdirSync(directory, { recursive: true })
 }
 
 fs.readdirSync(directory).forEach(file => {
@@ -26,6 +26,8 @@ fs.readdirSync(directory).forEach(file => {
 
 const { name, version } = JSON.parse(fs.readFileSync(`${__dirname}/../package.json`, 'utf8'))
 
+const NODE_ENVS = ['production', 'development']
+
 // Get all .js files in src/scripts
 const scriptFiles = fs
   .readdirSync(`${__dirname}/../src/scripts`)
@@ -35,49 +37,48 @@ const scriptFiles = fs
 // Transpile each file
 await Promise.all(
   scriptFiles.map(async inputFile => {
-    const bundle = await rollup({
-      external: [],
-      input: inputFile,
-      plugins: [
-        nodeResolve({
-          browser: true,
-          preferBuiltins: false,
-        }),
-        json({}),
-        commonjs({}),
-        polyfillNode({}),
-      ],
-    })
+    await Promise.all(
+      NODE_ENVS.map(async NODE_ENV => {
+        const outputFile = `dist/scripts/${path.basename(inputFile)}`
+        const OUTPUT =
+          NODE_ENV === 'production'
+            ? `dist/scripts/${path.basename(outputFile)}`
+            : `dist/scripts/dev.${path.basename(outputFile)}`
 
-    const outputFile = `dist/scripts/${path.basename(inputFile)}`
+        const bundle = await rollup({
+          onwarn(warning, warn) {
+            if (warning.code === 'CIRCULAR_DEPENDENCY' && /node_modules/.test(warning.message)) {
+              return
+            }
+            warn(warning)
+          },
+          external: [],
+          input: inputFile,
+          plugins: [
+            nodeResolve({
+              browser: true,
+              preferBuiltins: false,
+            }),
+            json({}),
+            commonjs({}),
+            polyfillNode({}),
+            replace({
+              preventAssignment: true,
+              'process.env.NODE_ENV': NODE_ENV,
+            }),
+          ],
+        })
 
-    // DEV
-    await bundle.write({
-      file: `dist/scripts/dev.${path.basename(outputFile)}`,
-      format: 'esm',
-      sourcemap: true,
-      plugins: [
-        replace({
-          preventAssignment: true,
-          'process.env.NODE_ENV': JSON.stringify('development'),
-        }),
-      ],
-    })
+        await bundle.write({
+          sourcemap: true,
+          banner: `/*! * ${name} ${version} */`,
+          compact: true,
+          file: OUTPUT,
+          format: 'esm',
 
-    // PROD
-    await bundle.write({
-      sourcemap: true,
-      banner: `/*! * ${name} ${version} */`,
-      compact: true,
-      file: `dist/scripts/${path.basename(outputFile)}`,
-      format: 'esm',
-      plugins: [
-        terser(),
-        replace({
-          preventAssignment: true,
-          'process.env.NODE_ENV': JSON.stringify('production'),
-        }),
-      ],
-    })
+          plugins: [NODE_ENV === 'production' ? terser() : undefined].filter(Boolean),
+        })
+      }),
+    )
   }),
 )

@@ -4,8 +4,13 @@
     <meta charset="utf-8" />
     <title>ESM-X Example</title>
 
-    <!-- Include ESM-X here -->
-    <script src="https://www.unpkg.com/@zachsa/esm-x@0.0.9/dist/index.js"></script>
+    <!-- <script src="../dist/dev.index.js"></script> -->
+    <!-- <script id="esm-x" compiler="babel" src="../dist/dev.index.js"></script> -->
+    <script id="esm-x" compiler="esbuild" src="../dist/dev.index.js"></script>
+    <!-- <script id="esm-x" src="../dist/dev.index.js"></script> -->
+    <!-- <script id="esm-x" loading="circular" src="../dist/dev.index.js"></script> -->
+    <!-- <script id="esm-x" loading="disabled" src="../dist/dev.index.js"></script> -->
+    <!-- <script id="esm-x" loading="linear" src="../dist/dev.index.js"></script> -->
 
     <!-- Map Edit URL: https://generator.jspm.io/#U2VhYGBiDs0rySzJSU1hKEpNTC7RTcnPdTC00DPSM9BPzslMzSuBiEPFAHimvF0zAA -->
     <script type="importmap">
@@ -26,7 +31,7 @@
     <!-- ES Module Shims: Import maps polyfill for older browsers without import maps support (eg Safari 16.3) -->
     <script
       async
-      src="https://ga.jspm.io/npm:es-module-shims@1.8.0/dist/es-module-shims.js"
+      src="https://ga.jspm.io/npm:es-module-shims@1.9.0/dist/es-module-shims.js"
       crossorigin="anonymous"
     ></script>
 

@@ -241,8 +241,6 @@ function initializePage(loadingStyle, loadingTag, compilerType) {
   )
 }
 
-
-
 const knownCompilers = ['esbuild', 'babel']
 
 if (!knownCompilers.map(s => s.toLowerCase()).includes(compilerType?.toLowerCase())) {

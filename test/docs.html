@@ -1,0 +1,53 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>ESM-X Example</title>
+
+
+    <!-- <script src="../dist/dev.index.js"></script> -->
+    <!-- <script id="esm-x" compiler="babel" src="../dist/dev.index.js"></script> -->
+    <script id="esm-x" compiler="esbuild" src="../dist/dev.index.js"></script>
+    <!-- <script id="esm-x" src="../dist/dev.index.js"></script> -->
+    <!-- <script id="esm-x" loading="circular" src="../dist/dev.index.js"></script> -->
+    <!-- <script id="esm-x" loading="disabled" src="../dist/dev.index.js"></script> -->
+    <!-- <script id="esm-x" loading="linear" src="../dist/dev.index.js"></script> -->
+
+
+    <!-- https://generator.jspm.io/#U2NhYGBiDs0rySzJSU1hKEpNTC7RTcnPdTC00DPSM9BPzslMzSuBiEPFAIy0jtgzAA -->
+    <script type="importmap">
+      {
+        "imports": {
+          "react": "https://ga.jspm.io/npm:react@18.2.0/index.js",
+          "react-dom/client": "https://ga.jspm.io/npm:react-dom@18.2.0/client.js"
+        },
+        "scopes": {
+          "https://ga.jspm.io/": {
+            "react-dom": "https://ga.jspm.io/npm:react-dom@18.2.0/index.js",
+            "scheduler": "https://ga.jspm.io/npm:scheduler@0.23.0/index.js"
+          }
+        }
+      }
+    </script>
+
+    <!-- ES Module Shims -->
+    <script
+      async
+      src="https://ga.jspm.io/npm:es-module-shims@1.9.0/dist/es-module-shims.js"
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- ESM-X script -->
+    <script type="esm-x">
+      import React, { FC } from 'react';
+      import { createRoot } from 'react-dom/client';
+      const root = createRoot(document.getElementById('root') as HTMLElement);
+
+      const App: FC = () => <div>Hello from ESM-X</div>;
+      root.render(<App />);
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>

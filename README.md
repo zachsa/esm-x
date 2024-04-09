@@ -39,7 +39,12 @@ Here is an example of a simple React application with the `react` and `react-dom
     <title>ESM-X Example</title>
 
     <!-- Include ESM-X here -->
-    <script src="https://www.unpkg.com/@zachsa/esm-x@1.0.28/dist/index.js"></script>
+    <script
+      compiler="babel"
+      loading="circular"
+      src="https://www.unpkg.com/@zachsa/esm-x@1.0.28/dist/index.js"
+    ></script>
+    
     <!-- or via JSPM
       <script src="https://ga.jspm.io/npm:@zachsa/esm-x@1.0.28/dist/index.js"></script> 
     -->

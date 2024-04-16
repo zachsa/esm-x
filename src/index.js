@@ -165,31 +165,33 @@ function normalizeImportmap() {
     document.querySelector('script[type="importmap-shim"]')
 
   if (!importmap) {
-    throw new Error('importmap not detected')
+    console.warn("importmap not detected. This is fine, but obviously imports won't work")
   }
 
-  const content = importmap.innerHTML
+  if (importmap) {
+    const content = importmap.innerHTML
 
-  // Ensure there's a script type="importmap"
-  let importmapScript = document.querySelector('script[type="importmap"]')
-  if (!importmapScript) {
-    importmapScript = document.createElement('script')
-    importmapScript.setAttribute('type', 'importmap')
-    importmapScript.innerHTML = content
-    importmap.parentNode.insertBefore(importmapScript, importmap)
-  } else {
-    importmapScript.innerHTML = content
-  }
+    // Ensure there's a script type="importmap"
+    let importmapScript = document.querySelector('script[type="importmap"]')
+    if (!importmapScript) {
+      importmapScript = document.createElement('script')
+      importmapScript.setAttribute('type', 'importmap')
+      importmapScript.innerHTML = content
+      importmap.parentNode.insertBefore(importmapScript, importmap)
+    } else {
+      importmapScript.innerHTML = content
+    }
 
-  // Ensure there's a script type="importmap-shim"
-  let importmapShimScript = document.querySelector('script[type="importmap-shim"]')
-  if (!importmapShimScript) {
-    importmapShimScript = document.createElement('script')
-    importmapShimScript.setAttribute('type', 'importmap-shim')
-    importmapShimScript.innerHTML = content
-    importmap.parentNode.insertBefore(importmapShimScript, importmap)
-  } else {
-    importmapShimScript.innerHTML = content
+    // Ensure there's a script type="importmap-shim"
+    let importmapShimScript = document.querySelector('script[type="importmap-shim"]')
+    if (!importmapShimScript) {
+      importmapShimScript = document.createElement('script')
+      importmapShimScript.setAttribute('type', 'importmap-shim')
+      importmapShimScript.innerHTML = content
+      importmap.parentNode.insertBefore(importmapShimScript, importmap)
+    } else {
+      importmapShimScript.innerHTML = content
+    }
   }
 }
 
@@ -231,6 +233,7 @@ function initializePage(loadingStyle, loadingTag, compilerType) {
       })
 
       await transpileXModule(compilerType)
+      hideLoading(loadingTag)
     },
     /**
      * https://github.com/guybedford/es-module-shims#no-load-event-retriggers
@@ -248,6 +251,7 @@ if (!knownCompilers.map(s => s.toLowerCase()).includes(compilerType?.toLowerCase
 }
 
 // Initial setup
+showLoading(loadingTag)
+addMsg('Loading esm-x')
 initializeESModulesShim(loadingTag, compilerType)
 initializePage(loadingStyle, loadingTag, compilerType)
-showLoading(loadingTag)

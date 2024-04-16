@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>TS Working</title>
+
+    <!-- Include ESM-X here -->
+    <script
+      id="esm-x"
+      compiler="babel"
+      loading="circular"
+      src="../dist/dev.index.js"
+    ></script>
+
+    <!-- ES Module Shims -->
+    <script
+      async
+      src="https://ga.jspm.io/npm:es-module-shims@1.9.0/dist/es-module-shims.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <!-- ESM-X script -->
+    <script type="esm-x">
+      const x: string = 'Hello World';
+      const div: HTMLDivElement = document.createElement('div');
+      div.textContent = x;
+
+      // Apply CSS styles
+      div.style.padding = '20px';
+      div.style.margin = '10px';
+      div.style.backgroundColor = '#f4f4f8';
+      div.style.border = '1px solid #d3d3d5';
+      div.style.borderRadius = '8px';
+      div.style.fontSize = '16px';
+      div.style.fontFamily = 'Arial, sans-serif';
+      div.style.textAlign = 'center';
+      div.style.color = '#333';
+      div.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.1)';
+
+      document.body.appendChild(div);
+    </script>
+  </body>
+</html>

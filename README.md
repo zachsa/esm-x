@@ -31,6 +31,8 @@ Include the `esm-x` library (328kB gzipped) as the first script in your HTML fil
 
 Here is an example of a simple React application with the `react` and `react-dom` library imports defined via an importmap. Copy this file into `index.html`, and serve via a web server (i.e. `npx http-server -c-1`). There is an example of an `@mui/material` app in [the test directory of this repository](/test/).
 
+`esm-x` works without an importmap, but ES Module Shims is required.
+
 ```html
 <!doctype html>
 <html>

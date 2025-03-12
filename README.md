@@ -29,7 +29,7 @@ Leverages [importmaps](https://github.com/WICG/import-maps) in conjunction with 
 
 Include the `esm-x` library (328kB gzipped) as the first script in your HTML file, and include at least one `<script type="esm-x">...</script>`. Scripts of `type="esm-x"` will be transpiled and executed in the order they are included in the HTML page.
 
-Here is an example of a simple React application with the `react` and `react-dom` library imports defined via an importmap. Copy this file into `index.html`, and serve via a web server (i.e. `npx http-server -c-1`). There is an example of an `@mui/material` app in [the test directory of this repository](/test/).
+Here is an example of a simple React application with the `react` and `react-dom` library imports defined via an importmap. Copy this file into `index.html`, and serve via a web server (i.e. `npx http-server -c-1`). There is an example of an `@mui/material` app in [the dev directory of this repository](/dev/).
 
 `esm-x` works without an importmap, but ES Module Shims is required.
 
@@ -48,26 +48,30 @@ Here is an example of a simple React application with the `react` and `react-dom
       src="https://www.unpkg.com/@zachsa/esm-x@1.0.32/dist/index.js"
     ></script>
 
-    <!-- https://generator.jspm.io/#U2NhYGBiDs0rySzJSU1hKEpNTC7RTcnPdTC00DPSM9BPzslMzSuBiEPFAIy0jtgzAA -->
+    <!--
+      Import map generated with JSPM Generator
+      Edit here: https://generator.jspm.io/#U2VhYGBiDs0rySzJSU1hKEpNTC7RTcnPdTC01DPQM9BPzslMzSuBiEPFAEEYRSszAA
+    -->
     <script type="importmap">
-      {
-        "imports": {
-          "react": "https://ga.jspm.io/npm:react@18.2.0/index.js",
-          "react-dom/client": "https://ga.jspm.io/npm:react-dom@18.2.0/client.js"
-        },
-        "scopes": {
-          "https://ga.jspm.io/": {
-            "react-dom": "https://ga.jspm.io/npm:react-dom@18.2.0/index.js",
-            "scheduler": "https://ga.jspm.io/npm:scheduler@0.23.0/index.js"
-          }
+    {
+      "imports": {
+        "react": "https://ga.jspm.io/npm:react@19.0.0/dev.index.js",
+        "react-dom/client": "https://ga.jspm.io/npm:react-dom@19.0.0/dev.client.js"
+      },
+      "scopes": {
+        "https://ga.jspm.io/": {
+          "process": "https://ga.jspm.io/npm:@jspm/core@2.1.0/nodelibs/browser/process.js",
+          "react-dom": "https://ga.jspm.io/npm:react-dom@19.0.0/dev.index.js",
+          "scheduler": "https://ga.jspm.io/npm:scheduler@0.25.0/dev.index.js"
         }
       }
+    }
     </script>
 
     <!-- ES Module Shims -->
     <script
       async
-      src="https://ga.jspm.io/npm:es-module-shims@1.9.0/dist/es-module-shims.js"
+      src="https://ga.jspm.io/npm:es-module-shims@2.0.10/dist/es-module-shims.js"
       crossorigin="anonymous"
     ></script>
 
@@ -111,12 +115,19 @@ It's easy to work with external importmaps using the [`jspm CLI`](https://jspm.o
 
 # Local development
 
-Start a local web server and navigate to [localhost:3000/test](http://localhost:3000/test):
+Start a local web server and navigate to [localhost:3000/dev](http://localhost:3000/dev):
 
 ```sh
-npx @mnemosyne/server -v ./
+npx http-server --port 3000 -c-1
 chomp --watch
 ```
+
+Test the following cases:
+- [index.html (default)](/dev/index.html)
+- [no-importmap.html](/dev/no-importmap.html)
+- [tsx.html](/dev/tsx.html)
+- [empty-importmap.html](/dev/empty-importmap.html)
+- [docs.html (copy this to README.md)](/dev/docs.html)
 
 ## Publish
 

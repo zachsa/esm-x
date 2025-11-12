@@ -50,22 +50,21 @@ Here is an example of a simple React application with the `react` and `react-dom
 
     <!--
       Import map generated with JSPM Generator
-      Edit here: https://generator.jspm.io/#U2VhYGBiDs0rySzJSU1hKEpNTC7RTcnPdTC01DPQM9BPzslMzSuBiEPFAEEYRSszAA
+      Edit here: https://generator.jspm.io/#Y2NhYGBiDs0rySzJSU1hKEpNTC7RTcnPdTC01DPSM9BPzslMzSuBiEPFAMQOjWszAA
     -->
     <script type="importmap">
-    {
-      "imports": {
-        "react": "https://ga.jspm.io/npm:react@19.0.0/dev.index.js",
-        "react-dom/client": "https://ga.jspm.io/npm:react-dom@19.0.0/dev.client.js"
-      },
-      "scopes": {
-        "https://ga.jspm.io/": {
-          "process": "https://ga.jspm.io/npm:@jspm/core@2.1.0/nodelibs/browser/process.js",
-          "react-dom": "https://ga.jspm.io/npm:react-dom@19.0.0/dev.index.js",
-          "scheduler": "https://ga.jspm.io/npm:scheduler@0.25.0/dev.index.js"
+      {
+        "imports": {
+          "react": "https://ga.jspm.io/npm:react@19.2.0/index.js",
+          "react-dom/client": "https://ga.jspm.io/npm:react-dom@19.2.0/client.js"
+        },
+        "scopes": {
+          "https://ga.jspm.io/": {
+            "react-dom": "https://ga.jspm.io/npm:react-dom@19.2.0/index.js",
+            "scheduler": "https://ga.jspm.io/npm:scheduler@0.27.0/index.js"
+          }
         }
       }
-    }
     </script>
 
     <!-- ES Module Shims -->

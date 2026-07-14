@@ -1,5 +1,6 @@
 {
   "cSpell.words": [
+    "esbuild",
     "esms",
     "esmx",
     "iife",
@@ -9,6 +10,8 @@
     "nanoid",
     "npmjs",
     "onwarn",
-    "Parens"
+    "Parens",
+    "rollup",
+    "zachsa"
   ]
 }

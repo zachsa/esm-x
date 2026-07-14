@@ -8,6 +8,7 @@ import path from 'path'
 import { fileURLToPath } from 'url'
 import terser from '@rollup/plugin-terser'
 import replace from '@rollup/plugin-replace'
+import nodeProtocol from './node-protocol.js'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -35,6 +36,7 @@ await Promise.all(
       external: [],
       input: 'src/index.js',
       plugins: [
+        nodeProtocol(),
         nodeResolve({
           browser: true,
           preferBuiltins: false,

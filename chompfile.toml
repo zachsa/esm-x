@@ -8,7 +8,7 @@ serial = true
 
 [[task]]
 name = 'rollup:src'
-deps = ['src/*.js']
+deps = ['src/*.js', 'rollup/*.js', 'package.json', 'package-lock.json']
 engine = 'shell'
 run = '''
 node rollup/src.js
@@ -16,7 +16,7 @@ node rollup/src.js
 
 [[task]]
 name = 'rollup:scripts'
-deps = ['src/scripts/*.js']
+deps = ['src/scripts/*.js', 'rollup/*.js', 'package.json', 'package-lock.json']
 engine = 'shell'
 run = '''
 node rollup/scripts.js

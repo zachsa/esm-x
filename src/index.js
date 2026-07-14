@@ -83,21 +83,47 @@ if (isDev) {
   console.info('Using compiler', compilerType)
 }
 
-const debounce = (cb, duration = 0) => {
-  let timer
-  return (...args) => {
-    clearTimeout(timer)
-    timer = setTimeout(() => {
-      cb(...args)
-    }, duration)
-  }
+const loadingDelay = loadingType === 'circular' ? 320 : 0
+const minimumLoadingTime = loadingType === 'circular' ? 300 : 120
+let loadingCount = 0
+let loadingTimer
+let loadingHideTimer
+let loadingShownAt = 0
+
+const showLoading = tag => {
+  if (!tag) return
+
+  loadingCount += 1
+  clearTimeout(loadingHideTimer)
+
+  if (tag.classList.contains('esm-x-active') || loadingTimer) return
+
+  loadingTimer = setTimeout(() => {
+    loadingTimer = undefined
+    loadingShownAt = performance.now()
+    tag.classList.add('esm-x-active')
+  }, loadingDelay)
 }
 
-const showLoading = tag => tag?.classList.add('esm-x-active')
-const hideLoading = debounce(
-  tag => tag?.classList.remove('esm-x-active'),
-  loadingType === 'linear' ? 100 : 1000,
-)
+const hideLoading = tag => {
+  if (!tag) return
+
+  loadingCount = Math.max(0, loadingCount - 1)
+  if (loadingCount > 0) return
+
+  if (loadingTimer) {
+    clearTimeout(loadingTimer)
+    loadingTimer = undefined
+  }
+
+  if (!tag.classList.contains('esm-x-active')) return
+
+  const visibleFor = performance.now() - loadingShownAt
+  loadingHideTimer = setTimeout(
+    () => tag.classList.remove('esm-x-active'),
+    Math.max(0, minimumLoadingTime - visibleFor),
+  )
+}
 
 async function transpile({
   url,
@@ -108,6 +134,7 @@ async function transpile({
   if (isDev) {
     console.info('Transpiling', filename)
   }
+  setMsg?.(`Compiling ${filename}`)
 
   return new Promise((resolve, reject) => {
     try {
@@ -285,6 +312,6 @@ if (!knownCompilers.map(s => s.toLowerCase()).includes(compilerType?.toLowerCase
 
 // Initial setup
 showLoading(loadingTag)
-addMsg('Loading esm-x')
+setMsg?.(`Starting ${compilerType} compiler…`)
 initializeESModulesShim(loadingTag, compilerType)
 initializePage(loadingStyle, loadingTag, compilerType)

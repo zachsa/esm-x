@@ -1,49 +1,51 @@
 export const loadingStyleTag = document.createElement('style')
 loadingStyleTag.id = 'esm-x-loading-style'
 loadingStyleTag.textContent = `
-  @keyframes slideIn {
-    0% { width: 0%; }
-    100% { width: 100%; }
-  }
-
-  @keyframes fadeIn {
-    from { opacity: 0; }
-    to   { opacity: 1; }
-  }
-
-  @keyframes fadeOut {
-    from { opacity: 1; }
-    to   { opacity: 0; }
+  @keyframes esm-x-linear-progress {
+    0% { transform: translateX(-110%) scaleX(.3); }
+    45% { transform: translateX(30%) scaleX(.65); }
+    100% { transform: translateX(220%) scaleX(.25); }
   }
 
   .esm-x-placeholder {
-    display: none;
-  }
-
-  .esm-x-active.esm-x-placeholder {
-    display: flex;
-    position: absolute;
+    position: fixed;
+    z-index: 2147483647;
     top: 0;
     right: 0;
     left: 0;
-    height: 2px;  /* Changed height to 2px */
-    background-color: rgba(0,0,0,0.7);
-    animation: fadeIn 0.3s ease-out;
+    height: 3px;
+    overflow: hidden;
+    opacity: 0;
+    pointer-events: none;
+    background: rgba(99, 102, 241, .12);
+    transition: opacity 160ms ease;
   }
 
-  .esm-x-active .esm-x-spinner-container {
-    display: none;  /* Hide the spinner container */
+  .esm-x-active.esm-x-placeholder {
+    opacity: 1;
   }
 
-  .esm-x-active .esm-x-bar {
+  .esm-x-bar {
+    width: 55%;
     height: 100%;
-    background-color: #FFF;
-    animation: slideIn 1s infinite;  /* Set animation to infinite */
-  }`
+    border-radius: 999px;
+    background: linear-gradient(90deg, #6366f1, #a78bfa, #818cf8);
+    box-shadow: 0 0 14px rgba(99, 102, 241, .8);
+    transform-origin: left;
+    animation: esm-x-linear-progress 1.35s cubic-bezier(.4, 0, .2, 1) infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .esm-x-bar { animation-duration: 3s; }
+  }
+`
 
 export const loadingTag = document.createElement('div')
 loadingTag.id = 'esm-x-loading'
-const bar = document.createElement('div')
 loadingTag.className = 'esm-x-placeholder'
+loadingTag.setAttribute('role', 'progressbar')
+loadingTag.setAttribute('aria-label', 'Preparing application')
+
+const bar = document.createElement('div')
 bar.className = 'esm-x-bar'
 loadingTag.appendChild(bar)

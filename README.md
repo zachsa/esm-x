@@ -46,7 +46,7 @@ Here is an example of a simple React application with the `react` and `react-dom
       id="esm-x"
       compiler="babel"
       loading="circular"
-      src="https://www.unpkg.com/@zachsa/esm-x@1.1.4/dist/index.js"
+      src="https://www.unpkg.com/@zachsa/esm-x@1.1.3/dist/index.js"
     ></script>
 
     <!--

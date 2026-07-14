@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # Extract the current version from package.json
 CURRENT_VERSION=$(cat package.json | grep '"version"' | head -1 | awk -F: '{ print $2 }' | sed 's/[",]//g' | tr -d '[[:space:]]')
@@ -14,4 +15,7 @@ rm -f README.md.bak
 
 # Add and commit the changes to README.md
 git add README.md
-git commit -m "Updated docs" --no-verify
+if git diff --cached --quiet -- README.md; then
+  exit 0
+fi
+HUSKY=0 git commit -m "Updated docs" -- README.md

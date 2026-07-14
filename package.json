@@ -27,7 +27,7 @@
     "rollup-plugin-polyfill-node": "^0.13.0"
   },
   "scripts": {
-    "prepare": "husky install",
+    "prepare": "husky",
     "docs": "./scripts/docs.sh"
   }
 }

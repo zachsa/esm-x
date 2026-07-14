@@ -141,9 +141,14 @@ async function transpile({
       const id = nanoid()
 
       const handleMessage = e => {
-        const { id: _id, transformed, error } = e.data
+        const { id: _id, transformed, error, progress } = e.data
 
         if (_id === id) {
+          if (progress) {
+            setMsg?.(progress)
+            return
+          }
+
           cleanup()
           if (error) {
             reject(new Error(error.message))
@@ -179,9 +184,6 @@ function initializeESModulesShim(loadingTag, compilerType) {
     shimMode: true,
     async fetch(url, options) {
       showLoading(loadingTag)
-      if (addMsg) {
-        addMsg(`${url}`)
-      }
       try {
         const res = await fetch(url, options)
         if (!res.ok) return res
@@ -193,6 +195,7 @@ function initializeESModulesShim(loadingTag, compilerType) {
         const isImportMapFile = url.endsWith('importmap') || url.endsWith('importmap.json')
         const isSameOrigin = url.includes(globalThis.origin)
         if (!isImportMapFile && isSameOrigin) {
+          addMsg?.(url)
           const source = await res.text()
           const transformed = await transpile({ url, source, compilerType })
           return new Response(new Blob([transformed], { type: 'application/javascript' }))

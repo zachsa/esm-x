@@ -7,7 +7,10 @@ export default async ({ source, filename }) => {
     filename: ['.tsx', '.ts', '.js', '.jsx'].some(ext => filename.endsWith(ext))
       ? filename
       : undefined,
-    presets: [[presetReact, { runtime: 'classic' }], presetTypescript],
+    presets: [
+      [presetReact, { runtime: 'classic' }],
+      [presetTypescript, { onlyRemoveTypeImports: false }],
+    ],
   })
 
   return transformed.code

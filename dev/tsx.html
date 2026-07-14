@@ -5,8 +5,8 @@
     <title>ESM-X Example</title>
 
     <!-- <script src="../dist/dev.index.js"></script> -->
-    <!-- <script id="esm-x" compiler="babel" src="../dist/dev.index.js"></script> -->
-    <script id="esm-x" compiler="esbuild" src="../dist/dev.index.js"></script>
+    <script id="esm-x" compiler="babel" src="../dist/dev.index.js"></script>
+    <!-- <script id="esm-x" compiler="esbuild" src="../dist/dev.index.js"></script> -->
     <!-- <script id="esm-x" src="../dist/dev.index.js"></script> -->
     <!-- <script id="esm-x" loading="circular" src="../dist/dev.index.js"></script> -->
     <!-- <script id="esm-x" loading="disabled" src="../dist/dev.index.js"></script> -->
@@ -40,7 +40,8 @@
     ></script>
 
     <script type="esm-x">
-      import React, { FC } from 'react';
+      import React from 'react';
+      import type { FC } from 'react';
       import { createRoot } from 'react-dom/client';
       const root = createRoot(document.getElementById('root') as HTMLElement);
 

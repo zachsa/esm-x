@@ -10,7 +10,7 @@ import {
 import { TEST_TYPESCRIPT_C } from './constants.ts'
 import ButtonNonLazy from './button-non-lazy.jsx'
 
-const Button = lazy(() => import('./src/button.jsx'))
+const Button = lazy(() => import('./button.jsx'))
 
 const theme = createTheme({
   palette: { mode: 'light' },

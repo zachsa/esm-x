@@ -20,7 +20,6 @@ if (!window.Worker) {
   )
 }
 
-
 const scriptURL = document.currentScript.src
 const compiler = new Worker(
   URL.createObjectURL(
@@ -38,6 +37,22 @@ const compiler = new Worker(
   ),
   { type: 'module' },
 )
+
+// Listen immediately so the worker's ready signal cannot arrive before the
+// DOMContentLoaded handler starts waiting for it.
+const compilerReady = new Promise((resolve, reject) => {
+  const handleReady = () => {
+    compiler.removeEventListener('error', handleError)
+    resolve()
+  }
+  const handleError = event => {
+    compiler.removeEventListener('message', handleReady)
+    reject(event.error || new Error(event.message || 'Compiler worker failed to load'))
+  }
+
+  compiler.addEventListener('message', handleReady, { once: true })
+  compiler.addEventListener('error', handleError, { once: true })
+})
 
 const loadingConfig = {
   disabled: { style: undefined, tag: undefined },
@@ -99,15 +114,30 @@ async function transpile({
       const id = nanoid()
 
       const handleMessage = e => {
-        const { id: _id, transformed } = e.data
+        const { id: _id, transformed, error } = e.data
 
         if (_id === id) {
-          compiler.removeEventListener('message', handleMessage)
-          resolve(transformed)
+          cleanup()
+          if (error) {
+            reject(new Error(error.message))
+          } else {
+            resolve(transformed)
+          }
         }
       }
 
+      const handleError = event => {
+        cleanup()
+        reject(event.error || new Error(event.message || 'Compiler worker failed'))
+      }
+
+      const cleanup = () => {
+        compiler.removeEventListener('message', handleMessage)
+        compiler.removeEventListener('error', handleError)
+      }
+
       compiler.addEventListener('message', handleMessage)
+      compiler.addEventListener('error', handleError)
       compiler.postMessage({ id, filename, source, compilerType })
     } catch (e) {
       reject(e)
@@ -198,7 +228,7 @@ function normalizeImportmap() {
 async function transpileXModule(compilerType) {
   const scripts = Array.from(document.querySelectorAll('script[type="esm-x"]'))
 
-  const createAndInsertNewScript = async (script, i) => {
+  for (const [i, script] of scripts.entries()) {
     const newScript = document.createElement('script')
     newScript.type = 'module-shim'
     newScript.innerHTML = await transpile({
@@ -206,10 +236,16 @@ async function transpileXModule(compilerType) {
       source: script.innerHTML,
       compilerType,
     })
-    script.insertAdjacentElement('afterend', newScript)
-  }
 
-  await Promise.all(scripts.map(createAndInsertNewScript))
+    // es-module-shims observes dynamically injected module scripts in <head>.
+    // Waiting for each load also preserves the source scripts' execution order.
+    const loaded = new Promise((resolve, reject) => {
+      newScript.addEventListener('load', resolve, { once: true })
+      newScript.addEventListener('error', reject, { once: true })
+    })
+    document.head.appendChild(newScript)
+    await loaded
+  }
 }
 
 function initializePage(loadingStyle, loadingTag, compilerType) {
@@ -227,10 +263,7 @@ function initializePage(loadingStyle, loadingTag, compilerType) {
 
       normalizeImportmap()
 
-      // Wait for transpiler to load
-      await new Promise(resolve => {
-        compiler.addEventListener('message', resolve, { once: true })
-      })
+      await compilerReady
 
       await transpileXModule(compilerType)
       hideLoading(loadingTag)

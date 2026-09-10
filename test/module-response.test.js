@@ -29,6 +29,7 @@ test('compiled modules retain their URL for shim resolution', async t => {
     fetch,
     Response,
     Blob,
+    URL,
     console,
     showLoading() {},
     hideLoading() {},
@@ -54,5 +55,107 @@ test('compiled modules retain their URL for shim resolution', async t => {
         origin + finalPath.replace('Runtime.tsx', 'App.tsx'),
       )
     })
+  }
+})
+
+function createHook(overrides = {}) {
+  const context = vm.createContext({
+    origin: 'https://example.com',
+    URL,
+    Response,
+    Blob,
+    showLoading() {},
+    hideLoading() {},
+    addMsg: undefined,
+    fetch: async () => new Response('source'),
+    transpile: async () => 'compiled',
+    ...overrides,
+  })
+  vm.runInContext(`${hookSource}\ninitializeESModulesShim(undefined, 'babel')`, context)
+  return context.esmsInitOptions
+}
+
+test('only same-origin modules are compiled; import maps allow query strings', async () => {
+  const response = new Response('{}')
+  const hook = createHook({ fetch: async () => response })
+  for (const url of [
+    'https://example.com/importmap?v=1',
+    'https://example.com/config/importmap.json?v=1#map',
+    'https://example.com.evil.test/module.js',
+    'https://other.test/module.js?origin=https://example.com',
+  ]) {
+    assert.equal(await hook.fetch(url), response)
+  }
+  assert.equal(await (await hook.fetch('https://example.com/module.tsx?v=1')).text(), 'compiled')
+})
+
+test('redirects to another origin are passed through', async () => {
+  const response = new Response('source')
+  Object.defineProperty(response, 'url', { value: 'https://cdn.example.com/module.js' })
+  const hook = createHook({ fetch: async () => response })
+  assert.equal(await hook.fetch('https://example.com/module.js'), response)
+})
+
+test('fetch and compilation errors propagate and release loading state', async () => {
+  for (const operation of ['fetch', 'transpile']) {
+    const error = new Error(`${operation} failed`)
+    let loading = 0
+    const hook = createHook({
+      showLoading: () => loading++,
+      hideLoading: () => loading--,
+      [operation]: async () => {
+        throw error
+      },
+    })
+    await assert.rejects(hook.fetch('https://example.com/module.tsx'), e => e === error)
+    assert.equal(loading, 0)
+  }
+})
+
+test('resolution defaults to the shim and preserves a supplied resolver', () => {
+  assert.equal(createHook().resolve, undefined)
+  const resolve = () => 'https://example.com/custom.js'
+  assert.equal(createHook({ esmsInitOptions: { resolve } }).resolve, resolve)
+})
+
+test('startup releases loading state when compilation fails', async () => {
+  const error = new Error('Invalid TSX')
+  let initialize
+  let hidden = 0
+  const context = vm.createContext({
+    document: {
+      addEventListener: (event, callback) => {
+        initialize = callback
+      },
+    },
+    normalizeImportmap() {},
+    compilerReady: Promise.resolve(),
+    transpileXModule: async () => {
+      throw error
+    },
+    hideLoading: () => hidden++,
+  })
+  const startupSource = source.slice(
+    source.indexOf('function initializePage('),
+    source.indexOf('const knownCompilers'),
+  )
+  vm.runInContext(`${startupSource}\ninitializePage(undefined, undefined, 'babel')`, context)
+  await assert.rejects(initialize(), e => e === error)
+  assert.equal(hidden, 1)
+})
+
+test('compiler configuration is normalized before worker dispatch', () => {
+  const configSource = source.slice(
+    source.indexOf('const compilerType ='),
+    source.indexOf('const { style:'),
+  )
+  for (const value of ['Babel', 'ESBUILD', undefined]) {
+    const context = vm.createContext({
+      document: { querySelector: () => ({ attributes: { compiler: { value } } }) },
+    })
+    assert.equal(
+      vm.runInContext(`${configSource}\ncompilerType`, context),
+      value?.toLowerCase() || 'babel',
+    )
   }
 })

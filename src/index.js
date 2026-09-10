@@ -75,8 +75,9 @@ window.exports = window.exports || {}
 
 const loadingType =
   document.querySelector('script[id="esm-x"]')?.attributes?.loading?.value || 'circular'
-const compilerType =
+const compilerType = (
   document.querySelector('script[id="esm-x"]')?.attributes?.compiler?.value || 'babel'
+).toLowerCase()
 const { style: loadingStyle, tag: loadingTag } = loadingConfig[loadingType]
 
 if (isDev) {
@@ -178,7 +179,7 @@ async function transpile({
 }
 
 function initializeESModulesShim(loadingTag, compilerType) {
-  const { fetch: _, shimMode: __, resolve: ___, ...otherOptions } = globalThis.esmsInitOptions || {}
+  const { fetch: _, shimMode: __, ...otherOptions } = globalThis.esmsInitOptions || {}
 
   globalThis.esmsInitOptions = {
     shimMode: true,
@@ -192,8 +193,11 @@ function initializeESModulesShim(loadingTag, compilerType) {
          * importmap files need to be handled by es-module-shims, all code
          * from the origin is treated as needing to be transpiled
          */
-        const isImportMapFile = url.endsWith('importmap') || url.endsWith('importmap.json')
-        const isSameOrigin = url.includes(globalThis.origin)
+        const moduleURL = new URL(res.url || url)
+        const isImportMapFile =
+          moduleURL.pathname.endsWith('/importmap') ||
+          moduleURL.pathname.endsWith('/importmap.json')
+        const isSameOrigin = moduleURL.origin === globalThis.origin
         if (!isImportMapFile && isSameOrigin) {
           addMsg?.(url)
           const source = await res.text()
@@ -205,19 +209,9 @@ function initializeESModulesShim(loadingTag, compilerType) {
           return response
         }
         return res
-      } catch (e) {
-        console.error(e)
       } finally {
         hideLoading(loadingTag)
       }
-    },
-    resolve(id, parentUrl, resolve) {
-      if (id.startsWith('./') && !parentUrl) {
-        const url = window.location.href
-        const newUrl = url.substring(0, url.lastIndexOf('/') + 1) + id.replace('./', '')
-        return newUrl
-      }
-      return resolve(id, parentUrl, resolve)
     },
     ...otherOptions,
   }
@@ -295,12 +289,13 @@ function initializePage(loadingStyle, loadingTag, compilerType) {
         }
       }
 
-      normalizeImportmap()
-
-      await compilerReady
-
-      await transpileXModule(compilerType)
-      hideLoading(loadingTag)
+      try {
+        normalizeImportmap()
+        await compilerReady
+        await transpileXModule(compilerType)
+      } finally {
+        hideLoading(loadingTag)
+      }
     },
     /**
      * https://github.com/guybedford/es-module-shims#no-load-event-retriggers
@@ -313,7 +308,7 @@ function initializePage(loadingStyle, loadingTag, compilerType) {
 
 const knownCompilers = ['esbuild', 'babel']
 
-if (!knownCompilers.map(s => s.toLowerCase()).includes(compilerType?.toLowerCase())) {
+if (!knownCompilers.includes(compilerType)) {
   throw new Error(`Unknown compiler specified. Choose between [${knownCompilers.join(', ')}]`)
 }
 

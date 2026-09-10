@@ -71,7 +71,7 @@ Here is an example of a simple React application with the `react` and `react-dom
     <!-- ES Module Shims -->
     <script
       async
-      src="https://ga.jspm.io/npm:es-module-shims@2.8.2/dist/es-module-shims.js"
+      src="https://ga.jspm.io/npm:es-module-shims@2.8.4/dist/es-module-shims.js"
       crossorigin="anonymous"
     ></script>
 

@@ -198,7 +198,11 @@ function initializeESModulesShim(loadingTag, compilerType) {
           addMsg?.(url)
           const source = await res.text()
           const transformed = await transpile({ url, source, compilerType })
-          return new Response(new Blob([transformed], { type: 'application/javascript' }))
+          const response = new Response(new Blob([transformed], { type: 'application/javascript' }))
+          // The shim uses the response URL for dynamic imports and import.meta.url.
+          // Synthetic responses have an empty URL; retain the final URL after redirects.
+          Object.defineProperty(response, 'url', { value: res.url || url })
+          return response
         }
         return res
       } catch (e) {
